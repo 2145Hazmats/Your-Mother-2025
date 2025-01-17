@@ -15,7 +15,7 @@ public final class Constants {
     //Transform3d from the center of the robot to the camera mount position (ie, robot ➔ camera) in the Robot Coordinate System
     //The Cameras are mounter on the back of the value so all transform signs are flipped (not rotations). + ➔ -
     public static final Transform3d ROBOT_TO_CENTRAL_CAMERA =
-        new Transform3d(-0.2545401, 0.1467405, 0.1934088, new Rotation3d(0, 0, 0));
+        new Transform3d(Units.inchesToMeters(12), 0, -Units.inchesToMeters(4.5), new Rotation3d(0, 180, 0)); //12 inches
   } //STOLE THIS. THE NUMBERS ARE WRONNNNGGGGGG!!!!!!!!
 
 }

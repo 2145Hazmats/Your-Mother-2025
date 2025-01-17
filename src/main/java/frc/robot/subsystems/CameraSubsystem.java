@@ -20,6 +20,7 @@ import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.VecBuilder;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
@@ -31,10 +32,15 @@ import frc.robot.Constants;
 
 public class CameraSubsystem extends SubsystemBase {
   private CommandSwerveDrivetrain charizardsSkateboard = null;
-  
+
+  private final Field2d visionField2d = new Field2d();
+  private final Field2d generalField = new Field2d();
   private PhotonCamera centralCamera = new PhotonCamera("Middle_Arducam_OV9281");
   private PhotonPipelineResult centralResult = null;
   private PhotonTrackedTarget centralTarget = null;
+  private final PIDController pidControllerX = new PIDController(1.65, 0, 0);//.3
+  private final PIDController pidControllerY = new PIDController(1.65, 0, 0);//.3
+  private final PIDController pidControllerRot = new PIDController(0.01, 0, 0);
 
   // PhotonVision objects used in vision localization
   private PhotonPoseEstimator centralPoseEstimator = new PhotonPoseEstimator(
@@ -48,8 +54,8 @@ public class CameraSubsystem extends SubsystemBase {
   private Matrix<N3, N1> curStdDevs;
   // The standard deviations of our vision estimated poses, which affect correction rate
   // (Fake values. Experiment and determine estimation noise on an actual robot.)
-  private final Matrix<N3, N1> kSingleTagStdDevs = VecBuilder.fill(4, 4, 8);
-  private final Matrix<N3, N1> kMultiTagStdDevs = VecBuilder.fill(0.5, 0.5, 1);
+  private final Matrix<N3, N1> kSingleTagStdDevs = VecBuilder.fill(4, 4, 8);//4,4,8
+  private final Matrix<N3, N1> kMultiTagStdDevs = VecBuilder.fill(0.5, 0.5, 1);//0.5,0.5,1
 
   private Field2d soloVisionField = new Field2d();
 
@@ -68,7 +74,40 @@ public class CameraSubsystem extends SubsystemBase {
     charizardsSkateboard.setVisionMeasurementStdDevs(curStdDevs);
     charizardsSkateboard.addVisionMeasurement(pose2d, timestampSeconds);
   }
+  
+  public double getPoseX() {
+    return charizardsSkateboard.getState().Pose.getX();
+ };
+ public double getPoseY() {
+  return charizardsSkateboard.getState().Pose.getY();
+};
+public double getPoseRot() {
+  return charizardsSkateboard.getState().Pose.getRotation().getDegrees();
+};
 
+/*public double PIDDriveToPoint(double DesiredPoseX, double DesiredPoseY, double DesiredPoseAngle) {
+
+  double SpeedsForPose = pidController.calculate(getPoseX(), DesiredPoseX);
+}*/ //HOW DO I DO THIS WITH ONE METHOD?
+public double PIDDriveToPointX(double DesiredPoseX) {
+  double SpeedsForPose = pidControllerX.calculate(getPoseX(), DesiredPoseX);
+
+  SpeedsForPose = SpeedsForPose + Math.signum(SpeedsForPose) * .016;
+  return SpeedsForPose; 
+
+}
+  public double PIDDriveToPointY(double DesiredPoseY) {
+    double SpeedsForPose = pidControllerY.calculate(getPoseY(), DesiredPoseY);
+    SpeedsForPose = SpeedsForPose + Math.signum(SpeedsForPose)* .016;
+    return SpeedsForPose; 
+}
+public double PIDDriveToPointROT(double DesiredPoseRot) {
+  double SpeedsForPose = pidControllerRot.calculate(Math.abs(getPoseRot()), DesiredPoseRot); //only works with 180
+  SpeedsForPose = SpeedsForPose * Math.signum(getPoseRot());
+  SpeedsForPose = SpeedsForPose + Math.signum(SpeedsForPose)* .016;
+  return SpeedsForPose;
+  
+}
   /**
    * Calculates new standard deviations This algorithm is a heuristic that creates dynamic standard
    * deviations based on number of tags, estimation strategy, and distance from the tags.
@@ -116,6 +155,7 @@ public class CameraSubsystem extends SubsystemBase {
               curStdDevs = estStdDevs;
           }
       }
+
   }
 
   @Override
@@ -127,6 +167,10 @@ public class CameraSubsystem extends SubsystemBase {
     // if (centralCamera.getLatestResult().hasTargets()) {
     //   SmartDashboard.putNumber("CCYaw", centralCamera.getLatestResult().getBestTarget().getYaw());
     // };
+    //Field Updates
+    
+    SmartDashboard.putData("VisionField", soloVisionField);
+    SmartDashboard.putData("GeneralField", generalField);
 
     // Try to update "latestRobotPose" with a new "EstimatedRobotPose" using a "PhotonPoseEstimator"
     // If "latestRobotPose" is updated, call addVisionPose2d() and pass the updated "latestRobotPose" as an argument
@@ -147,6 +191,8 @@ public class CameraSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("charizardsSkateboard X", charizardsSkateboard.getState().Pose.getX());
     SmartDashboard.putNumber("charizardsSkateboard Y", charizardsSkateboard.getState().Pose.getY());
     SmartDashboard.putNumber("charizardsSkateboard Rot", charizardsSkateboard.getState().Pose.getRotation().getDegrees());
+
+    generalField.setRobotPose(charizardsSkateboard.getState().Pose);
 
     SmartDashboard.putNumber("Match Time", DriverStation.getMatchTime());
     SmartDashboard.putNumber("Match Number", DriverStation.getMatchNumber());
