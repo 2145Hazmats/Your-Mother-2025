@@ -6,6 +6,10 @@ package frc.robot.subsystems;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.function.BiConsumer;
+import java.util.function.BooleanSupplier;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonCamera;
@@ -15,6 +19,12 @@ import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
 import com.ctre.phoenix6.Utils;
+import com.ctre.phoenix6.swerve.SwerveDrivetrain.SwerveDriveState;
+import com.ctre.phoenix6.swerve.jni.SwerveJNI.ModuleState;
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.config.RobotConfig;
+import com.pathplanner.lib.controllers.PathFollowingController;
+import com.pathplanner.lib.util.DriveFeedforwards;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
@@ -22,11 +32,14 @@ import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -44,7 +57,7 @@ public class CameraSubsystem extends SubsystemBase {
 
   // PhotonVision objects used in vision localization
   private PhotonPoseEstimator centralPoseEstimator = new PhotonPoseEstimator(
-    AprilTagFieldLayout.loadField(AprilTagFields.k2024Crescendo), //TODO: 2025
+    AprilTagFieldLayout.loadField(AprilTagFields.k2025Reefscape),
     //Calculates a new robot position estimate by combining all visible tag corners.
     PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR,
     Constants.PhotonVisionConstants.ROBOT_TO_CENTRAL_CAMERA);
@@ -54,8 +67,8 @@ public class CameraSubsystem extends SubsystemBase {
   private Matrix<N3, N1> curStdDevs;
   // The standard deviations of our vision estimated poses, which affect correction rate
   // (Fake values. Experiment and determine estimation noise on an actual robot.)
-  private final Matrix<N3, N1> kSingleTagStdDevs = VecBuilder.fill(4, 4, 8);//4,4,8
-  private final Matrix<N3, N1> kMultiTagStdDevs = VecBuilder.fill(0.5, 0.5, 1);//0.5,0.5,1
+  private final Matrix<N3, N1> kSingleTagStdDevs = VecBuilder.fill(4, 4, 8);
+  private final Matrix<N3, N1> kMultiTagStdDevs = VecBuilder.fill(0.5, 0.5, 1);
 
   private Field2d soloVisionField = new Field2d();
 
@@ -64,7 +77,7 @@ public class CameraSubsystem extends SubsystemBase {
     charizardsSkateboard = drivetrain;
   }
 
-  /* Add a vision measurement for localization */ //TODO: Modify
+  /* Add a vision measurement for localization */
   public void addVisionPose2d(Pose2d pose2d, double timestampSeconds) {
     SmartDashboard.putNumber("aVP2d pose2d X", pose2d.getX());
     SmartDashboard.putNumber("aVP2d pose2d Y", pose2d.getY());
@@ -77,13 +90,19 @@ public class CameraSubsystem extends SubsystemBase {
   
   public double getPoseX() {
     return charizardsSkateboard.getState().Pose.getX();
- };
- public double getPoseY() {
-  return charizardsSkateboard.getState().Pose.getY();
-};
-public double getPoseRot() {
-  return charizardsSkateboard.getState().Pose.getRotation().getDegrees();
-};
+  };
+
+  public double getPoseY() {
+    return charizardsSkateboard.getState().Pose.getY();
+  };
+
+  public double getPoseRot() {
+    return charizardsSkateboard.getState().Pose.getRotation().getDegrees();
+  };
+
+  public Pose2d getPose2d() {
+    return charizardsSkateboard.getState().Pose;
+  }
 
 /*public double PIDDriveToPoint(double DesiredPoseX, double DesiredPoseY, double DesiredPoseAngle) {
 
