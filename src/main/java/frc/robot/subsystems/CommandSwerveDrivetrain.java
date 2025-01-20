@@ -10,15 +10,13 @@ import com.ctre.phoenix6.swerve.SwerveDrivetrainConstants;
 import com.ctre.phoenix6.swerve.SwerveModuleConstants;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.config.ModuleConfig;
 import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.config.RobotConfig;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
-import com.pathplanner.lib.controllers.PathFollowingController;
+import com.pathplanner.lib.path.PathConstraints;
 import com.pathplanner.lib.path.PathPlannerPath;
-import com.pathplanner.lib.path.Waypoint;
-import com.pathplanner.lib.util.DriveFeedforwards;
 
+import edu.wpi.first.math.MathUtil;
 //import edu.wpi.first.apriltag.AprilTagFieldLayout;
 //import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.Matrix;
@@ -30,14 +28,16 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 //import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 //import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.Subsystem;
-//import frc.robot.Constants;
+import frc.robot.Constants.PathPlannerConstants;
 import frc.robot.generated.TunerConstants.TunerSwerveDrivetrain;
 
 /**
@@ -48,12 +48,15 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     // private static final double kSimLoopPeriod = 0.005; // 5 ms
     // private Notifier m_simNotifier = null;
     // private double m_lastSimTime;
+
     /* Blue alliance sees forward as 0 degrees (toward red alliance wall) */
     private static final Rotation2d kBlueAlliancePerspectiveRotation = Rotation2d.kZero;
     /* Red alliance sees forward as 180 degrees (toward blue alliance wall) */
     private static final Rotation2d kRedAlliancePerspectiveRotation = Rotation2d.k180deg;
     /* Keep track if we've ever applied the operator perspective before or not */
     private boolean m_hasAppliedOperatorPerspective = false;
+
+    private PathConstraints pathFindingConstraints;
 
     /* Swerve requests to apply during SysId characterization */
     //private final SwerveRequest.SysIdSwerveTranslation m_translationCharacterization = new SwerveRequest.SysIdSwerveTranslation();
@@ -250,16 +253,79 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         } catch (Exception e) {
             DriverStation.reportError("Failed to configure PathPlanner YOU SUCK! LOOK AT YOUR COMMAND SWERVE DRIVE CONFIGURE METHOD", e.getStackTrace());
         }
+
+        pathFindingConstraints = new PathConstraints(
+            PathPlannerConstants.MAX_VELOCITY_MPS,
+            PathPlannerConstants.MAX_ACCELERATION_MPS,
+            PathPlannerConstants.MAX_ANGULAR_VELOCITY_RAD,
+            PathPlannerConstants.MAX_ANGULAR_ACCELERATION_RAD,
+            PathPlannerConstants.NOMINAL_VOLTAGE_VOLTS, false);
     }
 
-    public Command setAutonomousCommand(String pathFileName) {
+    /**
+     * Goes directly to the start of a given PathPlanner path and then follows the path.
+     * This does NOT use any pathfinding or field element avoidance.
+     *
+     * @param pathFileName file name of a PathPlanner path
+     * @return AutoBuilder command
+     */
+    public Command followPath(String pathFileName) {
         try{ 
             PathPlannerPath path = PathPlannerPath.fromPathFile(pathFileName);
             return AutoBuilder.followPath(path);
         } catch (Exception e) {
-            DriverStation.reportError("PathFromFile not working", e.getStackTrace());
+            DriverStation.reportError("FollowPath ERROR", e.getStackTrace());
             return Commands.none();
         }
+    }
+
+    /**
+     * Pathfinds to the start of a given PathPlanner path and then follows the path.
+     * This avoids field elements and uses pathFindingConstraints only during the pathfinding segment (before it reaches the start of the path).
+     *
+     * @param pathFileName file name of a PathPlanner path
+     * @return AutoBuilder command
+     */
+    public Command pathFindThenFollowPath(String pathFileName) {
+        try {
+            PathPlannerPath path = PathPlannerPath.fromPathFile(pathFileName);
+            return AutoBuilder.pathfindThenFollowPath(path, pathFindingConstraints);
+        } catch (Exception e) {
+            DriverStation.reportError("PathFindThenFollowPath ERROR", e.getStackTrace());
+            return Commands.none();
+        }
+    }
+
+    /**
+     * Pathfinds to a given Pose2d.
+     * This avoids field elements and uses pathFindingConstraints.
+     *
+     * @param pose desired Pose2d
+     * @return AutoBuilder command
+     */
+    public Command pathFindToPose(Pose2d pose) {
+         try {
+            return AutoBuilder.pathfindToPose(pose, pathFindingConstraints, 0.0);
+        } catch (Exception e) {
+            DriverStation.reportError("pathfindToPose ERROR", e.getStackTrace());
+            return Commands.none();
+        }
+    }
+
+    // Stops the current CommandSwerveDrivetrain command
+    public Command stopCommand() {
+        return Commands.none();
+    }
+
+    // Command to face towards the reef
+    private PIDController pidfacereef = new PIDController(6, 0, 0); // kP * radians
+    public double AngularSpeedToFaceReef() {
+        double TriangleY = this.getState().Pose.getY() - 4;
+        double Trianglex = this.getState().Pose.getX() - 13;
+        double angle = Math.atan2(TriangleY, Trianglex); // returns radians
+        pidfacereef.enableContinuousInput(-Math.PI, Math.PI);
+        SmartDashboard.putNumber("ReefCenterSetpoint", angle);
+        return pidfacereef.calculate(this.getState().Pose.getRotation().getRadians(), angle); // messes up with angle jumps from [-179] -> [179]
     }
 
     /**

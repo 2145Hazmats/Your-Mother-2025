@@ -10,6 +10,13 @@ import edu.wpi.first.math.util.Units;
 
 /** Add your docs here. */
 public final class Constants {
+    public static class PathPlannerConstants { //ONLY AFFECTS DRIVE TO POSE, NOT AUTO PATHS
+      public static final double MAX_VELOCITY_MPS = 5.450;
+      public static final double MAX_ACCELERATION_MPS = 3.6;
+      public static final double MAX_ANGULAR_VELOCITY_RAD = Units.degreesToRadians(360);
+      public static final double MAX_ANGULAR_ACCELERATION_RAD = Units.degreesToRadians(862);
+      public static final double NOMINAL_VOLTAGE_VOLTS = 11.5;
+    }
 
     public static class PhotonVisionConstants {
     //Transform3d from the center of the robot to the camera mount position (ie, robot ➔ camera) in the Robot Coordinate System
