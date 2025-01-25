@@ -37,6 +37,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.Subsystem;
+import frc.robot.Constants;
 import frc.robot.Constants.PathPlannerConstants;
 import frc.robot.generated.TunerConstants.TunerSwerveDrivetrain;
 
@@ -57,6 +58,8 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     private boolean m_hasAppliedOperatorPerspective = false;
 
     private PathConstraints pathFindingConstraints;
+
+    private int reefIndex = 0;
 
     /* Swerve requests to apply during SysId characterization */
     //private final SwerveRequest.SysIdSwerveTranslation m_translationCharacterization = new SwerveRequest.SysIdSwerveTranslation();
@@ -317,12 +320,24 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         return Commands.none();
     }
 
+    // Returns true if the alliance is red.
+    // Returns false if the alliance is blue.
+    // Returns false if no alliance is found.
+    public boolean isAllianceRed() {
+        return DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red;
+    }
+
     // Command to face towards the reef
     private PIDController pidfacereef = new PIDController(6, 0, 0); // kP * radians
     public double AngularSpeedToFaceReef() {
         double TriangleY = this.getState().Pose.getY() - 4;
-        double Trianglex = this.getState().Pose.getX() - 13;
-        double angle = Math.atan2(TriangleY, Trianglex); // returns radians
+        double TriangleX = this.getState().Pose.getX() - 4.5; // For Blue Alliance
+        
+        // For Red Alliance
+        if (isAllianceRed()) {
+            TriangleX = this.getState().Pose.getX() - 13; 
+        }
+        double angle = Math.atan2(TriangleY, TriangleX); // returns radians
         pidfacereef.enableContinuousInput(-Math.PI, Math.PI);
         SmartDashboard.putNumber("ReefCenterSetpoint", angle);
         return pidfacereef.calculate(this.getState().Pose.getRotation().getRadians(), angle); // messes up with angle jumps from [-179] -> [179]
@@ -350,7 +365,31 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     //     return m_sysIdRoutineToApply.dynamic(direction);
     // }
 
-    
+    public void poseIndexSwitch(boolean clkwise){
+        if(clkwise == true){
+            if(reefIndex == 0){
+                reefIndex = 11;
+            }
+            else{
+                reefIndex--;
+            }
+        }
+        else{
+            if(reefIndex == 11){
+                reefIndex = 0;
+            }
+            else{
+                reefIndex++;
+            }
+        }
+        SmartDashboard.putNumber("Reef Index", (double) reefIndex);
+        SmartDashboard.putNumber("Reef Pose2dX", Constants.PoseConstants.BLUE_ALLIANCE_POSES[reefIndex].getX());
+        SmartDashboard.putNumber("Reef Pose2dY", Constants.PoseConstants.BLUE_ALLIANCE_POSES[reefIndex].getY());
+    }
+
+    public Pose2d getReefPose2d() {
+        return Constants.PoseConstants.BLUE_ALLIANCE_POSES[reefIndex];
+    }
 
     @Override
     public void periodic() {

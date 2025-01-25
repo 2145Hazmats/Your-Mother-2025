@@ -111,7 +111,11 @@ public class RobotContainer {
         P1controller.y().whileTrue(drivetrain.followPath("TestPath")).onFalse(drivetrain.stopCommand());
         P1controller.x().whileTrue(drivetrain.pathFindThenFollowPath("TestPath")).onFalse(drivetrain.stopCommand());
         P1controller.b().whileTrue(drivetrain.pathFindToPose(new Pose2d(9, 4, new Rotation2d(0)))).onFalse(drivetrain.stopCommand());
-    
+        
+        P1controller.leftTrigger().onTrue(Commands.runOnce(() -> drivetrain.poseIndexSwitch(false)));
+        P1controller.rightTrigger().onTrue(Commands.runOnce(() -> drivetrain.poseIndexSwitch(true)));
+
+        P1controller.povUp().whileTrue(drivetrain.pathFindToPose(drivetrain.getReefPose2d())).onFalse(drivetrain.stopCommand());
         drivetrain.registerTelemetry(logger::telemeterize);
     }
 
