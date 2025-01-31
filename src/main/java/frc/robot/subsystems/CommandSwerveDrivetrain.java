@@ -10,6 +10,7 @@ import com.ctre.phoenix6.swerve.SwerveDrivetrainConstants;
 import com.ctre.phoenix6.swerve.SwerveModuleConstants;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.commands.PathfindingCommand;
 import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.config.RobotConfig;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
@@ -39,6 +40,7 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.Constants;
 import frc.robot.Constants.PathPlannerConstants;
+import frc.robot.Constants.PoseConstants;
 import frc.robot.generated.TunerConstants.TunerSwerveDrivetrain;
 
 /**
@@ -59,7 +61,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
 
     private PathConstraints pathFindingConstraints;
 
-    private int reefIndex = 0;
+    private int reefIndex = 2;
 
     /* Swerve requests to apply during SysId characterization */
     //private final SwerveRequest.SysIdSwerveTranslation m_translationCharacterization = new SwerveRequest.SysIdSwerveTranslation();
@@ -263,6 +265,12 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
             PathPlannerConstants.MAX_ANGULAR_VELOCITY_RAD,
             PathPlannerConstants.MAX_ANGULAR_ACCELERATION_RAD,
             PathPlannerConstants.NOMINAL_VOLTAGE_VOLTS, false);
+
+        /* Due to the nature of how Java works, the first run of a pathfinding command could have a
+        significantly higher delay compared with subsequent runs.
+        To help alleviate this issue, you can run a warmup command in the background when code starts.
+        DO THIS AFTER CONFIGURATION OF YOUR DESIRED PATHFINDER */
+        PathfindingCommand.warmupCommand().schedule();
     }
 
     /**
@@ -307,13 +315,15 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
      * @return AutoBuilder command
      */
     public Command pathFindToPose(Pose2d pose) {
-         try {
-            return AutoBuilder.pathfindToPose(pose, pathFindingConstraints, 0.0);
-        } catch (Exception e) {
-            DriverStation.reportError("pathfindToPose ERROR", e.getStackTrace());
-            return Commands.none();
-        }
+        return AutoBuilder.pathfindToPose(pose, pathFindingConstraints, 0.0);
     }
+
+    public Command pathFindToReefAB() { return AutoBuilder.pathfindToPose(PoseConstants.BLUE_REEF_SIDE_POSES[0], pathFindingConstraints, 0.0); }
+    public Command pathFindToReefCD() { return AutoBuilder.pathfindToPose(PoseConstants.BLUE_REEF_SIDE_POSES[1], pathFindingConstraints, 0.0); }
+    public Command pathFindToReefEF() { return AutoBuilder.pathfindToPose(PoseConstants.BLUE_REEF_SIDE_POSES[2], pathFindingConstraints, 0.0); }
+    public Command pathFindToReefGH() { return AutoBuilder.pathfindToPose(PoseConstants.BLUE_REEF_SIDE_POSES[3], pathFindingConstraints, 0.0); }
+    public Command pathFindToReefIJ() { return AutoBuilder.pathfindToPose(PoseConstants.BLUE_REEF_SIDE_POSES[4], pathFindingConstraints, 0.0); }
+    public Command pathFindToReefKL() { return AutoBuilder.pathfindToPose(PoseConstants.BLUE_REEF_SIDE_POSES[5], pathFindingConstraints, 0.0); }
 
     // Stops the current CommandSwerveDrivetrain command
     public Command stopCommand() {
@@ -365,6 +375,35 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     //     return m_sysIdRoutineToApply.dynamic(direction);
     // }
 
+    public void indexSmartDashboardUpdate(int light) {
+        // Updates SmartDashboard Numbers
+        SmartDashboard.putNumber("Reef Index", (double) reefIndex);
+        SmartDashboard.putNumber("Reef Pose2dX", Constants.PoseConstants.BLUE_REEF_POSES[reefIndex].getX());
+        SmartDashboard.putNumber("Reef Pose2dY", Constants.PoseConstants.BLUE_REEF_POSES[reefIndex].getY());
+        
+        // Resets SmartDashboard Reef Interface Circle
+        SmartDashboard.putBoolean("ReefPos0", false); SmartDashboard.putBoolean("ReefPos1", false);
+        SmartDashboard.putBoolean("ReefPos2", false); SmartDashboard.putBoolean("ReefPos3", false);
+        SmartDashboard.putBoolean("ReefPos4", false); SmartDashboard.putBoolean("ReefPos5", false);
+        SmartDashboard.putBoolean("ReefPos6", false); SmartDashboard.putBoolean("ReefPos7", false);
+        SmartDashboard.putBoolean("ReefPos8", false); SmartDashboard.putBoolean("ReefPos9", false);
+        SmartDashboard.putBoolean("ReefPos10", false); SmartDashboard.putBoolean("ReefPos11", false);
+
+        // Finds our index value and highlights to correct boolean
+        if (light == 0) {SmartDashboard.putBoolean("ReefPos0", true);}
+        else if (light == 1) {SmartDashboard.putBoolean("ReefPos1", true);}
+        else if (light == 2) {SmartDashboard.putBoolean("ReefPos2", true);}
+        else if (light == 3) {SmartDashboard.putBoolean("ReefPos3", true);}
+        else if (light == 4) {SmartDashboard.putBoolean("ReefPos4", true);}
+        else if (light == 5) {SmartDashboard.putBoolean("ReefPos5", true);}
+        else if (light == 6) {SmartDashboard.putBoolean("ReefPos6", true);}
+        else if (light == 7) {SmartDashboard.putBoolean("ReefPos7", true);}
+        else if (light == 8) {SmartDashboard.putBoolean("ReefPos8", true);}
+        else if (light == 9) {SmartDashboard.putBoolean("ReefPos9", true);}
+        else if (light == 10) {SmartDashboard.putBoolean("ReefPos10", true);}
+        else {SmartDashboard.putBoolean("ReefPos11", true);}
+    }
+
     public void poseIndexSwitch(boolean clkwise){
         if(clkwise == true){
             if(reefIndex == 0){
@@ -382,13 +421,8 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
                 reefIndex++;
             }
         }
-        SmartDashboard.putNumber("Reef Index", (double) reefIndex);
-        SmartDashboard.putNumber("Reef Pose2dX", Constants.PoseConstants.BLUE_ALLIANCE_POSES[reefIndex].getX());
-        SmartDashboard.putNumber("Reef Pose2dY", Constants.PoseConstants.BLUE_ALLIANCE_POSES[reefIndex].getY());
-    }
 
-    public Pose2d getReefPose2d() {
-        return Constants.PoseConstants.BLUE_ALLIANCE_POSES[reefIndex];
+        indexSmartDashboardUpdate(reefIndex);
     }
 
     @Override

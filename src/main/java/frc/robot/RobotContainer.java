@@ -20,7 +20,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 //import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
-
+import frc.robot.Constants.PoseConstants;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.CameraSubsystem;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
@@ -110,12 +110,20 @@ public class RobotContainer {
 
         P1controller.y().whileTrue(drivetrain.followPath("TestPath")).onFalse(drivetrain.stopCommand());
         P1controller.x().whileTrue(drivetrain.pathFindThenFollowPath("TestPath")).onFalse(drivetrain.stopCommand());
-        P1controller.b().whileTrue(drivetrain.pathFindToPose(new Pose2d(9, 4, new Rotation2d(0)))).onFalse(drivetrain.stopCommand());
+        //P1controller.b().whileTrue(drivetrain.pathFindToPose(new Pose2d(9, 4, new Rotation2d(0)))).onFalse(drivetrain.stopCommand());
         
-        P1controller.leftTrigger().onTrue(Commands.runOnce(() -> drivetrain.poseIndexSwitch(false)));
-        P1controller.rightTrigger().onTrue(Commands.runOnce(() -> drivetrain.poseIndexSwitch(true)));
+        P1controller.leftTrigger().onTrue(Commands.runOnce(() -> drivetrain.poseIndexSwitch(true)));
+        P1controller.rightTrigger().onTrue(Commands.runOnce(() -> drivetrain.poseIndexSwitch(false)));
 
-        P1controller.povUp().whileTrue(drivetrain.pathFindToPose(drivetrain.getReefPose2d())).onFalse(drivetrain.stopCommand());
+        // you can call .andThen() on autobuilder to call a command when the first one ends (bot is near the setpoint)
+        P1controller.povUp().whileTrue(drivetrain.pathFindToReefAB().andThen(drivetrain.pathFindToPose(PoseConstants.REEF_POSE_C))).onFalse(drivetrain.stopCommand());
+        P1controller.povRight().whileTrue(drivetrain.pathFindToReefCD()).onFalse(drivetrain.stopCommand());
+        P1controller.povLeft().whileTrue(drivetrain.pathFindToReefEF()).onFalse(drivetrain.stopCommand());
+        P1controller.povDown().whileTrue(drivetrain.pathFindToReefGH()).onFalse(drivetrain.stopCommand());
+        //P1controller.povDown().whileTrue(drivetrain.pathFindToReefIJ()).onFalse(drivetrain.stopCommand());
+        //P1controller.povDown().whileTrue(drivetrain.pathFindToReefKL()).onFalse(drivetrain.stopCommand());
+
+
         drivetrain.registerTelemetry(logger::telemeterize);
     }
 
