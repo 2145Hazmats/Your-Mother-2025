@@ -24,6 +24,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.Constants;
+import frc.robot.Constants.DrivetrainConstants;
 import frc.robot.Constants.PathPlannerConstants;
 import frc.robot.Constants.PoseConstants;
 import frc.robot.generated.TunerConstants.TunerSwerveDrivetrain;
@@ -46,9 +47,9 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
 
     private PathConstraints pathFindingConstraints;
 
-    private final PIDController pidControllerX = new PIDController(1.65, 0, 0);
-    private final PIDController pidControllerY = new PIDController(1.65, 0, 0);
-    private final PIDController pidControllerRot = new PIDController(0.01, 0, 0);
+    private final PIDController pidControllerX = new PIDController(DrivetrainConstants.PID_XY, 0, 0);
+    private final PIDController pidControllerY = new PIDController(DrivetrainConstants.PID_XY, 0, 0);
+    private final PIDController pidControllerDeg = new PIDController(DrivetrainConstants.PID_DEGREE, 0, 0);
 
     private int reefIndex = 0;
 
@@ -174,13 +175,20 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         return AutoBuilder.pathfindToPose(pose, pathFindingConstraints, 0.0);
     }
 
-    public Command pathFindToReefAB() { return AutoBuilder.pathfindToPose(PoseConstants.BLUE_REEF_SIDE_POSES[0], pathFindingConstraints, 0.0); }
-    public Command pathFindToReefCD() { return AutoBuilder.pathfindToPose(PoseConstants.BLUE_REEF_SIDE_POSES[1], pathFindingConstraints, 0.0); }
-    public Command pathFindToReefEF() { return AutoBuilder.pathfindToPose(PoseConstants.BLUE_REEF_SIDE_POSES[2], pathFindingConstraints, 0.0); }
-    public Command pathFindToReefGH() { return AutoBuilder.pathfindToPose(PoseConstants.BLUE_REEF_SIDE_POSES[3], pathFindingConstraints, 0.0); }
-    public Command pathFindToReefIJ() { return AutoBuilder.pathfindToPose(PoseConstants.BLUE_REEF_SIDE_POSES[4], pathFindingConstraints, 0.0); }
-    public Command pathFindToReefKL() { return AutoBuilder.pathfindToPose(PoseConstants.BLUE_REEF_SIDE_POSES[5], pathFindingConstraints, 0.0); }
-
+    public Command pathFindToReefBlueAB() { return AutoBuilder.pathfindToPose(PoseConstants.BLUE_REEF_SIDE_POSES[0], pathFindingConstraints, 0.0); }
+    public Command pathFindToReefBlueCD() { return AutoBuilder.pathfindToPose(PoseConstants.BLUE_REEF_SIDE_POSES[1], pathFindingConstraints, 0.0); }
+    public Command pathFindToReefBlueEF() { return AutoBuilder.pathfindToPose(PoseConstants.BLUE_REEF_SIDE_POSES[2], pathFindingConstraints, 0.0); }
+    public Command pathFindToReefBlueGH() { return AutoBuilder.pathfindToPose(PoseConstants.BLUE_REEF_SIDE_POSES[3], pathFindingConstraints, 0.0); }
+    public Command pathFindToReefBlueIJ() { return AutoBuilder.pathfindToPose(PoseConstants.BLUE_REEF_SIDE_POSES[4], pathFindingConstraints, 0.0); }
+    public Command pathFindToReefBlueKL() { return AutoBuilder.pathfindToPose(PoseConstants.BLUE_REEF_SIDE_POSES[5], pathFindingConstraints, 0.0); }
+    
+    public Command pathFindToReefRedAB() { return AutoBuilder.pathfindToPose(PoseConstants.RED_REEF_SIDE_POSES[0], pathFindingConstraints, 0.0); }
+    public Command pathFindToReefRedCD() { return AutoBuilder.pathfindToPose(PoseConstants.RED_REEF_SIDE_POSES[1], pathFindingConstraints, 0.0); }
+    public Command pathFindToReefRedEF() { return AutoBuilder.pathfindToPose(PoseConstants.RED_REEF_SIDE_POSES[2], pathFindingConstraints, 0.0); }
+    public Command pathFindToReefRedGH() { return AutoBuilder.pathfindToPose(PoseConstants.RED_REEF_SIDE_POSES[3], pathFindingConstraints, 0.0); }
+    public Command pathFindToReefRedIJ() { return AutoBuilder.pathfindToPose(PoseConstants.RED_REEF_SIDE_POSES[4], pathFindingConstraints, 0.0); }
+    public Command pathFindToReefRedKL() { return AutoBuilder.pathfindToPose(PoseConstants.RED_REEF_SIDE_POSES[5], pathFindingConstraints, 0.0); }
+    
     public Command pathFindToAllTheReefs() {
         return AutoBuilder.pathfindToPose(PoseConstants.BLUE_REEF_SIDE_POSES[0], pathFindingConstraints, 0)
         .unless(() -> reefIndex != 0)
@@ -206,7 +214,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
 
     // Command to face towards the reef
     private PIDController pidfacereef = new PIDController(6, 0, 0); // kP * radians
-    public double AngularSpeedToFaceReef() {
+    public double angularSpeedToFaceReef() {
         double TriangleY = this.getState().Pose.getY() - 4;
         double TriangleX = this.getState().Pose.getX() - 4.5; // For Blue Alliance
         if (isAllianceRed()) { TriangleX = this.getState().Pose.getX() - 13; } // For Red Alliance
@@ -268,26 +276,38 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     
     public double PIDDriveToPointX(double DesiredPoseX) {
         double SpeedsForPose = pidControllerX.calculate(getPose2d().getX(), DesiredPoseX);
-        SpeedsForPose = SpeedsForPose + Math.signum(SpeedsForPose) * .016;
+        SpeedsForPose = SpeedsForPose + Math.signum(SpeedsForPose) * DrivetrainConstants.FEEDFORWARD_CONSTANT;
+        if (isAllianceRed()) {
+            return -SpeedsForPose;
+        }
         return SpeedsForPose; 
     }
 
     public double PIDDriveToPointY(double DesiredPoseY) {
         double SpeedsForPose = pidControllerY.calculate(getPose2d().getY(), DesiredPoseY);
-        SpeedsForPose = SpeedsForPose + Math.signum(SpeedsForPose)* .016;
+        SpeedsForPose = SpeedsForPose + Math.signum(SpeedsForPose)* DrivetrainConstants.FEEDFORWARD_CONSTANT;
+        if (isAllianceRed()) {
+            return -SpeedsForPose;
+        }
         return SpeedsForPose; 
     }
 
-    public double PIDDriveToPointROT(double DesiredPoseRot) {
-        pidControllerRot.enableContinuousInput(-180, 180);
-        double SpeedsForPose = pidControllerRot.calculate(Math.abs(getPose2d().getRotation().getDegrees()), DesiredPoseRot);
+    public double PIDDriveToPointDEG(double DesiredPoseDeg) {
+        pidControllerDeg.enableContinuousInput(-180, 180);
+        double SpeedsForPose = pidControllerDeg.calculate(getPose2d().getRotation().getDegrees(), DesiredPoseDeg);
         SpeedsForPose = SpeedsForPose * Math.signum(getPose2d().getRotation().getDegrees());
-        SpeedsForPose = SpeedsForPose + Math.signum(SpeedsForPose)* .016;
+        SpeedsForPose = SpeedsForPose + Math.signum(SpeedsForPose)* DrivetrainConstants.FEEDFORWARD_CONSTANT_DEGREE;
         return SpeedsForPose;
     }
 
     @Override
     public void periodic() {
+        SmartDashboard.putNumber("Red Reef PID X", PIDDriveToPointX(PoseConstants.RED_REEF_POSES[reefIndex].getX()));
+        SmartDashboard.putNumber("Red Reef PID Y", PIDDriveToPointY(PoseConstants.RED_REEF_POSES[reefIndex].getY()));
+        SmartDashboard.putNumber("Red Reef PID Rot", angularSpeedToFaceReef());
+
+        SmartDashboard.putNumber("Red Reef Desired X", PoseConstants.RED_REEF_POSES[reefIndex].getX());
+        SmartDashboard.putNumber("Red Reef Desired Y", PoseConstants.RED_REEF_POSES[reefIndex].getY());
         // Periodically try to apply the operator perspective. If we haven't applied the operator perspective before,
         // then we should apply it regardless of DS state. This allows us to correct the perspective in case the robot
         // code restarts mid-match. Otherwise, only check and apply the operator perspective if the DS is disabled.

@@ -13,6 +13,16 @@ import edu.wpi.first.math.util.Units;
 
 /** Add your docs here. */
 public final class Constants {
+  public static class DrivetrainConstants {
+    // PID Constants
+    public static final double PID_XY = 0.55;
+    public static final double PID_DEGREE = 0.008;
+
+    // Feed Forward Constant
+    public static final double FEEDFORWARD_CONSTANT = 0.022;
+    public static final double FEEDFORWARD_CONSTANT_DEGREE = 0.12;
+  }
+
   //ONLY AFFECTS DRIVE TO POSE, NOT AUTO PATHS
   public static class PathPlannerConstants {
     public static final double MAX_VELOCITY_MPS = 5.450;
@@ -25,25 +35,27 @@ public final class Constants {
   public static class PhotonVisionConstants {
   //Transform3d from the center of the robot to the camera mount position (ie, robot ➔ camera) in the Robot Coordinate System
   //The Cameras are mounter on the back of the value so all transform signs are flipped (not rotations). + ➔ -
+  
+  // TODO : Fix
   public static final Transform3d ROBOT_TO_CENTRAL_CAMERA =
-      new Transform3d(Units.inchesToMeters(12), 0, -Units.inchesToMeters(7.75), new Rotation3d(0, 180, 0)); //12 inches
+      new Transform3d(Units.inchesToMeters(-12), 0, -Units.inchesToMeters(7.75), new Rotation3d(0, 180, 0)); //12 inches
   }
     
   public static class PoseConstants {
     // TODO: Set accurate REEF_SIDE_POSES
-    public static final Pose2d REEF_SIDE_POSE_AB = new Pose2d(3.1, 4, new Rotation2d(Units.degreesToRadians (180)));
+    public static final Pose2d REEF_SIDE_POSE_AB = new Pose2d(3, 4, new Rotation2d(0));
     public static final Pose2d REEF_SIDE_POSE_CD = new Pose2d(3.75, 2.75, new Rotation2d(Units.degreesToRadians (240)));
     public static final Pose2d REEF_SIDE_POSE_EF = new Pose2d(5.25, 2.75, new Rotation2d(Units.degreesToRadians (300)));
     public static final Pose2d REEF_SIDE_POSE_GH = new Pose2d(5.9, 4, new Rotation2d(Units.degreesToRadians (0)));
-    public static final Pose2d REEF_SIDE_POSE_IJ = new Pose2d(5.25, 5.25, new Rotation2d(Units.degreesToRadians (60)));
-    public static final Pose2d REEF_SIDE_POSE_KL = new Pose2d(3.75, 5.25, new Rotation2d(Units.degreesToRadians (120)));
+    public static final Pose2d REEF_SIDE_POSE_IJ = new Pose2d(5.4, 5.5, new Rotation2d(Units.degreesToRadians (60)));
+    public static final Pose2d REEF_SIDE_POSE_KL = new Pose2d(3.6, 5.5, new Rotation2d(Units.degreesToRadians (120)));
 
     public static final Pose2d[] BLUE_REEF_SIDE_POSES = {
       REEF_SIDE_POSE_AB, REEF_SIDE_POSE_CD, REEF_SIDE_POSE_EF,
       REEF_SIDE_POSE_GH, REEF_SIDE_POSE_IJ, REEF_SIDE_POSE_KL
     };
 
-    public static final Transform2d RED_TRANSFORMATION = new Transform2d(9, 0, new Rotation2d(0));
+    public static final Transform2d RED_TRANSFORMATION = new Transform2d(8.5, 0, new Rotation2d(0));
 
     public static final Pose2d[] RED_REEF_SIDE_POSES = {
       REEF_SIDE_POSE_GH.plus(RED_TRANSFORMATION), REEF_SIDE_POSE_IJ.plus(RED_TRANSFORMATION),
@@ -52,18 +64,18 @@ public final class Constants {
     };
 
     // TODO: Set accurate REEF_POSES
-    public static final Pose2d REEF_POSE_A = new Pose2d(3.5, 4.17, new Rotation2d(Units.degreesToRadians (180)));
-    public static final Pose2d REEF_POSE_B = new Pose2d(3.5, 3.87, new Rotation2d(Units.degreesToRadians (180)));
-    public static final Pose2d REEF_POSE_C = new Pose2d(3.44, 2.62, new Rotation2d(Units.degreesToRadians (270)));
-    public static final Pose2d REEF_POSE_D = new Pose2d(3.75, 2.47, new Rotation2d(Units.degreesToRadians (270)));
-    public static final Pose2d REEF_POSE_E = new Pose2d(2.79, 4.17, new Rotation2d(0));
-    public static final Pose2d REEF_POSE_F = new Pose2d(2.79, 4.17, new Rotation2d(0));
-    public static final Pose2d REEF_POSE_G = new Pose2d(2.79, 4.17, new Rotation2d(0));
-    public static final Pose2d REEF_POSE_H = new Pose2d(2.79, 4.17, new Rotation2d(0));
-    public static final Pose2d REEF_POSE_I = new Pose2d(2.79, 4.17, new Rotation2d(0));
-    public static final Pose2d REEF_POSE_J = new Pose2d(2.79, 4.17, new Rotation2d(0));
-    public static final Pose2d REEF_POSE_K = new Pose2d(3.79, 5.59, new Rotation2d(Units.degreesToRadians (90)));
-    public static final Pose2d REEF_POSE_L = new Pose2d(3.46, 5.42, new Rotation2d(Units.degreesToRadians (90)));
+    public static final Pose2d REEF_POSE_A = new Pose2d(3.2, 4.1, new Rotation2d(0));
+    public static final Pose2d REEF_POSE_B = new Pose2d(3.2, 3.87, new Rotation2d(0));
+    public static final Pose2d REEF_POSE_C = new Pose2d(3.6, 3.1, new Rotation2d(0));
+    public static final Pose2d REEF_POSE_D = new Pose2d(4.1, 2.87, new Rotation2d(0));
+    public static final Pose2d REEF_POSE_E = new Pose2d(5.1, 2.75, new Rotation2d(0));
+    public static final Pose2d REEF_POSE_F = new Pose2d(5.4, 2.9, new Rotation2d(0));
+    public static final Pose2d REEF_POSE_G = new Pose2d(6, 3.8, new Rotation2d(0));
+    public static final Pose2d REEF_POSE_H = new Pose2d(6, 4.2, new Rotation2d(0));
+    public static final Pose2d REEF_POSE_I = new Pose2d(5.4, 5.15, new Rotation2d(0));
+    public static final Pose2d REEF_POSE_J = new Pose2d(5.1, 5.35, new Rotation2d(0));
+    public static final Pose2d REEF_POSE_K = new Pose2d(4, 5.4, new Rotation2d(0));
+    public static final Pose2d REEF_POSE_L = new Pose2d(3.6, 5.2, new Rotation2d(0));
 
     public static final Pose2d[] BLUE_REEF_POSES = {
       REEF_POSE_A, REEF_POSE_B, REEF_POSE_C, REEF_POSE_D, REEF_POSE_E, REEF_POSE_F, 
@@ -187,5 +199,4 @@ public final class Constants {
     public static final double PIDL4 = 0;
 
   }
-
 }
