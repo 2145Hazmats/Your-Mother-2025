@@ -8,18 +8,13 @@ import static edu.wpi.first.units.Units.*;
 
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-//import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.Constants.PoseConstants;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.CameraSubsystem;
@@ -35,14 +30,18 @@ public class RobotContainer {
     private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
             .withDeadband(MaxSpeed * 0.05).withRotationalDeadband(MaxAngularRate * 0.05) // Add a 10% deadband changed to 5%
             .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // Use open-loop control for drive motors
-    private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
-    private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
+    //private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
+    //private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
 
     private final Telemetry logger = new Telemetry(MaxSpeed);
 
     private final CommandXboxController P1controller = new CommandXboxController(0);
+    private final CommandXboxController P2controller = new CommandXboxController(0);
+    private final CommandXboxController P3controller = new CommandXboxController(0);
 
     private final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
+    
+    // We need to initialize an object of the camera subsystem, we don't have to use it
     private CameraSubsystem m_CameraSubsystem = new CameraSubsystem(drivetrain);
 
     public RobotContainer() {
@@ -89,15 +88,9 @@ public class RobotContainer {
         //             //.withCenterOfRotation(Translation2d) // FOUND THIS. WILL BE USEFUL FOR DEFENCE SWERVE oR MAYBE SPINNING AROUND AN OBJICT
         //     )
         // );
-        /*(drivetrain.applyRequest(() ->
-        drive.withVelocityX(-m_CameraSubsystem.PIDDriveToPointX(15.5) * MaxSpeed) // Drive forward with negative Y (forward)
-            .withVelocityY(-m_CameraSubsystem.PIDDriveToPointY(4.75)) * MaxSpeed))); // Drive left with negative X (left)
-           // .withRotationalRate(-m_CameraSubsystem.PIDDriveToPointROT(0) * MaxAngularRate) // Drive counterclockwise with negative X (left)
-            //.withCenterOfRotation(Translation2d) // FOUND THIS. WILL BE USEFUL FOR DEFENCE SWERVE oR MAYBE SPINNING AROUND AN OBJICT
         
-        */
+        
        
-
         // Run SysId routines when holding back/start and X/Y.
         // Note that each routine should be run exactly once in a single log.
         // joystick.back().and(joystick.y()).whileTrue(drivetrain.sysIdDynamic(Direction.kForward));
@@ -112,16 +105,20 @@ public class RobotContainer {
         P1controller.x().whileTrue(drivetrain.pathFindThenFollowPath("TestPath")).onFalse(drivetrain.stopCommand());
         //P1controller.b().whileTrue(drivetrain.pathFindToPose(new Pose2d(9, 4, new Rotation2d(0)))).onFalse(drivetrain.stopCommand());
         
-        P1controller.leftTrigger().onTrue(Commands.runOnce(() -> drivetrain.poseIndexSwitch(true)));
-        P1controller.rightTrigger().onTrue(Commands.runOnce(() -> drivetrain.poseIndexSwitch(false)));
+        P1controller.leftTrigger().onTrue(Commands.runOnce(() -> drivetrain.poseIndexSwitch(false)));
+        P1controller.rightTrigger().onTrue(Commands.runOnce(() -> drivetrain.poseIndexSwitch(true)));
 
         // you can call .andThen() on autobuilder to call a command when the first one ends (bot is near the setpoint)
-        P1controller.povUp().whileTrue(drivetrain.pathFindToReefAB().andThen(drivetrain.pathFindToPose(PoseConstants.REEF_POSE_C))).onFalse(drivetrain.stopCommand());
+        P1controller.povUp().whileTrue(drivetrain.pathFindToReefCD().andThen(drivetrain.applyRequest(() ->
+        drive.withVelocityX(drivetrain.PIDDriveToPointX(3.7) * MaxSpeed)
+            .withVelocityY(drivetrain.PIDDriveToPointY(3) * MaxSpeed)
+            .withRotationalRate(drivetrain.PIDDriveToPointROT(-120) * MaxAngularRate)))).onFalse(drivetrain.stopCommand());
         P1controller.povRight().whileTrue(drivetrain.pathFindToReefCD()).onFalse(drivetrain.stopCommand());
         P1controller.povLeft().whileTrue(drivetrain.pathFindToReefEF()).onFalse(drivetrain.stopCommand());
         P1controller.povDown().whileTrue(drivetrain.pathFindToReefGH()).onFalse(drivetrain.stopCommand());
         //P1controller.povDown().whileTrue(drivetrain.pathFindToReefIJ()).onFalse(drivetrain.stopCommand());
         //P1controller.povDown().whileTrue(drivetrain.pathFindToReefKL()).onFalse(drivetrain.stopCommand());
+        P1controller.b().whileTrue(drivetrain.pathFindToAllTheReefs()).onFalse(drivetrain.stopCommand());
 
 
         drivetrain.registerTelemetry(logger::telemeterize);

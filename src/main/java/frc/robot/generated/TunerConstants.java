@@ -196,8 +196,6 @@ public class TunerConstants {
      * This should only be called once in your robot program,.
      */
     public static CommandSwerveDrivetrain createDrivetrain() {
-        // TODO: Set these values
-        //return new CommandSwerveDrivetrain(DrivetrainConstants, 4, null, null, null)
         return new CommandSwerveDrivetrain(
             DrivetrainConstants, FrontLeft, FrontRight, BackLeft, BackRight
         );

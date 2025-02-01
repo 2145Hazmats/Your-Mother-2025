@@ -4,8 +4,6 @@
 
 package frc.robot;
 
-import com.ctre.phoenix6.hardware.TalonFX;
-
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
@@ -15,32 +13,45 @@ import edu.wpi.first.math.util.Units;
 
 /** Add your docs here. */
 public final class Constants {
-    public static class PathPlannerConstants { //ONLY AFFECTS DRIVE TO POSE, NOT AUTO PATHS
-      public static final double MAX_VELOCITY_MPS = 5.450;
-      public static final double MAX_ACCELERATION_MPS = 3.6;
-      public static final double MAX_ANGULAR_VELOCITY_RAD = Units.degreesToRadians(360);
-      public static final double MAX_ANGULAR_ACCELERATION_RAD = Units.degreesToRadians(862);
-      public static final double NOMINAL_VOLTAGE_VOLTS = 11.5;
-    }
+  //ONLY AFFECTS DRIVE TO POSE, NOT AUTO PATHS
+  public static class PathPlannerConstants {
+    public static final double MAX_VELOCITY_MPS = 5.450;
+    public static final double MAX_ACCELERATION_MPS = 3.6;
+    public static final double MAX_ANGULAR_VELOCITY_RAD = Units.degreesToRadians(360);
+    public static final double MAX_ANGULAR_ACCELERATION_RAD = Units.degreesToRadians(862);
+    public static final double NOMINAL_VOLTAGE_VOLTS = 11.5;
+  }
 
-    public static class PhotonVisionConstants {
-    //Transform3d from the center of the robot to the camera mount position (ie, robot ➔ camera) in the Robot Coordinate System
-    //The Cameras are mounter on the back of the value so all transform signs are flipped (not rotations). + ➔ -
-    public static final Transform3d ROBOT_TO_CENTRAL_CAMERA =
-        new Transform3d(Units.inchesToMeters(12), 0, -Units.inchesToMeters(4.5), new Rotation3d(0, 180, 0)); //12 inches
-  } 
+  public static class PhotonVisionConstants {
+  //Transform3d from the center of the robot to the camera mount position (ie, robot ➔ camera) in the Robot Coordinate System
+  //The Cameras are mounter on the back of the value so all transform signs are flipped (not rotations). + ➔ -
+  public static final Transform3d ROBOT_TO_CENTRAL_CAMERA =
+      new Transform3d(Units.inchesToMeters(12), 0, -Units.inchesToMeters(7.75), new Rotation3d(0, 180, 0)); //12 inches
+  }
     
   public static class PoseConstants {
-    public static final Pose2d REEF_SIDE_POSE_AB = new Pose2d(2.79, 4.17, new Rotation2d(0));
-    public static final Pose2d REEF_SIDE_POSE_CD = new Pose2d(2.79, 4.17, new Rotation2d(0));
-    public static final Pose2d REEF_SIDE_POSE_EF = new Pose2d(2.79, 4.17, new Rotation2d(0));
-    public static final Pose2d REEF_SIDE_POSE_GH = new Pose2d(2.79, 4.17, new Rotation2d(0));
-    public static final Pose2d REEF_SIDE_POSE_IJ = new Pose2d(2.79, 4.17, new Rotation2d(0));
-    public static final Pose2d REEF_SIDE_POSE_KL = new Pose2d(2.79, 4.17, new Rotation2d(0));
+    // TODO: Set accurate REEF_SIDE_POSES
+    public static final Pose2d REEF_SIDE_POSE_AB = new Pose2d(3.1, 4, new Rotation2d(Units.degreesToRadians (180)));
+    public static final Pose2d REEF_SIDE_POSE_CD = new Pose2d(3.75, 2.75, new Rotation2d(Units.degreesToRadians (240)));
+    public static final Pose2d REEF_SIDE_POSE_EF = new Pose2d(5.25, 2.75, new Rotation2d(Units.degreesToRadians (300)));
+    public static final Pose2d REEF_SIDE_POSE_GH = new Pose2d(5.9, 4, new Rotation2d(Units.degreesToRadians (0)));
+    public static final Pose2d REEF_SIDE_POSE_IJ = new Pose2d(5.25, 5.25, new Rotation2d(Units.degreesToRadians (60)));
+    public static final Pose2d REEF_SIDE_POSE_KL = new Pose2d(3.75, 5.25, new Rotation2d(Units.degreesToRadians (120)));
 
-    public static final Pose2d[] BLUE_REEF_SIDE_POSES = {REEF_SIDE_POSE_AB, REEF_SIDE_POSE_CD,
-      REEF_SIDE_POSE_EF, REEF_SIDE_POSE_GH, REEF_SIDE_POSE_IJ, REEF_SIDE_POSE_KL};
+    public static final Pose2d[] BLUE_REEF_SIDE_POSES = {
+      REEF_SIDE_POSE_AB, REEF_SIDE_POSE_CD, REEF_SIDE_POSE_EF,
+      REEF_SIDE_POSE_GH, REEF_SIDE_POSE_IJ, REEF_SIDE_POSE_KL
+    };
 
+    public static final Transform2d RED_TRANSFORMATION = new Transform2d(9, 0, new Rotation2d(0));
+
+    public static final Pose2d[] RED_REEF_SIDE_POSES = {
+      REEF_SIDE_POSE_GH.plus(RED_TRANSFORMATION), REEF_SIDE_POSE_IJ.plus(RED_TRANSFORMATION),
+      REEF_SIDE_POSE_KL.plus(RED_TRANSFORMATION), REEF_SIDE_POSE_AB.plus(RED_TRANSFORMATION),
+      REEF_SIDE_POSE_CD.plus(RED_TRANSFORMATION), REEF_SIDE_POSE_EF.plus(RED_TRANSFORMATION)
+    };
+
+    // TODO: Set accurate REEF_POSES
     public static final Pose2d REEF_POSE_A = new Pose2d(3.5, 4.17, new Rotation2d(Units.degreesToRadians (180)));
     public static final Pose2d REEF_POSE_B = new Pose2d(3.5, 3.87, new Rotation2d(Units.degreesToRadians (180)));
     public static final Pose2d REEF_POSE_C = new Pose2d(3.44, 2.62, new Rotation2d(Units.degreesToRadians (270)));
@@ -54,17 +65,17 @@ public final class Constants {
     public static final Pose2d REEF_POSE_K = new Pose2d(3.79, 5.59, new Rotation2d(Units.degreesToRadians (90)));
     public static final Pose2d REEF_POSE_L = new Pose2d(3.46, 5.42, new Rotation2d(Units.degreesToRadians (90)));
 
-    public static final Pose2d[] BLUE_REEF_POSES = {REEF_POSE_A, REEF_POSE_B, REEF_POSE_C, REEF_POSE_D, REEF_POSE_E, REEF_POSE_F, 
-      REEF_POSE_G, REEF_POSE_H, REEF_POSE_I, REEF_POSE_J, REEF_POSE_K, REEF_POSE_L};
+    public static final Pose2d[] BLUE_REEF_POSES = {
+      REEF_POSE_A, REEF_POSE_B, REEF_POSE_C, REEF_POSE_D, REEF_POSE_E, REEF_POSE_F, 
+      REEF_POSE_G, REEF_POSE_H, REEF_POSE_I, REEF_POSE_J, REEF_POSE_K, REEF_POSE_L
+    };
     
-    public static final Transform2d RED_TRANSFORMATION = new Transform2d(9, 0, new Rotation2d(0));
-
-    public static final Pose2d[] RED_REEF_POSES = {REEF_POSE_G.plus(RED_TRANSFORMATION), REEF_POSE_H.plus(RED_TRANSFORMATION), 
-      REEF_POSE_I.plus(RED_TRANSFORMATION), REEF_POSE_J.plus(RED_TRANSFORMATION), REEF_POSE_K.plus(RED_TRANSFORMATION), 
-      REEF_POSE_L.plus(RED_TRANSFORMATION), REEF_POSE_A.plus(RED_TRANSFORMATION), REEF_POSE_B.plus(RED_TRANSFORMATION), 
-      REEF_POSE_C.plus(RED_TRANSFORMATION), REEF_POSE_D.plus(RED_TRANSFORMATION), REEF_POSE_E.plus(RED_TRANSFORMATION), 
-      REEF_POSE_F.plus(RED_TRANSFORMATION)};
-      //This is for the red poses ^
+    public static final Pose2d[] RED_REEF_POSES = {
+      REEF_POSE_G.plus(RED_TRANSFORMATION), REEF_POSE_H.plus(RED_TRANSFORMATION), REEF_POSE_I.plus(RED_TRANSFORMATION),
+      REEF_POSE_J.plus(RED_TRANSFORMATION), REEF_POSE_K.plus(RED_TRANSFORMATION), REEF_POSE_L.plus(RED_TRANSFORMATION),
+      REEF_POSE_A.plus(RED_TRANSFORMATION), REEF_POSE_B.plus(RED_TRANSFORMATION), REEF_POSE_C.plus(RED_TRANSFORMATION),
+      REEF_POSE_D.plus(RED_TRANSFORMATION), REEF_POSE_E.plus(RED_TRANSFORMATION), REEF_POSE_F.plus(RED_TRANSFORMATION)
+    };
 }
 
   // WE STOLE LITERALLY ALL OF THIS, BRUH
@@ -111,14 +122,12 @@ public final class Constants {
     public static final double[] kClimb1AngleSP           = {-98, -34};
     public static final double[] kClimb2AngleSP           = {-43.6, -71.1};
     public static final double[] kTrapAngleSP             = {-85, -51}; // Shoot Subwoofer with intake within bumper bounderies
-    //TODO: FILL OUT THIS ANGLE
     public static final double[] kPassAngleSP             = {-13.33, -8.31};
 
     public static final double SPEAKER_VISION_ELBOW_SP = 0; //-9
     public static final double SPEAKER_1_METER_WRIST_SP = -30.25;
     public static final double SPEAKER_2_METER_WRIST_SP = -28;
     public static final double SPEAKER_3_METER_WRIST_SP = -26.75;
-    //TODO: SPEAKER_4_METER_WRIST_SP and SPEAKER_5_METER_WRIST_SP
     public static final double SPEAKER_4_METER_WRIST_SP = -25.75;
     public static final double SPEAKER_5_METER_WRIST_SP = -25;
 
@@ -152,7 +161,6 @@ public final class Constants {
     public static final double kTopAmpRPM        = 1200;
     public static final double kTopHorizontalRPM = 4000;
     public static final double kTopN2RPM         = 3700;
-    //TODO: FILL OUT THIS RPM
     public static final double kTopPassRPM       = 3500;
     //public static final double kTopYeetRPM    = 2500;
     //public static final double kBottomYeetRPM = 2500;

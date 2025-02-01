@@ -6,11 +6,6 @@ package frc.robot.subsystems;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.function.BiConsumer;
-import java.util.function.BooleanSupplier;
-import java.util.function.Consumer;
-import java.util.function.Supplier;
-
 import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPoseEstimator;
@@ -19,28 +14,17 @@ import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
 import com.ctre.phoenix6.Utils;
-import com.ctre.phoenix6.swerve.SwerveDrivetrain.SwerveDriveState;
-import com.ctre.phoenix6.swerve.jni.SwerveJNI.ModuleState;
-import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.config.RobotConfig;
-import com.pathplanner.lib.controllers.PathFollowingController;
-import com.pathplanner.lib.util.DriveFeedforwards;
-
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -104,29 +88,6 @@ public class CameraSubsystem extends SubsystemBase {
     return charizardsSkateboard.getState().Pose;
   }
 
-/*public double PIDDriveToPoint(double DesiredPoseX, double DesiredPoseY, double DesiredPoseAngle) {
-
-  double SpeedsForPose = pidController.calculate(getPoseX(), DesiredPoseX);
-}*/ //HOW DO I DO THIS WITH ONE METHOD?
-public double PIDDriveToPointX(double DesiredPoseX) {
-  double SpeedsForPose = pidControllerX.calculate(getPoseX(), DesiredPoseX);
-
-  SpeedsForPose = SpeedsForPose + Math.signum(SpeedsForPose) * .016;
-  return SpeedsForPose; 
-
-}
-  public double PIDDriveToPointY(double DesiredPoseY) {
-    double SpeedsForPose = pidControllerY.calculate(getPoseY(), DesiredPoseY);
-    SpeedsForPose = SpeedsForPose + Math.signum(SpeedsForPose)* .016;
-    return SpeedsForPose; 
-}
-public double PIDDriveToPointROT(double DesiredPoseRot) {
-  double SpeedsForPose = pidControllerRot.calculate(Math.abs(getPoseRot()), DesiredPoseRot); //only works with 180
-  SpeedsForPose = SpeedsForPose * Math.signum(getPoseRot());
-  SpeedsForPose = SpeedsForPose + Math.signum(SpeedsForPose)* .016;
-  return SpeedsForPose;
-  
-}
   /**
    * Calculates new standard deviations This algorithm is a heuristic that creates dynamic standard
    * deviations based on number of tags, estimation strategy, and distance from the tags.
