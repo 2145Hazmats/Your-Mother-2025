@@ -81,7 +81,7 @@ public class RobotContainer {
         P1controller.a().whileTrue(drivetrain.applyRequest(() ->
         drive.withVelocityX(-P1controller.getLeftY() * MaxSpeed) // Drive forward with negative Y (forward)
             .withVelocityY(-P1controller.getLeftX() * MaxSpeed) // Drive left with negative X (left)
-            .withRotationalRate(drivetrain.AngularSpeedToFaceReef()) // Drive counterclockwise with negative X (left)
+            .withRotationalRate(drivetrain.angularSpeedToFaceReef()) // Drive counterclockwise with negative X (left)
             //.withCenterOfRotation(Translation2d) // FOUND THIS. WILL BE USEFUL FOR DEFENCE SWERVE oR MAYBE SPINNING AROUND AN OBJECT
     ));
         // P1controller.a().whileTrue(drivetrain.applyRequest(() -> brake));
@@ -118,18 +118,29 @@ public class RobotContainer {
         P1controller.rightTrigger().onTrue(Commands.runOnce(() -> drivetrain.poseIndexSwitch(true)));
 
         // you can call .andThen() on autobuilder to call a command when the first one ends (bot is near the setpoint)
-        P1controller.povUp().whileTrue(drivetrain.pathFindToReefCD().andThen(drivetrain.applyRequest(() ->
-        drive.withVelocityX(drivetrain.PIDDriveToPointX(3.7) * MaxSpeed)
-            .withVelocityY(drivetrain.PIDDriveToPointY(3) * MaxSpeed)
-            .withRotationalRate(drivetrain.PIDDriveToPointROT(-120) * MaxAngularRate)))).onFalse(drivetrain.stopCommand());
-        P1controller.povRight().whileTrue(drivetrain.pathFindToReefCD()).onFalse(drivetrain.stopCommand());
-        P1controller.povLeft().whileTrue(drivetrain.pathFindToReefEF()).onFalse(drivetrain.stopCommand());
-        P1controller.povDown().whileTrue(drivetrain.pathFindToReefGH()).onFalse(drivetrain.stopCommand());
-        //P1controller.povDown().whileTrue(drivetrain.pathFindToReefIJ()).onFalse(drivetrain.stopCommand());
-        //P1controller.povDown().whileTrue(drivetrain.pathFindToReefKL()).onFalse(drivetrain.stopCommand());
-        P1controller.b().whileTrue(drivetrain.pathFindToAllTheReefs()).onFalse(drivetrain.stopCommand());
+        P1controller.povUp().whileTrue(drivetrain.pathFindToReefRedAB().andThen(drivetrain.applyRequest(() ->
+        drive.withVelocityX(drivetrain.PIDDriveToPointX(PoseConstants.RED_REEF_POSES[0].getX()) * MaxSpeed)
+            .withVelocityY(drivetrain.PIDDriveToPointY(PoseConstants.RED_REEF_POSES[0].getY()) * MaxSpeed)
+            .withRotationalRate(drivetrain.angularSpeedToFaceReef()))));
+        
+        P1controller.povRight().whileTrue(drivetrain.pathFindToReefRedCD().andThen(drivetrain.applyRequest(() ->
+        drive.withVelocityX(drivetrain.PIDDriveToPointX(PoseConstants.RED_REEF_POSES[2].getX()) * MaxSpeed)
+            .withVelocityY(drivetrain.PIDDriveToPointY(PoseConstants.RED_REEF_POSES[2].getY()) * MaxSpeed)
+            .withRotationalRate(drivetrain.angularSpeedToFaceReef()))));
 
 //--------------------------------P2 Controls-----------------------------------
+
+        P1controller.povLeft().whileTrue(drivetrain.pathFindToReefRedEF().andThen(drivetrain.applyRequest(() ->
+        drive.withVelocityX(drivetrain.PIDDriveToPointX(PoseConstants.RED_REEF_POSES[4].getX()) * MaxSpeed)
+            .withVelocityY(drivetrain.PIDDriveToPointY(PoseConstants.RED_REEF_POSES[4].getY()) * MaxSpeed)
+            .withRotationalRate(drivetrain.angularSpeedToFaceReef()))));
+
+        P1controller.povDown().whileTrue(drivetrain.pathFindToReefRedGH().andThen(drivetrain.applyRequest(() ->
+        drive.withVelocityX(drivetrain.PIDDriveToPointX(PoseConstants.RED_REEF_POSES[6].getX()) * MaxSpeed)
+            .withVelocityY(drivetrain.PIDDriveToPointY(PoseConstants.RED_REEF_POSES[6].getY()) * MaxSpeed)
+            .withRotationalRate(drivetrain.angularSpeedToFaceReef()))));
+        
+        P1controller.b().whileTrue(drivetrain.pathFindToAllTheReefs()).onFalse(drivetrain.stopCommand());
 
         // Intakes note into robot
         // P2controller.leftBumper().whileTrue(m_BoxSubsystem.setIntakeMotorCommandThenStop(BoxConstants.kIntakeSpeed));
