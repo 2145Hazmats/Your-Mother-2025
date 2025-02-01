@@ -6,13 +6,16 @@ package frc.robot.subsystems;
 
 import java.util.function.Supplier;
 
-import com.revrobotics.CANSparkBase.ControlType;
-import com.revrobotics.CANSparkBase.IdleMode;
-import com.revrobotics.CANSparkLowLevel.MotorType;
-import com.revrobotics.CANSparkLowLevel.PeriodicFrame;
-import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
-import com.revrobotics.SparkPIDController;
+import com.revrobotics.spark.SparkBase.ControlType;
+import com.revrobotics.spark.SparkBase.PersistMode;
+import com.revrobotics.spark.SparkBase.ResetMode;
+import com.revrobotics.spark.SparkClosedLoopController;
+import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.config.ClosedLoopConfig.FeedbackSensor;
+import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
+import com.revrobotics.spark.config.SparkMaxConfig;
+import com.revrobotics.spark.SparkLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -26,14 +29,19 @@ import frc.robot.Constants.BoxConstants;
 
 public class BoxSubsystem extends SubsystemBase {
   // Declare and intialize motor variables to a new instance of CANSparkMax
-  private final CANSparkMax topShooterMotor = new CANSparkMax(BoxConstants.kTopShooterMotorID, MotorType.kBrushless);
+  private final SparkMax topShooterMotor = new SparkMax(BoxConstants.kTopShooterMotorID, MotorType.kBrushless);
   private final RelativeEncoder topShooterEncoder = topShooterMotor.getEncoder();
-  private final CANSparkMax bottomShooterMotor = new CANSparkMax(BoxConstants.kBottomShooterMotorID, MotorType.kBrushless);
+  private final SparkMax bottomShooterMotor = new SparkMax(BoxConstants.kBottomShooterMotorID, MotorType.kBrushless);
   private final RelativeEncoder bottomShooterEncoder = bottomShooterMotor.getEncoder();
-  private final CANSparkMax intakeMotor = new CANSparkMax(BoxConstants.kIntakeMotorID, MotorType.kBrushless);
+  private final SparkMax intakeMotor = new SparkMax(BoxConstants.kIntakeMotorID, MotorType.kBrushless);
   // PID controllers
-  private SparkPIDController topShooterPIDController = topShooterMotor.getPIDController();
-  private SparkPIDController bottomShooterPIDController = bottomShooterMotor.getPIDController();
+  private SparkClosedLoopController topShooterPIDController = topShooterMotor.getClosedLoopController();
+  private SparkClosedLoopController bottomShooterPIDController = bottomShooterMotor.getClosedLoopController();
+
+  //Configs Sparkmax 2025
+  SparkMaxConfig shooterConfig = new SparkMaxConfig();
+  SparkMaxConfig intakeConfig = new SparkMaxConfig();
+ 
   /*
   private SimpleMotorFeedforward topShooterFF = new SimpleMotorFeedforward(
       BoxConstants.kTopShooterS,
@@ -57,63 +65,44 @@ public class BoxSubsystem extends SubsystemBase {
   /** Creates a new Box. */
   public BoxSubsystem() {
     /* Motor Configuration */
+shooterConfig
+    .inverted(true)
+    .idleMode(IdleMode.kCoast)
+    .smartCurrentLimit(40)
+    //Enable voltage compensation
+    .voltageCompensation(BoxConstants.kShooterMotorNominalVoltage);
+shooterConfig.encoder
+    .positionConversionFactor(1)
+    .velocityConversionFactor(1000);
+shooterConfig.closedLoop
+    .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
+    .pid(1.0, 0.0, 0.0);
+//---------------------------------------Intake config-----------------------------------------
+intakeConfig
+    .inverted(true)
+    .idleMode(IdleMode.kBrake)
+    .smartCurrentLimit(20)
+    .voltageCompensation(BoxConstants.kIntakeMotorNominalVoltage);
+intakeConfig.encoder
+    .positionConversionFactor(1000)
+    .velocityConversionFactor(1000);
+intakeConfig.closedLoop
+    .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
+    .pidf(BoxConstants.kTopShooterP, 0, 0, BoxConstants.kBottomShooterFF);
+  //-----------------------------------Installing configs---------------------------------------
+  topShooterMotor.configure(shooterConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
+  bottomShooterMotor.configure(shooterConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+  intakeMotor.configure(intakeConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
-    // Restore factory defaults of the Spark Max.
-    // It's important to have all Spark Maxs behave the expected way, especially if we switch to a different Spark Max in the middle of a competition.
-    topShooterMotor.restoreFactoryDefaults();
-    bottomShooterMotor.restoreFactoryDefaults();
-    intakeMotor.restoreFactoryDefaults();
-
-    // Set motor current limit
-    topShooterMotor.setSmartCurrentLimit(40);
-    bottomShooterMotor.setSmartCurrentLimit(40);
-    intakeMotor.setSmartCurrentLimit(20);
-
-    // Enable voltage compensation
-    intakeMotor.enableVoltageCompensation(BoxConstants.kIntakeMotorNominalVoltage);
-    topShooterMotor.enableVoltageCompensation(BoxConstants.kShooterMotorNominalVoltage);
-    bottomShooterMotor.enableVoltageCompensation(BoxConstants.kShooterMotorNominalVoltage);
 
     // Reduce the frequency of the motor position sent to the roboRIO
-    intakeMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 65535);
-    topShooterMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 65535);
-    bottomShooterMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 65535);
-
-    // Set the idle mode of the motors
-    topShooterMotor.setIdleMode(IdleMode.kCoast);
-    bottomShooterMotor.setIdleMode(IdleMode.kCoast);
-    intakeMotor.setIdleMode(IdleMode.kBrake);
-
-    // Invert the shooter motor
-    topShooterMotor.setInverted(true);
-    bottomShooterMotor.setInverted(true);
-
-    /* Encoder Configuration */
-
-    // Setup encoder conversion factors
-    topShooterEncoder.setPositionConversionFactor(1);
-    bottomShooterEncoder.setPositionConversionFactor(1);
+    //intakeMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 65535);
+    //topShooterMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 65535);
+    //bottomShooterMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 65535)
 
     // Set encoders position to 0
     topShooterEncoder.setPosition(0);
     bottomShooterEncoder.setPosition(0);
-
-     /* PIDControllers */
-
-    // Set PIDController FeedbackDevice
-    topShooterPIDController.setFeedbackDevice(topShooterEncoder);
-    bottomShooterPIDController.setFeedbackDevice(bottomShooterEncoder);
-
-    // Setup the Top shooter PIDController
-    topShooterPIDController.setP(BoxConstants.kTopShooterP);
-    topShooterPIDController.setFF(BoxConstants.kTopShooterFF);
-    // This is what FF does on a sparkmax:
-      // f = setpoint * constants->kF;
-      // output = p + pid->iState + d + f;
-
-    // Setup the Bottom Shooter PIDController
-    bottomShooterPIDController.setP(BoxConstants.kBottomShooterP);
-    bottomShooterPIDController.setFF(BoxConstants.kBottomShooterFF);
 
     // Put Shooter PIDs on SmartDashboard
     SmartDashboard.putNumber("TopShooter P", BoxConstants.kTopShooterP);
@@ -237,8 +226,8 @@ public class BoxSubsystem extends SubsystemBase {
   }*/
   public Command ShootNoteSubwooferNoRegurgitate() {
     return 
-    setShooterFeederCommand(oldarm::getArmState, false).withTimeout(1.75)
-    .andThen(setShooterFeederCommand(oldarm::getArmState, true).withTimeout(1.0))
+    setShooterFeederCommand(ArmSubsystem::getArmState, false).withTimeout(1.75)
+    .andThen(setShooterFeederCommand(ArmSubsystem::getArmState, true).withTimeout(1.0))
     .andThen(stopCommand());
   }
 
@@ -289,19 +278,23 @@ public class BoxSubsystem extends SubsystemBase {
   public void periodic() {
     if (topShooterP != SmartDashboard.getNumber("TopShooter P", 0)) {
       topShooterP = SmartDashboard.getNumber("TopShooter P", 0);
-      topShooterPIDController.setP(topShooterP);
+      shooterConfig.closedLoop.pid(topShooterP, 0.0, 0.0);
+      topShooterMotor.configure(shooterConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
     }
     if (bottomShooterP != SmartDashboard.getNumber("BottomShooter P", 0)) {
       bottomShooterP = SmartDashboard.getNumber("BottomShooter P", 0);
-      bottomShooterPIDController.setP(bottomShooterP);
+      shooterConfig.closedLoop.pid(bottomShooterP, 0.0, 0.0);
+      bottomShooterMotor.configure(shooterConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
     }
     if (topShooterFF != SmartDashboard.getNumber("Top Shooter FF", 0)) {
       topShooterFF = SmartDashboard.getNumber("Top Shooter FF", 0);
-      topShooterPIDController.setFF(topShooterFF);
+      shooterConfig.closedLoop.pidf(BoxConstants.kTopShooterP, 0, 0, topShooterFF);
+      bottomShooterMotor.configure(shooterConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
     }
     if (bottomShooterFF != SmartDashboard.getNumber("Bottom Shooter FF", 0)) {
       bottomShooterFF = SmartDashboard.getNumber("Bottom Shooter FF", 0);
-      bottomShooterPIDController.setFF(bottomShooterFF);
+      shooterConfig.closedLoop.pidf(BoxConstants.kBottomShooterP, 0, 0, bottomShooterFF);
+      bottomShooterMotor.configure(shooterConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
     }
 
     SmartDashboard.putNumber("topShooterMotor Velocity", topShooterEncoder.getVelocity());

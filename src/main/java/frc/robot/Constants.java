@@ -167,11 +167,11 @@ public final class Constants {
     // RPM error range
     public static final double kRPMErrorRange = 200; // We are using Math.abs so its +/- kRPMErrorRange
     // Intake motor speeds
-    public static final double kIntakeSpeed      = 1;
-    public static final double kSourceIntakeSpeed = 0.8;
-    public static final double kFeedSpeed        = 0.8;
-    public static final double kRegurgitateSpeed = -0.5;
-    public static final double kYeetSpeedIntake  = 1;
+    public static final double kIntakeSpeed      = -1;
+    public static final double kSourceIntakeSpeed = -0.8;
+    public static final double kFeedSpeed        = -0.8;
+    public static final double kRegurgitateSpeed = 0.5;
+    public static final double kYeetSpeedIntake  = -1;
     // Shooter delay
     public static final double kShooterDelay     = 1.25;
     // Regurgitate time
