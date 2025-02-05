@@ -110,7 +110,17 @@ public class RobotContainer {
         // reset the field-centric heading on left bumper press
         P1controller.leftBumper().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
 
-        P1controller.y().whileTrue(drivetrain.followPath("TestPath")).onFalse(drivetrain.stopCommand());
+        //P1controller.y().whileTrue(drivetrain.followPath("TestPath")).onFalse(drivetrain.stopCommand());
+        
+        
+        //--------------------------------- RILEY TESTING HERE
+
+
+        P1controller.y().whileTrue(drivetrain.getAutoPathCommand());
+
+
+        //------------------------------------
+        
         P1controller.x().whileTrue(drivetrain.pathFindThenFollowPath("TestPath")).onFalse(drivetrain.stopCommand());
         //P1controller.b().whileTrue(drivetrain.pathFindToPose(new Pose2d(9, 4, new Rotation2d(0)))).onFalse(drivetrain.stopCommand());
         

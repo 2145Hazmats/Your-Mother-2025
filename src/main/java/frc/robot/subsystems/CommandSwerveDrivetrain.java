@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import java.util.function.Supplier;
 
 import com.ctre.phoenix6.swerve.SwerveDrivetrainConstants;
+import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveModuleConstants;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.pathplanner.lib.auto.AutoBuilder;
@@ -22,12 +23,17 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.PIDCommand;
+import edu.wpi.first.wpilibj2.command.ProxyCommand;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.Constants;
 import frc.robot.Constants.DrivetrainConstants;
 import frc.robot.Constants.PathPlannerConstants;
 import frc.robot.Constants.PoseConstants;
+import frc.robot.generated.TunerConstants;
 import frc.robot.generated.TunerConstants.TunerSwerveDrivetrain;
+import static edu.wpi.first.units.Units.*;
 
 /**
  * Class that extends the Phoenix 6 SwerveDrivetrain class and implements
@@ -38,6 +44,17 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     // private Notifier m_simNotifier = null;
     // private double m_lastSimTime;
 
+
+    //------------------- STOLE FROM ROBOT CONTRAINER FOR THE 12 POSE GENERATION TEST CODE RILEY 
+private double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
+    private double MaxAngularRate = RotationsPerSecond.of(0.75).in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
+
+    private final SwerveRequest.FieldCentric yooooodrive = new SwerveRequest.FieldCentric()
+            .withDeadband(MaxSpeed * 0.05).withRotationalDeadband(MaxAngularRate * 0.05) // Add a 10% deadband changed to 5%
+            .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
+            
+
+//---------------------- STOLE FROM ROBOT CONTRAINER FOR THE 12 POSE GENERATION TEST CODE RILEY ^^^^^
     /* Blue alliance sees forward as 0 degrees (toward red alliance wall) */
     private static final Rotation2d kBlueAlliancePerspectiveRotation = Rotation2d.kZero;
     /* Red alliance sees forward as 180 degrees (toward blue alliance wall) */
@@ -163,6 +180,59 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
             return Commands.none();
         }
     }
+//----------------------------------------------- NEW PATH GEN CODE RILEY
+    public Command getAutoPathCommand() {
+           // Ensure reefIndex is within bounds (0-11)
+    int poseIndex = Math.floorMod(reefIndex, 12); // Keep within 0-11 
+    //WE DON"T NEED THIS RIGHT!!!!!! ^^^^
+
+    // Determine which side of the reef (0-5) the robot should drive to
+    int sideIndex = poseIndex / 2; // 12 indices mapped to 6 reef sides
+
+    // Determine which of the 2 final positions to fine-tune into (0 or 1)
+    int pidIndex = poseIndex % 2; // 0 = first spot, 1 = second spot
+    //The modulus operator (%) returns the remainder when poseIndex is divided by 2.
+    //This operation ensures that pidIndex will always be either 0 or 1, depending on whether poseIndex is even or odd.
+
+    // Select the correct Pose2d for the reef side
+    Pose2d targetPose = PoseConstants.RED_REEF_SIDE_POSES[sideIndex]; //HOW DO I ADD ALIANCE VARIETY HERE???????
+
+    // Generate the AutoBuilder pathfinding command to the reef side
+    Command pathfindingCommand = AutoBuilder.pathfindToPose(targetPose, pathFindingConstraints, 0.0);
+
+    // PID movement command to fine-tune to the exact scoring position
+    Command pidCommand = pidMoveToTarget(sideIndex, pidIndex);
+
+    // Return a **sequential command** that first drives to the reef side and then PIDs into the scoring spot
+    //return pathfindingCommand.andThen(pidCommand);
+    return new ProxyCommand( //NOT SURE ABOUT PROXYS BUT CHAT GPT SAID ITS GOOD
+        pathfindingCommand.andThen(pidCommand));
+    }
+
+    public Command pidMoveToTarget(int sideIndex, int pidIndex) {
+    Pose2d finalTargetPose = PoseConstants.RED_REEF_POSES[reefIndex];
+
+    return new RunCommand(() -> {
+        double xSpeed = PIDDriveToPointX(finalTargetPose.getX());
+        double ySpeed = PIDDriveToPointY(finalTargetPose.getY());
+        double rotationSpeed = PIDDriveToPointDEG(finalTargetPose.getRotation().getDegrees());
+
+        // Use applyRequest() to send PID values to the drivetrain
+        applyRequest(() -> 
+
+            yooooodrive.withVelocityX(xSpeed)  
+            .withVelocityY(ySpeed)  
+            .withRotationalRate(rotationSpeed)  
+        );
+}
+);
+}
+// ------------------------------------------------
+
+    //.until(() -> hasReachedTarget(finalTargetPose)) // Stops when we reach the target
+    //.withTimeout(2.0); // Safety timeout in case something goes wrong
+
+
 
     /**
      * Pathfinds to a given Pose2d.
@@ -255,15 +325,15 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
 
     public void poseIndexSwitch(boolean clockwise){
         if(clockwise == true) {
-            if (reefIndex == 0) { reefIndex = 11; }
-            else { reefIndex--; }
+            if (reefIndex == 0) { reefIndex = 11; } // Wrap around from 0 to 11
+            else { reefIndex--; } // Decrease index
         }
         else {
-            if(reefIndex == 11) { reefIndex = 0; }
-            else{ reefIndex++; }
+            if(reefIndex == 11) { reefIndex = 0; } // Wrap around from 11 to 0
+            else{ reefIndex++; } // Increase index
         }
 
-        indexSmartDashboardUpdate(reefIndex);
+        indexSmartDashboardUpdate(reefIndex); // Update the dashboard with the new index
     }
 
     private Pose2d getPose2d() {
