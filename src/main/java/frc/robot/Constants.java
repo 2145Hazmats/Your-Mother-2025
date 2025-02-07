@@ -25,7 +25,7 @@ public final class Constants {
 
   //ONLY AFFECTS DRIVE TO POSE, NOT AUTO PATHS
   public static class PathPlannerConstants {
-    public static final double MAX_VELOCITY_MPS = 5.450;
+    public static final double MAX_VELOCITY_MPS = 2.450; //5.450
     public static final double MAX_ACCELERATION_MPS = 3.6;
     public static final double MAX_ANGULAR_VELOCITY_RAD = Units.degreesToRadians(360);
     public static final double MAX_ANGULAR_ACCELERATION_RAD = Units.degreesToRadians(862);
@@ -42,13 +42,12 @@ public final class Constants {
   }
     
   public static class PoseConstants {
-    // TODO: Set accurate REEF_SIDE_POSES
-    public static final Pose2d REEF_SIDE_POSE_AB = new Pose2d(3, 4, new Rotation2d(0));
-    public static final Pose2d REEF_SIDE_POSE_CD = new Pose2d(3.75, 2.75, new Rotation2d(Units.degreesToRadians (240)));
-    public static final Pose2d REEF_SIDE_POSE_EF = new Pose2d(5.25, 2.75, new Rotation2d(Units.degreesToRadians (300)));
-    public static final Pose2d REEF_SIDE_POSE_GH = new Pose2d(5.9, 4, new Rotation2d(Units.degreesToRadians (0)));
-    public static final Pose2d REEF_SIDE_POSE_IJ = new Pose2d(5.4, 5.5, new Rotation2d(Units.degreesToRadians (60)));
-    public static final Pose2d REEF_SIDE_POSE_KL = new Pose2d(3.6, 5.5, new Rotation2d(Units.degreesToRadians (120)));
+    public static final Pose2d REEF_SIDE_POSE_AB = new Pose2d(3, 4, new Rotation2d(0)); //WORKS ON RED
+    public static final Pose2d REEF_SIDE_POSE_CD = new Pose2d(3.75, 2.75, new Rotation2d(Units.degreesToRadians (240))); // DOESN'T WORK ON RED
+    public static final Pose2d REEF_SIDE_POSE_EF = new Pose2d(5.25, 2.75, new Rotation2d(Units.degreesToRadians (300))); // DOESN'T WORK ON RED
+    public static final Pose2d REEF_SIDE_POSE_GH = new Pose2d(5.9, 4, new Rotation2d(Units.degreesToRadians (0))); //WORKS ON RED
+    public static final Pose2d REEF_SIDE_POSE_IJ = new Pose2d(5.4, 5.5, new Rotation2d(Units.degreesToRadians (60))); // DOESN'T WORK ON RED
+    public static final Pose2d REEF_SIDE_POSE_KL = new Pose2d(3.6, 5.5, new Rotation2d(Units.degreesToRadians (120))); // DOESN'T WORK ON RED
 
     public static final Pose2d[] BLUE_REEF_SIDE_POSES = {
       REEF_SIDE_POSE_AB, REEF_SIDE_POSE_CD, REEF_SIDE_POSE_EF,
@@ -63,7 +62,6 @@ public final class Constants {
       REEF_SIDE_POSE_CD.plus(RED_TRANSFORMATION), REEF_SIDE_POSE_EF.plus(RED_TRANSFORMATION)
     };
 
-    // TODO: Set accurate REEF_POSES
     public static final Pose2d REEF_POSE_A = new Pose2d(3.2, 4.1, new Rotation2d(0));
     public static final Pose2d REEF_POSE_B = new Pose2d(3.2, 3.87, new Rotation2d(0));
     public static final Pose2d REEF_POSE_C = new Pose2d(3.6, 3.1, new Rotation2d(0));

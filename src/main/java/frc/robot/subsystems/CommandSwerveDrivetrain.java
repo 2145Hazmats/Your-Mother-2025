@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
 
 import com.ctre.phoenix6.swerve.SwerveDrivetrainConstants;
@@ -17,6 +18,9 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.networktables.DoubleArrayPublisher;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -189,11 +193,38 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     public Command pathFindToReefRedIJ() { return AutoBuilder.pathfindToPose(PoseConstants.RED_REEF_SIDE_POSES[4], pathFindingConstraints, 0.0); }
     public Command pathFindToReefRedKL() { return AutoBuilder.pathfindToPose(PoseConstants.RED_REEF_SIDE_POSES[5], pathFindingConstraints, 0.0); }
     
-    public Command pathFindToAllTheReefs() {
-        return AutoBuilder.pathfindToPose(PoseConstants.BLUE_REEF_SIDE_POSES[0], pathFindingConstraints, 0)
-        .unless(() -> reefIndex != 0)
-        .andThen(AutoBuilder.pathfindToPose(PoseConstants.BLUE_REEF_SIDE_POSES[1], pathFindingConstraints, 0))
-        .onlyIf(() -> reefIndex == 1);
+    // Blue Side
+    public Command pathFindToAllTheReefsBlue() {
+        return AutoBuilder.pathfindToPose(
+        PoseConstants.BLUE_REEF_SIDE_POSES[0], pathFindingConstraints, 0).onlyIf(() -> reefIndex == 0)
+        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.BLUE_REEF_SIDE_POSES[0], pathFindingConstraints, 0).onlyIf(() -> reefIndex == 1))
+        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.BLUE_REEF_SIDE_POSES[1], pathFindingConstraints, 0).onlyIf(() -> reefIndex == 2))
+        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.BLUE_REEF_SIDE_POSES[1], pathFindingConstraints, 0).onlyIf(() -> reefIndex == 3))
+        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.BLUE_REEF_SIDE_POSES[2], pathFindingConstraints, 0).onlyIf(() -> reefIndex == 4))
+        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.BLUE_REEF_SIDE_POSES[2], pathFindingConstraints, 0).onlyIf(() -> reefIndex == 5))
+        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.BLUE_REEF_SIDE_POSES[3], pathFindingConstraints, 0).onlyIf(() -> reefIndex == 6))
+        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.BLUE_REEF_SIDE_POSES[3], pathFindingConstraints, 0).onlyIf(() -> reefIndex == 7))
+        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.BLUE_REEF_SIDE_POSES[4], pathFindingConstraints, 0).onlyIf(() -> reefIndex == 8))
+        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.BLUE_REEF_SIDE_POSES[4], pathFindingConstraints, 0).onlyIf(() -> reefIndex == 9))
+        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.BLUE_REEF_SIDE_POSES[5], pathFindingConstraints, 0).onlyIf(() -> reefIndex == 10))
+        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.BLUE_REEF_SIDE_POSES[5], pathFindingConstraints, 0).onlyIf(() -> reefIndex == 11));
+    }
+
+    // Red Side
+    public Command pathFindToAllTheReefsRed() {
+        return AutoBuilder.pathfindToPose(
+        PoseConstants.RED_REEF_SIDE_POSES[0], pathFindingConstraints, 0).onlyIf(() -> reefIndex == 0)
+        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.RED_REEF_SIDE_POSES[0], pathFindingConstraints, 0).onlyIf(() -> reefIndex == 1))
+        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.RED_REEF_SIDE_POSES[1], pathFindingConstraints, 0).onlyIf(() -> reefIndex == 2))
+        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.RED_REEF_SIDE_POSES[1], pathFindingConstraints, 0).onlyIf(() -> reefIndex == 3))
+        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.RED_REEF_SIDE_POSES[2], pathFindingConstraints, 0).onlyIf(() -> reefIndex == 4))
+        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.RED_REEF_SIDE_POSES[2], pathFindingConstraints, 0).onlyIf(() -> reefIndex == 5))
+        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.RED_REEF_SIDE_POSES[3], pathFindingConstraints, 0).onlyIf(() -> reefIndex == 6))
+        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.RED_REEF_SIDE_POSES[3], pathFindingConstraints, 0).onlyIf(() -> reefIndex == 7))
+        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.RED_REEF_SIDE_POSES[4], pathFindingConstraints, 0).onlyIf(() -> reefIndex == 8))
+        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.RED_REEF_SIDE_POSES[4], pathFindingConstraints, 0).onlyIf(() -> reefIndex == 9))
+        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.RED_REEF_SIDE_POSES[5], pathFindingConstraints, 0).onlyIf(() -> reefIndex == 10))
+        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.RED_REEF_SIDE_POSES[5], pathFindingConstraints, 0).onlyIf(() -> reefIndex == 11));
     }
 
     // Stops the current CommandSwerveDrivetrain command
@@ -212,6 +243,17 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         return DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red;
     }
 
+    /**
+     * Returns true if the alliance is blue.
+     * Returns false if the alliance is red.
+     * Returns false if no alliance is found.
+     *
+     * @return boolean
+     */
+    public boolean isAllianceBlue() {
+        return DriverStation.getAlliance().orElse(Alliance.Red) == Alliance.Blue;
+    }
+
     // Command to face towards the reef
     private PIDController pidfacereef = new PIDController(6, 0, 0); // kP * radians
     public double angularSpeedToFaceReef() {
@@ -227,8 +269,14 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     public void indexSmartDashboardUpdate(int light) {
         // Updates SmartDashboard Numbers
         SmartDashboard.putNumber("Reef Index", (double) reefIndex);
-        SmartDashboard.putNumber("Reef Pose2dX", Constants.PoseConstants.BLUE_REEF_POSES[reefIndex].getX());
-        SmartDashboard.putNumber("Reef Pose2dY", Constants.PoseConstants.BLUE_REEF_POSES[reefIndex].getY());
+
+        if (isAllianceRed()) {
+            SmartDashboard.putNumber("Reef Pose X", PoseConstants.RED_REEF_POSES[reefIndex].getX());
+            SmartDashboard.putNumber("Reef Pose Y", PoseConstants.RED_REEF_POSES[reefIndex].getY());
+        } else {
+            SmartDashboard.putNumber("Reef Pose X", Constants.PoseConstants.BLUE_REEF_POSES[reefIndex].getX());
+            SmartDashboard.putNumber("Reef Pose Y", Constants.PoseConstants.BLUE_REEF_POSES[reefIndex].getY());
+        }
         
         // Resets SmartDashboard Reef Interface Circle
         SmartDashboard.putBoolean("ReefPos0", false); SmartDashboard.putBoolean("ReefPos1", false);
@@ -239,18 +287,18 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         SmartDashboard.putBoolean("ReefPos10", false); SmartDashboard.putBoolean("ReefPos11", false);
 
         // Finds our index value and highlights to correct boolean
-        if (light == 0) {SmartDashboard.putBoolean("ReefPos0", true);}
-        else if (light == 1) {SmartDashboard.putBoolean("ReefPos1", true);}
-        else if (light == 2) {SmartDashboard.putBoolean("ReefPos2", true);}
-        else if (light == 3) {SmartDashboard.putBoolean("ReefPos3", true);}
-        else if (light == 4) {SmartDashboard.putBoolean("ReefPos4", true);}
-        else if (light == 5) {SmartDashboard.putBoolean("ReefPos5", true);}
-        else if (light == 6) {SmartDashboard.putBoolean("ReefPos6", true);}
-        else if (light == 7) {SmartDashboard.putBoolean("ReefPos7", true);}
-        else if (light == 8) {SmartDashboard.putBoolean("ReefPos8", true);}
-        else if (light == 9) {SmartDashboard.putBoolean("ReefPos9", true);}
-        else if (light == 10) {SmartDashboard.putBoolean("ReefPos10", true);}
-        else {SmartDashboard.putBoolean("ReefPos11", true);}
+        if (light == 0) {SmartDashboard.putBoolean("ReefPos0", true); SmartDashboard.putNumber("Red Reef Side X", Constants.PoseConstants.RED_REEF_POSES[0].getX()); SmartDashboard.putNumber("Red Reef Side Y", Constants.PoseConstants.RED_REEF_POSES[0].getY());}
+        else if (light == 1) {SmartDashboard.putBoolean("ReefPos1", true); SmartDashboard.putNumber("Red Reef Side X", Constants.PoseConstants.RED_REEF_POSES[0].getX()); SmartDashboard.putNumber("Red Reef Side Y", Constants.PoseConstants.RED_REEF_POSES[0].getY());}
+        else if (light == 2) {SmartDashboard.putBoolean("ReefPos2", true); SmartDashboard.putNumber("Red Reef Side X", Constants.PoseConstants.RED_REEF_POSES[1].getX()); SmartDashboard.putNumber("Red Reef Side Y", Constants.PoseConstants.RED_REEF_POSES[1].getY());}
+        else if (light == 3) {SmartDashboard.putBoolean("ReefPos3", true); SmartDashboard.putNumber("Red Reef Side X", Constants.PoseConstants.RED_REEF_POSES[1].getX()); SmartDashboard.putNumber("Red Reef Side Y", Constants.PoseConstants.RED_REEF_POSES[1].getY());}
+        else if (light == 4) {SmartDashboard.putBoolean("ReefPos4", true); SmartDashboard.putNumber("Red Reef Side X", Constants.PoseConstants.RED_REEF_POSES[2].getX()); SmartDashboard.putNumber("Red Reef Side Y", Constants.PoseConstants.RED_REEF_POSES[2].getY());}
+        else if (light == 5) {SmartDashboard.putBoolean("ReefPos5", true); SmartDashboard.putNumber("Red Reef Side X", Constants.PoseConstants.RED_REEF_POSES[2].getX()); SmartDashboard.putNumber("Red Reef Side Y", Constants.PoseConstants.RED_REEF_POSES[2].getY());}
+        else if (light == 6) {SmartDashboard.putBoolean("ReefPos6", true); SmartDashboard.putNumber("Red Reef Side X", Constants.PoseConstants.RED_REEF_POSES[3].getX()); SmartDashboard.putNumber("Red Reef Side Y", Constants.PoseConstants.RED_REEF_POSES[3].getY());}
+        else if (light == 7) {SmartDashboard.putBoolean("ReefPos7", true); SmartDashboard.putNumber("Red Reef Side X", Constants.PoseConstants.RED_REEF_POSES[3].getX()); SmartDashboard.putNumber("Red Reef Side Y", Constants.PoseConstants.RED_REEF_POSES[3].getY());}
+        else if (light == 8) {SmartDashboard.putBoolean("ReefPos8", true); SmartDashboard.putNumber("Red Reef Side X", Constants.PoseConstants.RED_REEF_POSES[4].getX()); SmartDashboard.putNumber("Red Reef Side Y", Constants.PoseConstants.RED_REEF_POSES[4].getY());}
+        else if (light == 9) {SmartDashboard.putBoolean("ReefPos9", true); SmartDashboard.putNumber("Red Reef Side X", Constants.PoseConstants.RED_REEF_POSES[4].getX()); SmartDashboard.putNumber("Red Reef Side Y", Constants.PoseConstants.RED_REEF_POSES[4].getY());}
+        else if (light == 10) {SmartDashboard.putBoolean("ReefPos10", true); SmartDashboard.putNumber("Red Reef Side X", Constants.PoseConstants.RED_REEF_POSES[5].getX()); SmartDashboard.putNumber("Red Reef Side Y", Constants.PoseConstants.RED_REEF_POSES[5].getY());}
+        else {SmartDashboard.putBoolean("ReefPos11", true); SmartDashboard.putNumber("Red Reef Side X", Constants.PoseConstants.RED_REEF_POSES[5].getX()); SmartDashboard.putNumber("Red Reef Side Y", Constants.PoseConstants.RED_REEF_POSES[5].getY());}
     }
 
     public void poseIndexSwitch(boolean clockwise){
@@ -266,11 +314,15 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         indexSmartDashboardUpdate(reefIndex);
     }
 
-    private Pose2d getPose2d() {
+    public int getReefIndex() {
+        return this.reefIndex;
+    }
+
+    public Pose2d getPose2d() {
         return this.getState().Pose;
     }
 
-    private ChassisSpeeds getChassisSpeeds() {
+    public ChassisSpeeds getChassisSpeeds() {
         return this.getState().Speeds;
     }
     
@@ -300,14 +352,19 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         return SpeedsForPose;
     }
 
+    // private final NetworkTableInstance inst = NetworkTableInstance.getDefault();
+    // private final NetworkTable table = inst.getTable("Pose");
+    // private final DoubleArrayPublisher fieldPub = table.getDoubleArrayTopic("robotPose").publish();
     @Override
     public void periodic() {
+        SmartDashboard.putNumber("Blue Reef PID X", PIDDriveToPointX(PoseConstants.BLUE_REEF_POSES[reefIndex].getX()));
+        SmartDashboard.putNumber("Blue Reef PID Y", PIDDriveToPointY(PoseConstants.BLUE_REEF_POSES[reefIndex].getY()));
+        SmartDashboard.putNumber("Blue Reef PID Rot", angularSpeedToFaceReef());
+
         SmartDashboard.putNumber("Red Reef PID X", PIDDriveToPointX(PoseConstants.RED_REEF_POSES[reefIndex].getX()));
         SmartDashboard.putNumber("Red Reef PID Y", PIDDriveToPointY(PoseConstants.RED_REEF_POSES[reefIndex].getY()));
         SmartDashboard.putNumber("Red Reef PID Rot", angularSpeedToFaceReef());
 
-        SmartDashboard.putNumber("Red Reef Desired X", PoseConstants.RED_REEF_POSES[reefIndex].getX());
-        SmartDashboard.putNumber("Red Reef Desired Y", PoseConstants.RED_REEF_POSES[reefIndex].getY());
         // Periodically try to apply the operator perspective. If we haven't applied the operator perspective before,
         // then we should apply it regardless of DS state. This allows us to correct the perspective in case the robot
         // code restarts mid-match. Otherwise, only check and apply the operator perspective if the DS is disabled.
