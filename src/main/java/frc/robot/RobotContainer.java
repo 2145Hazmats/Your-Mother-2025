@@ -79,7 +79,7 @@ public class RobotContainer {
             )
         );
 
-        P1controller.y().whileTrue(drivetrain.applyRequest(() ->
+        P1controller.a().whileTrue(drivetrain.applyRequest(() ->
         drive.withVelocityX(-P1controller.getLeftY() * MaxSpeed) // Drive forward with negative Y (forward)
             .withVelocityY(-P1controller.getLeftX() * MaxSpeed) // Drive left with negative X (left)
             .withRotationalRate(drivetrain.angularSpeedToFaceReef()) // Drive counterclockwise with negative X (left)
@@ -119,27 +119,7 @@ public class RobotContainer {
         P1controller.leftBumper().onTrue(Commands.runOnce(() -> drivetrain.poseIndexSwitch(false)));
         P1controller.rightBumper().onTrue(Commands.runOnce(() -> drivetrain.poseIndexSwitch(true)));
 
-        // you can call .andThen() on autobuilder to call a command when the first one ends (bot is near the setpoint)
-        P1controller.povUp().whileTrue(drivetrain.pathFindToReefRedAB().andThen(drivetrain.applyRequest(() ->
-        drive.withVelocityX(drivetrain.PIDDriveToPointX(PoseConstants.RED_REEF_POSES[0].getX()) * MaxSpeed)
-            .withVelocityY(drivetrain.PIDDriveToPointY(PoseConstants.RED_REEF_POSES[0].getY()) * MaxSpeed)
-            .withRotationalRate(drivetrain.angularSpeedToFaceReef()))));
-        
-        P1controller.povRight().whileTrue(drivetrain.pathFindToReefRedCD().andThen(drivetrain.applyRequest(() ->
-        drive.withVelocityX(drivetrain.PIDDriveToPointX(PoseConstants.RED_REEF_POSES[2].getX()) * MaxSpeed)
-            .withVelocityY(drivetrain.PIDDriveToPointY(PoseConstants.RED_REEF_POSES[2].getY()) * MaxSpeed)
-            .withRotationalRate(drivetrain.angularSpeedToFaceReef()))));
-
-        P1controller.povLeft().whileTrue(drivetrain.pathFindToReefRedEF().andThen(drivetrain.applyRequest(() ->
-        drive.withVelocityX(drivetrain.PIDDriveToPointX(PoseConstants.RED_REEF_POSES[4].getX()) * MaxSpeed)
-            .withVelocityY(drivetrain.PIDDriveToPointY(PoseConstants.RED_REEF_POSES[4].getY()) * MaxSpeed)
-            .withRotationalRate(drivetrain.angularSpeedToFaceReef()))));
-
-        P1controller.povDown().whileTrue(drivetrain.pathFindToReefRedGH().andThen(drivetrain.applyRequest(() ->
-        drive.withVelocityX(drivetrain.PIDDriveToPointX(PoseConstants.RED_REEF_POSES[6].getX()) * MaxSpeed)
-            .withVelocityY(drivetrain.PIDDriveToPointY(PoseConstants.RED_REEF_POSES[6].getY()) * MaxSpeed)
-            .withRotationalRate(drivetrain.angularSpeedToFaceReef()))));
-
+      
         // RED SIDE REEF POSE METHOD
         P1controller.b().and(drivetrain::isAllianceRed).whileTrue(drivetrain.pathFindToAllTheReefsRed().andThen(drivetrain.applyRequest(() ->
         drive.withVelocityX(drivetrain.PIDDriveToPointX(PoseConstants.RED_REEF_POSES[drivetrain.getReefIndex()].getX()) * MaxSpeed)
@@ -154,6 +134,51 @@ public class RobotContainer {
             .withRotationalRate(drivetrain.angularSpeedToFaceReef())
         )));
 
+        // BLUE SIDE LEFT CORAL STATION
+        P1controller.leftTrigger().and(drivetrain::isAllianceBlue).whileTrue(drivetrain.pathFindToLeftBlueCoralStation().andThen(drivetrain.applyRequest(() ->
+        drive.withVelocityX(drivetrain.PIDDriveToPointX(PoseConstants.CORAL_STATION_LEFT_BLUE_POSE.getX()) * MaxSpeed)
+            .withVelocityY(drivetrain.PIDDriveToPointY(PoseConstants.CORAL_STATION_LEFT_BLUE_POSE.getY()) * MaxSpeed)
+            .withRotationalRate(drivetrain.PIDDriveToPointDEG(PoseConstants.CORAL_STATION_LEFT_BLUE_POSE.getRotation().getDegrees()))
+        )));
+        
+        // BLUE SIDE RIGHT CORAL STATION
+        P1controller.rightTrigger().and(drivetrain::isAllianceBlue).whileTrue(drivetrain.pathFindToRightBlueCoralStation().andThen(drivetrain.applyRequest(() ->
+        drive.withVelocityX(drivetrain.PIDDriveToPointX(PoseConstants.CORAL_STATION_RIGHT_BLUE_POSE.getX()) * MaxSpeed)
+            .withVelocityY(drivetrain.PIDDriveToPointY(PoseConstants.CORAL_STATION_RIGHT_BLUE_POSE.getY()) * MaxSpeed)
+            .withRotationalRate(drivetrain.PIDDriveToPointDEG(PoseConstants.CORAL_STATION_RIGHT_BLUE_POSE.getRotation().getDegrees()))
+        )));
+
+        // RED SIDE LEFT CORAL STATION
+        P1controller.leftTrigger().and(drivetrain::isAllianceRed).whileTrue(drivetrain.pathFindToLeftRedCoralStation().andThen(drivetrain.applyRequest(() ->
+        drive.withVelocityX(drivetrain.PIDDriveToPointX(PoseConstants.CORAL_STATION_LEFT_RED_POSE.getX()) * MaxSpeed)
+            .withVelocityY(drivetrain.PIDDriveToPointY(PoseConstants.CORAL_STATION_LEFT_RED_POSE.getY()) * MaxSpeed)
+            .withRotationalRate(drivetrain.PIDDriveToPointDEG(PoseConstants.CORAL_STATION_LEFT_RED_POSE.getRotation().getDegrees()))
+        )));
+
+        // RED SIDE RIGHT CORAL STATION
+        P1controller.rightTrigger().and(drivetrain::isAllianceRed).whileTrue(drivetrain.pathFindToRightRedCoralStation().andThen(drivetrain.applyRequest(() ->
+        drive.withVelocityX(drivetrain.PIDDriveToPointX(PoseConstants.CORAL_STATION_RIGHT_RED_POSE.getX()) * MaxSpeed)
+            .withVelocityY(drivetrain.PIDDriveToPointY(PoseConstants.CORAL_STATION_RIGHT_RED_POSE.getY()) * MaxSpeed)
+            .withRotationalRate(drivetrain.PIDDriveToPointDEG(PoseConstants.CORAL_STATION_RIGHT_RED_POSE.getRotation().getDegrees()))
+        )));
+
+        P1controller.povUp().whileTrue(drivetrain.applyRequest(() ->
+        drive.withVelocityX(-P1controller.getLeftY() * MaxSpeed) // Drive forward with negative Y (forward)
+            .withVelocityY(-P1controller.getLeftX() * MaxSpeed) // Drive left with negative X (left)
+            .withRotationalRate(drivetrain.angularSpeedToFaceLeftCoralStation()) 
+        ));
+
+        P1controller.povDown().whileTrue(drivetrain.applyRequest(() ->
+        drive.withVelocityX(-P1controller.getLeftY() * MaxSpeed) // Drive forward with negative Y (forward)
+            .withVelocityY(-P1controller.getLeftX() * MaxSpeed) // Drive left with negative X (left)
+            .withRotationalRate(drivetrain.angularSpeedToFaceRightCoralStation()) 
+        ));
+
+        P1controller.y().whileTrue(drivetrain.applyRequest(() ->
+        drive.withVelocityX(-P1controller.getLeftY() * MaxSpeed) // Drive forward with negative Y (forward)
+            .withVelocityY(-P1controller.getLeftX() * MaxSpeed) // Drive left with negative X (left)
+            .withRotationalRate(drivetrain.angularSpeedToFaceNet()) 
+        ));
 
         // Intakes note into robot
         // P2controller.leftBumper().whileTrue(m_BoxSubsystem.setIntakeMotorCommandThenStop(BoxConstants.kIntakeSpeed));

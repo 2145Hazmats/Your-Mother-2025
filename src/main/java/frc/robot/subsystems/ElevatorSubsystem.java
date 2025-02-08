@@ -11,6 +11,8 @@ public class ElevatorSubsystem extends SubsystemBase{
     private TalonFX motorFollower = new TalonFX(elevatorConstants.motorFollowerID);
 
     private TalonFXConfiguration config = new TalonFXConfiguration();
+
+    public int levelIndex = 0;
     
       /* Constructor */
     public ElevatorSubsystem() {
@@ -22,6 +24,17 @@ public class ElevatorSubsystem extends SubsystemBase{
       // Sets Follower to follow leader
       motorFollower.setControl(new Follower(elevatorConstants.motorLeaderID, false));
     }
+
+    public void levelIndexSwitch(boolean up){
+      if(up == true) {
+          if (levelIndex == 0) { levelIndex = 3; }
+          else { levelIndex--; }
+      }
+      else {
+          if(levelIndex == 3) { levelIndex = 0; }
+          else{ levelIndex++; }
+      }
+  }
 
      @Override
     public void periodic() {

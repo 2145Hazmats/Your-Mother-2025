@@ -18,6 +18,7 @@ public final class Constants {
     // PID Constants
     public static final double PID_XY = 0.55;
     public static final double PID_DEGREE = 0.008;
+    public static final double PID_RAD = 6;
 
     // Feed Forward Constant
     public static final double FEEDFORWARD_CONSTANT = 0.022;
@@ -100,7 +101,29 @@ public final class Constants {
       REEF_POSE_A.plus(RED_TRANSFORMATION), REEF_POSE_B.plus(RED_TRANSFORMATION), REEF_POSE_C.plus(RED_TRANSFORMATION),
       REEF_POSE_D.plus(RED_TRANSFORMATION), REEF_POSE_E.plus(RED_TRANSFORMATION), REEF_POSE_F.plus(RED_TRANSFORMATION)
     };
-}
+
+    public static final double BLUE_CORAL_STATION_DEG = 126;
+    public static final double RED_TRANSFORMATION_STATION_X = 15.1;
+    public static final double RED_CORAL_STATION_DEG = 54;
+
+    public static final Pose2d CORAL_STATION_LEFT_BLUE_POSE = new Pose2d(1.175, 6.926, new Rotation2d(Units.degreesToRadians(BLUE_CORAL_STATION_DEG)));
+    public static final Pose2d CORAL_STATION_RIGHT_BLUE_POSE = new Pose2d(1.175, 1.1, new Rotation2d(Units.degreesToRadians(-BLUE_CORAL_STATION_DEG)));
+
+    public static final Pose2d CORAL_STATION_LEFT_RED_POSE = new Pose2d(
+      CORAL_STATION_RIGHT_BLUE_POSE.getX() + RED_TRANSFORMATION_STATION_X,
+      CORAL_STATION_RIGHT_BLUE_POSE.getY(),
+      //new Rotation2d() 
+      new Rotation2d(Units.degreesToRadians(-RED_CORAL_STATION_DEG))
+    );
+    public static final Pose2d CORAL_STATION_RIGHT_RED_POSE = new Pose2d(
+      CORAL_STATION_LEFT_BLUE_POSE.getX() + RED_TRANSFORMATION_STATION_X,
+      CORAL_STATION_LEFT_BLUE_POSE.getY(),
+      new Rotation2d(Units.degreesToRadians(RED_CORAL_STATION_DEG)) //new Rotation2d(Units.degreesToRadians(CORAL_STATION_LEFT_BLUE_POSE.getRotation().getDegrees() - RED_TRANSFORMATION_STATION_DEG))
+    );
+
+    
+  }
+  
 
   // WE STOLE LITERALLY ALL OF THIS, BRUH
   

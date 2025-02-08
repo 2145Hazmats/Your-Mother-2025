@@ -18,6 +18,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.DoubleArrayPublisher;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -54,6 +55,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     private final PIDController pidControllerX = new PIDController(DrivetrainConstants.PID_XY, 0, 0);
     private final PIDController pidControllerY = new PIDController(DrivetrainConstants.PID_XY, 0, 0);
     private final PIDController pidControllerDeg = new PIDController(DrivetrainConstants.PID_DEGREE, 0, 0);
+    private final PIDController pidFaceRad = new PIDController(DrivetrainConstants.PID_RAD, 0, 0); // kP * radians
 
     private int reefIndex = 0;
 
@@ -168,16 +170,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         }
     }
 
-    /**
-     * Pathfinds to a given Pose2d.
-     * This avoids field elements and uses pathFindingConstraints.
-     *
-     * @param pose desired Pose2d
-     * @return AutoBuilder command
-     */
-    public Command pathFindToPose(Pose2d pose) {
-        return AutoBuilder.pathfindToPose(pose, pathFindingConstraints, 0.0);
-    }
+
 
     public Command pathFindToReefBlueAB() { return AutoBuilder.pathfindToPose(PoseConstants.BLUE_REEF_SIDE_POSES[0], pathFindingConstraints, 0.0); }
     public Command pathFindToReefBlueCD() { return AutoBuilder.pathfindToPose(PoseConstants.BLUE_REEF_SIDE_POSES[1], pathFindingConstraints, 0.0); }
@@ -227,6 +220,51 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.RED_REEF_SIDE_POSES[5], pathFindingConstraints, 0).onlyIf(() -> reefIndex == 11));
     }
 
+    public Command pathFindToLeftBlueCoralStation() {
+        return AutoBuilder.pathfindToPose(PoseConstants.CORAL_STATION_LEFT_BLUE_POSE, pathFindingConstraints, 0);
+    }
+
+    public Command pathFindToRightBlueCoralStation() {
+        return AutoBuilder.pathfindToPose(PoseConstants.CORAL_STATION_RIGHT_BLUE_POSE, pathFindingConstraints, 0);
+    }
+    
+    public Command pathFindToLeftRedCoralStation() {
+        return AutoBuilder.pathfindToPose(PoseConstants.CORAL_STATION_LEFT_RED_POSE, pathFindingConstraints, 0);
+    }
+    
+    public Command pathFindToRightRedCoralStation() {
+        return AutoBuilder.pathfindToPose(PoseConstants.CORAL_STATION_RIGHT_RED_POSE, pathFindingConstraints, 0);
+    }
+
+    public double angularSpeedToFaceLeftCoralStation() {
+        double angle = PoseConstants.BLUE_CORAL_STATION_DEG; // For Blue Alliance
+        if (isAllianceRed()) { angle = -PoseConstants.RED_CORAL_STATION_DEG; } // For Red Alliance
+        angle = Units.degreesToRadians(angle); // convert to radians
+
+        pidFaceRad.enableContinuousInput(-Math.PI, Math.PI);
+        SmartDashboard.putNumber("ReefCenterSetpoint", angle);
+        return pidFaceRad.calculate(this.getState().Pose.getRotation().getRadians(), angle); // messes up with angle jumps from [-179] -> [179]
+    }
+
+    public double angularSpeedToFaceRightCoralStation() {
+        double angle = -PoseConstants.BLUE_CORAL_STATION_DEG; // For Blue Alliance
+        if (isAllianceRed()) { angle = PoseConstants.RED_CORAL_STATION_DEG; } // For Red Alliance
+        angle = Units.degreesToRadians(angle); // convert to radians
+
+        pidFaceRad.enableContinuousInput(-Math.PI, Math.PI);
+        SmartDashboard.putNumber("ReefCenterSetpoint", angle);
+        return pidFaceRad.calculate(this.getState().Pose.getRotation().getRadians(), angle); // messes up with angle jumps from [-179] -> [179]
+    }
+
+    public double angularSpeedToFaceNet() {
+        double angle = 0; // For Blue Alliance
+        if (isAllianceRed()) { angle = 180; } // For Red Alliance
+        angle = Units.degreesToRadians(angle); // convert to radians
+
+        pidFaceRad.enableContinuousInput(-Math.PI, Math.PI);
+        SmartDashboard.putNumber("ReefCenterSetpoint", angle);
+        return pidFaceRad.calculate(this.getState().Pose.getRotation().getRadians(), angle); // messes up with angle jumps from [-179] -> [179]
+    }
     // Stops the current CommandSwerveDrivetrain command
     public Command stopCommand() {
         return Commands.none();
@@ -255,15 +293,14 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     }
 
     // Command to face towards the reef
-    private PIDController pidfacereef = new PIDController(6, 0, 0); // kP * radians
     public double angularSpeedToFaceReef() {
         double TriangleY = this.getState().Pose.getY() - 4;
         double TriangleX = this.getState().Pose.getX() - 4.5; // For Blue Alliance
         if (isAllianceRed()) { TriangleX = this.getState().Pose.getX() - 13; } // For Red Alliance
         double angle = Math.atan2(TriangleY, TriangleX); // returns radians
-        pidfacereef.enableContinuousInput(-Math.PI, Math.PI);
+        pidFaceRad.enableContinuousInput(-Math.PI, Math.PI);
         SmartDashboard.putNumber("ReefCenterSetpoint", angle);
-        return pidfacereef.calculate(this.getState().Pose.getRotation().getRadians(), angle); // messes up with angle jumps from [-179] -> [179]
+        return pidFaceRad.calculate(this.getState().Pose.getRotation().getRadians(), angle); // messes up with angle jumps from [-179] -> [179]
     }
 
     public void indexSmartDashboardUpdate(int light) {
