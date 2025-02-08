@@ -18,7 +18,6 @@ import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.VecBuilder;
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
@@ -34,19 +33,27 @@ public class CameraSubsystem extends SubsystemBase {
   private final Field2d visionField2d = new Field2d();
   private final Field2d generalField = new Field2d();
   private PhotonCamera centralCamera = new PhotonCamera("Middle_Arducam_OV9281");
+  private PhotonCamera leftCamera = new PhotonCamera("Left_Arducam_OV9281");
   private PhotonPipelineResult centralResult = null;
+  private PhotonPipelineResult leftResult = null;
   private PhotonTrackedTarget centralTarget = null;
-  private final PIDController pidControllerX = new PIDController(1.65, 0, 0);//.3
-  private final PIDController pidControllerY = new PIDController(1.65, 0, 0);//.3
-  private final PIDController pidControllerRot = new PIDController(0.01, 0, 0);
+
   // PhotonVision objects used in vision localization
   private PhotonPoseEstimator centralPoseEstimator = new PhotonPoseEstimator(
     AprilTagFieldLayout.loadField(AprilTagFields.k2025Reefscape),
     //Calculates a new robot position estimate by combining all visible tag corners.
     PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR,
-    Constants.PhotonVisionConstants.ROBOT_TO_CENTRAL_CAMERA);
+    Constants.PhotonVisionConstants.ROBOT_TO_CENTRAL_CAMERA
+  );
+  private PhotonPoseEstimator leftPoseEstimator = new PhotonPoseEstimator(
+    AprilTagFieldLayout.loadField(AprilTagFields.k2025Reefscape),
+    //Calculates a new robot position estimate by combining all visible tag corners.
+    PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR,
+    Constants.PhotonVisionConstants.ROBOT_TO_LEFT_CAMERA
+  );
 
-  private EstimatedRobotPose centralLatestRobotPose = null;
+  private EstimatedRobotPose centralEstimatedRobotPose = null;
+  private EstimatedRobotPose leftEstimatedRobotPose = null;
 
   private Matrix<N3, N1> curStdDevs;
   // The standard deviations of our vision estimated poses, which affect correction rate
@@ -141,8 +148,9 @@ public class CameraSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     centralResult = centralCamera.getLatestResult();
-    SmartDashboard.putBoolean("CameraTrue", centralCamera.getLatestResult().hasTargets());
-    
+    leftResult = leftCamera.getLatestResult();
+    SmartDashboard.putBoolean("CameraMidTrue", centralCamera.getLatestResult().hasTargets());
+    SmartDashboard.putBoolean("CameraLeftTrue", leftCamera.getLatestResult().hasTargets());
     // Angle off tag for lining up with one tag
     // if (centralCamera.getLatestResult().hasTargets()) {
     //   SmartDashboard.putNumber("CCYaw", centralCamera.getLatestResult().getBestTarget().getYaw());
@@ -155,18 +163,33 @@ public class CameraSubsystem extends SubsystemBase {
     // Try to update "latestRobotPose" with a new "EstimatedRobotPose" using a "PhotonPoseEstimator"
     // If "latestRobotPose" is updated, call addVisionPose2d() and pass the updated "latestRobotPose" as an argument
     try {
-      centralLatestRobotPose = centralPoseEstimator.update(centralResult).get();
+      centralEstimatedRobotPose = centralPoseEstimator.update(centralResult).get();
       updateEstimationStdDevs(centralPoseEstimator.update(centralResult), centralCamera.getAllUnreadResults().get(0).getTargets());
-      addVisionPose2d(centralLatestRobotPose.estimatedPose.toPose2d(), Utils.getCurrentTimeSeconds()); //centralLatestRobotPose.timestampSeconds);
-      soloVisionField.setRobotPose(centralLatestRobotPose.estimatedPose.toPose2d());
-      SmartDashboard.putNumber("Vision X", centralLatestRobotPose.estimatedPose.toPose2d().getX());
-      SmartDashboard.putNumber("Vision Y", centralLatestRobotPose.estimatedPose.toPose2d().getY());
-      SmartDashboard.putNumber("Vision Rot", centralLatestRobotPose.estimatedPose.toPose2d().getRotation().getDegrees());
+      addVisionPose2d(centralEstimatedRobotPose.estimatedPose.toPose2d(), Utils.getCurrentTimeSeconds());
+      soloVisionField.setRobotPose(centralEstimatedRobotPose.estimatedPose.toPose2d());
+      SmartDashboard.putNumber("Central Vision X", centralEstimatedRobotPose.estimatedPose.toPose2d().getX());
+      SmartDashboard.putNumber("Central Vision Y", centralEstimatedRobotPose.estimatedPose.toPose2d().getY());
+      SmartDashboard.putNumber("Central Vision Rot", centralEstimatedRobotPose.estimatedPose.toPose2d().getRotation().getDegrees());
       SmartDashboard.putBoolean("middleLatestRobotPose Update", true);
     } catch (Exception e) {
-      centralLatestRobotPose = null;
+      centralEstimatedRobotPose = null;
       SmartDashboard.putBoolean("middleLatestRobotPose Update", false);
     }
+
+    try {
+      leftEstimatedRobotPose = leftPoseEstimator.update(leftResult).get();
+      updateEstimationStdDevs(leftPoseEstimator.update(leftResult), leftCamera.getAllUnreadResults().get(0).getTargets());
+      addVisionPose2d(leftEstimatedRobotPose.estimatedPose.toPose2d(), Utils.getCurrentTimeSeconds());
+      soloVisionField.setRobotPose(leftEstimatedRobotPose.estimatedPose.toPose2d());
+      SmartDashboard.putNumber("Left Vision X", leftEstimatedRobotPose.estimatedPose.toPose2d().getX());
+      SmartDashboard.putNumber("Left Vision Y", leftEstimatedRobotPose.estimatedPose.toPose2d().getY());
+      SmartDashboard.putNumber("Left Vision Rot", leftEstimatedRobotPose.estimatedPose.toPose2d().getRotation().getDegrees());
+      SmartDashboard.putBoolean("leftLatestRobotPose Update", true);
+    } catch (Exception e) {
+      leftEstimatedRobotPose = null;
+      SmartDashboard.putBoolean("leftLatestRobotPose Update", false);
+    }
+
 
     SmartDashboard.putNumber("charizardsSkateboard X", charizardsSkateboard.getState().Pose.getX());
     SmartDashboard.putNumber("charizardsSkateboard Y", charizardsSkateboard.getState().Pose.getY());

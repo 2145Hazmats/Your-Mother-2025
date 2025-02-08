@@ -9,6 +9,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Transform3d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
 
 /** Add your docs here. */
@@ -33,33 +34,44 @@ public final class Constants {
   }
 
   public static class PhotonVisionConstants {
-  //Transform3d from the center of the robot to the camera mount position (ie, robot ➔ camera) in the Robot Coordinate System
-  //The Cameras are mounter on the back of the value so all transform signs are flipped (not rotations). + ➔ -
-  
-  // TODO : Fix
-  public static final Transform3d ROBOT_TO_CENTRAL_CAMERA =
-      new Transform3d(Units.inchesToMeters(-12), 0, -Units.inchesToMeters(7.75), new Rotation3d(0, 180, 0)); //12 inches
-  }
+    //Transform3d from the center of the robot to the camera mount position (ie, robot ➔ camera) in the Robot Coordinate System
+    //The Cameras are mounted on the back of the value so all transform signs are flipped (not rotations). + ➔ -
     
+    // TODO : Fix
+    public static final Transform3d ROBOT_TO_CENTRAL_CAMERA =
+        new Transform3d(Units.inchesToMeters(-12.1), 0, -Units.inchesToMeters(7.55), new Rotation3d(0, Math.PI, 0));
+    public static final Transform3d ROBOT_TO_LEFT_CAMERA =
+    new Transform3d(-0.2545401, -0.1467405,  0.1934088, new Rotation3d(0, Units.degreesToRadians(210), Units.degreesToRadians(-12)));
+}
+    
+//   public static final Transform3d ROBOT_TO_RIGHT_CAMERA =
+//   new Transform3d(-0.2545401, 0.1467405, 0.1934088, new Rotation3d(0, Units.degreesToRadians(30), Units.degreesToRadians(12)));
+//   public static final Transform3d ROBOT_TO_LEFT_CAMERA =
+//   new Transform3d(-0.2545401, -0.1467405,  0.1934088, new Rotation3d(0, Units.degreesToRadians(30), Units.degreesToRadians(-12)));
+
   public static class PoseConstants {
+
     public static final Pose2d REEF_SIDE_POSE_AB = new Pose2d(3, 4, new Rotation2d(0)); //WORKS ON RED
-    public static final Pose2d REEF_SIDE_POSE_CD = new Pose2d(3.75, 2.75, new Rotation2d(Units.degreesToRadians (240))); // DOESN'T WORK ON RED
-    public static final Pose2d REEF_SIDE_POSE_EF = new Pose2d(5.25, 2.75, new Rotation2d(Units.degreesToRadians (300))); // DOESN'T WORK ON RED
-    public static final Pose2d REEF_SIDE_POSE_GH = new Pose2d(5.9, 4, new Rotation2d(Units.degreesToRadians (0))); //WORKS ON RED
-    public static final Pose2d REEF_SIDE_POSE_IJ = new Pose2d(5.4, 5.5, new Rotation2d(Units.degreesToRadians (60))); // DOESN'T WORK ON RED
-    public static final Pose2d REEF_SIDE_POSE_KL = new Pose2d(3.6, 5.5, new Rotation2d(Units.degreesToRadians (120))); // DOESN'T WORK ON RED
+    public static final Pose2d REEF_SIDE_POSE_CD = new Pose2d(3.75, 2.75, new Rotation2d(Units.degreesToRadians(240))); // DOESN'T WORK ON RED
+    public static final Pose2d REEF_SIDE_POSE_EF = new Pose2d(5.25, 2.75, new Rotation2d(Units.degreesToRadians(300))); // DOESN'T WORK ON RED
+    public static final Pose2d REEF_SIDE_POSE_GH = new Pose2d(5.9, 4, new Rotation2d(Units.degreesToRadians(0))); //WORKS ON RED
+    public static final Pose2d REEF_SIDE_POSE_IJ = new Pose2d(5.4, 5.5, new Rotation2d(Units.degreesToRadians(60))); // DOESN'T WORK ON RED
+    public static final Pose2d REEF_SIDE_POSE_KL = new Pose2d(3.6, 5.5, new Rotation2d(Units.degreesToRadians(120))); // DOESN'T WORK ON RED
 
     public static final Pose2d[] BLUE_REEF_SIDE_POSES = {
       REEF_SIDE_POSE_AB, REEF_SIDE_POSE_CD, REEF_SIDE_POSE_EF,
       REEF_SIDE_POSE_GH, REEF_SIDE_POSE_IJ, REEF_SIDE_POSE_KL
     };
 
-    public static final Transform2d RED_TRANSFORMATION = new Transform2d(8.5, 0, new Rotation2d(0));
+    public static final double RED_TRANSFORMATION_X = 8.5;
 
     public static final Pose2d[] RED_REEF_SIDE_POSES = {
-      REEF_SIDE_POSE_GH.plus(RED_TRANSFORMATION), REEF_SIDE_POSE_IJ.plus(RED_TRANSFORMATION),
-      REEF_SIDE_POSE_KL.plus(RED_TRANSFORMATION), REEF_SIDE_POSE_AB.plus(RED_TRANSFORMATION),
-      REEF_SIDE_POSE_CD.plus(RED_TRANSFORMATION), REEF_SIDE_POSE_EF.plus(RED_TRANSFORMATION)
+      new Pose2d(REEF_SIDE_POSE_GH.getX() + 8.5,REEF_SIDE_POSE_GH.getY(), REEF_SIDE_POSE_GH.getRotation()),
+      new Pose2d(REEF_SIDE_POSE_IJ.getX() + 8.5,REEF_SIDE_POSE_IJ.getY(), REEF_SIDE_POSE_IJ.getRotation()),
+      new Pose2d(REEF_SIDE_POSE_KL.getX() + 8.5,REEF_SIDE_POSE_KL.getY(), REEF_SIDE_POSE_KL.getRotation()),
+      new Pose2d(REEF_SIDE_POSE_AB.getX() + 8.5,REEF_SIDE_POSE_AB.getY(), REEF_SIDE_POSE_AB.getRotation()),
+      new Pose2d(REEF_SIDE_POSE_CD.getX() + 8.5,REEF_SIDE_POSE_CD.getY(), REEF_SIDE_POSE_CD.getRotation()),
+      new Pose2d(REEF_SIDE_POSE_EF.getX() + 8.5,REEF_SIDE_POSE_EF.getY(), REEF_SIDE_POSE_EF.getRotation())
     };
 
     public static final Pose2d REEF_POSE_A = new Pose2d(3.2, 4.1, new Rotation2d(0));
@@ -79,6 +91,8 @@ public final class Constants {
       REEF_POSE_A, REEF_POSE_B, REEF_POSE_C, REEF_POSE_D, REEF_POSE_E, REEF_POSE_F, 
       REEF_POSE_G, REEF_POSE_H, REEF_POSE_I, REEF_POSE_J, REEF_POSE_K, REEF_POSE_L
     };
+
+    public static final Transform2d RED_TRANSFORMATION = new Transform2d(8.5, 0, new Rotation2d(0));
     
     public static final Pose2d[] RED_REEF_POSES = {
       REEF_POSE_G.plus(RED_TRANSFORMATION), REEF_POSE_H.plus(RED_TRANSFORMATION), REEF_POSE_I.plus(RED_TRANSFORMATION),
