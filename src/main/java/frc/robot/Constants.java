@@ -234,4 +234,12 @@ public final class Constants {
     public static final double PIDL4 = 0;
 
   }
+  public static class shooterBoxxContants {
+    public static final int ShooterMotorId = 400;
+    
+  } {
+  
+    
+  }
+
 }
