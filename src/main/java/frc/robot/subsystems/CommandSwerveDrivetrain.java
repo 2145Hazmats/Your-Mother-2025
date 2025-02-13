@@ -300,7 +300,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         double angle = Math.atan2(TriangleY, TriangleX); // returns radians
         pidFaceRad.enableContinuousInput(-Math.PI, Math.PI);
         SmartDashboard.putNumber("ReefCenterSetpoint", angle);
-        return pidFaceRad.calculate(this.getState().Pose.getRotation().getRadians(), angle); // messes up with angle jumps from [-179] -> [179]
+        return pidFaceRad.calculate(this.getState().Pose.getRotation().getRadians(), angle); 
     }
 
     public void indexSmartDashboardUpdate(int light) {
