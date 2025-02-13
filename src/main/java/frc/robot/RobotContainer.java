@@ -15,14 +15,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import frc.robot.Constants.BoxConstants;
 import frc.robot.Constants.PoseConstants;
 import frc.robot.generated.TunerConstants;
-import frc.robot.subsystems.ArmSubsystem;
-import frc.robot.subsystems.BoxSubsystem;
 import frc.robot.subsystems.CameraSubsystem;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
-import frc.robot.Constants.ArmConstants;
 
 
 public class RobotContainer {
@@ -48,13 +44,9 @@ public class RobotContainer {
     
     // We need to initialize an object of the camera subsystem, we don't have to use it
     private CameraSubsystem m_CameraSubsystem = new CameraSubsystem(drivetrain);
-    private BoxSubsystem m_BoxSubsystem = new BoxSubsystem();
-    private ArmSubsystem m_ArmSubsystem = new ArmSubsystem();
 
     public RobotContainer() {
         configureBindings();
-
-        m_BoxSubsystem.setDefaultCommand(m_BoxSubsystem.stopCommand());
 
         // Build an auto chooser. This will use Commands.none() as the default option.
         autoChooser = AutoBuilder.buildAutoChooser();
@@ -189,117 +181,117 @@ public class RobotContainer {
 
         // Sets the speed of the shooter motors and starts intake/feed motor
         // When the button is released, the arm goes to idle position and the m_box default command is ran
-        P3controller.leftTrigger().whileTrue(
-        m_BoxSubsystem.setShooterFeederCommand(ArmSubsystem::getArmState, true)
-        );//.onFalse(m_arm.setArmPIDCommand(ArmConstants.ArmState.IDLE, true));
+    //     P3controller.leftTrigger().whileTrue(
+    //     m_BoxSubsystem.setShooterFeederCommand(ArmSubsystem::getArmState, true)
+    //     );//.onFalse(m_arm.setArmPIDCommand(ArmConstants.ArmState.IDLE, true));
 
-        // Intakes note into robot
-        P3controller.leftBumper().whileTrue(m_BoxSubsystem.setIntakeMotorCommand(BoxConstants.kIntakeSpeed));
+    //     // Intakes note into robot
+    //     P3controller.leftBumper().whileTrue(m_BoxSubsystem.setIntakeMotorCommand(BoxConstants.kIntakeSpeed));
 
-        // Regurgitate everything
-        P3controller.rightBumper().whileTrue(m_BoxSubsystem.YeetCommand(BoxConstants.kRegurgitateSpeed, BoxConstants.kRegurgitateSpeed));
+    //     // Regurgitate everything
+    //     P3controller.rightBumper().whileTrue(m_BoxSubsystem.YeetCommand(BoxConstants.kRegurgitateSpeed, BoxConstants.kRegurgitateSpeed));
 
-        // Smartshoot button, only shoots the note when Velocity is correct and the button is held down.
-        P3controller.rightTrigger().whileTrue(
-        Commands.sequence(
-            Commands.waitUntil(m_BoxSubsystem::isVelocityReached),
-            m_BoxSubsystem.setShooterFeederCommand(ArmSubsystem::getArmState, true)
-        )
-        ).onFalse(m_ArmSubsystem.setArmPIDCommand(ArmConstants.ArmState.IDLE, false));
+    //     // Smartshoot button, only shoots the note when Velocity is correct and the button is held down.
+    //     P3controller.rightTrigger().whileTrue(
+    //     Commands.sequence(
+    //         Commands.waitUntil(m_BoxSubsystem::isVelocityReached),
+    //         m_BoxSubsystem.setShooterFeederCommand(ArmSubsystem::getArmState, true)
+    //     )
+    //     ).onFalse(m_ArmSubsystem.setArmPIDCommand(ArmConstants.ArmState.IDLE, false));
     
-        // Arm set point for climbing
-        P3controller.button(9).whileTrue(
-        m_ArmSubsystem.setArmPIDCommand(ArmConstants.ArmState.CLIMB_1, false)
-        );
+    //     // Arm set point for climbing
+    //     P3controller.button(9).whileTrue(
+    //     m_ArmSubsystem.setArmPIDCommand(ArmConstants.ArmState.CLIMB_1, false)
+    //     );
 
-        //m_operatorController.button(10).onTrue(m_arm.setArmPIDCommand(ArmConstants.ArmState.CLIMB_2, true));
+    //     //m_operatorController.button(10).onTrue(m_arm.setArmPIDCommand(ArmConstants.ArmState.CLIMB_2, true));
         
-        // Arm set point for shooting speaker from subwoofer
-        P3controller.a().whileTrue(
-        Commands.parallel(
-            m_ArmSubsystem.setArmPIDCommand(ArmConstants.ArmState.SHOOT_SUB, true),
-            m_BoxSubsystem.setShooterFeederCommand(ArmSubsystem::getArmState, false)
-        )
-        ).onFalse(m_ArmSubsystem.setArmPIDCommand(ArmConstants.ArmState.IDLE, false));
+    //     // Arm set point for shooting speaker from subwoofer
+    //     P3controller.a().whileTrue(
+    //     Commands.parallel(
+    //         m_ArmSubsystem.setArmPIDCommand(ArmConstants.ArmState.SHOOT_SUB, true),
+    //         m_BoxSubsystem.setShooterFeederCommand(ArmSubsystem::getArmState, false)
+    //     )
+    //     ).onFalse(m_ArmSubsystem.setArmPIDCommand(ArmConstants.ArmState.IDLE, false));
 
-        // Arm set point for playing amp
-        P3controller.x().whileTrue(
-        Commands.parallel(
-            m_ArmSubsystem.setArmPIDCommand(ArmConstants.ArmState.AMP, true),
-            m_BoxSubsystem.setShooterFeederCommand(ArmSubsystem::getArmState, false)
-        )
-        ).onFalse(m_ArmSubsystem.setArmPIDCommand(ArmConstants.ArmState.IDLE, false));
+    //     // Arm set point for playing amp
+    //     P3controller.x().whileTrue(
+    //     Commands.parallel(
+    //         m_ArmSubsystem.setArmPIDCommand(ArmConstants.ArmState.AMP, true),
+    //         m_BoxSubsystem.setShooterFeederCommand(ArmSubsystem::getArmState, false)
+    //     )
+    //     ).onFalse(m_ArmSubsystem.setArmPIDCommand(ArmConstants.ArmState.IDLE, false));
 
-        // Idle mode arm set point
-        P3controller.b().whileTrue(m_ArmSubsystem.setArmPIDCommand(ArmConstants.ArmState.IDLE, false));
+    //     // Idle mode arm set point
+    //     P3controller.b().whileTrue(m_ArmSubsystem.setArmPIDCommand(ArmConstants.ArmState.IDLE, false));
 
-        // Arm set point for shooting podium
-        P3controller.povRight().whileTrue(
-        Commands.parallel(
-            m_ArmSubsystem.setArmPIDCommand(ArmConstants.ArmState.SHOOT_N2, true),
-            m_BoxSubsystem.setShooterFeederCommand(ArmSubsystem::getArmState, false)
-        )
-        ).onFalse(m_ArmSubsystem.setArmPIDCommand(ArmConstants.ArmState.IDLE, false));
+    //     // Arm set point for shooting podium
+    //     P3controller.povRight().whileTrue(
+    //     Commands.parallel(
+    //         m_ArmSubsystem.setArmPIDCommand(ArmConstants.ArmState.SHOOT_N2, true),
+    //         m_BoxSubsystem.setShooterFeederCommand(ArmSubsystem::getArmState, false)
+    //     )
+    //     ).onFalse(m_ArmSubsystem.setArmPIDCommand(ArmConstants.ArmState.IDLE, false));
 
-        // Arm set point for shooting horizontal across the field
-        // Commenting it out to use this button
-        /*
-        m_operatorController.povLeft().whileTrue(
-        Commands.parallel(
-            m_arm.setArmPIDCommand(ArmConstants.ArmState.SHOOT_HORIZONTAL, true),
-            m_box.setShooterFeederCommand(ArmSubsystem::getArmState, false)
-        )
-        ).onFalse(m_arm.setArmPIDCommand(ArmConstants.ArmState.IDLE, false));
-        */
+    //     // Arm set point for shooting horizontal across the field
+    //     // Commenting it out to use this button
+    //     /*
+    //     m_operatorController.povLeft().whileTrue(
+    //     Commands.parallel(
+    //         m_arm.setArmPIDCommand(ArmConstants.ArmState.SHOOT_HORIZONTAL, true),
+    //         m_box.setShooterFeederCommand(ArmSubsystem::getArmState, false)
+    //     )
+    //     ).onFalse(m_arm.setArmPIDCommand(ArmConstants.ArmState.IDLE, false));
+    //     */
 
-        // Arm set point for a pass shot
-        P3controller.povLeft().whileTrue(
-        Commands.parallel(
-            m_ArmSubsystem.setArmPIDCommand(ArmConstants.ArmState.PASS, true),
-            m_BoxSubsystem.setShooterFeederCommand(ArmSubsystem::getArmState, false)
-        )
-        ).onFalse(m_ArmSubsystem.setArmPIDCommand(ArmConstants.ArmState.IDLE, false));
+    //     // Arm set point for a pass shot
+    //     P3controller.povLeft().whileTrue(
+    //     Commands.parallel(
+    //         m_ArmSubsystem.setArmPIDCommand(ArmConstants.ArmState.PASS, true),
+    //         m_BoxSubsystem.setShooterFeederCommand(ArmSubsystem::getArmState, false)
+    //     )
+    //     ).onFalse(m_ArmSubsystem.setArmPIDCommand(ArmConstants.ArmState.IDLE, false));
 
 
-        // Manual control toggle for arm
-        P3controller.start().toggleOnTrue(
-            m_ArmSubsystem.manualArmCommand(() -> P3controller.getRightY() * Constants.ArmConstants.kManualSpeed, 
-            () -> P3controller.getLeftY() * Constants.ArmConstants.kManualSpeed)
-        );
+    //     // Manual control toggle for arm
+    //     P3controller.start().toggleOnTrue(
+    //         m_ArmSubsystem.manualArmCommand(() -> P3controller.getRightY() * Constants.ArmConstants.kManualSpeed, 
+    //         () -> P3controller.getLeftY() * Constants.ArmConstants.kManualSpeed)
+    //     );
 
-        // Smart floor intake with regurgitate?
-        P3controller.povDown().whileTrue(
-        Commands.sequence(
-            Commands.parallel(
-            m_ArmSubsystem.setArmPIDCommand(ArmConstants.ArmState.FLOOR, false),
-            m_BoxSubsystem.setIntakeMotorCommand(BoxConstants.kIntakeSpeed)
-            ).until(m_BoxSubsystem::noteSensorTriggered)
-        )
-        );
+    //     // Smart floor intake with regurgitate?
+    //     P3controller.povDown().whileTrue(
+    //     Commands.sequence(
+    //         Commands.parallel(
+    //         m_ArmSubsystem.setArmPIDCommand(ArmConstants.ArmState.FLOOR, false),
+    //         m_BoxSubsystem.setIntakeMotorCommand(BoxConstants.kIntakeSpeed)
+    //         ).until(m_BoxSubsystem::noteSensorTriggered)
+    //     )
+    //     );
 
-        // Intake from the source
-        P3controller.povUp().whileTrue(
-        Commands.sequence(
-            Commands.parallel(
-            m_ArmSubsystem.setArmPIDCommand(ArmConstants.ArmState.SOURCE, false),
-            m_BoxSubsystem.setIntakeMotorCommand(BoxConstants.kSourceIntakeSpeed)
-            ).until(m_BoxSubsystem::noteSensorTriggered)
-        )
-        );
+    //     // Intake from the source
+    //     P3controller.povUp().whileTrue(
+    //     Commands.sequence(
+    //         Commands.parallel(
+    //         m_ArmSubsystem.setArmPIDCommand(ArmConstants.ArmState.SOURCE, false),
+    //         m_BoxSubsystem.setIntakeMotorCommand(BoxConstants.kSourceIntakeSpeed)
+    //         ).until(m_BoxSubsystem::noteSensorTriggered)
+    //     )
+    //     );
         
-        // I commented the trap out to use it's keybind
-        /*
-        m_operatorController.povRight().whileTrue(
-        Commands.parallel(
-            m_arm.setArmPIDCommand(ArmConstants.ArmState.TRAP, true),
-            m_box.setShooterFeederCommand(ArmSubsystem::getArmState, false)
-            )
-        ).onFalse(m_arm.setArmPIDCommand(ArmConstants.ArmState.IDLE, false));
-        */
+    //     // I commented the trap out to use it's keybind
+    //     /*
+    //     m_operatorController.povRight().whileTrue(
+    //     Commands.parallel(
+    //         m_arm.setArmPIDCommand(ArmConstants.ArmState.TRAP, true),
+    //         m_box.setShooterFeederCommand(ArmSubsystem::getArmState, false)
+    //         )
+    //     ).onFalse(m_arm.setArmPIDCommand(ArmConstants.ArmState.IDLE, false));
+    //     */
 
-        // Reset wrist encoder
-        P3controller.back().onTrue(Commands.runOnce(() -> m_ArmSubsystem.resetWristEncoder()));
-    }
+    //     // Reset wrist encoder
+    //     P3controller.back().onTrue(Commands.runOnce(() -> m_ArmSubsystem.resetWristEncoder()));
+     }
 
     public Command getAutonomousCommand() {
         //return Commands.print("No autonomous command configured");
