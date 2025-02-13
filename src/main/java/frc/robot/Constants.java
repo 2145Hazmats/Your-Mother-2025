@@ -233,6 +233,12 @@ public final class Constants {
     public static final double PIDL3 = 0;
     public static final double PIDL4 = 0;
 
+    public static final double L1Position = 0;
+    public static final double L2Position = 0;
+    public static final double L3Position = 0;
+    public static final double L4Position = 0;
+    public static final double HomePosition = 0;
+
   }
   public static class shooterBoxxContants {
     public static final int ShooterMotorId = 400;
