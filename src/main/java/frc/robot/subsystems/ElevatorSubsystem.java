@@ -99,8 +99,14 @@ public class ElevatorSubsystem extends SubsystemBase{
       return Commands.run(() -> motorLeader.setControl(new DutyCycleOut(joystick.getAsDouble())), this);
     }
 
-    public Command disableElevator(DoubleSupplier joystick) {
+    public Command disableElevator() {
       return Commands.run(() -> motorLeader.setControl(new DutyCycleOut(0)), this);
+    }
+
+    public Command defaultCommand() {
+      return Commands.runOnce(() -> 
+        motorLeader.setControl(new PositionDutyCycle(Constants.elevatorConstants.HomePosition)), this).withTimeout(1).andThen(disableElevator());
+      }
     }
 
     //MOVE THIS TO THE SHOOTERBOXX SUBSYSTEM BRUHHHH

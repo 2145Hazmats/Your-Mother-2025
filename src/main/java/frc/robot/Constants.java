@@ -44,11 +44,11 @@ public final class Constants {
     //The Cameras are mounted on the back of the value so all transform signs are flipped (not rotations). + ➔ -
     
     public static final Transform3d ROBOT_TO_CENTRAL_CAMERA =
-    new Transform3d(Units.inchesToMeters(-12.1), 0, -Units.inchesToMeters(7.55), new Rotation3d(0, Math.PI, 0));
+        new Transform3d(Units.inchesToMeters(-12.1), 0, -Units.inchesToMeters(7.55), new Rotation3d(0, Math.PI, 0));
     public static final Transform3d ROBOT_TO_LEFT_CAMERA =
     new Transform3d(-0.2545401, -0.1467405,  0.1934088, new Rotation3d(0, Units.degreesToRadians(210), Units.degreesToRadians(-12)));
-  }
-  
+}
+    
   // Elevator Constants
   public static class elevatorConstants {
     // MotorIDs
@@ -72,6 +72,16 @@ public final class Constants {
   // Shooter BOXX Constants
   public static class shooterBoxxContants {
     public static final int ShooterMotorId = 400;
-    
+    public static final double kShooterMotorNominalVoltageConstant = 10.5;
+    public static final int kCoralSensorChannel = 0;
   } 
+  
+  public static class ClimbContants {
+    public static final int ClimbMotorId = 4000000;
+    public static final int ClimbHome = 44;
+    public static final int ClimbLockIn = 44;
+    public static final int ClimbUp = 44;
+  }
+  
+
 }

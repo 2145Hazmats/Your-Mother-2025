@@ -7,6 +7,7 @@ package frc.robot;
 import static edu.wpi.first.units.Units.*;
 
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
+//import com.fasterxml.jackson.databind.ser.std.StdKeySerializers.Default;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
@@ -15,10 +16,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.Constants.shooterBoxxContants;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.CameraSubsystem;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
-
+import frc.robot.subsystems.ElevatorSubsystem;
+import frc.robot.subsystems.ShooterBoxx;
 
 public class RobotContainer {
 
@@ -33,14 +36,16 @@ public class RobotContainer {
             .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // Use open-loop control for drive motors
             
     private final SendableChooser<Command> autoChooser;
-    
+
     private final Telemetry logger = new Telemetry(MaxSpeed);
 
     private final CommandXboxController P1controller = new CommandXboxController(0);
     private final CommandXboxController P2controller = new CommandXboxController(1);
     
-    private CameraSubsystem m_CameraSubsystem = new CameraSubsystem(drivetrain); // initialize camera subsystem
-
+    // We need to initialize an object of the camera subsystem, we don't have to use it
+    private CameraSubsystem m_CameraSubsystem = new CameraSubsystem(drivetrain);
+    private ShooterBoxx m_ShooterBoxx = new ShooterBoxx();
+    private ElevatorSubsystem m_ElevatorSubsystem = new ElevatorSubsystem();
     public RobotContainer() {
         configureBindings();
 
@@ -49,6 +54,8 @@ public class RobotContainer {
     }
 
     private void configureBindings() {
+
+        m_ElevatorSubsystem.setDefaultCommand(m_ElevatorSubsystem.defaultCommand(m_ShooterBoxx.StopShooterMotor));
         drivetrain.registerTelemetry(logger::telemeterize);
 
         drivetrain.setDefaultCommand(
@@ -85,7 +92,7 @@ public class RobotContainer {
         // SWITCHES POSE INDEX
         P1controller.leftBumper().onTrue(Commands.runOnce(() -> drivetrain.poseIndexSwitch(false)));
         P1controller.rightBumper().onTrue(Commands.runOnce(() -> drivetrain.poseIndexSwitch(true)));
-
+      
         // RED SIDE REEF POSE METHOD
         P1controller.b().and(drivetrain::isAllianceRed).whileTrue(drivetrain.pathFindToAllTheReefsRed().andThen(drivetrain.applyRequest(() ->
         drive.withVelocityX(drivetrain.PIDDriveToPointX(PoseConstants.RED_REEF_POSES[drivetrain.getReefIndex()].getX()) * MaxSpeed)
@@ -148,7 +155,7 @@ public class RobotContainer {
             .withVelocityY(-P1controller.getLeftX() * MaxSpeed) // Drive left with negative X (left)
             .withRotationalRate(drivetrain.angularSpeedToFaceNet()) 
         ));
-            
+        
         // Run SysId routines when holding back/start and X/Y.
         // Note that each routine should be run exactly once in a single log.
         // joystick.back().and(joystick.y()).whileTrue(drivetrain.sysIdDynamic(Direction.kForward));
@@ -156,7 +163,7 @@ public class RobotContainer {
         // joystick.start().and(joystick.y()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kForward));
         // joystick.start().and(joystick.x()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kReverse));
        
-    }
+     }
 
     public Command getAutonomousCommand() {
         return autoChooser.getSelected();
