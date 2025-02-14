@@ -42,7 +42,7 @@ public class ElevatorSubsystem extends SubsystemBase{
       
       //-------------------------------------------
       motorLeader.getConfigurator().apply(leaderConfig);
-      motorFollower.getConfigurator().apply(followerConfig);
+      motorFollower.getConfigurator().apply(followerConfig); //TODO: ADD BOTH CONFIGS SHOULD BE 4 PROBABLY WRONG!!!!
 
       
       
@@ -107,7 +107,6 @@ public class ElevatorSubsystem extends SubsystemBase{
       return Commands.runOnce(() -> 
         motorLeader.setControl(new PositionDutyCycle(Constants.elevatorConstants.HomePosition)), this).withTimeout(1).andThen(disableElevator());
       }
-    }
 
     //MOVE THIS TO THE SHOOTERBOXX SUBSYSTEM BRUHHHH
     // public boolean ShooterBoxSensorTrue() { 

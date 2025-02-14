@@ -26,16 +26,17 @@ public class ClimbSubsystem extends SubsystemBase {
   private TalonFXConfiguration ClimbConfig = new TalonFXConfiguration();
 
   public ClimbSubsystem() {
-     Slot0Configs followerConfig = new Slot0Configs();
-      followerConfig.kP = 0.05;
-      followerConfig.kI = 0;
-      followerConfig.kD = 0;
+     Slot0Configs slot0PID = new Slot0Configs();
+      slot0PID.kP = 0.05;
+      slot0PID.kI = 0;
+      slot0PID.kD = 0;
 
-      ClimbConfig.MotorOutput.withInverted(InvertedValue.CounterClockwise_Positive); //
+      ClimbConfig.MotorOutput.withInverted(InvertedValue.CounterClockwise_Positive); //SWSP IF NEEDED
       
       
       //-------------------------------------------
       climbMotor.getConfigurator().apply(ClimbConfig);
+      climbMotor.getConfigurator().apply(slot0PID); //THIS MAY BE WRONG CHECK EXAMPLE CODE ONLINE
 
   }
 
