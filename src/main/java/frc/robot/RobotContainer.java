@@ -55,7 +55,7 @@ public class RobotContainer {
 
     private void configureBindings() {
 
-        m_ElevatorSubsystem.setDefaultCommand(m_ElevatorSubsystem.defaultCommand(m_ShooterBoxx.StopShooterMotor));
+        m_ElevatorSubsystem.setDefaultCommand(m_ElevatorSubsystem.defaultCommand());
         drivetrain.registerTelemetry(logger::telemeterize);
 
         drivetrain.setDefaultCommand(

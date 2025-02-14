@@ -354,6 +354,8 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         SmartDashboard.putNumber("Red Reef PID Y", PIDDriveToPointY(PoseConstants.RED_REEF_POSES[reefIndex].getY()));
         SmartDashboard.putNumber("Red Reef PID Rot", angularSpeedToFaceReef());
 
+        //this.resetRotation(newIMU.getRotation2d());
+
         // Periodically try to apply the operator perspective.
         if (!m_hasAppliedOperatorPerspective || DriverStation.isDisabled()) {
             DriverStation.getAlliance().ifPresent(allianceColor -> {

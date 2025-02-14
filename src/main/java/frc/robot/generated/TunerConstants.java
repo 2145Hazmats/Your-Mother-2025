@@ -98,7 +98,7 @@ public class TunerConstants {
 
     public static final SwerveDrivetrainConstants DrivetrainConstants = new SwerveDrivetrainConstants()
             .withCANBusName(kCANBus.getName())
-            .withPigeon2Id(kPigeonId)
+            .withPigeon2Id(kPigeonId) //Comment this out for a different IMU
             .withPigeon2Configs(pigeonConfigs);
 
     private static final SwerveModuleConstantsFactory<TalonFXConfiguration, TalonFXConfiguration, CANcoderConfiguration> ConstantCreator =

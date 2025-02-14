@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class ReefMathConstants {
   /** Creates a new FieldConstants. */
   private double[] reefCenter = {0, 0}; //NEED THIS VALUE
-  private double reefRadius = 32.15; // INCHES
+  private double reefRadius = Units.inchesToMeters(32.15); // INCHES
 
   private double distanceOffset = 1;
   private double leftOffset = 1;
