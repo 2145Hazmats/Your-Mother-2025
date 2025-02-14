@@ -58,16 +58,13 @@ return Commands.runOnce(() -> {
 
 public Command SuckTillSensor() {
 return Commands.runOnce(() -> {
-  shooterMotor.set(-.2);
-}).until(() -> CoralSensorTriggered());
+  shooterMotor.set(Constants.shooterBoxxContants.kSuckSpeed);
+}).until(() -> CoralSensorTriggered()); }
 
-
-}
-public boolean ShooterBoxSensorTrue() { 
-  // Query some boolean state, such as a digital sensor.
-
-  return false;
-}
+public Command SpitTillSensor() {
+return Commands.runOnce(() -> {
+  shooterMotor.set(Constants.shooterBoxxContants.kSpitSpeed);
+}).until(() -> CoralSensorUntriggered()); }
 
 
 public boolean CoralSensorTriggered() {
@@ -75,7 +72,7 @@ public boolean CoralSensorTriggered() {
 }
 
 
-public boolean noteSensorUntriggered() {
+public boolean CoralSensorUntriggered() {
   return CoralSensor.get();
 }
 

@@ -6,19 +6,25 @@ package frc.robot;
 
 import static edu.wpi.first.units.Units.*;
 
+import org.ejml.dense.block.MatrixOps_DDRB;
+
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 //import com.fasterxml.jackson.databind.ser.std.StdKeySerializers.Default;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.Constants.ClimbContants;
 import frc.robot.Constants.shooterBoxxContants;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.CameraSubsystem;
+import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.ShooterBoxx;
@@ -35,6 +41,10 @@ public class RobotContainer {
             .withDeadband(MaxSpeed * 0.05).withRotationalDeadband(MaxAngularRate * 0.05) // 10% deadband changed to 5%
             .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // Use open-loop control for drive motors
             
+    private final SwerveRequest.RobotCentric driveCentric = new SwerveRequest.RobotCentric()
+            .withDeadband(MaxSpeed * 0.05).withRotationalDeadband(MaxAngularRate * 0.05) // 10% deadband changed to 5%
+            .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // Use open-loop control for drive motors
+
     private final SendableChooser<Command> autoChooser;
 
     private final Telemetry logger = new Telemetry(MaxSpeed);
@@ -46,6 +56,9 @@ public class RobotContainer {
     private CameraSubsystem m_CameraSubsystem = new CameraSubsystem(drivetrain);
     private ShooterBoxx m_ShooterBoxx = new ShooterBoxx();
     private ElevatorSubsystem m_ElevatorSubsystem = new ElevatorSubsystem();
+    private ClimbSubsystem m_ClimbSubsystem = new ClimbSubsystem();
+
+
     public RobotContainer() {
         configureBindings();
 
@@ -55,7 +68,13 @@ public class RobotContainer {
 
     private void configureBindings() {
 
-        m_ElevatorSubsystem.setDefaultCommand(m_ElevatorSubsystem.defaultCommand());
+        // Default Commands :)
+        //m_ElevatorSubsystem.setDefaultCommand(m_ElevatorSubsystem.defaultCommand()); TEST PID FIRST!!!!!
+        m_ClimbSubsystem.setDefaultCommand(m_ClimbSubsystem.ClimbJoystick(P2controller.getLeftY()));
+        m_ShooterBoxx.setDefaultCommand(m_ShooterBoxx.StopShooterMotor());
+        m_ElevatorSubsystem.setDefaultCommand(m_ElevatorSubsystem.elevatorJoystick(P2controller.getRightY()));
+
+
         drivetrain.registerTelemetry(logger::telemeterize);
 
         drivetrain.setDefaultCommand(
@@ -89,10 +108,24 @@ public class RobotContainer {
         // P1controller.x().whileTrue(drivetrain.pathFindThenFollowPath("TestPath")).onFalse(drivetrain.stopCommand());
         // P1controller.b().whileTrue(drivetrain.pathFindToPose(new Pose2d(9, 4, new Rotation2d(0)))).onFalse(drivetrain.stopCommand());
         
+        // SLOW MODE
+        P1controller.rightTrigger().whileTrue(drivetrain.applyRequest(() ->
+        drive.withVelocityX(-P1controller.getLeftY() * MaxSpeed * Constants.DrivetrainConstants.SlowMoSpeed) // Drive forward with negative Y (forward)
+            .withVelocityY(-P1controller.getLeftX() * MaxSpeed * Constants.DrivetrainConstants.SlowMoSpeed) // Drive left with negative X (left)
+            .withRotationalRate(-P1controller.getRightX() * MaxAngularRate * Constants.DrivetrainConstants.SlowMoSpeed) // Faces the Reef
+        ));
+
+        //ROBOT CENTRIC
+        P1controller.leftTrigger().whileTrue(drivetrain.applyRequest(() ->
+        driveCentric.withVelocityX(-P1controller.getLeftY() * MaxSpeed) // Drive forward with negative Y (forward)
+            .withVelocityY(-P1controller.getLeftX() * MaxSpeed) // Drive left with negative X (left)
+            .withRotationalRate(-P1controller.getRightX() * MaxAngularRate) // Faces the Reef
+        ));
+
         // SWITCHES POSE INDEX
         P1controller.leftBumper().onTrue(Commands.runOnce(() -> drivetrain.poseIndexSwitch(false)));
         P1controller.rightBumper().onTrue(Commands.runOnce(() -> drivetrain.poseIndexSwitch(true)));
-      
+    
         // RED SIDE REEF POSE METHOD
         P1controller.b().and(drivetrain::isAllianceRed).whileTrue(drivetrain.pathFindToAllTheReefsRed().andThen(drivetrain.applyRequest(() ->
         drive.withVelocityX(drivetrain.PIDDriveToPointX(PoseConstants.RED_REEF_POSES[drivetrain.getReefIndex()].getX()) * MaxSpeed)
@@ -108,18 +141,18 @@ public class RobotContainer {
         )));
 
         // BLUE SIDE LEFT CORAL STATION
-        P1controller.leftTrigger().and(drivetrain::isAllianceBlue).whileTrue(drivetrain.pathFindToLeftBlueCoralStation().andThen(drivetrain.applyRequest(() ->
-        drive.withVelocityX(drivetrain.PIDDriveToPointX(PoseConstants.CORAL_STATION_LEFT_BLUE_POSE.getX()) * MaxSpeed)
-            .withVelocityY(drivetrain.PIDDriveToPointY(PoseConstants.CORAL_STATION_LEFT_BLUE_POSE.getY()) * MaxSpeed)
-            .withRotationalRate(drivetrain.PIDDriveToPointDEG(PoseConstants.CORAL_STATION_LEFT_BLUE_POSE.getRotation().getDegrees()))
-        )));
+        // P1controller.leftTrigger().and(drivetrain::isAllianceBlue).whileTrue(drivetrain.pathFindToLeftBlueCoralStation().andThen(drivetrain.applyRequest(() ->
+        // drive.withVelocityX(drivetrain.PIDDriveToPointX(PoseConstants.CORAL_STATION_LEFT_BLUE_POSE.getX()) * MaxSpeed)
+        //     .withVelocityY(drivetrain.PIDDriveToPointY(PoseConstants.CORAL_STATION_LEFT_BLUE_POSE.getY()) * MaxSpeed)
+        //     .withRotationalRate(drivetrain.PIDDriveToPointDEG(PoseConstants.CORAL_STATION_LEFT_BLUE_POSE.getRotation().getDegrees()))
+        // )));
         
-        // BLUE SIDE RIGHT CORAL STATION
-        P1controller.rightTrigger().and(drivetrain::isAllianceBlue).whileTrue(drivetrain.pathFindToRightBlueCoralStation().andThen(drivetrain.applyRequest(() ->
-        drive.withVelocityX(drivetrain.PIDDriveToPointX(PoseConstants.CORAL_STATION_RIGHT_BLUE_POSE.getX()) * MaxSpeed)
-            .withVelocityY(drivetrain.PIDDriveToPointY(PoseConstants.CORAL_STATION_RIGHT_BLUE_POSE.getY()) * MaxSpeed)
-            .withRotationalRate(drivetrain.PIDDriveToPointDEG(PoseConstants.CORAL_STATION_RIGHT_BLUE_POSE.getRotation().getDegrees()))
-        )));
+        // // BLUE SIDE RIGHT CORAL STATION
+        // P1controller.rightTrigger().and(drivetrain::isAllianceBlue).whileTrue(drivetrain.pathFindToRightBlueCoralStation().andThen(drivetrain.applyRequest(() ->
+        // drive.withVelocityX(drivetrain.PIDDriveToPointX(PoseConstants.CORAL_STATION_RIGHT_BLUE_POSE.getX()) * MaxSpeed)
+        //     .withVelocityY(drivetrain.PIDDriveToPointY(PoseConstants.CORAL_STATION_RIGHT_BLUE_POSE.getY()) * MaxSpeed)
+        //     .withRotationalRate(drivetrain.PIDDriveToPointDEG(PoseConstants.CORAL_STATION_RIGHT_BLUE_POSE.getRotation().getDegrees()))
+        // ))); STOLE THE BUTTONS LOL GOOD LUCK
 
         // RED SIDE LEFT CORAL STATION
         P1controller.leftTrigger().and(drivetrain::isAllianceRed).whileTrue(drivetrain.pathFindToLeftRedCoralStation().andThen(drivetrain.applyRequest(() ->
@@ -155,7 +188,36 @@ public class RobotContainer {
             .withVelocityY(-P1controller.getLeftX() * MaxSpeed) // Drive left with negative X (left)
             .withRotationalRate(drivetrain.angularSpeedToFaceNet()) 
         ));
+        //CLIMB BUTTONS  - possibly add maneeeeeeel speed control before Oxford
+        P2controller.b().onTrue(m_ClimbSubsystem.ClimbLockIn());
+        P2controller.y().onTrue(m_ClimbSubsystem.ClimbUp());
+
+        //ELEVATOR BUTTONS
+        P2controller.povDown().onTrue(m_ElevatorSubsystem.elevatorToL1());
+        P2controller.povDown().onFalse(m_ElevatorSubsystem.elevatorToHome());
         
+        P2controller.povLeft().onTrue(m_ElevatorSubsystem.elevatorToL2());
+        P2controller.povLeft().onFalse(m_ElevatorSubsystem.elevatorToHome());
+
+        P2controller.povRight().onTrue(m_ElevatorSubsystem.elevatorToL3());
+        P2controller.povRight().onFalse(m_ElevatorSubsystem.elevatorToHome());
+
+        // P2controller.povUp().onTrue(m_ElevatorSubsystem.elevatorToL4());
+        // P2controller.povUp().onFalse(m_ElevatorSubsystem.elevatorToHome()); THIS WILL HIT BOTCAVE CEILING !! FIX LATER !!
+
+        // SHOOTER BOX COMMANDS
+
+        P2controller.leftTrigger().onTrue(m_ShooterBoxx.RunShooter(-0.3));
+        P2controller.leftTrigger().onFalse(m_ShooterBoxx.StopShooterMotor());
+
+        P2controller.rightTrigger().onTrue(m_ShooterBoxx.RunShooter(0.3));
+        P2controller.rightTrigger().onFalse(m_ShooterBoxx.StopShooterMotor());
+        
+        P2controller.leftBumper().whileTrue(m_ShooterBoxx.SuckTillSensor());
+        P2controller.rightBumper().whileTrue(m_ShooterBoxx.SuckTillSensor());
+        
+        
+
         // Run SysId routines when holding back/start and X/Y.
         // Note that each routine should be run exactly once in a single log.
         // joystick.back().and(joystick.y()).whileTrue(drivetrain.sysIdDynamic(Direction.kForward));

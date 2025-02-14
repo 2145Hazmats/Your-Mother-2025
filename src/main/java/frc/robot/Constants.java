@@ -14,10 +14,15 @@ public final class Constants {
   
   // Drive Train Constants
   public static class DrivetrainConstants {
+   
+    // Controller Nerf
+    public static final double SlowMoSpeed = 0.3;
+
     // PID Constants
     public static final double PID_XY = 0.55;
     public static final double PID_DEGREE = 0.008;
     public static final double PID_RAD = 6;
+
 
     // Feed Forward Constants
     public static final double FEEDFORWARD_CONSTANT = 0.022;
@@ -56,10 +61,13 @@ public final class Constants {
     public static final int motorFollowerID = 98;
 
     // PID
-    public static final double PIDBottom = 0;
-    public static final double PIDL2 = 0;
-    public static final double PIDL3 = 0;
-    public static final double PIDL4 = 0;
+    // public static final double PIDBottom = 0;
+    // public static final double PIDL2 = 0;
+    // public static final double PIDL3 = 0;
+    // public static final double PIDL4 = 0;
+    public static final double ElaphantP = 0.05;
+    public static final double ElaphantI = 0;
+    public static final double ElaphantD = 0;
 
     // Elevator Level Heights
     public static final double L1Position = 0;
@@ -74,13 +82,20 @@ public final class Constants {
     public static final int ShooterMotorId = 400;
     public static final double kShooterMotorNominalVoltageConstant = 10.5;
     public static final int kCoralSensorChannel = 0;
+    public static final double kSpitSpeed = 0.5;
+    public static final double kSuckSpeed = -0.5;
   } 
   
   public static class ClimbContants {
     public static final int ClimbMotorId = 4000000;
-    public static final int ClimbHome = 44;
-    public static final int ClimbLockIn = 44;
-    public static final int ClimbUp = 44;
+    public static final int ClimbHomeSetpoint = 44;
+    public static final int ClimbLockInSetPoint = 44;
+    public static final int ClimbUpSetPoint = 44;
+    public static final double ClimbP = 0.05;
+    public static final double ClimbI = 0;
+    public static final double ClimbD = 0;
+  
+  
   }
   
 

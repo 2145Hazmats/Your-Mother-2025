@@ -7,9 +7,13 @@ import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.PositionDutyCycle;
+import com.ctre.phoenix6.controls.PositionTorqueCurrentFOC;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.InvertedValue;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -21,35 +25,27 @@ public class ElevatorSubsystem extends SubsystemBase{
     private TalonFX motorLeader = new TalonFX(elevatorConstants.motorLeaderID);
     private TalonFX motorFollower = new TalonFX(elevatorConstants.motorFollowerID);
 
-    private TalonFXConfiguration leadConfig = new TalonFXConfiguration();
-    private TalonFXConfiguration followerConfig = new TalonFXConfiguration();
+    private TalonFXConfiguration config = new TalonFXConfiguration();
+    
+    private final PositionTorqueCurrentFOC positionTorqueCurrentRequest =
+  new PositionTorqueCurrentFOC(0); //MECHANICAL ADVANTAGE POSITION CONTROL WITH FF
 
     public int levelIndex = 0;
     
       /* Constructor */
     public ElevatorSubsystem() {
 
-      Slot0Configs leaderConfig = new Slot0Configs(); //WHAT EVEN IS A SLOT 0 CONFIGS
-      leaderConfig.kP = 0.05; // An error of 1 rotation results in 2.4 V output
-      leaderConfig.kI = 0; // no output for integrated error
-      leaderConfig.kD = 0; // A velocity of 1 rps results in 0.1 V output
-
-      Slot0Configs followerConfig = new Slot0Configs();
-      followerConfig.kP = 0.05;
-      followerConfig.kI = 0;
-      followerConfig.kD = 0;
-      
-      
+      config.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+      config.Slot0 = new Slot0Configs().withKP(Constants.elevatorConstants.ElaphantP).withKI(Constants.elevatorConstants.ElaphantI).withKD(Constants.elevatorConstants.ElaphantD);
+      config.MotorOutput.Inverted = InvertedValue.Clockwise_Positive; // WE DONT KNOW IF THIS IS RIGHT :)
+      config.MotorOutput.withInverted(InvertedValue.Clockwise_Positive); //SWSP IF NEEDED
+    
       //-------------------------------------------
-      motorLeader.getConfigurator().apply(leaderConfig);
-      motorFollower.getConfigurator().apply(followerConfig); //TODO: ADD BOTH CONFIGS SHOULD BE 4 PROBABLY WRONG!!!!
-
-      
-      
-      //followerConfig.MotorOutput.Inverted // DOESN"T WORKKKKK UNLESS IM STUPID :)
+      motorLeader.getConfigurator().apply(config);
+      //motorFollower.getConfigurator().apply(config); // MECHANICAL ADVANTAGE DID NOT USE FOLLOWER
 
       // Sets Follower to follow leader
-      motorFollower.setControl(new Follower(elevatorConstants.motorLeaderID, true));
+      motorFollower.setControl(new Follower(motorLeader.getDeviceID(), true));
     }
 
     public void levelIndexSwitch(boolean down){ //IT SAID UP BEFORE BUT I THINK ITS WRONG LOL 
@@ -95,8 +91,8 @@ public class ElevatorSubsystem extends SubsystemBase{
       }
 
 
-    public Command elevatorJoystick(DoubleSupplier joystick) {
-      return Commands.run(() -> motorLeader.setControl(new DutyCycleOut(joystick.getAsDouble())), this);
+    public Command elevatorJoystick(double joystick) { // MAY NEED TO CHANGE THIS TO DOAGLE SUPPLIER :)()()))
+      return Commands.run(() -> motorLeader.setControl(new DutyCycleOut(joystick)), this);
     }
 
     public Command disableElevator() {
@@ -107,6 +103,21 @@ public class ElevatorSubsystem extends SubsystemBase{
       return Commands.runOnce(() -> 
         motorLeader.setControl(new PositionDutyCycle(Constants.elevatorConstants.HomePosition)), this).withTimeout(1).andThen(disableElevator());
       }
+
+
+
+      public void setElevatorPID(double NewKP, double NewKI, double NewKD) {
+      config.Slot0.kP = NewKP;
+      config.Slot0.kI = NewKI;
+      config.Slot0.kI = NewKD;
+      motorLeader.getConfigurator().apply(config); // NOT SURE IF THIS LINE WORKS MIGHT NEED COMMAND :)
+    }
+
+    public void FFPosition(double positionRad, double FF) { // STOEL FROM MECHANICAL ADVANTAGE
+      motorLeader.setControl(
+      positionTorqueCurrentRequest.withPosition(Units.radiansToRotations(positionRad)).withFeedForward(FF));
+    }
+
 
     //MOVE THIS TO THE SHOOTERBOXX SUBSYSTEM BRUHHHH
     // public boolean ShooterBoxSensorTrue() { 
