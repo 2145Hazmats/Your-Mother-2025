@@ -22,6 +22,8 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.ClimbContants;
 import frc.robot.Constants.shooterBoxxContants;
+import frc.robot.ReefConstants.PoseConstants;
+import frc.robot.ReefConstants.ReefMathConstants;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.CameraSubsystem;
 import frc.robot.subsystems.ClimbSubsystem;
@@ -64,6 +66,8 @@ public class RobotContainer {
 
         autoChooser = AutoBuilder.buildAutoChooser();
         SmartDashboard.putData("Auto Chooser", autoChooser);
+
+        ReefConstants.displayReefMath();
     }
 
     private void configureBindings() {
@@ -210,8 +214,7 @@ public class RobotContainer {
         P2controller.leftTrigger().onTrue(m_ShooterBoxx.RunShooter(-0.3));
         P2controller.leftTrigger().onFalse(m_ShooterBoxx.StopShooterMotor());
 
-        P2controller.rightTrigger().onTrue(m_ShooterBoxx.RunShooter(0.3));
-        P2controller.rightTrigger().onFalse(m_ShooterBoxx.StopShooterMotor());
+        P2controller.rightTrigger().onTrue(m_ShooterBoxx.RunShooter(0.3)).onFalse(m_ShooterBoxx.StopShooterMotor());
         
         P2controller.leftBumper().whileTrue(m_ShooterBoxx.SuckTillSensor());
         P2controller.rightBumper().whileTrue(m_ShooterBoxx.SuckTillSensor());

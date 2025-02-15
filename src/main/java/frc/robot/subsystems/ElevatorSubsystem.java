@@ -45,7 +45,7 @@ public class ElevatorSubsystem extends SubsystemBase{
       //motorFollower.getConfigurator().apply(config); // MECHANICAL ADVANTAGE DID NOT USE FOLLOWER
 
       // Sets Follower to follow leader
-      motorFollower.setControl(new Follower(motorLeader.getDeviceID(), true));
+      motorFollower.setControl(new Follower(motorLeader.getDeviceID(), false));
     }
 
     public void levelIndexSwitch(boolean down){ //IT SAID UP BEFORE BUT I THINK ITS WRONG LOL 
@@ -92,7 +92,7 @@ public class ElevatorSubsystem extends SubsystemBase{
 
 
     public Command elevatorJoystick(double joystick) { // MAY NEED TO CHANGE THIS TO DOAGLE SUPPLIER :)()()))
-      return Commands.run(() -> motorLeader.setControl(new DutyCycleOut(joystick)), this);
+      return Commands.run(() -> motorLeader.setControl(new DutyCycleOut(joystick*.4)), this);
     }
 
     public Command disableElevator() {
