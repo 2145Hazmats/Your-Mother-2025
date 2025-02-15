@@ -6,42 +6,52 @@ package frc.robot;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class ReefConstants {
-  private static double[] reefCenter = {4.488, 4.025}; //NEED THIS VALUE
-  private static double reefRadius = Units.inchesToMeters(32.15); // INCHES
+  // Field Constants
+  private static double[] reefCenter = {4.488, 4.025};
+  private static double reefRadius = Units.inchesToMeters(32.75);
 
-  private static double distanceOffset = 1;
-  private static double leftOffset = 1;
-  private static double rightOffset = -1;
+  // CONSTANTS YOU CAN EDIT
+  private static double centerDistanceOffset = 1;
+  private static double playingDistanceOffset = 0.45;
+  private static double leftOffset = 0.3;
+  private static double rightOffset = 0.3;
 
-  public final class ReefMathConstants { // RUN IN ROBOT CONTAINER TO TEST //IT WORKS IN DESMOS
+  public final class ReefMathConstants {
     //---------------- Calculate 6 Central Poses Around Reef ---------------
-    public static double[] ABReefCenter = new double[]{reefCenter[0] + (reefRadius + distanceOffset) * Math.cos(Units.degreesToRadians(180)), reefCenter[1] + (reefRadius + distanceOffset) * Math.sin(Units.degreesToRadians(180)), 0};
-    public static double[] CDReefCenter = new double[]{reefCenter[0] + (reefRadius + distanceOffset) * Math.cos(Units.degreesToRadians(240)), reefCenter[1] + (reefRadius + distanceOffset) * Math.sin(Units.degreesToRadians(240)), 240};
-    public static double[] EFReefCenter = new double[]{reefCenter[0] + (reefRadius + distanceOffset) * Math.cos(Units.degreesToRadians(300)), reefCenter[1] + (reefRadius + distanceOffset) * Math.sin(Units.degreesToRadians(300)), 300};
-    public static double[] GHReefCenter = new double[]{reefCenter[0] + (reefRadius + distanceOffset) * Math.cos(Units.degreesToRadians(0)), reefCenter[1] + (reefRadius + distanceOffset) * Math.sin(Units.degreesToRadians(0)), 180};
-    public static double[] IJReefCenter = new double[]{reefCenter[0] + (reefRadius + distanceOffset) * Math.cos(Units.degreesToRadians(60)), reefCenter[1] + (reefRadius + distanceOffset) * Math.sin(Units.degreesToRadians(60)), 60};
-    public static double[] KLReefCenter = new double[]{reefCenter[0] + (reefRadius + distanceOffset) * Math.cos(Units.degreesToRadians(120)), reefCenter[1] + (reefRadius + distanceOffset) * Math.sin(Units.degreesToRadians(120)), 120};
+    public static double[] ABReefCenter = new double[]{reefCenter[0] + (reefRadius + centerDistanceOffset) * Math.cos(Units.degreesToRadians(180)), reefCenter[1] + (reefRadius + centerDistanceOffset) * Math.sin(Units.degreesToRadians(180)), Math.PI};
+    public static double[] CDReefCenter = new double[]{reefCenter[0] + (reefRadius + centerDistanceOffset) * Math.cos(Units.degreesToRadians(240)), reefCenter[1] + (reefRadius + centerDistanceOffset) * Math.sin(Units.degreesToRadians(240)), Math.PI*4/3};
+    public static double[] EFReefCenter = new double[]{reefCenter[0] + (reefRadius + centerDistanceOffset) * Math.cos(Units.degreesToRadians(300)), reefCenter[1] + (reefRadius + centerDistanceOffset) * Math.sin(Units.degreesToRadians(300)), Math.PI*5/3};
+    public static double[] GHReefCenter = new double[]{reefCenter[0] + (reefRadius + centerDistanceOffset) * Math.cos(Units.degreesToRadians(0)), reefCenter[1] + (reefRadius + centerDistanceOffset) * Math.sin(Units.degreesToRadians(0)), 0};
+    public static double[] IJReefCenter = new double[]{reefCenter[0] + (reefRadius + centerDistanceOffset) * Math.cos(Units.degreesToRadians(60)), reefCenter[1] + (reefRadius + centerDistanceOffset) * Math.sin(Units.degreesToRadians(60)), Math.PI/3};
+    public static double[] KLReefCenter = new double[]{reefCenter[0] + (reefRadius + centerDistanceOffset) * Math.cos(Units.degreesToRadians(120)), reefCenter[1] + (reefRadius + centerDistanceOffset) * Math.sin(Units.degreesToRadians(120)), Math.PI*2/3};
+
+    //---------------- Calculate 6 Playing Poses Around Reef ---------------
+    private static double[] ABReefPlaying = new double[]{reefCenter[0] + (reefRadius + playingDistanceOffset) * Math.cos(Units.degreesToRadians(180)), reefCenter[1] + (reefRadius + playingDistanceOffset) * Math.sin(Units.degreesToRadians(180)), Math.PI};
+    private static double[] CDReefPlaying = new double[]{reefCenter[0] + (reefRadius + playingDistanceOffset) * Math.cos(Units.degreesToRadians(240)), reefCenter[1] + (reefRadius + playingDistanceOffset) * Math.sin(Units.degreesToRadians(240)), Math.PI*4/3};
+    private static double[] EFReefPlaying = new double[]{reefCenter[0] + (reefRadius + playingDistanceOffset) * Math.cos(Units.degreesToRadians(300)), reefCenter[1] + (reefRadius + playingDistanceOffset) * Math.sin(Units.degreesToRadians(300)), Math.PI*5/3};
+    private static double[] GHReefPlaying = new double[]{reefCenter[0] + (reefRadius + playingDistanceOffset) * Math.cos(Units.degreesToRadians(0)), reefCenter[1] + (reefRadius + playingDistanceOffset) * Math.sin(Units.degreesToRadians(0)), 0};
+    private static double[] IJReefPlaying = new double[]{reefCenter[0] + (reefRadius + playingDistanceOffset) * Math.cos(Units.degreesToRadians(60)), reefCenter[1] + (reefRadius + playingDistanceOffset) * Math.sin(Units.degreesToRadians(60)), Math.PI/3};
+    private static double[] KLReefPlaying = new double[]{reefCenter[0] + (reefRadius + playingDistanceOffset) * Math.cos(Units.degreesToRadians(120)), reefCenter[1] + (reefRadius + playingDistanceOffset) * Math.sin(Units.degreesToRadians(120)), Math.PI*2/3};
 
     //---------------- Calculate 6 Left Offset Poses Around Reef -----------
-    public static double[] AReefLeft = new double[]{ABReefCenter[0] - leftOffset * Math.sin(Units.degreesToRadians(0)), ABReefCenter[1] + leftOffset * Math.cos(Units.degreesToRadians(0)), 0};
-    public static double[] CReefLeft = new double[]{CDReefCenter[0] - leftOffset * Math.sin(Units.degreesToRadians(60)), CDReefCenter[1] + leftOffset * Math.cos(Units.degreesToRadians(60)), 240};
-    public static double[] EReefLeft = new double[]{EFReefCenter[0] - leftOffset * Math.sin(Units.degreesToRadians(120)), EFReefCenter[1] + leftOffset * Math.cos(Units.degreesToRadians(120)), 300};
-    public static double[] GReefLeft = new double[]{GHReefCenter[0] - leftOffset * Math.sin(Units.degreesToRadians(180)), GHReefCenter[1] + leftOffset * Math.cos(Units.degreesToRadians(180)), 180};
-    public static double[] IReefLeft = new double[]{IJReefCenter[0] - leftOffset * Math.sin(Units.degreesToRadians(240)), IJReefCenter[1] + leftOffset * Math.cos(Units.degreesToRadians(240)), 60};
-    public static double[] KReefLeft = new double[]{KLReefCenter[0] - leftOffset * Math.sin(Units.degreesToRadians(300)), KLReefCenter[1] + leftOffset * Math.cos(Units.degreesToRadians(300)), 120};
+    public static double[] AReefLeft = new double[]{ABReefPlaying[0] - leftOffset * Math.sin(Units.degreesToRadians(0)), ABReefPlaying[1] + leftOffset * Math.cos(Units.degreesToRadians(0)), Math.PI};
+    public static double[] CReefLeft = new double[]{CDReefPlaying[0] - leftOffset * Math.sin(Units.degreesToRadians(60)), CDReefPlaying[1] + leftOffset * Math.cos(Units.degreesToRadians(60)), Math.PI*4/3};
+    public static double[] EReefLeft = new double[]{EFReefPlaying[0] - leftOffset * Math.sin(Units.degreesToRadians(120)), EFReefPlaying[1] + leftOffset * Math.cos(Units.degreesToRadians(120)), Math.PI*5/3};
+    public static double[] GReefLeft = new double[]{GHReefPlaying[0] - leftOffset * Math.sin(Units.degreesToRadians(180)), GHReefPlaying[1] + leftOffset * Math.cos(Units.degreesToRadians(180)), 0};
+    public static double[] IReefLeft = new double[]{IJReefPlaying[0] - leftOffset * Math.sin(Units.degreesToRadians(240)), IJReefPlaying[1] + leftOffset * Math.cos(Units.degreesToRadians(240)), Math.PI/3};
+    public static double[] KReefLeft = new double[]{KLReefPlaying[0] - leftOffset * Math.sin(Units.degreesToRadians(300)), KLReefPlaying[1] + leftOffset * Math.cos(Units.degreesToRadians(300)), Math.PI*2/3};
   
     //---------------- Calculate 6 Right Offset Poses Around Reef -----------
-    public static double[] BReefRight = new double[]{ABReefCenter[0] + rightOffset * Math.sin(Units.degreesToRadians(0)), ABReefCenter[1] - rightOffset * Math.cos(Units.degreesToRadians(0)), 0};
-    public static double[] DReefRight = new double[]{CDReefCenter[0] + rightOffset * Math.sin(Units.degreesToRadians(60)), CDReefCenter[1] - rightOffset * Math.cos(Units.degreesToRadians(60)), 240};
-    public static double[] FReefRight = new double[]{EFReefCenter[0] + rightOffset * Math.sin(Units.degreesToRadians(120)), EFReefCenter[1] - rightOffset * Math.cos(Units.degreesToRadians(120)), 300};
-    public static double[] HReefRight = new double[]{GHReefCenter[0] + rightOffset * Math.sin(Units.degreesToRadians(180)), GHReefCenter[1] - rightOffset * Math.cos(Units.degreesToRadians(180)), 180};
-    public static double[] JReefRight = new double[]{IJReefCenter[0] + rightOffset * Math.sin(Units.degreesToRadians(240)), IJReefCenter[1] - rightOffset * Math.cos(Units.degreesToRadians(240)), 60};
-    public static double[] LReefRight = new double[]{KLReefCenter[0] + rightOffset * Math.sin(Units.degreesToRadians(300)), KLReefCenter[1] - rightOffset * Math.cos(Units.degreesToRadians(300)), 120};
+    public static double[] BReefRight = new double[]{ABReefPlaying[0] + rightOffset * Math.sin(Units.degreesToRadians(0)), ABReefPlaying[1] - rightOffset * Math.cos(Units.degreesToRadians(0)), Math.PI};
+    public static double[] DReefRight = new double[]{CDReefPlaying[0] + rightOffset * Math.sin(Units.degreesToRadians(60)), CDReefPlaying[1] - rightOffset * Math.cos(Units.degreesToRadians(60)), Math.PI*4/3};
+    public static double[] FReefRight = new double[]{EFReefPlaying[0] + rightOffset * Math.sin(Units.degreesToRadians(120)), EFReefPlaying[1] - rightOffset * Math.cos(Units.degreesToRadians(120)), Math.PI*5/3};
+    public static double[] HReefRight = new double[]{GHReefPlaying[0] + rightOffset * Math.sin(Units.degreesToRadians(180)), GHReefPlaying[1] - rightOffset * Math.cos(Units.degreesToRadians(180)), 0};
+    public static double[] JReefRight = new double[]{IJReefPlaying[0] + rightOffset * Math.sin(Units.degreesToRadians(240)), IJReefPlaying[1] - rightOffset * Math.cos(Units.degreesToRadians(240)), Math.PI/3};
+    public static double[] LReefRight = new double[]{KLReefPlaying[0] + rightOffset * Math.sin(Units.degreesToRadians(300)), KLReefPlaying[1] - rightOffset * Math.cos(Units.degreesToRadians(300)), Math.PI*2/3};
 
     //---------------- Converted 6 Central Poses Around Reef ---------------
     public static Pose2d ABReefPose = new Pose2d(ABReefCenter[0], ABReefCenter[1], new Rotation2d(ABReefCenter[2]));
@@ -66,8 +76,8 @@ public class ReefConstants {
     public static Pose2d LReefPose = new Pose2d(LReefRight[0], LReefRight[1], new Rotation2d(LReefRight[2]));
   }
 
+  //---------------- POST NUMBERS TO SMART DASHBOARD ----------------
   public static void displayReefMath() {
-    //---------------- POST NUMBERS TO SMART DASHBOARD ----------------
     SmartDashboard.putNumberArray("ABReefCenter", ReefMathConstants.ABReefCenter);
     SmartDashboard.putNumberArray("CDReefCenter", ReefMathConstants.CDReefCenter);
     SmartDashboard.putNumberArray("EFReefCenter", ReefMathConstants.EFReefCenter);
@@ -97,12 +107,6 @@ public class ReefConstants {
     public static final Pose2d REEF_SIDE_POSE_GH = ReefMathConstants.GHReefPose;
     public static final Pose2d REEF_SIDE_POSE_IJ = ReefMathConstants.IJReefPose;
     public static final Pose2d REEF_SIDE_POSE_KL = ReefMathConstants.KLReefPose;
-    // public static final Pose2d REEF_SIDE_POSE_AB = new Pose2d(3, 4, new Rotation2d(0)); 
-    // public static final Pose2d REEF_SIDE_POSE_CD = new Pose2d(3.75, 2.75, new Rotation2d(Units.degreesToRadians(240))); 
-    // public static final Pose2d REEF_SIDE_POSE_EF = new Pose2d(5.25, 2.75, new Rotation2d(Units.degreesToRadians(300))); 
-    // public static final Pose2d REEF_SIDE_POSE_GH = new Pose2d(5.9, 4, new Rotation2d(Units.degreesToRadians(180))); // I THINK THIS IS THE WRONG ROTATION
-    // public static final Pose2d REEF_SIDE_POSE_IJ = new Pose2d(5.4, 5.5, new Rotation2d(Units.degreesToRadians(60))); 
-    // public static final Pose2d REEF_SIDE_POSE_KL = new Pose2d(3.6, 5.5, new Rotation2d(Units.degreesToRadians(120))); 
 
     public static final Pose2d[] BLUE_REEF_SIDE_POSES = {
       REEF_SIDE_POSE_AB, REEF_SIDE_POSE_CD, REEF_SIDE_POSE_EF,
@@ -112,12 +116,12 @@ public class ReefConstants {
     public static final double RED_TRANSFORMATION_X = 8.5;
 
     public static final Pose2d[] RED_REEF_SIDE_POSES = {
-      new Pose2d(REEF_SIDE_POSE_GH.getX() + 8.5, REEF_SIDE_POSE_GH.getY(), REEF_SIDE_POSE_GH.getRotation()),
-      new Pose2d(REEF_SIDE_POSE_IJ.getX() + 8.5, REEF_SIDE_POSE_IJ.getY(), REEF_SIDE_POSE_IJ.getRotation()),
-      new Pose2d(REEF_SIDE_POSE_KL.getX() + 8.5, REEF_SIDE_POSE_KL.getY(), REEF_SIDE_POSE_KL.getRotation()),
-      new Pose2d(REEF_SIDE_POSE_AB.getX() + 8.5, REEF_SIDE_POSE_AB.getY(), REEF_SIDE_POSE_AB.getRotation()),
-      new Pose2d(REEF_SIDE_POSE_CD.getX() + 8.5, REEF_SIDE_POSE_CD.getY(), REEF_SIDE_POSE_CD.getRotation()),
-      new Pose2d(REEF_SIDE_POSE_EF.getX() + 8.5, REEF_SIDE_POSE_EF.getY(), REEF_SIDE_POSE_EF.getRotation())
+      new Pose2d(REEF_SIDE_POSE_GH.getX() + RED_TRANSFORMATION_X, REEF_SIDE_POSE_GH.getY(), REEF_SIDE_POSE_GH.getRotation()),
+      new Pose2d(REEF_SIDE_POSE_IJ.getX() + RED_TRANSFORMATION_X, REEF_SIDE_POSE_IJ.getY(), REEF_SIDE_POSE_IJ.getRotation()),
+      new Pose2d(REEF_SIDE_POSE_KL.getX() + RED_TRANSFORMATION_X, REEF_SIDE_POSE_KL.getY(), REEF_SIDE_POSE_KL.getRotation()),
+      new Pose2d(REEF_SIDE_POSE_AB.getX() + RED_TRANSFORMATION_X, REEF_SIDE_POSE_AB.getY(), REEF_SIDE_POSE_AB.getRotation()),
+      new Pose2d(REEF_SIDE_POSE_CD.getX() + RED_TRANSFORMATION_X, REEF_SIDE_POSE_CD.getY(), REEF_SIDE_POSE_CD.getRotation()),
+      new Pose2d(REEF_SIDE_POSE_EF.getX() + RED_TRANSFORMATION_X, REEF_SIDE_POSE_EF.getY(), REEF_SIDE_POSE_EF.getRotation())
     };
 
     public static final Pose2d REEF_POSE_A = ReefMathConstants.AReefPose;
@@ -132,31 +136,25 @@ public class ReefConstants {
     public static final Pose2d REEF_POSE_J = ReefMathConstants.JReefPose;
     public static final Pose2d REEF_POSE_K = ReefMathConstants.KReefPose;
     public static final Pose2d REEF_POSE_L = ReefMathConstants.LReefPose;
-    // public static final Pose2d REEF_POSE_A = new Pose2d(3.2, 4.1, new Rotation2d(0));
-    // public static final Pose2d REEF_POSE_B = new Pose2d(3.2, 3.87, new Rotation2d(0));
-    // public static final Pose2d REEF_POSE_C = new Pose2d(3.6, 3.1, new Rotation2d(0));
-    // public static final Pose2d REEF_POSE_D = new Pose2d(4.1, 2.87, new Rotation2d(0));
-    // public static final Pose2d REEF_POSE_E = new Pose2d(5.1, 2.75, new Rotation2d(0));
-    // public static final Pose2d REEF_POSE_F = new Pose2d(5.4, 2.9, new Rotation2d(0));
-    // public static final Pose2d REEF_POSE_G = new Pose2d(6, 3.8, new Rotation2d(0));
-    // public static final Pose2d REEF_POSE_H = new Pose2d(6, 4.2, new Rotation2d(0));
-    // public static final Pose2d REEF_POSE_I = new Pose2d(5.4, 5.15, new Rotation2d(0));
-    // public static final Pose2d REEF_POSE_J = new Pose2d(5.1, 5.35, new Rotation2d(0));
-    // public static final Pose2d REEF_POSE_K = new Pose2d(4, 5.4, new Rotation2d(0));
-    // public static final Pose2d REEF_POSE_L = new Pose2d(3.6, 5.2, new Rotation2d(0));
 
     public static final Pose2d[] BLUE_REEF_POSES = {
       REEF_POSE_A, REEF_POSE_B, REEF_POSE_C, REEF_POSE_D, REEF_POSE_E, REEF_POSE_F, 
       REEF_POSE_G, REEF_POSE_H, REEF_POSE_I, REEF_POSE_J, REEF_POSE_K, REEF_POSE_L
     };
-
-    public static final Transform2d RED_TRANSFORMATION = new Transform2d(8.5, 0, new Rotation2d(0));
     
     public static final Pose2d[] RED_REEF_POSES = {
-      REEF_POSE_G.plus(RED_TRANSFORMATION), REEF_POSE_H.plus(RED_TRANSFORMATION), REEF_POSE_I.plus(RED_TRANSFORMATION),
-      REEF_POSE_J.plus(RED_TRANSFORMATION), REEF_POSE_K.plus(RED_TRANSFORMATION), REEF_POSE_L.plus(RED_TRANSFORMATION),
-      REEF_POSE_A.plus(RED_TRANSFORMATION), REEF_POSE_B.plus(RED_TRANSFORMATION), REEF_POSE_C.plus(RED_TRANSFORMATION),
-      REEF_POSE_D.plus(RED_TRANSFORMATION), REEF_POSE_E.plus(RED_TRANSFORMATION), REEF_POSE_F.plus(RED_TRANSFORMATION)
+      new Pose2d(REEF_POSE_G.getX() + RED_TRANSFORMATION_X, REEF_POSE_G.getY(), REEF_POSE_G.getRotation()),
+      new Pose2d(REEF_POSE_H.getX() + RED_TRANSFORMATION_X, REEF_POSE_H.getY(), REEF_POSE_H.getRotation()),
+      new Pose2d(REEF_POSE_I.getX() + RED_TRANSFORMATION_X, REEF_POSE_I.getY(), REEF_POSE_I.getRotation()),
+      new Pose2d(REEF_POSE_J.getX() + RED_TRANSFORMATION_X, REEF_POSE_J.getY(), REEF_POSE_J.getRotation()),
+      new Pose2d(REEF_POSE_K.getX() + RED_TRANSFORMATION_X, REEF_POSE_K.getY(), REEF_POSE_K.getRotation()),
+      new Pose2d(REEF_POSE_L.getX() + RED_TRANSFORMATION_X, REEF_POSE_L.getY(), REEF_POSE_L.getRotation()),
+      new Pose2d(REEF_POSE_A.getX() + RED_TRANSFORMATION_X, REEF_POSE_A.getY(), REEF_POSE_A.getRotation()),
+      new Pose2d(REEF_POSE_B.getX() + RED_TRANSFORMATION_X, REEF_POSE_B.getY(), REEF_POSE_B.getRotation()),
+      new Pose2d(REEF_POSE_C.getX() + RED_TRANSFORMATION_X, REEF_POSE_C.getY(), REEF_POSE_C.getRotation()),
+      new Pose2d(REEF_POSE_D.getX() + RED_TRANSFORMATION_X, REEF_POSE_D.getY(), REEF_POSE_D.getRotation()),
+      new Pose2d(REEF_POSE_E.getX() + RED_TRANSFORMATION_X, REEF_POSE_E.getY(), REEF_POSE_E.getRotation()),
+      new Pose2d(REEF_POSE_F.getX() + RED_TRANSFORMATION_X, REEF_POSE_F.getY(), REEF_POSE_F.getRotation())
     };
 
     public static final double BLUE_CORAL_STATION_DEG = 126;
