@@ -32,6 +32,8 @@ public class ElevatorSubsystem extends SubsystemBase{
 
     public int levelIndex = 0;
     
+    // HEIGHT GOAL :)
+    public int heightGoal = 4;
       /* Constructor */
     public ElevatorSubsystem() {
 
@@ -63,7 +65,7 @@ public class ElevatorSubsystem extends SubsystemBase{
     public void elevatorToIndex() {
 
       motorLeader.setControl(levelIndex.check the nuber I guess);
-    }*/ //THIS IS THURSDAYS PROBLEM LOL 
+    }*/ //THIS IS SATURDAYS PROBLEM LOL :)
 
     public Command elevatorToHome() {
       return Commands.runOnce(() -> 
@@ -118,12 +120,13 @@ public class ElevatorSubsystem extends SubsystemBase{
       positionTorqueCurrentRequest.withPosition(Units.radiansToRotations(positionRad)).withFeedForward(FF));
     }
 
+    public double getElevatorPosition() {
+      return motorLeader.getPosition().getValueAsDouble();
+    }
 
-    //MOVE THIS TO THE SHOOTERBOXX SUBSYSTEM BRUHHHH
-    // public boolean ShooterBoxSensorTrue() { 
-    //   // Query some boolean state, such as a digital sensor.
-    //   return false;
-    // }
+    public double getHeightGoal() {
+    return heightGoal;
+    }
 
     // public Command ElevatorMove(double setpoint) {
     //   return Commands.runOnce(() -> {

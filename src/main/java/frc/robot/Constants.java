@@ -15,6 +15,9 @@ public final class Constants {
   // Drive Train Constants
   public static class DrivetrainConstants {
    
+    //Coral Scoring Constants 
+    public static final double MarginOfError = Units.inchesToMeters(3);
+
     // Controller Nerf
     public static final double SlowMoSpeed = 0.3;
 
