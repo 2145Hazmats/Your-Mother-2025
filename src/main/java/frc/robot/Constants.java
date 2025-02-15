@@ -14,10 +14,8 @@ public final class Constants {
   
   // Drive Train Constants
   public static class DrivetrainConstants {
-   
-    //Coral Scoring Constants 
-    public static final double MarginOfError = Units.inchesToMeters(3);
-
+    public static final double MAX_ROTATIONS_PER_SECOND = 0.75;
+    
     // Controller Nerf
     public static final double SlowMoSpeed = 0.3;
 
@@ -26,13 +24,11 @@ public final class Constants {
     public static final double PID_DEGREE = 0.008;
     public static final double PID_RAD = 6;
 
-
     // Feed Forward Constants
     public static final double FEEDFORWARD_CONSTANT = 0.022;
     public static final double FEEDFORWARD_CONSTANT_DEGREE = 0.12;
   }
 
-  
   public static class PathPlannerConstants {
     // PID Autobuilder
     public static final PIDConstants TRANSLATIONAL_PID = new PIDConstants(5, 0, 0);
@@ -87,8 +83,7 @@ public final class Constants {
     public static final int kCoralSensorChannel = 0;
     public static final double kSpitSpeed = 0.5;
     public static final double kSuckSpeed = -0.5;
-  } 
-  
+  }
   public static class ClimbContants {
     public static final int ClimbMotorId = 4000000;
     public static final int ClimbHomeSetpoint = 44;
@@ -101,5 +96,17 @@ public final class Constants {
   
   }
   
+  //Coral Scoring Constants 
+  public static class ScoreCoralConstants { 
+    public static final double ElevatorError = Units.inchesToMeters(3);
+    public static final double DriveTrainError = Units.inchesToMeters(3);
+    
+  }
 
+  public static class ControllerConstants {
+    public static enum EVERYTHING_ENUM {SCORE, LEFT_SOURCE, RIGHT_SOURCE, NET, PROCESSOR, CLIMB};
+  }
+    
 }
+
+

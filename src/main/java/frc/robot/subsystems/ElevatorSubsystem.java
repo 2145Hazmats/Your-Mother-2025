@@ -30,11 +30,9 @@ public class ElevatorSubsystem extends SubsystemBase{
     private final PositionTorqueCurrentFOC positionTorqueCurrentRequest =
   new PositionTorqueCurrentFOC(0); //MECHANICAL ADVANTAGE POSITION CONTROL WITH FF
 
-    public int levelIndex = 0;
-    
-    // HEIGHT GOAL :)
-    public int heightGoal = 4;
-      /* Constructor */
+    private int levelIndex = 1;
+  
+    /* Constructor */
     public ElevatorSubsystem() {
 
       config.MotorOutput.NeutralMode = NeutralModeValue.Brake;
@@ -48,17 +46,18 @@ public class ElevatorSubsystem extends SubsystemBase{
 
       // Sets Follower to follow leader
       motorFollower.setControl(new Follower(motorLeader.getDeviceID(), false));
+
+      SmartDashboard.putNumber("Elevator Level Index", levelIndex);
     }
 
-    public void levelIndexSwitch(boolean down){ //IT SAID UP BEFORE BUT I THINK ITS WRONG LOL 
-      if(down == true) {
-          if (levelIndex == 0) { levelIndex = 3; }
-          else { levelIndex--; }
+    public void levelIndexSwitch(boolean up){
+      if(up == true) {
+          if (levelIndex < 4) { levelIndex++; }
       }
       else {
-          if(levelIndex == 3) { levelIndex = 0; }
-          else{ levelIndex++; }
+          if(levelIndex > 1) { levelIndex--; }
       }
+      SmartDashboard.putNumber("Elevator Level Index", levelIndex);
   }
 
 /* 
@@ -93,8 +92,8 @@ public class ElevatorSubsystem extends SubsystemBase{
       }
 
 
-    public Command elevatorJoystick(double joystick) { // MAY NEED TO CHANGE THIS TO DOAGLE SUPPLIER :)()()))
-      return Commands.run(() -> motorLeader.setControl(new DutyCycleOut(joystick*.4)), this);
+    public Command elevatorJoystick(DoubleSupplier joystick) { // MAY NEED TO CHANGE THIS TO DOAGLE SUPPLIER :)()()))
+      return Commands.run(() -> motorLeader.setControl(new DutyCycleOut(joystick.getAsDouble()*.4)), this);
     }
 
     public Command disableElevator() {
@@ -124,9 +123,9 @@ public class ElevatorSubsystem extends SubsystemBase{
       return motorLeader.getPosition().getValueAsDouble();
     }
 
-    public double getHeightGoal() {
-    return heightGoal;
-    }
+    public int getLevelIndex() {
+      return levelIndex;
+      }
 
     // public Command ElevatorMove(double setpoint) {
     //   return Commands.runOnce(() -> {
@@ -190,5 +189,13 @@ public class ElevatorSubsystem extends SubsystemBase{
     public void periodic() {
       SmartDashboard.putNumber("Right Elevator Position", motorFollower.getPosition().getValueAsDouble()); //MAY BE WRONG LEFT RIGHT IDK
       SmartDashboard.putNumber("Left Elevator Position", motorLeader.getPosition().getValueAsDouble());
+    
+      SmartDashboard.putBoolean("Reef Level 1", false); SmartDashboard.putBoolean("Reef Level 2", false);
+      SmartDashboard.putBoolean("Reef Level 3", false); SmartDashboard.putBoolean("Reef Level 4", false);
+
+      if (levelIndex == 1) {SmartDashboard.putBoolean("Reef Level 1", true);}
+      else if (levelIndex == 2) {SmartDashboard.putBoolean("Reef Level 2", true);}
+      else if (levelIndex == 3) {SmartDashboard.putBoolean("Reef Level 3", true);}
+      else if (levelIndex == 4) {SmartDashboard.putBoolean("Reef Level 4", true);}
     }
 }
