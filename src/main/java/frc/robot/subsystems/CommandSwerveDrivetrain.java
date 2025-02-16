@@ -198,11 +198,12 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
 
     // Goes to each coral station
     public Command pathFindToLeftBlueCoralStation() {
-        return AutoBuilder.pathfindToPose(PoseConstants.CORAL_STATION_LEFT_BLUE_POSE, pathFindingConstraints, 0);
+        return AutoBuilder.pathfindToPose(PoseConstants.CORAL_STATION_LEFT_BLUE_PATHFIND_POSE, pathFindingConstraints, 0);
     }
     public Command pathFindToRightBlueCoralStation() {
-        return AutoBuilder.pathfindToPose(PoseConstants.CORAL_STATION_RIGHT_BLUE_POSE, pathFindingConstraints, 0);
+        return AutoBuilder.pathfindToPose(PoseConstants.CORAL_STATION_RIGHT_BLUE_PATHFIND_POSE, pathFindingConstraints, 0);
     }
+    //TODO: CHANGE THIS AFTER CONSTANTS
     public Command pathFindToLeftRedCoralStation() {
         return AutoBuilder.pathfindToPose(PoseConstants.CORAL_STATION_LEFT_RED_POSE, pathFindingConstraints, 0);
     }

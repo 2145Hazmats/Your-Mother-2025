@@ -140,8 +140,16 @@ public class RobotContainer {
 
         // EVERYTHING BUTTON
         // EVERYTHING_ENUM.SCORE BLUE
-        P2controller.back().and(() -> selectedEnum == EVERYTHING_ENUM.SCORE).and(drivetrain::isAllianceBlue)
-        .whileTrue(drivetrain.pathFindToAllTheReefsBlue().andThen(new ScoreCoral(drivetrain, m_ElevatorSubsystem, m_ShooterBoxx)));
+        P2controller.back().and(() -> selectedEnum == EVERYTHING_ENUM.SCORE).and(drivetrain::isAllianceBlue).whileTrue(drivetrain.pathFindToAllTheReefsBlue().andThen(
+            Commands.parallel(
+                drivetrain.applyRequest(() ->
+                    drive.withVelocityX(drivetrain.PIDDriveToPointX(PoseConstants.BLUE_REEF_POSES[drivetrain.getReefIndex()].getX()) * MaxSpeed)
+                    .withVelocityY(drivetrain.PIDDriveToPointY(PoseConstants.BLUE_REEF_POSES[drivetrain.getReefIndex()].getY()) * MaxSpeed)
+                    .withRotationalRate(drivetrain.PIDDriveToPointDEG(PoseConstants.BLUE_REEF_POSES[drivetrain.getReefIndex()].getRotation().getDegrees()))
+                ),
+                new ScoreCoral(drivetrain, m_ElevatorSubsystem, m_ShooterBoxx)
+            )
+        ));
         // EVERYTHING_ENUM.SCORE RED
         P2controller.back().and(() -> selectedEnum == EVERYTHING_ENUM.SCORE).and(drivetrain::isAllianceRed).whileTrue(drivetrain.pathFindToAllTheReefsRed().andThen(
             Commands.parallel(
@@ -285,22 +293,22 @@ public class RobotContainer {
         
 
         P4controller.povUp().whileTrue(m_ElevatorSubsystem.elevatorToL4());
+
+        P4controller.a().whileTrue(m_ElevatorSubsystem.elevatorToHome());
         // P3controller.povUp().onFalse(m_ElevatorSubsystem.elevatorToHome()); THIS WILL HIT BOTCAVE CEILING !! FIX LATER !!
 
         // SHOOTER BOX COMMANDS
 
-        P4controller.leftTrigger().onTrue(m_ShooterBoxx.RunShooter(-0.3));
-        P4controller.leftTrigger().onFalse(m_ShooterBoxx.StopShooterMotor());
-
-        P4controller.rightTrigger().onTrue(m_ShooterBoxx.RunShooter(0.3)).onFalse(m_ShooterBoxx.StopShooterMotor());
+        // P4controller.leftTrigger().whileTrue(m_ShooterBoxx.RunShooter(-0.1));
         
-        P4controller.leftBumper().whileTrue(m_ShooterBoxx.SuckTillSensor());
+        
+        P4controller.leftBumper().whileTrue(m_ShooterBoxx.SpitTillSensor());
         P4controller.rightBumper().whileTrue(m_ShooterBoxx.SuckTillSensor());
 
-        P4controller.a().onTrue(m_ElevatorSubsystem.setElevatorPID());
+        //P4controller.a().onTrue(m_ElevatorSubsystem.setElevatorPID());
         P4controller.b().onTrue(m_ElevatorSubsystem.resetElevatorPosition());
         P4controller.x().whileTrue(m_ShooterBoxx.worksShoot());
-        P4controller.y().whileTrue(m_ShooterBoxx.worksRegurgitate());
+        //P4controller.y().whileTrue(m_ShooterBoxx.worksRegurgitate());
         
         
 

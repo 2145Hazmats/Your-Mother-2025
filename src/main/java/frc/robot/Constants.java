@@ -48,9 +48,9 @@ public final class Constants {
     //The Cameras are mounted on the back of the value so all transform signs are flipped (not rotations). + ➔ -
     
     public static final Transform3d ROBOT_TO_CENTRAL_CAMERA =
-        new Transform3d(Units.inchesToMeters(-12.1), 0, -Units.inchesToMeters(7.55), new Rotation3d(0, Math.PI, 0));
+        new Transform3d(Units.inchesToMeters(10.18917), Units.inchesToMeters(-12.61233), Units.inchesToMeters(8.62949), new Rotation3d(0, Units.degreesToRadians(10), Units.degreesToRadians(45)));
     public static final Transform3d ROBOT_TO_LEFT_CAMERA =
-    new Transform3d(-0.2545401, -0.1467405,  0.1934088, new Rotation3d(0, Units.degreesToRadians(210), Units.degreesToRadians(-12)));
+        new Transform3d(Units.inchesToMeters(10.97833), Units.inchesToMeters(12.87533),  Units.inchesToMeters(8.62949), new Rotation3d(0, Units.degreesToRadians(10), 0));
 }
     
   // Elevator Constants
@@ -64,16 +64,16 @@ public final class Constants {
     // public static final double PIDL2 = 0;
     // public static final double PIDL3 = 0;
     // public static final double PIDL4 = 0;
-    public static final double ElaphantP = 0.5;
+    public static final double ElaphantP = 0.015;
     public static final double ElaphantI = 0;
-    public static final double ElaphantD = 0;
+    public static final double ElaphantD = 0.001;
 
     // Elevator Level Heights
-    public static final double L1Position = -15;
-    public static final double L2Position = -34;
-    public static final double L3Position = -48;
-    public static final double L4Position = -64;
-    public static final double HomePosition = -5;
+    public static final double L1Position = -19;
+    public static final double L2Position = -29;
+    public static final double L3Position = -50.5; //-49.1 is perfect from oxford, our pid is bad
+    public static final double L4Position = -83;  //-81.15 is perfect from oxford, our pid is bad
+    public static final double HomePosition = -2;
     
     public static final double MarginOfError = 3;
   }
@@ -83,7 +83,7 @@ public final class Constants {
     public static final int ShooterMotorId = 39;
     public static final double kShooterMotorNominalVoltageConstant = 10.5;
     public static final int kCoralSensorChannel = 0;
-    public static final double kSpitSpeed = 0.5;
+    public static final double kSpitSpeed = -0.5;
     public static final double kSuckSpeed = -0.5;
   }
   public static class ClimbContants {
@@ -96,6 +96,7 @@ public final class Constants {
     public static final double ClimbD = 0;
   
   
+
   }
   
   //Coral Scoring Constants 

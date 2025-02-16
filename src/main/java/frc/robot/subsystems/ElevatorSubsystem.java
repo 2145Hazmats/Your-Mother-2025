@@ -42,7 +42,7 @@ public class ElevatorSubsystem extends SubsystemBase{
     
       //-------------------------------------------
       motorLeader.getConfigurator().apply(config);
-      //motorFollower.getConfigurator().apply(config); // MECHANICAL ADVANTAGE DID NOT USE FOLLOWER
+      motorFollower.getConfigurator().apply(config); // MECHANICAL ADVANTAGE DID NOT USE FOLLOWER
 
       // Sets Follower to follow leader
       motorFollower.setControl(new Follower(motorLeader.getDeviceID(), false));
@@ -60,49 +60,47 @@ public class ElevatorSubsystem extends SubsystemBase{
       SmartDashboard.putNumber("Elevator Level Index", levelIndex);
   }
 
-/* 
-    public void elevatorToIndex() {
 
-      motorLeader.setControl(levelIndex.check the nuber I guess);
-    }*/ //THIS IS SATURDAYS PROBLEM LOL :)
-
-    // public Command elevatorToHome() {
-    //   return Commands.runOnce(() -> 
-    //     motorLeader.setControl(new PositionDutyCycle(Constants.elevatorConstants.HomePosition)), this);
-    //   }
-
-    // public Command elevatorToL1() {
-    //   return Commands.runOnce(() -> 
-    //     motorLeader.setControl(new PositionDutyCycle(Constants.elevatorConstants.L1Position)), this);
-    //   }
-
-    // public Command elevatorToL2() {
-    //   return Commands.runOnce(() -> 
-    //     motorLeader.setControl(new PositionDutyCycle(Constants.elevatorConstants.L2Position)), this);
-    //   }
-
-    // public Command elevatorToL3() {
-    //   return Commands.runOnce(() -> 
-    //     motorLeader.setControl(new PositionDutyCycle(Constants.elevatorConstants.L3Position)), this);
-    //   }
-
-    // public Command elevatorToL4() {
-    //   return Commands.runOnce(() -> 
-    //     motorLeader.setControl(new PositionDutyCycle(Constants.elevatorConstants.L4Position)), this);
-    //   }
-
-    public Command elevatorToHome() {
-      return Commands.run(() -> {
-        if (getElevatorPosition() < Constants.elevatorConstants.HomePosition - Constants.elevatorConstants.MarginOfError) {
-            motorLeader.set(.3);
-
-        }
-      else if (getElevatorPosition() > Constants.elevatorConstants.HomePosition + Constants.elevatorConstants.MarginOfError){
-        motorLeader.set(-.3);
-      } }, this);
+ /*  public Command elevatorToIndex() {
+    return Commands.run(() -> 
+      motorLeader.setControl(new PositionDutyCycle(levelIndex.convertto constants )), this);
+    }*/    public Command elevatorToHome() {
+      return Commands.run(() -> 
+        motorLeader.setControl(new PositionDutyCycle(Constants.elevatorConstants.HomePosition)), this);
       }
 
-    public Command elevatorToL1() {
+     public Command elevatorToL1() {
+       return Commands.run(() -> 
+         motorLeader.setControl(new PositionDutyCycle(Constants.elevatorConstants.L1Position)), this);
+       }
+
+    public Command elevatorToL2() {
+      return Commands.run(() -> 
+        motorLeader.setControl(new PositionDutyCycle(Constants.elevatorConstants.L2Position)), this);
+      }
+
+    public Command elevatorToL3() {
+      return Commands.run(() -> 
+        motorLeader.setControl(new PositionDutyCycle(Constants.elevatorConstants.L3Position)), this);
+      }
+
+    public Command elevatorToL4() {
+      return Commands.run(() -> 
+        motorLeader.setControl(new PositionDutyCycle(Constants.elevatorConstants.L4Position)), this);
+      }
+
+    // public Command elevatorToHome() {
+    //   return Commands.run(() -> {
+    //     if (getElevatorPosition() < Constants.elevatorConstants.HomePosition - Constants.elevatorConstants.MarginOfError) {
+    //         motorLeader.set(.3);
+
+    //     }
+    //   else if (getElevatorPosition() > Constants.elevatorConstants.HomePosition + Constants.elevatorConstants.MarginOfError){
+    //     motorLeader.set(-.3);
+    //   } }, this);
+    //   }
+
+    /*public Command elevatorToL1() {
       return Commands.run(() -> {
         if (getElevatorPosition() < Constants.elevatorConstants.L1Position - Constants.elevatorConstants.MarginOfError) {
             motorLeader.set(.3);
@@ -111,41 +109,41 @@ public class ElevatorSubsystem extends SubsystemBase{
       else if (getElevatorPosition() > Constants.elevatorConstants.L1Position + Constants.elevatorConstants.MarginOfError){
         motorLeader.set(-.3);
       } }, this);
-      }
+      }*/
 
-      public Command elevatorToL2() {
-        return Commands.run(() -> {
-          if (getElevatorPosition() < Constants.elevatorConstants.L2Position - Constants.elevatorConstants.MarginOfError) {
-              motorLeader.set(.3);
+      // public Command elevatorToL2() {
+      //   return Commands.run(() -> {
+      //     if (getElevatorPosition() < Constants.elevatorConstants.L2Position - Constants.elevatorConstants.MarginOfError) {
+      //         motorLeader.set(.3);
   
-          }
-        else if (getElevatorPosition() > Constants.elevatorConstants.L2Position + Constants.elevatorConstants.MarginOfError){
-          motorLeader.set(-.3);
-        } }, this);
-        }
+      //     }
+      //   else if (getElevatorPosition() > Constants.elevatorConstants.L2Position + Constants.elevatorConstants.MarginOfError){
+      //     motorLeader.set(-.3);
+      //   } }, this);
+      //   }
         
-        public Command elevatorToL3() {
-          return Commands.run(() -> {
-            if (getElevatorPosition() < Constants.elevatorConstants.L3Position - Constants.elevatorConstants.MarginOfError) {
-                motorLeader.set(.3);
+      //   public Command elevatorToL3() {
+      //     return Commands.run(() -> {
+      //       if (getElevatorPosition() < Constants.elevatorConstants.L3Position - Constants.elevatorConstants.MarginOfError) {
+      //           motorLeader.set(.3);
     
-            }
-          else if (getElevatorPosition() > Constants.elevatorConstants.L3Position + Constants.elevatorConstants.MarginOfError){
-            motorLeader.set(-.3);
-          } }, this);
-          }
+      //       }
+      //     else if (getElevatorPosition() > Constants.elevatorConstants.L3Position + Constants.elevatorConstants.MarginOfError){
+      //       motorLeader.set(-.3);
+      //     } }, this);
+      //     }
    
 
-          public Command elevatorToL4() {
-            return Commands.run(() -> {
-              if (getElevatorPosition() < Constants.elevatorConstants.L4Position - Constants.elevatorConstants.MarginOfError) {
-                  motorLeader.set(.3);
+      //     public Command elevatorToL4() {
+      //       return Commands.run(() -> {
+      //         if (getElevatorPosition() < Constants.elevatorConstants.L4Position - Constants.elevatorConstants.MarginOfError) {
+      //             motorLeader.set(.3);
       
-              }
-            else if (getElevatorPosition() > Constants.elevatorConstants.L4Position + Constants.elevatorConstants.MarginOfError){
-              motorLeader.set(-.3);
-            } }, this);
-            }
+      //         }
+      //       else if (getElevatorPosition() > Constants.elevatorConstants.L4Position + Constants.elevatorConstants.MarginOfError){
+      //         motorLeader.set(-.3);
+      //       } }, this);
+      //       }
 
 
     public Command elevatorJoystick(DoubleSupplier joystick) { // MAY NEED TO CHANGE THIS TO DOAGLE SUPPLIER :)()()))

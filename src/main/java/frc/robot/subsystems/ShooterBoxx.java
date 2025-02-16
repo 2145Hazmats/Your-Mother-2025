@@ -46,34 +46,34 @@ shooterConfig.closedLoop
   }
 
 public Command RunShooter(double CustomSpeed ) {
-return Commands.runOnce(() -> {
+return Commands.run(() -> {
 shooterMotor.set(CustomSpeed);
 } );
 }
 public Command worksShoot() {
 
-  return Commands.run(() -> shooterMotor.set(-1), this);
+  return Commands.run(() -> shooterMotor.set(-.5), this);
 };
 
 public Command worksRegurgitate() {
 
-  return Commands.run(() -> shooterMotor.set(1), this);
+  return Commands.run(() -> shooterMotor.set(.4), this);
 };
 
 
 public Command StopShooterMotor() {
-return Commands.runOnce(() -> {
+return Commands.run(() -> {
   shooterMotor.set(0);
 }, this);
 }
 
 public Command SuckTillSensor() {
-return Commands.runOnce(() -> {
+return Commands.run(() -> {
   shooterMotor.set(Constants.shooterBoxxContants.kSuckSpeed);
 }).until(() -> CoralSensorTriggered()); }
 
 public Command SpitTillSensor() {
-return Commands.runOnce(() -> {
+return Commands.run(() -> {
   shooterMotor.set(Constants.shooterBoxxContants.kSpitSpeed);
 }).until(() -> CoralSensorUntriggered()); }
 

@@ -76,10 +76,10 @@ public class ScoreCoral extends Command {
     int level = theElephant.getLevelIndex();
     
     // Moves elevator to desired height and sets elevator goal
-    if (level == 1) {theElephant.elevatorToL1(); elevatorGoal = elevatorConstants.L1Position;}
-    else if (level == 2) {theElephant.elevatorToL2(); elevatorGoal = elevatorConstants.L2Position;}
-    else if (level == 3) {theElephant.elevatorToL3(); elevatorGoal = elevatorConstants.L3Position;}
-    else if (level == 4) {theElephant.elevatorToL4(); elevatorGoal = elevatorConstants.L4Position;}
+    // if (level == 1) {theElephant.elevatorToL1(); elevatorGoal = elevatorConstants.L1Position;}
+    // else if (level == 2) {theElephant.elevatorToL2(); elevatorGoal = elevatorConstants.L2Position;}
+    // else if (level == 3) {theElephant.elevatorToL3(); elevatorGoal = elevatorConstants.L3Position;}
+    // else if (level == 4) {theElephant.elevatorToL4(); elevatorGoal = elevatorConstants.L4Position;}
   }
 
   // Every 20ms We have a PID (funny math) and we check if the height of the elevator and the postition of the robot 
@@ -101,19 +101,6 @@ public class ScoreCoral extends Command {
     && currentElevatorPosition < (elevatorGoal + ScoreCoralConstants.ElevatorError)) {
       theSnout.RunShooter(shooterBoxxContants.kSpitSpeed); // Runs shooter if drivetrain and elevator positions are within their bounds of error
     }
-    
-    // Runs Drivetrain to get us to the correct position
-    // theLegs.applyRequest(() -> RobotContainer.drive
-    // .withVelocityX(theLegs.PIDDriveToPointX(xGoal) * MaxSpeed)
-    // .withVelocityY(theLegs.PIDDriveToPointY(yGoal) * MaxSpeed)
-    // .withRotationalRate(theLegs.PIDDriveToPointDEG(degGoal))
-    // );
-
-    // theLegs.setControl(drive
-    // .withVelocityX(theLegs.PIDDriveToPointX(xGoal) * MaxSpeed)
-    // .withVelocityY(theLegs.PIDDriveToPointY(yGoal) * MaxSpeed)
-    // .withRotationalRate(theLegs.PIDDriveToPointDEG(degGoal))
-    // );
 
     SmartDashboard.putNumber("ScoreCoral currentDriveX", currentDriveX);
     SmartDashboard.putNumber("ScoreCoral currentDriveY", currentDriveY);
