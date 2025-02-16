@@ -66,30 +66,86 @@ public class ElevatorSubsystem extends SubsystemBase{
       motorLeader.setControl(levelIndex.check the nuber I guess);
     }*/ //THIS IS SATURDAYS PROBLEM LOL :)
 
+    // public Command elevatorToHome() {
+    //   return Commands.runOnce(() -> 
+    //     motorLeader.setControl(new PositionDutyCycle(Constants.elevatorConstants.HomePosition)), this);
+    //   }
+
+    // public Command elevatorToL1() {
+    //   return Commands.runOnce(() -> 
+    //     motorLeader.setControl(new PositionDutyCycle(Constants.elevatorConstants.L1Position)), this);
+    //   }
+
+    // public Command elevatorToL2() {
+    //   return Commands.runOnce(() -> 
+    //     motorLeader.setControl(new PositionDutyCycle(Constants.elevatorConstants.L2Position)), this);
+    //   }
+
+    // public Command elevatorToL3() {
+    //   return Commands.runOnce(() -> 
+    //     motorLeader.setControl(new PositionDutyCycle(Constants.elevatorConstants.L3Position)), this);
+    //   }
+
+    // public Command elevatorToL4() {
+    //   return Commands.runOnce(() -> 
+    //     motorLeader.setControl(new PositionDutyCycle(Constants.elevatorConstants.L4Position)), this);
+    //   }
+
     public Command elevatorToHome() {
-      return Commands.runOnce(() -> 
-        motorLeader.setControl(new PositionDutyCycle(Constants.elevatorConstants.HomePosition)), this);
+      return Commands.run(() -> {
+        if (getElevatorPosition() < Constants.elevatorConstants.HomePosition - Constants.elevatorConstants.MarginOfError) {
+            motorLeader.set(.3);
+
+        }
+      else if (getElevatorPosition() > Constants.elevatorConstants.HomePosition + Constants.elevatorConstants.MarginOfError){
+        motorLeader.set(-.3);
+      } }, this);
       }
 
     public Command elevatorToL1() {
-      return Commands.runOnce(() -> 
-        motorLeader.setControl(new PositionDutyCycle(Constants.elevatorConstants.L1Position)), this);
+      return Commands.run(() -> {
+        if (getElevatorPosition() < Constants.elevatorConstants.L1Position - Constants.elevatorConstants.MarginOfError) {
+            motorLeader.set(.3);
+
+        }
+      else if (getElevatorPosition() > Constants.elevatorConstants.L1Position + Constants.elevatorConstants.MarginOfError){
+        motorLeader.set(-.3);
+      } }, this);
       }
 
-    public Command elevatorToL2() {
-      return Commands.runOnce(() -> 
-        motorLeader.setControl(new PositionDutyCycle(Constants.elevatorConstants.L2Position)), this);
-      }
+      public Command elevatorToL2() {
+        return Commands.run(() -> {
+          if (getElevatorPosition() < Constants.elevatorConstants.L2Position - Constants.elevatorConstants.MarginOfError) {
+              motorLeader.set(.3);
+  
+          }
+        else if (getElevatorPosition() > Constants.elevatorConstants.L2Position + Constants.elevatorConstants.MarginOfError){
+          motorLeader.set(-.3);
+        } }, this);
+        }
+        
+        public Command elevatorToL3() {
+          return Commands.run(() -> {
+            if (getElevatorPosition() < Constants.elevatorConstants.L3Position - Constants.elevatorConstants.MarginOfError) {
+                motorLeader.set(.3);
+    
+            }
+          else if (getElevatorPosition() > Constants.elevatorConstants.L3Position + Constants.elevatorConstants.MarginOfError){
+            motorLeader.set(-.3);
+          } }, this);
+          }
+   
 
-    public Command elevatorToL3() {
-      return Commands.runOnce(() -> 
-        motorLeader.setControl(new PositionDutyCycle(Constants.elevatorConstants.L3Position)), this);
-      }
-
-    public Command elevatorToL4() {
-      return Commands.runOnce(() -> 
-        motorLeader.setControl(new PositionDutyCycle(Constants.elevatorConstants.L4Position)), this);
-      }
+          public Command elevatorToL4() {
+            return Commands.run(() -> {
+              if (getElevatorPosition() < Constants.elevatorConstants.L4Position - Constants.elevatorConstants.MarginOfError) {
+                  motorLeader.set(.3);
+      
+              }
+            else if (getElevatorPosition() > Constants.elevatorConstants.L4Position + Constants.elevatorConstants.MarginOfError){
+              motorLeader.set(-.3);
+            } }, this);
+            }
 
 
     public Command elevatorJoystick(DoubleSupplier joystick) { // MAY NEED TO CHANGE THIS TO DOAGLE SUPPLIER :)()()))
@@ -114,6 +170,15 @@ public class ElevatorSubsystem extends SubsystemBase{
       motorLeader.getConfigurator().apply(config); // NOT SURE IF THIS LINE WORKS MIGHT NEED COMMAND :)
     }
 
+    public Command setElevatorPID() {
+      return Commands.runOnce(() -> {
+        config.Slot0.kP = SmartDashboard.getNumber("ElevatorP", 0);
+      config.Slot0.kI = SmartDashboard.getNumber("ElevatorI", 0);;
+      config.Slot0.kI = SmartDashboard.getNumber("ElevatorD", 0);;
+        motorLeader.getConfigurator().apply(config);}, this);
+       // NOT SURE IF THIS LINE WORKS MIGHT NEED COMMAND :)
+    }
+
     public void FFPosition(double positionRad, double FF) { // STOEL FROM MECHANICAL ADVANTAGE
       motorLeader.setControl(
       positionTorqueCurrentRequest.withPosition(Units.radiansToRotations(positionRad)).withFeedForward(FF));
@@ -121,6 +186,12 @@ public class ElevatorSubsystem extends SubsystemBase{
 
     public double getElevatorPosition() {
       return motorLeader.getPosition().getValueAsDouble();
+    }
+
+    public Command resetElevatorPosition() {
+      return Commands.runOnce(() -> {motorLeader.setPosition(0);
+      motorFollower.setPosition(0);}, this);
+
     }
 
     public int getLevelIndex() {
@@ -197,5 +268,8 @@ public class ElevatorSubsystem extends SubsystemBase{
       else if (levelIndex == 2) {SmartDashboard.putBoolean("Reef Level 2", true);}
       else if (levelIndex == 3) {SmartDashboard.putBoolean("Reef Level 3", true);}
       else if (levelIndex == 4) {SmartDashboard.putBoolean("Reef Level 4", true);}
+      SmartDashboard.putNumber("ElevatorP", 0);
+      SmartDashboard.putNumber("ElevatorI", 0);
+      SmartDashboard.putNumber("ElevatorD", 0);
     }
 }

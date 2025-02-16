@@ -50,6 +50,17 @@ return Commands.runOnce(() -> {
 shooterMotor.set(CustomSpeed);
 } );
 }
+public Command worksShoot() {
+
+  return Commands.run(() -> shooterMotor.set(-1), this);
+};
+
+public Command worksRegurgitate() {
+
+  return Commands.run(() -> shooterMotor.set(1), this);
+};
+
+
 public Command StopShooterMotor() {
 return Commands.runOnce(() -> {
   shooterMotor.set(0);

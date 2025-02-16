@@ -59,12 +59,13 @@ public class RobotContainer {
     private final CommandXboxController P1controller = new CommandXboxController(0);
     private final CommandXboxController P2controller = new CommandXboxController(1);
     private final CommandXboxController P3controller = new CommandXboxController(2);
+    private final CommandXboxController P4controller = new CommandXboxController(3);
     
     // We need to initialize an object of the camera subsystem, we don't have to use it
     private CameraSubsystem m_CameraSubsystem = new CameraSubsystem(drivetrain);
     private ShooterBoxx m_ShooterBoxx = new ShooterBoxx();
     private ElevatorSubsystem m_ElevatorSubsystem = new ElevatorSubsystem();
-    private ClimbSubsystem m_ClimbSubsystem = new ClimbSubsystem();
+    //private ClimbSubsystem m_ClimbSubsystem = new ClimbSubsystem();
 
     public RobotContainer() {
         configureBindings();
@@ -85,9 +86,9 @@ public class RobotContainer {
 
         // Default Commands :)
         //m_ElevatorSubsystem.setDefaultCommand(m_ElevatorSubsystem.defaultCommand()); TEST PID FIRST!!!!!
-        m_ClimbSubsystem.setDefaultCommand(m_ClimbSubsystem.ClimbJoystick(P2controller.getLeftY()));
+        //m_ClimbSubsystem.setDefaultCommand(m_ClimbSubsystem.ClimbJoystick(P2controller.getLeftY()));
         m_ShooterBoxx.setDefaultCommand(m_ShooterBoxx.StopShooterMotor());
-        // m_ElevatorSubsystem.setDefaultCommand(m_ElevatorSubsystem.elevatorJoystick(P2controller::getRightY));
+        m_ElevatorSubsystem.setDefaultCommand(m_ElevatorSubsystem.elevatorJoystick(P4controller::getRightY));
 
 
         drivetrain.registerTelemetry(logger::telemeterize);
@@ -270,31 +271,36 @@ public class RobotContainer {
             .withRotationalRate(drivetrain.angularSpeedToFaceNet()) 
         ));
         //CLIMB BUTTONS  - possibly add maneeeeeeel speed control before Oxford
-        P3controller.b().onTrue(m_ClimbSubsystem.ClimbLockIn());
-        P3controller.y().onTrue(m_ClimbSubsystem.ClimbUp());
+        //P3controller.b().onTrue(m_ClimbSubsystem.ClimbLockIn());
+        //P3controller.y().onTrue(m_ClimbSubsystem.ClimbUp());
 
         //ELEVATOR BUTTONS
-        P3controller.povDown().onTrue(m_ElevatorSubsystem.elevatorToL1());
-        P3controller.povDown().onFalse(m_ElevatorSubsystem.elevatorToHome());
+        P4controller.povDown().whileTrue(m_ElevatorSubsystem.elevatorToL1());
         
-        P3controller.povLeft().onTrue(m_ElevatorSubsystem.elevatorToL2());
-        P3controller.povLeft().onFalse(m_ElevatorSubsystem.elevatorToHome());
+        
+        P4controller.povLeft().whileTrue(m_ElevatorSubsystem.elevatorToL2());
+        
 
-        P3controller.povRight().onTrue(m_ElevatorSubsystem.elevatorToL3());
-        P3controller.povRight().onFalse(m_ElevatorSubsystem.elevatorToHome());
+        P4controller.povRight().whileTrue(m_ElevatorSubsystem.elevatorToL3());
+        
 
-        // P3controller.povUp().onTrue(m_ElevatorSubsystem.elevatorToL4());
+        P4controller.povUp().whileTrue(m_ElevatorSubsystem.elevatorToL4());
         // P3controller.povUp().onFalse(m_ElevatorSubsystem.elevatorToHome()); THIS WILL HIT BOTCAVE CEILING !! FIX LATER !!
 
         // SHOOTER BOX COMMANDS
 
-        P3controller.leftTrigger().onTrue(m_ShooterBoxx.RunShooter(-0.3));
-        P3controller.leftTrigger().onFalse(m_ShooterBoxx.StopShooterMotor());
+        P4controller.leftTrigger().onTrue(m_ShooterBoxx.RunShooter(-0.3));
+        P4controller.leftTrigger().onFalse(m_ShooterBoxx.StopShooterMotor());
 
-        P3controller.rightTrigger().onTrue(m_ShooterBoxx.RunShooter(0.3)).onFalse(m_ShooterBoxx.StopShooterMotor());
+        P4controller.rightTrigger().onTrue(m_ShooterBoxx.RunShooter(0.3)).onFalse(m_ShooterBoxx.StopShooterMotor());
         
-        P3controller.leftBumper().whileTrue(m_ShooterBoxx.SuckTillSensor());
-        P3controller.rightBumper().whileTrue(m_ShooterBoxx.SuckTillSensor());
+        P4controller.leftBumper().whileTrue(m_ShooterBoxx.SuckTillSensor());
+        P4controller.rightBumper().whileTrue(m_ShooterBoxx.SuckTillSensor());
+
+        P4controller.a().onTrue(m_ElevatorSubsystem.setElevatorPID());
+        P4controller.b().onTrue(m_ElevatorSubsystem.resetElevatorPosition());
+        P4controller.x().whileTrue(m_ShooterBoxx.worksShoot());
+        P4controller.y().whileTrue(m_ShooterBoxx.worksRegurgitate());
         
         
 

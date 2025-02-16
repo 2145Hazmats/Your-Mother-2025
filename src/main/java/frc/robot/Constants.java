@@ -56,36 +56,38 @@ public final class Constants {
   // Elevator Constants
   public static class elevatorConstants {
     // MotorIDs
-    public static final int motorLeaderID = 99;
-    public static final int motorFollowerID = 98;
+    public static final int motorLeaderID = 20;
+    public static final int motorFollowerID = 21;
 
     // PID
     // public static final double PIDBottom = 0;
     // public static final double PIDL2 = 0;
     // public static final double PIDL3 = 0;
     // public static final double PIDL4 = 0;
-    public static final double ElaphantP = 0.05;
+    public static final double ElaphantP = 0.5;
     public static final double ElaphantI = 0;
     public static final double ElaphantD = 0;
 
     // Elevator Level Heights
-    public static final double L1Position = 0;
-    public static final double L2Position = 0;
-    public static final double L3Position = 0;
-    public static final double L4Position = 0;
-    public static final double HomePosition = 0;
+    public static final double L1Position = -15;
+    public static final double L2Position = -34;
+    public static final double L3Position = -48;
+    public static final double L4Position = -64;
+    public static final double HomePosition = -5;
+    
+    public static final double MarginOfError = 3;
   }
 
   // Shooter BOXX Constants
   public static class shooterBoxxContants {
-    public static final int ShooterMotorId = 400;
+    public static final int ShooterMotorId = 39;
     public static final double kShooterMotorNominalVoltageConstant = 10.5;
     public static final int kCoralSensorChannel = 0;
     public static final double kSpitSpeed = 0.5;
     public static final double kSuckSpeed = -0.5;
   }
   public static class ClimbContants {
-    public static final int ClimbMotorId = 4000000;
+    public static final int ClimbMotorId = 4000;
     public static final int ClimbHomeSetpoint = 44;
     public static final int ClimbLockInSetPoint = 44;
     public static final int ClimbUpSetPoint = 44;
