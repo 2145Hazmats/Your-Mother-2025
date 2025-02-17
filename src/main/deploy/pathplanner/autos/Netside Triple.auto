@@ -1,0 +1,43 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Netside Preload"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "PreloadToNetStation"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "NetStation2Score"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "ScoreToNetStation"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "NetStation2Score"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": "Net Autos",
+  "choreoAuto": false
+}
