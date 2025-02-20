@@ -14,6 +14,9 @@ import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.WidgetType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -34,6 +37,8 @@ public class ElevatorSubsystem extends SubsystemBase{
   
     /* Constructor */
     public ElevatorSubsystem() {
+
+      SmartDashboard.putNumber("TESTINPUT", 0); // THIS WORKS 
 
       config.MotorOutput.NeutralMode = NeutralModeValue.Brake;
       config.Slot0 = new Slot0Configs().withKP(Constants.elevatorConstants.ElaphantP).withKI(Constants.elevatorConstants.ElaphantI).withKD(Constants.elevatorConstants.ElaphantD);
@@ -161,20 +166,25 @@ public class ElevatorSubsystem extends SubsystemBase{
 
 
 
-      public void setElevatorPID(double NewKP, double NewKI, double NewKD) {
-      config.Slot0.kP = NewKP;
-      config.Slot0.kI = NewKI;
-      config.Slot0.kI = NewKD;
-      motorLeader.getConfigurator().apply(config); // NOT SURE IF THIS LINE WORKS MIGHT NEED COMMAND :)
-    }
+    //   public void setElevatorPID(double NewKP, double NewKI, double NewKD) {
+    //   config.Slot0.kP = NewKP;
+    //   config.Slot0.kI = NewKI;
+    //   config.Slot0.kI = NewKD;
+    //   motorLeader.getConfigurator().apply(config); // NOT SURE IF THIS LINE WORKS MIGHT NEED COMMAND :)
+    // }
 
-    public Command setElevatorPID() {
-      return Commands.runOnce(() -> {
-        config.Slot0.kP = SmartDashboard.getNumber("ElevatorP", 0);
-      config.Slot0.kI = SmartDashboard.getNumber("ElevatorI", 0);;
-      config.Slot0.kI = SmartDashboard.getNumber("ElevatorD", 0);;
-        motorLeader.getConfigurator().apply(config);}, this);
-       // NOT SURE IF THIS LINE WORKS MIGHT NEED COMMAND :)
+    // public Command setElevatorPID() {
+    //   return Commands.runOnce(() -> {
+    //     config.Slot0.kP = SmartDashboard.getNumber("ElevatorP", 0);
+    //   config.Slot0.kI = SmartDashboard.getNumber("ElevatorI", 0);;
+    //   config.Slot0.kI = SmartDashboard.getNumber("ElevatorD", 0);;
+    //     motorLeader.getConfigurator().apply(config);}, this);
+    //    // NOT SURE IF THIS LINE WORKS MIGHT NEED COMMAND :)
+    // }
+
+    public void test() {
+      double output = SmartDashboard.getNumber("TESTINPUT", 0);
+      System.out.println(output);
     }
 
     public void FFPosition(double positionRad, double FF) { // STOEL FROM MECHANICAL ADVANTAGE

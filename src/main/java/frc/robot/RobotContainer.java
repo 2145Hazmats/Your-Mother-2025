@@ -60,6 +60,7 @@ public class RobotContainer {
     private final CommandXboxController P2controller = new CommandXboxController(1);
     private final CommandXboxController P3controller = new CommandXboxController(2);
     private final CommandXboxController P4controller = new CommandXboxController(3);
+    private final CommandXboxController P5controller = new CommandXboxController(4);
     
     // We need to initialize an object of the camera subsystem, we don't have to use it
     private CameraSubsystem m_CameraSubsystem = new CameraSubsystem(drivetrain);
@@ -309,6 +310,7 @@ public class RobotContainer {
         P4controller.b().onTrue(m_ElevatorSubsystem.resetElevatorPosition());
         P4controller.x().whileTrue(m_ShooterBoxx.worksShoot());
         //P4controller.y().whileTrue(m_ShooterBoxx.worksRegurgitate());
+        P5controller.a().onTrue(Commands.runOnce(() -> m_ElevatorSubsystem.test(), m_ElevatorSubsystem));
         
         
 

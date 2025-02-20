@@ -20,13 +20,15 @@ public final class Constants {
     public static final double SlowMoSpeed = 0.3;
 
     // PID Constants
-    public static final double PID_XY = 0.55;
-    public static final double PID_DEGREE = 0.008;
+    public static final double P_XY = 1.5;
+    public static final double D_XY = 0;
+    public static final double P_DEGREE = 0.15;
+    public static final double D_DEGREE = 0.0025;
     public static final double PID_RAD = 6;
 
     // Feed Forward Constants
-    public static final double FEEDFORWARD_CONSTANT = 0.022;
-    public static final double FEEDFORWARD_CONSTANT_DEGREE = 0.12;
+    public static final double FEEDFORWARD_CONSTANT = 0.0;//.022
+    public static final double FEEDFORWARD_CONSTANT_DEGREE = 0; //.12
   }
 
   public static class PathPlannerConstants {

@@ -42,16 +42,22 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
 
     private int reefIndex = 0;
 
-    private final PIDController pidControllerX = new PIDController(DrivetrainConstants.PID_XY, 0, 0);
-    private final PIDController pidControllerY = new PIDController(DrivetrainConstants.PID_XY, 0, 0);
-    private final PIDController pidControllerDeg = new PIDController(DrivetrainConstants.PID_DEGREE, 0, 0);
+    private final PIDController pidControllerX = new PIDController(DrivetrainConstants.P_XY, 0, DrivetrainConstants.D_XY); 
+    private final PIDController pidControllerY = new PIDController(DrivetrainConstants.P_XY, 0, DrivetrainConstants.D_XY); 
+    private final PIDController pidControllerDeg = new PIDController(DrivetrainConstants.P_DEGREE, 0, DrivetrainConstants.D_DEGREE); 
+
     private final PIDController pidFaceRad = new PIDController(DrivetrainConstants.PID_RAD, 0, 0); // kP * radians
 
     public CommandSwerveDrivetrain(
         SwerveDrivetrainConstants drivetrainConstants,
         SwerveModuleConstants<?, ?, ?>... modules
     ) {
+        
+
+
+
         super(drivetrainConstants, modules);
+
 
         configureAutoBuilder();
 
@@ -233,8 +239,9 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     public double PIDDriveToPointDEG(double DesiredPoseDeg) {
         pidControllerDeg.enableContinuousInput(-180, 180);
         double SpeedsForPose = pidControllerDeg.calculate(getPose2d().getRotation().getDegrees(), DesiredPoseDeg);
-        SpeedsForPose = SpeedsForPose * Math.signum(getPose2d().getRotation().getDegrees());
-        SpeedsForPose = SpeedsForPose + Math.signum(SpeedsForPose)* DrivetrainConstants.FEEDFORWARD_CONSTANT_DEGREE;
+        //SpeedsForPose = SpeedsForPose * Math.signum(getPose2d().getRotation().getDegrees());
+        //SpeedsForPose = SpeedsForPose + Math.signum(SpeedsForPose)* DrivetrainConstants.FEEDFORWARD_CONSTANT_DEGREE;
+        
         return SpeedsForPose;
     }
 
@@ -291,9 +298,11 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         if (isAllianceRed()) {
             SmartDashboard.putNumber("Reef Pose X", PoseConstants.RED_REEF_POSES[reefIndex].getX());
             SmartDashboard.putNumber("Reef Pose Y", PoseConstants.RED_REEF_POSES[reefIndex].getY());
+            SmartDashboard.putNumber("Reef Pose Deg", PoseConstants.RED_REEF_POSES[reefIndex].getRotation().getDegrees());
         } else {
             SmartDashboard.putNumber("Reef Pose X", PoseConstants.BLUE_REEF_POSES[reefIndex].getX());
             SmartDashboard.putNumber("Reef Pose Y", PoseConstants.BLUE_REEF_POSES[reefIndex].getY());
+            SmartDashboard.putNumber("Reef Pose Deg", PoseConstants.BLUE_REEF_POSES[reefIndex].getRotation().getDegrees());
         }
         
         // Resets SmartDashboard Reef Interface Circle
@@ -348,6 +357,12 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
 
     @Override
     public void periodic() {
+
+        SmartDashboard.putData("PIDControllerDeg",pidControllerDeg);
+        SmartDashboard.putData("PIDControllerX",pidControllerX);
+        SmartDashboard.putData("PIDControllerY",pidControllerY);
+
+
         SmartDashboard.putNumber("Blue Reef PID X", PIDDriveToPointX(PoseConstants.BLUE_REEF_POSES[reefIndex].getX()));
         SmartDashboard.putNumber("Blue Reef PID Y", PIDDriveToPointY(PoseConstants.BLUE_REEF_POSES[reefIndex].getY()));
         SmartDashboard.putNumber("Blue Reef PID Rot", angularSpeedToFaceReef());

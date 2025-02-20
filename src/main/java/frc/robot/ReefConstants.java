@@ -16,11 +16,13 @@ public class ReefConstants {
 
   // CONSTANTS YOU CAN EDIT
   private static double centerDistanceOffset = 1;
-  private static double playingDistanceOffset = 0.33;
-  private static double leftOffset = 0.04;
-  private static double rightOffset = 0.32;
+  private static double playingDistanceOffset = .37; //.33
+  private static double leftOffset = 0.05;
+  private static double rightOffset = 0.33;
 
   public final class ReefMathConstants {
+
+  
     //---------------- Calculate 6 Central Poses Around Reef ---------------
     public static double[] ABReefCenter = new double[]{reefCenter[0] + (reefRadius + centerDistanceOffset) * Math.cos(Units.degreesToRadians(180)), reefCenter[1] + (reefRadius + centerDistanceOffset) * Math.sin(Units.degreesToRadians(180)), 0};
     public static double[] CDReefCenter = new double[]{reefCenter[0] + (reefRadius + centerDistanceOffset) * Math.cos(Units.degreesToRadians(240)), reefCenter[1] + (reefRadius + centerDistanceOffset) * Math.sin(Units.degreesToRadians(240)), Math.PI*1/3};
