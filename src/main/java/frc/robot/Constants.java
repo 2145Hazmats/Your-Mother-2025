@@ -86,7 +86,8 @@ public final class Constants {
   public static class shooterBoxxContants {
     public static final int ShooterMotorId = 39;
     public static final double kShooterMotorNominalVoltageConstant = 10.5;
-    public static final int kCoralSensorChannel = 0;
+    public static final int kBoxxCoralSensorChannel = 0;
+    public static final int kElevatorCoralSensorChannel = 1;
     public static final double kSpitSpeed = -0.5;
     public static final double kSuckSpeed = -0.5;
   }

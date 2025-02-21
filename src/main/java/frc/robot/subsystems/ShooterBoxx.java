@@ -26,7 +26,8 @@ public class ShooterBoxx extends SubsystemBase {
   private SparkMaxConfig shooterConfig = new SparkMaxConfig();
 
   // Sensor
-  private DigitalInput CoralSensor = new DigitalInput(shooterBoxxContants.kCoralSensorChannel);
+  private DigitalInput BoxxCoralSensor = new DigitalInput(shooterBoxxContants.kBoxxCoralSensorChannel);
+  private DigitalInput ElevatorCoralSensor = new DigitalInput(shooterBoxxContants.kElevatorCoralSensorChannel);
 
   public ShooterBoxx() {
 
@@ -70,26 +71,42 @@ return Commands.run(() -> {
 public Command SuckTillSensor() {
 return Commands.run(() -> {
   shooterMotor.set(Constants.shooterBoxxContants.kSuckSpeed);
-}).until(() -> CoralSensorTriggered()); }
+}).until(() -> StopCoralIntake()); }
 
 public Command SpitTillSensor() {
 return Commands.run(() -> {
   shooterMotor.set(Constants.shooterBoxxContants.kSpitSpeed);
-}).until(() -> CoralSensorUntriggered()); }
+}).until(() -> StopCoralShot()); }
 
 
-public boolean CoralSensorTriggered() {
-  return !CoralSensor.get();
+public boolean StopCoralIntake() {
+  return (!ElevatorCoralSensor.get() && BoxxCoralSensor.get());
 }
 
+public boolean StopCoralShot() {
+  return (!ElevatorCoralSensor.get() && BoxxCoralSensor.get());
+}
 
-public boolean CoralSensorUntriggered() {
-  return CoralSensor.get();
+public boolean BoxxCoralSensorUntriggered() {
+  return BoxxCoralSensor.get();
+}
+
+public boolean ElevatorCoralSensorUntriggered() {
+  return ElevatorCoralSensor.get();
+}
+
+public boolean BoxxCoralSensorTriggered() {
+  return BoxxCoralSensor.get();
+}
+
+public boolean ElevatorCoralSensorTriggered() {
+  return ElevatorCoralSensor.get();
 }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putBoolean("Coral Sensor", CoralSensorTriggered());
+    SmartDashboard.putBoolean("Elevator Coral Sensor", ElevatorCoralSensorTriggered());
+    SmartDashboard.putBoolean("Boxx Coral Sensor", BoxxCoralSensorTriggered());
   }
 }
