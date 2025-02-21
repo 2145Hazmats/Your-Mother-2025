@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import java.util.function.DoubleSupplier;
 
+import com.ctre.phoenix6.configs.MotionMagicConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.DutyCycleOut;
@@ -10,6 +11,7 @@ import com.ctre.phoenix6.controls.PositionDutyCycle;
 import com.ctre.phoenix6.controls.PositionTorqueCurrentFOC;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.GravityTypeValue;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
@@ -29,6 +31,8 @@ public class ElevatorSubsystem extends SubsystemBase{
     private TalonFX motorFollower = new TalonFX(elevatorConstants.motorFollowerID);
 
     private TalonFXConfiguration config = new TalonFXConfiguration();
+
+    private Slot0Configs slot0Congfigs;
     
     private final PositionTorqueCurrentFOC positionTorqueCurrentRequest =
   new PositionTorqueCurrentFOC(0); //MECHANICAL ADVANTAGE POSITION CONTROL WITH FF
@@ -40,8 +44,31 @@ public class ElevatorSubsystem extends SubsystemBase{
 
       SmartDashboard.putNumber("TESTINPUT", 0); // THIS WORKS 
 
+      SmartDashboard.putNumber("ElevatorkS", 0);
+      SmartDashboard.putNumber("ElevatorkV", 0);
+      SmartDashboard.putNumber("ElevatorkA", 0);
+      
+      SmartDashboard.putNumber("ElevatorP", 0);
+      SmartDashboard.putNumber("ElevatorI", 0);
+      SmartDashboard.putNumber("ElevatorD", 0);
+
+    slot0Congfigs = config.Slot0;
+
+    slot0Congfigs.kS = 0.25; // Add 0.25 V output to overcome static friction
+    slot0Congfigs.kV = 0.12; // A velocity target of 1 rps results in 0.12 V output
+    slot0Congfigs.kA = 0.01; // An acceleration of 1 rps/s requires 0.01 V output
+    slot0Congfigs.kP = 4.8; // A position error of 2.5 rotations results in 12 V output
+    slot0Congfigs.kI = 0; // no output for integrated error
+    slot0Congfigs.kD = 0.1; // A velocity error of 1 rps results in 0.1 V output
+    slot0Congfigs.GravityType = GravityTypeValue.Elevator_Static;
+  // set Motion Magic settings
+    MotionMagicConfigs motionMagicConfigs = config.MotionMagic;
+    motionMagicConfigs.MotionMagicCruiseVelocity = 80; // Target cruise velocity of 80 rps
+    motionMagicConfigs.MotionMagicAcceleration = 160; // Target acceleration of 160 rps/s (0.5 seconds)
+    motionMagicConfigs.MotionMagicJerk = 1600; // Target jerk of 1600 rps/s/s (0.1 seconds)
+
       config.MotorOutput.NeutralMode = NeutralModeValue.Brake;
-      config.Slot0 = new Slot0Configs().withKP(Constants.elevatorConstants.ElaphantP).withKI(Constants.elevatorConstants.ElaphantI).withKD(Constants.elevatorConstants.ElaphantD);
+      //config.Slot0 = new Slot0Configs().withKP(Constants.elevatorConstants.ElaphantP).withKI(Constants.elevatorConstants.ElaphantI).withKD(Constants.elevatorConstants.ElaphantD);
       config.MotorOutput.Inverted = InvertedValue.Clockwise_Positive; // WE DONT KNOW IF THIS IS RIGHT :)
       config.MotorOutput.withInverted(InvertedValue.Clockwise_Positive); //SWSP IF NEEDED
     
@@ -173,14 +200,19 @@ public class ElevatorSubsystem extends SubsystemBase{
     //   motorLeader.getConfigurator().apply(config); // NOT SURE IF THIS LINE WORKS MIGHT NEED COMMAND :)
     // }
 
-    // public Command setElevatorPID() {
-    //   return Commands.runOnce(() -> {
-    //     config.Slot0.kP = SmartDashboard.getNumber("ElevatorP", 0);
-    //   config.Slot0.kI = SmartDashboard.getNumber("ElevatorI", 0);;
-    //   config.Slot0.kI = SmartDashboard.getNumber("ElevatorD", 0);;
-    //     motorLeader.getConfigurator().apply(config);}, this);
-    //    // NOT SURE IF THIS LINE WORKS MIGHT NEED COMMAND :)
-    // }
+    public Command setElevatorPID() {
+      return Commands.runOnce(() -> {
+        config.Slot0.kS = SmartDashboard.getNumber("ElevatorkS", 0);
+        config.Slot0.kV = SmartDashboard.getNumber("ElevatorkV", 0);
+        config.Slot0.kA = SmartDashboard.getNumber("ElevatorkA", 0);
+
+        config.Slot0.kP = SmartDashboard.getNumber("ElevatorP", 0);
+        config.Slot0.kI = SmartDashboard.getNumber("ElevatorI", 0);
+        config.Slot0.kI = SmartDashboard.getNumber("ElevatorD", 0);
+
+        motorLeader.getConfigurator().apply(config);}, this);
+       // NOT SURE IF THIS LINE WORKS MIGHT NEED COMMAND :)
+    }
 
     public void test() {
       double output = SmartDashboard.getNumber("TESTINPUT", 0);
