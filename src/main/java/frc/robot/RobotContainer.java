@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.Constants.ClimbContants;
 import frc.robot.Constants.DrivetrainConstants;
 import frc.robot.Constants.shooterBoxxContants;
@@ -286,14 +287,11 @@ public class RobotContainer {
         //ELEVATOR BUTTONS
         P4controller.povDown().whileTrue(m_ElevatorSubsystem.elevatorToL1());
         
-        
         P4controller.povLeft().whileTrue(m_ElevatorSubsystem.elevatorToL2());
-        
 
         P4controller.povRight().whileTrue(m_ElevatorSubsystem.elevatorToL3());
         
-
-        P4controller.povUp().whileTrue(m_ElevatorSubsystem.elevatorToL4());
+        //P4controller.povUp().whileTrue(m_ElevatorSubsystem.elevatorToL4());
 
         P4controller.a().whileTrue(m_ElevatorSubsystem.elevatorToHome());
         // P3controller.povUp().onFalse(m_ElevatorSubsystem.elevatorToHome()); THIS WILL HIT BOTCAVE CEILING !! FIX LATER !!
@@ -316,10 +314,11 @@ public class RobotContainer {
 
         // Run SysId routines when holding back/start and X/Y.
         // Note that each routine should be run exactly once in a single log.
-        // joystick.back().and(joystick.y()).whileTrue(drivetrain.sysIdDynamic(Direction.kForward));
-        // joystick.back().and(joystick.x()).whileTrue(drivetrain.sysIdDynamic(Direction.kReverse));
-        // joystick.start().and(joystick.y()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kForward));
-        // joystick.start().and(joystick.x()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kReverse));
+        P5controller.povUp().whileTrue(drivetrain.sysIdDynamic(Direction.kForward));
+        P5controller.povDown().whileTrue(drivetrain.sysIdDynamic(Direction.kReverse));
+        P5controller.povRight().whileTrue(drivetrain.sysIdQuasistatic(Direction.kForward));
+        P5controller.povLeft().whileTrue(drivetrain.sysIdQuasistatic(Direction.kReverse));
+        P5controller.y().onTrue(Commands.runOnce(() -> drivetrain.stopLogging()));
     }
 
     private void updateEnumSmartDashboard(String enumString) {

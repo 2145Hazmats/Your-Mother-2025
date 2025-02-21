@@ -70,8 +70,6 @@ public class ClimbSubsystem extends SubsystemBase {
       ClimbConfig.Slot0.kI = NewKI;
       ClimbConfig.Slot0.kI = NewKD;
       climbMotor.getConfigurator().apply(ClimbConfig); // NOT SURE IF THIS LINE WORKS MIGHT NEED COMMAND :)
-    
-    
     }
 
     public void FFPosition(double positionRad, double FF) { // STOEL FROM MECHANICAL ADVANTAGE

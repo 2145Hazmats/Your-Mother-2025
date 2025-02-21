@@ -89,10 +89,10 @@ public class ElevatorSubsystem extends SubsystemBase{
         motorLeader.setControl(new PositionDutyCycle(Constants.elevatorConstants.L3Position)), this);
       }
 
-    public Command elevatorToL4() {
-      return Commands.run(() -> 
-        motorLeader.setControl(new PositionDutyCycle(Constants.elevatorConstants.L4Position)), this);
-      }
+    // public Command elevatorToL4() {
+    //   return Commands.run(() -> 
+    //     motorLeader.setControl(new PositionDutyCycle(Constants.elevatorConstants.L4Position)), this);
+    //   }
 
     // public Command elevatorToHome() {
     //   return Commands.run(() -> {

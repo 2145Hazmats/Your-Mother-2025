@@ -20,14 +20,15 @@ public final class Constants {
     public static final double SlowMoSpeed = 0.3;
 
     // PID Constants
-    public static final double P_XY = 1.5;
+    public static final double P_XY = 3.0; //THIS SHOULD BE LOWER, IT IS TOO HIGH
     public static final double D_XY = 0;
     public static final double P_DEGREE = 0.15;
     public static final double D_DEGREE = 0.0025;
     public static final double PID_RAD = 6;
 
     // Feed Forward Constants
-    public static final double FEEDFORWARD_CONSTANT = 0.0;//.022
+    //TODO: DISABLE FEEDFORWARD BECAUSE WE ADDED kS ?????
+    public static final double FEEDFORWARD_CONSTANT = 0.0;
     public static final double FEEDFORWARD_CONSTANT_DEGREE = 0; //.12
   }
 
@@ -74,7 +75,8 @@ public final class Constants {
     public static final double L1Position = -19;
     public static final double L2Position = -29;
     public static final double L3Position = -50.5; //-49.1 is perfect from oxford, our pid is bad
-    public static final double L4Position = -83;  //-81.15 is perfect from oxford, our pid is bad
+    public static final double L4Position = -50.5;
+    //public static final double L4Position = -83;  //-81.15 is perfect from oxford, our pid is bad
     public static final double HomePosition = -2;
     
     public static final double MarginOfError = 3;
