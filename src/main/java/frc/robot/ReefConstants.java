@@ -167,7 +167,8 @@ public class ReefConstants {
     public static final Pose2d CORAL_STATION_LEFT_BLUE_POSE = new Pose2d(1.175, 6.95, new Rotation2d(Units.degreesToRadians(BLUE_CORAL_STATION_DEG)));
     public static final Pose2d CORAL_STATION_RIGHT_BLUE_PATHFIND_POSE = new Pose2d(1.7, 1.55, new Rotation2d(Units.degreesToRadians(-BLUE_CORAL_STATION_DEG)));
     public static final Pose2d CORAL_STATION_RIGHT_BLUE_POSE = new Pose2d(1.175, 1.05, new Rotation2d(Units.degreesToRadians(-BLUE_CORAL_STATION_DEG)));
-
+    
+    
     // TODO: RED SIDE FIX
     public static final Pose2d CORAL_STATION_LEFT_RED_POSE = new Pose2d(
       CORAL_STATION_RIGHT_BLUE_POSE.getX() + RED_TRANSFORMATION_STATION_X,
@@ -180,4 +181,23 @@ public class ReefConstants {
       new Rotation2d(Units.degreesToRadians(RED_CORAL_STATION_DEG))
     );
   }
+  
+  // Climb Drive Setpoints
+
+    public static final double GENERAL_CLIMB_BLUE_DEG = 180;
+    public static final double GENERAL_CLIMB_RED_TRANSFORMATION_X = 0; // TODO: ASK CODY WHAT TO DO!
+    public static final double GENERAL_CLIMB_RED_DEG = 0;
+
+    public static final Pose2d CLIMB_BLUE_PROCCESOR_PATHFIND_POSE = new Pose2d(1.7, 6.45, new Rotation2d(Units.degreesToRadians(GENERAL_CLIMB_BLUE_DEG)));
+    public static final Pose2d CLIMB_BLUE_PROCCESOR_POSE = new Pose2d(1.175, 6.95, new Rotation2d(Units.degreesToRadians(-GENERAL_CLIMB_BLUE_DEG)));
+    public static final Pose2d CLIMB_BLUE_CENTER_PATHFIND_POSE = new Pose2d(1.7, 1.55, new Rotation2d(Units.degreesToRadians(GENERAL_CLIMB_BLUE_DEG)));
+    public static final Pose2d CLIMB_BLUE_CENTER_POSE = new Pose2d(1.175, 1.05, new Rotation2d(Units.degreesToRadians(-GENERAL_CLIMB_BLUE_DEG)));
+    public static final Pose2d CLIMB_BLUE_NET_PATHFIND_POSE = new Pose2d(1.7, 6.45, new Rotation2d(Units.degreesToRadians(GENERAL_CLIMB_BLUE_DEG)));
+    public static final Pose2d CLIMB_BLUE_NET_POSE = new Pose2d(1.175, 6.95, new Rotation2d(Units.degreesToRadians(-GENERAL_CLIMB_BLUE_DEG)));
+    
+    public static final Pose2d CLIMB_BLUE_PROCCESOR_SIDE = new Pose2d();
+
+
+
+
 }

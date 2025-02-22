@@ -226,6 +226,13 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         return AutoBuilder.pathfindToPose(PoseConstants.CORAL_STATION_RIGHT_RED_POSE, pathFindingConstraints, 0);
     }
 
+    // CLIMB PATHFIND
+
+   /* public Command pathFindToBueClimbCage() {
+        return AutoBuilder.pathfindToPose(PoseConstants.)
+
+    }*/
+
     // return speed for the X Direction to get to desired Pose
     public double PIDDriveToPointX(double DesiredPoseX) {
         double SpeedsForPose = pidControllerX.calculate(getPose2d().getX(), DesiredPoseX);
@@ -300,6 +307,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
 
         indexSmartDashboardUpdate(reefIndex);
     }
+
     
     // Updates SmartDashboard Numbers
     public void indexSmartDashboardUpdate(int light) {

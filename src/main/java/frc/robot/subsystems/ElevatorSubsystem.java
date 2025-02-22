@@ -69,9 +69,9 @@ public class ElevatorSubsystem extends SubsystemBase{
     slot0Congfigs.kG = 0; // Defying gravity //0.1
     slot0Congfigs.GravityType = GravityTypeValue.Elevator_Static;
   // set Motion Magic settings
-    // MotionMagicConfigs motionMagicConfigs = config.MotionMagic;
-    // motionMagicConfigs.MotionMagicCruiseVelocity = 220; // Target cruise velocity of 80 rps 
-    // motionMagicConfigs.MotionMagicAcceleration = 400; // Target acceleration of 160 rps/s (0.5 seconds)
+     MotionMagicConfigs motionMagicConfigs = config.MotionMagic;
+     motionMagicConfigs.MotionMagicCruiseVelocity = 220; // Target cruise velocity of 80 rps 
+     motionMagicConfigs.MotionMagicAcceleration = 400; // Target acceleration of 160 rps/s (0.5 seconds)
     //motionMagicConfigs.MotionMagicJerk = 800; // Target jerk of 1600 rps/s/s (0.1 seconds)
 
       config.MotorOutput.NeutralMode = NeutralModeValue.Brake;
@@ -99,6 +99,22 @@ public class ElevatorSubsystem extends SubsystemBase{
       SmartDashboard.putNumber("Elevator Level Index", levelIndex);
   }
 
+  public Command levelIndexChoose(int level) {
+   return Commands.runOnce(() -> {
+   if (level == 1) {
+    levelIndex = 1;
+    } 
+    else if (level ==2) {
+    levelIndex = 2;
+    } 
+    else if (level ==3) {
+    levelIndex =3;
+    } 
+    else if (level ==4) {
+    levelIndex =4;
+    }}
+   , this);
+  }
 
  /*  public Command elevatorToIndex() {
     return Commands.run(() -> 
@@ -197,7 +213,19 @@ public class ElevatorSubsystem extends SubsystemBase{
       return Commands.runOnce(() -> 
         motorLeader.setControl(new MotionMagicDutyCycle(Constants.elevatorConstants.HomePosition)), this).withTimeout(1).andThen(disableElevator());
       }
+    
 
+    public boolean isDrivingSafeQuestionMark() { // FINISH LATER !!!!!!! :))))))
+       if (motorLeader.getPosition().getValueAsDouble() <= Constants.elevatorConstants.L2Position) {
+        
+        return true;
+
+       }
+      else {
+        return false;
+      }
+
+    }
 
 
     //   public void setElevatorPID(double NewKP, double NewKI, double NewKD) {
