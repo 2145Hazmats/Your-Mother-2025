@@ -45,11 +45,7 @@
     "rotation": -119.99999999999999
   },
   "reversed": false,
-<<<<<<< Updated upstream:src/main/deploy/pathplanner/paths/Net Side Preload.path
-  "folder": "Net Side",
-=======
-  "folder": null,
->>>>>>> Stashed changes:src/main/deploy/pathplanner/paths/Netside Preload.path
+  "folder": "Net Paths",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 179.9985362406836
