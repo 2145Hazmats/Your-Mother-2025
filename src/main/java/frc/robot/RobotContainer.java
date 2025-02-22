@@ -28,6 +28,7 @@ import frc.robot.Constants.shooterBoxxContants;
 import frc.robot.Constants.ControllerConstants.EVERYTHING_ENUM;
 import frc.robot.ReefConstants.PoseConstants;
 import frc.robot.ReefConstants.ReefMathConstants;
+import frc.robot.commands.GetCoral;
 import frc.robot.commands.ScoreCoral;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.CameraSubsystem;
@@ -176,30 +177,50 @@ public class RobotContainer {
         ));
         // EVERYTHING_ENUM.LEFT_SOURCE
         P2controller.back().and(() -> selectedEnum == EVERYTHING_ENUM.LEFT_SOURCE).and(drivetrain::isAllianceBlue)
-        .whileTrue(drivetrain.pathFindToLeftBlueCoralStation().andThen(drivetrain.applyRequest(() ->
-            drive.withVelocityX(drivetrain.PIDDriveToPointX(PoseConstants.CORAL_STATION_LEFT_BLUE_POSE.getX()) * MaxSpeed)
-            .withVelocityY(drivetrain.PIDDriveToPointY(PoseConstants.CORAL_STATION_LEFT_BLUE_POSE.getY()) * MaxSpeed)
-            .withRotationalRate(drivetrain.PIDDriveToPointDEG(PoseConstants.CORAL_STATION_LEFT_BLUE_POSE.getRotation().getDegrees()))
-        )));
+        .whileTrue(drivetrain.pathFindToLeftBlueCoralStation().andThen(
+            Commands.parallel(
+                drivetrain.applyRequest(() ->
+                    drive.withVelocityX(drivetrain.PIDDriveToPointX(PoseConstants.CORAL_STATION_LEFT_BLUE_POSE.getX()) * MaxSpeed)
+                    .withVelocityY(drivetrain.PIDDriveToPointY(PoseConstants.CORAL_STATION_LEFT_BLUE_POSE.getY()) * MaxSpeed)
+                    .withRotationalRate(drivetrain.PIDDriveToPointDEG(PoseConstants.CORAL_STATION_LEFT_BLUE_POSE.getRotation().getDegrees()))
+                ),
+                new GetCoral(drivetrain, m_ShooterBoxx)
+            )
+        ));
         P2controller.back().and(() -> selectedEnum == EVERYTHING_ENUM.LEFT_SOURCE).and(drivetrain::isAllianceRed)
-        .whileTrue(drivetrain.pathFindToLeftRedCoralStation().andThen(drivetrain.applyRequest(() ->
-            drive.withVelocityX(drivetrain.PIDDriveToPointX(PoseConstants.CORAL_STATION_LEFT_RED_POSE.getX()) * MaxSpeed)
-            .withVelocityY(drivetrain.PIDDriveToPointY(PoseConstants.CORAL_STATION_LEFT_RED_POSE.getY()) * MaxSpeed)
-            .withRotationalRate(drivetrain.PIDDriveToPointDEG(PoseConstants.CORAL_STATION_LEFT_RED_POSE.getRotation().getDegrees()))
-        )));
+        .whileTrue(drivetrain.pathFindToLeftRedCoralStation().andThen(
+            Commands.parallel(
+                drivetrain.applyRequest(() ->
+                    drive.withVelocityX(drivetrain.PIDDriveToPointX(PoseConstants.CORAL_STATION_LEFT_RED_POSE.getX()) * MaxSpeed)
+                    .withVelocityY(drivetrain.PIDDriveToPointY(PoseConstants.CORAL_STATION_LEFT_RED_POSE.getY()) * MaxSpeed)
+                    .withRotationalRate(drivetrain.PIDDriveToPointDEG(PoseConstants.CORAL_STATION_LEFT_RED_POSE.getRotation().getDegrees()))
+                ),
+                new GetCoral(drivetrain, m_ShooterBoxx)
+            )
+        ));
         // EVERYTHING_ENUM.RIGHT_SOURCE
         P2controller.back().and(() -> selectedEnum == EVERYTHING_ENUM.RIGHT_SOURCE).and(drivetrain::isAllianceBlue)
-        .whileTrue(drivetrain.pathFindToRightBlueCoralStation().andThen(drivetrain.applyRequest(() ->
-            drive.withVelocityX(drivetrain.PIDDriveToPointX(PoseConstants.CORAL_STATION_RIGHT_BLUE_POSE.getX()) * MaxSpeed)
-            .withVelocityY(drivetrain.PIDDriveToPointY(PoseConstants.CORAL_STATION_RIGHT_BLUE_POSE.getY()) * MaxSpeed)
-            .withRotationalRate(drivetrain.PIDDriveToPointDEG(PoseConstants.CORAL_STATION_RIGHT_BLUE_POSE.getRotation().getDegrees()))
-        )));
+        .whileTrue(drivetrain.pathFindToRightBlueCoralStation().andThen(
+            Commands.parallel(
+                drivetrain.applyRequest(() ->
+                    drive.withVelocityX(drivetrain.PIDDriveToPointX(PoseConstants.CORAL_STATION_RIGHT_BLUE_POSE.getX()) * MaxSpeed)
+                    .withVelocityY(drivetrain.PIDDriveToPointY(PoseConstants.CORAL_STATION_RIGHT_BLUE_POSE.getY()) * MaxSpeed)
+                    .withRotationalRate(drivetrain.PIDDriveToPointDEG(PoseConstants.CORAL_STATION_RIGHT_BLUE_POSE.getRotation().getDegrees()))
+                ),
+                new GetCoral(drivetrain, m_ShooterBoxx)
+            )
+        ));
         P2controller.back().and(() -> selectedEnum == EVERYTHING_ENUM.RIGHT_SOURCE).and(drivetrain::isAllianceRed)
-        .whileTrue(drivetrain.pathFindToRightRedCoralStation().andThen(drivetrain.applyRequest(() ->
-            drive.withVelocityX(drivetrain.PIDDriveToPointX(PoseConstants.CORAL_STATION_RIGHT_RED_POSE.getX()) * MaxSpeed)
-            .withVelocityY(drivetrain.PIDDriveToPointY(PoseConstants.CORAL_STATION_RIGHT_RED_POSE.getY()) * MaxSpeed)
-            .withRotationalRate(drivetrain.PIDDriveToPointDEG(PoseConstants.CORAL_STATION_RIGHT_RED_POSE.getRotation().getDegrees()))
-        )));
+        .whileTrue(drivetrain.pathFindToRightRedCoralStation().andThen(
+            Commands.parallel(
+                drivetrain.applyRequest(() ->
+                    drive.withVelocityX(drivetrain.PIDDriveToPointX(PoseConstants.CORAL_STATION_RIGHT_RED_POSE.getX()) * MaxSpeed)
+                    .withVelocityY(drivetrain.PIDDriveToPointY(PoseConstants.CORAL_STATION_RIGHT_RED_POSE.getY()) * MaxSpeed)
+                    .withRotationalRate(drivetrain.PIDDriveToPointDEG(PoseConstants.CORAL_STATION_RIGHT_RED_POSE.getRotation().getDegrees()))
+                ),
+                new GetCoral(drivetrain, m_ShooterBoxx)
+            )
+        ));
         // EVERYTHING_ENUM.NET
         // P2controller.back().and(() -> selectedEnum == EVERYTHING_ENUM.NET).and(drivetrain::isAllianceBlue).whileTrue(null);
         // P2controller.back().and(() -> selectedEnum == EVERYTHING_ENUM.NET).and(drivetrain::isAllianceRed).whileTrue(null);

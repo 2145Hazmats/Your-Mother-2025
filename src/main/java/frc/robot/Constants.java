@@ -88,10 +88,11 @@ public final class Constants {
   public static class shooterBoxxContants {
     public static final int ShooterMotorId = 39;
     public static final double kShooterMotorNominalVoltageConstant = 10.5;
-    public static final int kBoxxCoralSensorChannel = 0;
+    public static final int kBoxxCoralSensorChannel = 2;
     public static final int kElevatorCoralSensorChannel = 1;
-    public static final double kSpitSpeed = -0.5;
+    public static final double kSpitSpeed = 0.3;
     public static final double kSuckSpeed = -0.5;
+    public static final double kFinalSpeed = -0.2;
   }
   public static class ClimbContants {
     public static final int ClimbMotorId = 4000;
@@ -108,10 +109,16 @@ public final class Constants {
   
   //Coral Scoring Constants 
   public static class ScoreCoralConstants { 
-    public static final double ElevatorError = Units.inchesToMeters(3);
-    public static final double DriveTrainError = Units.inchesToMeters(3);
+    public static final double ElevatorError = 3;
+    public static final double DriveTrainError = Units.inchesToMeters(1);
     
   }
+  // Get Coral Constants
+  public static class GetCoral {
+  public static final double GetCoralError = Units.inchesToMeters(4);
+    
+  }
+
 
   public static class ControllerConstants {
     public static enum EVERYTHING_ENUM {SCORE, LEFT_SOURCE, RIGHT_SOURCE, NET, PROCESSOR, CLIMB};

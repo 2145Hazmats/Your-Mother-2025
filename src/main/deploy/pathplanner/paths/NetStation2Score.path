@@ -45,7 +45,11 @@
     "rotation": -58.3676084473625
   },
   "reversed": false,
+<<<<<<< Updated upstream
   "folder": "Net Side",
+=======
+  "folder": null,
+>>>>>>> Stashed changes
   "idealStartingState": {
     "velocity": 0,
     "rotation": -54.0

@@ -45,7 +45,11 @@
     "rotation": 180.0
   },
   "reversed": false,
+<<<<<<< Updated upstream
   "folder": "Centre",
+=======
+  "folder": null,
+>>>>>>> Stashed changes
   "idealStartingState": {
     "velocity": 0,
     "rotation": 179.7834033774421

@@ -30,7 +30,7 @@ public class ShooterBoxx extends SubsystemBase {
   private DigitalInput ElevatorCoralSensor = new DigitalInput(shooterBoxxContants.kElevatorCoralSensorChannel);
 
   public ShooterBoxx() {
-
+  
     shooterConfig
     .inverted(false)
     .idleMode(IdleMode.kBrake)
@@ -70,7 +70,12 @@ return Commands.run(() -> {
 
 public Command SuckTillSensor() {
 return Commands.run(() -> {
+  if (ElevatorCoralSensorTriggered() && BoxxCoralSensorTriggered()) {
+  shooterMotor.set(Constants.shooterBoxxContants.kFinalSpeed);
+  } 
+  else {
   shooterMotor.set(Constants.shooterBoxxContants.kSuckSpeed);
+  }
 }).until(() -> StopCoralIntake()); }
 
 public Command SpitTillSensor() {
@@ -80,11 +85,11 @@ return Commands.run(() -> {
 
 
 public boolean StopCoralIntake() {
-  return (!ElevatorCoralSensor.get() && BoxxCoralSensor.get());
+  return (ElevatorCoralSensorUntriggered() && BoxxCoralSensorTriggered());
 }
 
 public boolean StopCoralShot() {
-  return (!ElevatorCoralSensor.get() && BoxxCoralSensor.get());
+  return (BoxxCoralSensorUntriggered());
 }
 
 public boolean BoxxCoralSensorUntriggered() {
@@ -96,11 +101,11 @@ public boolean ElevatorCoralSensorUntriggered() {
 }
 
 public boolean BoxxCoralSensorTriggered() {
-  return BoxxCoralSensor.get();
+  return !BoxxCoralSensor.get();
 }
 
 public boolean ElevatorCoralSensorTriggered() {
-  return ElevatorCoralSensor.get();
+  return !ElevatorCoralSensor.get();
 }
 
   @Override
