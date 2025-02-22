@@ -74,13 +74,13 @@ public class RobotContainer {
     public RobotContainer() {
         configureBindings();
 
-        NamedCommands.registerCommand("Elevator2Home", m_ElevatorSubsystem.elevatorToHome());
-        NamedCommands.registerCommand("Elevator2L2", m_ElevatorSubsystem.elevatorToL2());
-        NamedCommands.registerCommand("Elevator2L3", m_ElevatorSubsystem.elevatorToL3());
-        NamedCommands.registerCommand("Elevator2L4", m_ElevatorSubsystem.elevatorToL3());
+        // NamedCommands.registerCommand("Elevator2Home", m_ElevatorSubsystem.elevatorToHome());
+        // NamedCommands.registerCommand("Elevator2L2", m_ElevatorSubsystem.elevatorToL2());
+        // NamedCommands.registerCommand("Elevator2L3", m_ElevatorSubsystem.elevatorToL3());
+        // NamedCommands.registerCommand("Elevator2L4", m_ElevatorSubsystem.elevatorToL3());
         
-        NamedCommands.registerCommand("SuckTillSensor", m_ShooterBoxx.SuckTillSensor());
-        NamedCommands.registerCommand("ShootTillSensor", m_ShooterBoxx.SpitTillSensor());
+        // NamedCommands.registerCommand("SuckTillSensor", m_ShooterBoxx.SuckTillSensor());
+        // NamedCommands.registerCommand("ShootTillSensor", m_ShooterBoxx.SpitTillSensor());
 
         autoChooser = AutoBuilder.buildAutoChooser();
         
@@ -102,7 +102,7 @@ public class RobotContainer {
         //m_ElevatorSubsystem.setDefaultCommand(m_ElevatorSubsystem.defaultCommand()); TEST PID FIRST!!!!!
         //m_ClimbSubsystem.setDefaultCommand(m_ClimbSubsystem.ClimbJoystick(P2controller.getLeftY()));
         m_ShooterBoxx.setDefaultCommand(m_ShooterBoxx.StopShooterMotor());
-        m_ElevatorSubsystem.setDefaultCommand(m_ElevatorSubsystem.elevatorJoystick(P4controller::getRightY));
+        //m_ElevatorSubsystem.setDefaultCommand(m_ElevatorSubsystem.elevatorJoystick(P4controller::getRightY));
 
 
         drivetrain.registerTelemetry(logger::telemeterize);

@@ -9,6 +9,7 @@ import com.ctre.phoenix6.controls.DifferentialDutyCycle;
 import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.MotionMagicDutyCycle;
+import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.PositionDutyCycle;
 import com.ctre.phoenix6.controls.PositionTorqueCurrentFOC;
 import com.ctre.phoenix6.controls.PositionVoltage;
@@ -36,8 +37,10 @@ public class ElevatorSubsystem extends SubsystemBase{
 
     private Slot0Configs slot0Congfigs;
     
-    private final PositionTorqueCurrentFOC positionTorqueCurrentRequest =
-  new PositionTorqueCurrentFOC(0); //MECHANICAL ADVANTAGE POSITION CONTROL WITH FF
+  //   private final PositionTorqueCurrentFOC positionTorqueCurrentRequest =
+  // new PositionTorqueCurrentFOC(0); //MECHANICAL ADVANTAGE POSITION CONTROL WITH FF
+
+    final MotionMagicVoltage m_request = new MotionMagicVoltage(0);
 
     private int levelIndex = 1;
   
@@ -66,10 +69,10 @@ public class ElevatorSubsystem extends SubsystemBase{
     slot0Congfigs.kG = 0; // Defying gravity //0.1
     slot0Congfigs.GravityType = GravityTypeValue.Elevator_Static;
   // set Motion Magic settings
-    MotionMagicConfigs motionMagicConfigs = config.MotionMagic;
-    motionMagicConfigs.MotionMagicCruiseVelocity = 40; // Target cruise velocity of 80 rps 
-    motionMagicConfigs.MotionMagicAcceleration = 80; // Target acceleration of 160 rps/s (0.5 seconds)
-    motionMagicConfigs.MotionMagicJerk = 800; // Target jerk of 1600 rps/s/s (0.1 seconds)
+    // MotionMagicConfigs motionMagicConfigs = config.MotionMagic;
+    // motionMagicConfigs.MotionMagicCruiseVelocity = 220; // Target cruise velocity of 80 rps 
+    // motionMagicConfigs.MotionMagicAcceleration = 400; // Target acceleration of 160 rps/s (0.5 seconds)
+    //motionMagicConfigs.MotionMagicJerk = 800; // Target jerk of 1600 rps/s/s (0.1 seconds)
 
       config.MotorOutput.NeutralMode = NeutralModeValue.Brake;
       //config.Slot0 = new Slot0Configs().withKP(Constants.elevatorConstants.ElaphantP).withKI(Constants.elevatorConstants.ElaphantI).withKD(Constants.elevatorConstants.ElaphantD);
@@ -102,22 +105,22 @@ public class ElevatorSubsystem extends SubsystemBase{
       motorLeader.setControl(new PositionDutyCycle(levelIndex.convertto constants )), this);
     }*/    public Command elevatorToHome() {
       return Commands.run(() -> 
-        motorLeader.setControl(new MotionMagicDutyCycle(Constants.elevatorConstants.HomePosition)), this);
+        motorLeader.setControl(m_request.withPosition(Constants.elevatorConstants.HomePosition)), this);//new MotionMagicDutyCycle(Constants.elevatorConstants.HomePosition)), this);
       }
 
      public Command elevatorToL1() {
        return Commands.run(() -> 
-         motorLeader.setControl(new MotionMagicDutyCycle(Constants.elevatorConstants.L1Position)), this);
+         motorLeader.setControl(m_request.withPosition(Constants.elevatorConstants.L1Position)), this);
        }
 
     public Command elevatorToL2() {
       return Commands.run(() -> 
-        motorLeader.setControl(new MotionMagicDutyCycle(Constants.elevatorConstants.L2Position)), this);
+        motorLeader.setControl(m_request.withPosition(Constants.elevatorConstants.L2Position)), this);
       }
 
     public Command elevatorToL3() {
       return Commands.run(() -> 
-        motorLeader.setControl(new MotionMagicDutyCycle(Constants.elevatorConstants.L3Position)), this);
+        motorLeader.setControl(m_request.withPosition(Constants.elevatorConstants.L3Position)), this);
       }
 
     // public Command elevatorToL4() {
@@ -225,8 +228,8 @@ public class ElevatorSubsystem extends SubsystemBase{
     }
 
     public void FFPosition(double positionRad, double FF) { // STOEL FROM MECHANICAL ADVANTAGE
-      motorLeader.setControl(
-      positionTorqueCurrentRequest.withPosition(Units.radiansToRotations(positionRad)).withFeedForward(FF));
+      //motorLeader.setControl(
+      //positionTorqueCurrentRequest.withPosition(Units.radiansToRotations(positionRad)).withFeedForward(FF));
     }
 
     public double getElevatorPosition() {

@@ -20,11 +20,15 @@ public final class Constants {
     public static final double SlowMoSpeed = 0.3;
 
     // PID  Drive to pose Constants
-    public static final double P_XY = 1.0; //THIS SHOULD BE LOWER, IT IS TOO HIGH //3.0
-    public static final double D_XY = 0;
+    public static final double P_X = 1.68; //1.7
+    public static final double P_Y = 1.68; //1.7
+    public static final double I_X = 0; // 0.001
+    public static final double I_Y = 0; // 0.001
+    public static final double D_X = 1; //0.5
+    public static final double D_Y = 1; //0.5
     public static final double P_DEGREE = 0.15;
-    public static final double D_DEGREE = 0.0025;
-    public static final double PID_RAD = 6;
+    public static final double D_DEGREE = 0;
+    public static final double PID_RAD = 0;
 
     // Feed Forward Constants
     //TODO: DISABLE FEEDFORWARD BECAUSE WE ADDED kS ?????
@@ -67,9 +71,9 @@ public final class Constants {
     // public static final double PIDL2 = 0;
     // public static final double PIDL3 = 0;
     // public static final double PIDL4 = 0;
-    public static final double ElaphantP = 0.015;
+    public static final double ElaphantP = 1; //0.015
     public static final double ElaphantI = 0;
-    public static final double ElaphantD = 0.001;
+    public static final double ElaphantD = 0.00;//0.001
 
     // Elevator Level Heights
     public static final double L1Position = -19;

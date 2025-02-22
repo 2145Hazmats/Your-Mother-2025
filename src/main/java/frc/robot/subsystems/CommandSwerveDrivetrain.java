@@ -49,8 +49,8 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
 
     private int reefIndex = 0;
 
-    private final PIDController pidControllerX = new PIDController(DrivetrainConstants.P_XY, 0, DrivetrainConstants.D_XY); 
-    private final PIDController pidControllerY = new PIDController(DrivetrainConstants.P_XY, 0, DrivetrainConstants.D_XY); 
+    private final PIDController pidControllerX = new PIDController(DrivetrainConstants.P_X, DrivetrainConstants.I_X, DrivetrainConstants.D_X); 
+    private final PIDController pidControllerY = new PIDController(DrivetrainConstants.P_Y, DrivetrainConstants.I_Y, DrivetrainConstants.D_Y); 
     private final PIDController pidControllerDeg = new PIDController(DrivetrainConstants.P_DEGREE, 0, DrivetrainConstants.D_DEGREE); 
 
     private final PIDController pidFaceRad = new PIDController(DrivetrainConstants.PID_RAD, 0, 0); // kP * radians
@@ -229,7 +229,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     // return speed for the X Direction to get to desired Pose
     public double PIDDriveToPointX(double DesiredPoseX) {
         double SpeedsForPose = pidControllerX.calculate(getPose2d().getX(), DesiredPoseX);
-        SpeedsForPose = SpeedsForPose + Math.signum(SpeedsForPose) * DrivetrainConstants.FEEDFORWARD_CONSTANT;
+        // SpeedsForPose = SpeedsForPose + Math.signum(SpeedsForPose) * DrivetrainConstants.FEEDFORWARD_CONSTANT;
         if (isAllianceRed()) {
             return -SpeedsForPose;
         }
@@ -238,7 +238,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     // return speed for the Y Direction to get to desired Pose
     public double PIDDriveToPointY(double DesiredPoseY) {
         double SpeedsForPose = pidControllerY.calculate(getPose2d().getY(), DesiredPoseY);
-        SpeedsForPose = SpeedsForPose + Math.signum(SpeedsForPose) * DrivetrainConstants.FEEDFORWARD_CONSTANT;
+        // SpeedsForPose = SpeedsForPose + Math.signum(SpeedsForPose) * DrivetrainConstants.FEEDFORWARD_CONSTANT;
         if (isAllianceRed()) {
             return -SpeedsForPose;
         }
@@ -248,8 +248,8 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     public double PIDDriveToPointDEG(double DesiredPoseDeg) {
         pidControllerDeg.enableContinuousInput(-180, 180);
         double SpeedsForPose = pidControllerDeg.calculate(getPose2d().getRotation().getDegrees(), DesiredPoseDeg);
-        SpeedsForPose = SpeedsForPose * Math.signum(getPose2d().getRotation().getDegrees());
-        SpeedsForPose = SpeedsForPose + Math.signum(SpeedsForPose) * DrivetrainConstants.FEEDFORWARD_CONSTANT_DEGREE;
+        //SpeedsForPose = SpeedsForPose * Math.signum(getPose2d().getRotation().getDegrees());
+        //SpeedsForPose = SpeedsForPose + Math.signum(SpeedsForPose) * DrivetrainConstants.FEEDFORWARD_CONSTANT_DEGREE;
         // Do something like this to use the onboard PID controller for each motor or to use motionMagic
         //this.getModule(0).getSteerMotor().setControl(new VelocityVoltage(SpeedsForPose));
         return SpeedsForPose;
