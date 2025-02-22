@@ -11,6 +11,7 @@ import org.ejml.dense.block.MatrixOps_DDRB;
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 //import com.fasterxml.jackson.databind.ser.std.StdKeySerializers.Default;
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
 import edu.wpi.first.math.geometry.Pose2d;
@@ -72,7 +73,17 @@ public class RobotContainer {
     public RobotContainer() {
         configureBindings();
 
+        NamedCommands.registerCommand("Elevator2Home", m_ElevatorSubsystem.elevatorToHome());
+        NamedCommands.registerCommand("Elevator2L2", m_ElevatorSubsystem.elevatorToL2());
+        NamedCommands.registerCommand("Elevator2L3", m_ElevatorSubsystem.elevatorToL3());
+        NamedCommands.registerCommand("Elevator2L4", m_ElevatorSubsystem.elevatorToL3());
+        
+        NamedCommands.registerCommand("SuckTillSensor", m_ShooterBoxx.SuckTillSensor());
+        NamedCommands.registerCommand("ShootTillSensor", m_ShooterBoxx.SpitTillSensor());
+
         autoChooser = AutoBuilder.buildAutoChooser();
+        
+
         SmartDashboard.putData("Auto Chooser", autoChooser);
 
         ReefConstants.displayReefMath();
@@ -292,6 +303,8 @@ public class RobotContainer {
         P4controller.povRight().whileTrue(m_ElevatorSubsystem.elevatorToL3());
         
         //P4controller.povUp().whileTrue(m_ElevatorSubsystem.elevatorToL4());
+
+        P4controller.y().whileTrue(m_ElevatorSubsystem.setElevatorPID());
 
         P4controller.a().whileTrue(m_ElevatorSubsystem.elevatorToHome());
         // P3controller.povUp().onFalse(m_ElevatorSubsystem.elevatorToHome()); THIS WILL HIT BOTCAVE CEILING !! FIX LATER !!

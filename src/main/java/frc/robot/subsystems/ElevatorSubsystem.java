@@ -5,8 +5,10 @@ import java.util.function.DoubleSupplier;
 import com.ctre.phoenix6.configs.MotionMagicConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.DifferentialDutyCycle;
 import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.Follower;
+import com.ctre.phoenix6.controls.MotionMagicDutyCycle;
 import com.ctre.phoenix6.controls.PositionDutyCycle;
 import com.ctre.phoenix6.controls.PositionTorqueCurrentFOC;
 import com.ctre.phoenix6.controls.PositionVoltage;
@@ -51,26 +53,28 @@ public class ElevatorSubsystem extends SubsystemBase{
       SmartDashboard.putNumber("ElevatorP", 0);
       SmartDashboard.putNumber("ElevatorI", 0);
       SmartDashboard.putNumber("ElevatorD", 0);
+      SmartDashboard.putNumber("ElevatorG", 0);
 
     slot0Congfigs = config.Slot0;
 
-    slot0Congfigs.kS = 0.25; // Add 0.25 V output to overcome static friction
-    slot0Congfigs.kV = 0.12; // A velocity target of 1 rps results in 0.12 V output
-    slot0Congfigs.kA = 0.01; // An acceleration of 1 rps/s requires 0.01 V output
-    slot0Congfigs.kP = 4.8; // A position error of 2.5 rotations results in 12 V output
-    slot0Congfigs.kI = 0; // no output for integrated error
-    slot0Congfigs.kD = 0.1; // A velocity error of 1 rps results in 0.1 V output
+    slot0Congfigs.kS = 0; // Add 0.25 V output to overcome static friction //0.25
+    slot0Congfigs.kV = 0; // A velocity target of 1 rps results in 0.12 V output //0.12
+    slot0Congfigs.kA = 0; // An acceleration of 1 rps/s requires 0.01 V output //0.01
+    slot0Congfigs.kP = Constants.elevatorConstants.ElaphantP; // A position error of 2.5 rotations results in 12 V output //4.8
+    slot0Congfigs.kI = Constants.elevatorConstants.ElaphantI; // no output for integrated error //0
+    slot0Congfigs.kD = Constants.elevatorConstants.ElaphantD; // A velocity error of 1 rps results in 0.1 V output //0.1
+    slot0Congfigs.kG = 0; // Defying gravity //0.1
     slot0Congfigs.GravityType = GravityTypeValue.Elevator_Static;
   // set Motion Magic settings
     MotionMagicConfigs motionMagicConfigs = config.MotionMagic;
-    motionMagicConfigs.MotionMagicCruiseVelocity = 80; // Target cruise velocity of 80 rps
-    motionMagicConfigs.MotionMagicAcceleration = 160; // Target acceleration of 160 rps/s (0.5 seconds)
-    motionMagicConfigs.MotionMagicJerk = 1600; // Target jerk of 1600 rps/s/s (0.1 seconds)
+    motionMagicConfigs.MotionMagicCruiseVelocity = 40; // Target cruise velocity of 80 rps 
+    motionMagicConfigs.MotionMagicAcceleration = 80; // Target acceleration of 160 rps/s (0.5 seconds)
+    motionMagicConfigs.MotionMagicJerk = 800; // Target jerk of 1600 rps/s/s (0.1 seconds)
 
       config.MotorOutput.NeutralMode = NeutralModeValue.Brake;
       //config.Slot0 = new Slot0Configs().withKP(Constants.elevatorConstants.ElaphantP).withKI(Constants.elevatorConstants.ElaphantI).withKD(Constants.elevatorConstants.ElaphantD);
       config.MotorOutput.Inverted = InvertedValue.Clockwise_Positive; // WE DONT KNOW IF THIS IS RIGHT :)
-      config.MotorOutput.withInverted(InvertedValue.Clockwise_Positive); //SWSP IF NEEDED
+     // config.MotorOutput.withInverted(InvertedValue.Clockwise_Positive); //SWSP IF NEEDED why twice?
     
       //-------------------------------------------
       motorLeader.getConfigurator().apply(config);
@@ -84,7 +88,7 @@ public class ElevatorSubsystem extends SubsystemBase{
 
     public void levelIndexSwitch(boolean up){
       if(up == true) {
-          if (levelIndex < 4) { levelIndex++; }
+          if (levelIndex < 4) { levelIndex++; }//might need to be 3
       }
       else {
           if(levelIndex > 1) { levelIndex--; }
@@ -98,27 +102,27 @@ public class ElevatorSubsystem extends SubsystemBase{
       motorLeader.setControl(new PositionDutyCycle(levelIndex.convertto constants )), this);
     }*/    public Command elevatorToHome() {
       return Commands.run(() -> 
-        motorLeader.setControl(new PositionDutyCycle(Constants.elevatorConstants.HomePosition)), this);
+        motorLeader.setControl(new MotionMagicDutyCycle(Constants.elevatorConstants.HomePosition)), this);
       }
 
      public Command elevatorToL1() {
        return Commands.run(() -> 
-         motorLeader.setControl(new PositionDutyCycle(Constants.elevatorConstants.L1Position)), this);
+         motorLeader.setControl(new MotionMagicDutyCycle(Constants.elevatorConstants.L1Position)), this);
        }
 
     public Command elevatorToL2() {
       return Commands.run(() -> 
-        motorLeader.setControl(new PositionDutyCycle(Constants.elevatorConstants.L2Position)), this);
+        motorLeader.setControl(new MotionMagicDutyCycle(Constants.elevatorConstants.L2Position)), this);
       }
 
     public Command elevatorToL3() {
       return Commands.run(() -> 
-        motorLeader.setControl(new PositionDutyCycle(Constants.elevatorConstants.L3Position)), this);
+        motorLeader.setControl(new MotionMagicDutyCycle(Constants.elevatorConstants.L3Position)), this);
       }
 
     // public Command elevatorToL4() {
     //   return Commands.run(() -> 
-    //     motorLeader.setControl(new PositionDutyCycle(Constants.elevatorConstants.L4Position)), this);
+    //     motorLeader.setControl(new MotionMagicDutyCycle(Constants.elevatorConstants.L4Position)), this);
     //   }
 
     // public Command elevatorToHome() {
@@ -179,7 +183,7 @@ public class ElevatorSubsystem extends SubsystemBase{
 
 
     public Command elevatorJoystick(DoubleSupplier joystick) { // MAY NEED TO CHANGE THIS TO DOAGLE SUPPLIER :)()()))
-      return Commands.run(() -> motorLeader.setControl(new DutyCycleOut(joystick.getAsDouble()*.4)), this);
+      return Commands.run(() -> motorLeader.setControl(new DutyCycleOut(joystick.getAsDouble()*Constants.elevatorConstants.ElevatorJoystickSpeedNerf)));//motorLeader.setControl(new (joystick.getAsDouble()*.4)), this);
     }
 
     public Command disableElevator() {
@@ -188,7 +192,7 @@ public class ElevatorSubsystem extends SubsystemBase{
 
     public Command defaultCommand() {
       return Commands.runOnce(() -> 
-        motorLeader.setControl(new PositionDutyCycle(Constants.elevatorConstants.HomePosition)), this).withTimeout(1).andThen(disableElevator());
+        motorLeader.setControl(new MotionMagicDutyCycle(Constants.elevatorConstants.HomePosition)), this).withTimeout(1).andThen(disableElevator());
       }
 
 
@@ -209,6 +213,7 @@ public class ElevatorSubsystem extends SubsystemBase{
         config.Slot0.kP = SmartDashboard.getNumber("ElevatorP", 0);
         config.Slot0.kI = SmartDashboard.getNumber("ElevatorI", 0);
         config.Slot0.kI = SmartDashboard.getNumber("ElevatorD", 0);
+        config.Slot0.kG = SmartDashboard.getNumber("ElevatorG", 0);
 
         motorLeader.getConfigurator().apply(config);}, this);
        // NOT SURE IF THIS LINE WORKS MIGHT NEED COMMAND :)

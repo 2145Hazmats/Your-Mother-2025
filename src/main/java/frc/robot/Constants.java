@@ -19,8 +19,8 @@ public final class Constants {
     // Controller Nerf
     public static final double SlowMoSpeed = 0.3;
 
-    // PID Constants
-    public static final double P_XY = 3.0; //THIS SHOULD BE LOWER, IT IS TOO HIGH
+    // PID  Drive to pose Constants
+    public static final double P_XY = 1.0; //THIS SHOULD BE LOWER, IT IS TOO HIGH //3.0
     public static final double D_XY = 0;
     public static final double P_DEGREE = 0.15;
     public static final double D_DEGREE = 0.0025;
@@ -80,6 +80,8 @@ public final class Constants {
     public static final double HomePosition = -2;
     
     public static final double MarginOfError = 3;
+
+    public static final double ElevatorJoystickSpeedNerf = 0.4;
   }
 
   // Shooter BOXX Constants

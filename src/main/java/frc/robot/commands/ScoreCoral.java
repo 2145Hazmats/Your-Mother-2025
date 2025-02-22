@@ -120,6 +120,6 @@ public class ScoreCoral extends Command {
   @Override
   public boolean isFinished() {
     // THIS ENDS THE COMMAND IF THE SENSOR IS UNTRIGGERED
-    return theSnout.CoralSensorUntriggered();
+    return theSnout.BoxxCoralSensorUntriggered();
   }
 }

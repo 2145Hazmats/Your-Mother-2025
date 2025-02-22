@@ -7,37 +7,37 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Net Side Preload"
+            "pathName": "Processor Preload"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "PreloadToNetStation"
+            "pathName": "Preload to Processor Station"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "NetStation2Score"
+            "pathName": "ProcessorStation2Score"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "ScoreToNetStation"
+            "pathName": "Score2ProcessorStation"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "NetStation2Score"
+            "pathName": "ProcessorStation2Score2"
           }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": "Net Side",
+  "folder": "Processor Side",
   "choreoAuto": false
 }
