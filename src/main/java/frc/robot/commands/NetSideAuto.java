@@ -16,7 +16,7 @@ import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.ShooterBoxx;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class AwesomeAuton extends Command {
+public class NetSideAuto extends Command {
   /** Creates a new AwesomeAuton. */
   // Declare other subsystems 
   private CommandSwerveDrivetrain theLegs;
@@ -24,7 +24,7 @@ public class AwesomeAuton extends Command {
   private ShooterBoxx theSnout;
   private int preloadScoreIndex = 7; //H
 
-  public AwesomeAuton(CommandSwerveDrivetrain legs, ElevatorSubsystem neck, ShooterBoxx snout) { //CENTER AUTO
+  public NetSideAuto(CommandSwerveDrivetrain legs, ElevatorSubsystem neck, ShooterBoxx snout) { //CENTER AUTO
     // Use addRequirements() here to declare subsystem dependencies.
     theLegs = legs;
     theElephant = neck;
@@ -40,7 +40,7 @@ public class AwesomeAuton extends Command {
   public void initialize() {
     if (theLegs.isAllianceBlue()) { // Blue Alliance
       theLegs.resetPose(new Pose2d(7.122, 4.028, new Rotation2d(Units.degreesToRadians(180)))); 
-      theLegs.pathFindToReefBlueGH().andThen( // Specific side of the reef H is right G is left  // 0 is a //1 is b
+      theLegs.pathFindToReefBlueIJ().andThen( // Specific side of the reef H is right G is left  // 0 is a //1 is b
         Commands.parallel(
           theLegs.applyRequest(() -> // Individual pose
               RobotContainer.drive.withVelocityX(theLegs.PIDDriveToPointX(PoseConstants.BLUE_REEF_POSES[preloadScoreIndex].getX()) * RobotContainer.MaxSpeed)
@@ -51,7 +51,7 @@ public class AwesomeAuton extends Command {
         ));
     } else if (theLegs.isAllianceRed()) { // Red Alliance
       theLegs.resetPose(new Pose2d(10.457, 4.006, new Rotation2d(0))); 
-      theLegs.pathFindToReefRedGH().andThen( // Specific side of the reef H is right G is left  // 0 is a //1 is b
+      theLegs.pathFindToReefRedIJ().andThen( // Specific side of the reef H is right G is left  // 0 is a //1 is b
         Commands.parallel(
           theLegs.applyRequest(() -> // Individual pose
               RobotContainer.drive.withVelocityX(theLegs.PIDDriveToPointX(PoseConstants.RED_REEF_POSES[preloadScoreIndex].getX()) * RobotContainer.MaxSpeed)

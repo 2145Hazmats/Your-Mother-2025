@@ -110,14 +110,16 @@ public boolean ElevatorCoralSensorTriggered() {
 
 public Command IntakeDefaultCommand() {
   return Commands.run(() -> {
-    if (ElevatorCoralSensorTriggered()) {
-      shooterMotor.set(.3);
-    } else if (BoxxCoralSensorTriggered() && ElevatorCoralSensorUntriggered()) {
+    if (BoxxCoralSensorTriggered() && ElevatorCoralSensorUntriggered()) {
       shooterMotor.set(0);
+    } else if (BoxxCoralSensorTriggered() && ElevatorCoralSensorTriggered()) {
+      shooterMotor.set(Constants.shooterBoxxContants.kFinalSpeed);
+    } else if (ElevatorCoralSensorTriggered()) {
+      shooterMotor.set(Constants.shooterBoxxContants.kSuckSpeed);
     }
 
-
   }, this);
+
 }
 
   @Override

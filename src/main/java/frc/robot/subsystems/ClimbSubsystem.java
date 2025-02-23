@@ -35,7 +35,6 @@ public class ClimbSubsystem extends SubsystemBase {
   new PositionTorqueCurrentFOC(0); //MECHANICAL ADVANTAGE POSITION CONTROL WITH FF
 
   public ClimbSubsystem() {
-    
     ClimbConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
     ClimbConfig.Slot0 = new Slot0Configs().withKP(Constants.ClimbContants.ClimbP).withKI(Constants.ClimbContants.ClimbI).withKD(Constants.ClimbContants.ClimbD);
     ClimbConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive; // WE DONT KNOW IF THIS IS RIGHT :)
@@ -44,6 +43,8 @@ public class ClimbSubsystem extends SubsystemBase {
     //-------------------------------------------
     climbMotor.getConfigurator().apply(ClimbConfig);
   }
+
+  //Kraken position to down spot then servo turn 180 then kraken spin back up to up position
 
   public Command ClimbToHome() {
       return Commands.runOnce(() -> 

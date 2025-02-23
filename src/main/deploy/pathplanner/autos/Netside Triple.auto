@@ -13,25 +13,25 @@
         {
           "type": "path",
           "data": {
-            "pathName": "PreloadToNetStation"
+            "pathName": null
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "NetStation2Score"
+            "pathName": null
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "ScoreToNetStation"
+            "pathName": null
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "NetStation2Score"
+            "pathName": null
           }
         }
       ]
