@@ -50,6 +50,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     private PathConstraints pathFindingConstraints;
 
     private int reefIndex = 0;
+    private int player1ReefIndex = 0;
 
     private final PIDController pidControllerX = new PIDController(DrivetrainConstants.P_X, DrivetrainConstants.I_X, DrivetrainConstants.D_X);
     private final PIDController pidControllerY = new PIDController(DrivetrainConstants.P_Y, DrivetrainConstants.I_Y, DrivetrainConstants.D_Y);
@@ -311,6 +312,12 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         indexSmartDashboardUpdate(reefIndex);
     }
 
+    public Command updateP1Index() {
+        return Commands.runOnce(() -> {
+            player1ReefIndex = reefIndex;
+        }, this);
+    }
+
     
     // Updates SmartDashboard Numbers
     public void indexSmartDashboardUpdate(int light) {
@@ -370,6 +377,10 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
 
     public int getReefIndex() {
         return this.reefIndex;
+    }
+
+    public int getP1ReefIndex() {
+        return this.player1ReefIndex;
     }
 
     public ChassisSpeeds getChassisSpeeds() {

@@ -21,11 +21,8 @@ import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.PhotonVisionConstants;
 
@@ -35,7 +32,7 @@ public class CameraSubsystem extends SubsystemBase {
   private final Field2d visionField = new Field2d();
   private final Field2d generalField = new Field2d();
   
-  private boolean imNotReady;
+  
   // Central Camera
   private final PhotonCamera centralCamera = new PhotonCamera("Middle_Arducam_OV9281");
   private PhotonPipelineResult centralResult = null;
@@ -123,19 +120,6 @@ public class CameraSubsystem extends SubsystemBase {
   public double getPoseY() { return charizardsSkateboard.getState().Pose.getY(); }
   public double getPoseRot() { return charizardsSkateboard.getState().Pose.getRotation().getDegrees(); }
 
-
-  public Command imNotReadyCommand(boolean ready) {
-    return Commands.runOnce(() -> imNotReady = ready, this);
-  }
-
-  public boolean checkReady() {
-    if (imNotReady = true) {
-      return false;
-    } else {
-      return true;
-    }
-
-  }
   @Override
   public void periodic() {
     // Get camera results

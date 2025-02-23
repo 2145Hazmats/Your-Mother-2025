@@ -29,6 +29,7 @@ import frc.robot.Constants.shooterBoxxContants;
 import frc.robot.Constants.ControllerConstants.EVERYTHING_ENUM;
 import frc.robot.ReefConstants.PoseConstants;
 import frc.robot.ReefConstants.ReefMathConstants;
+import frc.robot.commands.AwesomeAuton;
 import frc.robot.commands.GetCoral;
 import frc.robot.commands.ScoreCoral;
 import frc.robot.generated.TunerConstants;
@@ -45,7 +46,7 @@ public class RobotContainer {
     
     private EVERYTHING_ENUM selectedEnum;
 
-    private final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
+    private final CommandSwerveDrivetrain m_drivetrain = TunerConstants.createDrivetrain();
    
     /* Setting up bindings for necessary control of the swerve drive platform */
     private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
@@ -56,7 +57,8 @@ public class RobotContainer {
             .withDeadband(MaxSpeed * 0.05).withRotationalDeadband(MaxAngularRate * 0.05) // 10% deadband changed to 5%
             .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // Use open-loop control for drive motors
 
-    private final SendableChooser<Command> autoChooser;
+    private SendableChooser<Command> pathPlannerAutoChooser;
+    private SendableChooser<Command> autoChooser = new SendableChooser<>();
 
     private final Telemetry logger = new Telemetry(MaxSpeed);
 
@@ -67,7 +69,7 @@ public class RobotContainer {
     private final CommandPS4Controller p5Controller = new CommandPS4Controller(4);
     
     // We need to initialize an object of the camera subsystem, we don't have to use it
-    private CameraSubsystem m_CameraSubsystem = new CameraSubsystem(drivetrain);
+    private CameraSubsystem m_CameraSubsystem = new CameraSubsystem(m_drivetrain);
     private ShooterBoxx m_ShooterBoxx = new ShooterBoxx();
     private ElevatorSubsystem m_ElevatorSubsystem = new ElevatorSubsystem();
     private ClimbSubsystem m_ClimbSubsystem = new ClimbSubsystem();
@@ -83,10 +85,13 @@ public class RobotContainer {
         // NamedCommands.registerCommand("SuckTillSensor", m_ShooterBoxx.SuckTillSensor());
         // NamedCommands.registerCommand("ShootTillSensor", m_ShooterBoxx.SpitTillSensor());
 
-        autoChooser = AutoBuilder.buildAutoChooser();
-        
+        pathPlannerAutoChooser = AutoBuilder.buildAutoChooser();
+        SmartDashboard.putData("pathPlannerAutoChooser", autoChooser);
 
-        SmartDashboard.putData("Auto Chooser", autoChooser);
+        autoChooser.setDefaultOption("auto 1", new AwesomeAuton(m_drivetrain,m_ElevatorSubsystem,m_ShooterBoxx)); //Center L4
+        //autoChooser.addOption("Net Side Auto", new netSideAuto());
+        //autoChooser.addOption("Processor Side Auto", processorSideAuto());
+        SmartDashboard.putData("autoChooser", autoChooser);
 
         ReefConstants.displayReefMath();
         SmartDashboard.putBoolean("SCORE", false);
@@ -102,14 +107,14 @@ public class RobotContainer {
         // Default Commands :)
         //m_ElevatorSubsystem.setDefaultCommand(m_ElevatorSubsystem.defaultCommand()); TEST PID FIRST!!!!!
         //m_ClimbSubsystem.setDefaultCommand(m_ClimbSubsystem.ClimbJoystick(P2controller.getLeftY()));
-        //m_ShooterBoxx.setDefaultCommand(m_ShooterBoxx.StopShooterMotor());
+        //m_ShooterBoxx.setDefaultCommand(m_ShooterBoxx.IntakeDefaultCommand());
         //m_ElevatorSubsystem.setDefaultCommand(m_ElevatorSubsystem.elevatorJoystick(P4controller::getRightY));
 
 
-        drivetrain.registerTelemetry(logger::telemeterize);
+        m_drivetrain.registerTelemetry(logger::telemeterize);
 
-        drivetrain.setDefaultCommand(
-            drivetrain.applyRequest(() ->
+        m_drivetrain.setDefaultCommand(
+            m_drivetrain.applyRequest(() ->
                 drive.withVelocityX(-P1controller.getLeftY() * MaxSpeed) // Drive forward with negative Y (forward)
                     .withVelocityY(-P1controller.getLeftX() * MaxSpeed) // Drive left with negative X (left)
                     .withRotationalRate(-P1controller.getRightX() * MaxAngularRate) // Drive counterclockwise with negative X (left)
@@ -123,29 +128,29 @@ public class RobotContainer {
 
         // BLUE
 
-        P1controller.x().and(drivetrain::isAllianceBlue)
-        .whileTrue(drivetrain.pathFindToLeftBlueCoralStation().andThen(
+        P1controller.x().and(m_drivetrain::isAllianceBlue)
+        .whileTrue(m_drivetrain.pathFindToLeftBlueCoralStation().andThen(
             Commands.parallel(
-                drivetrain.applyRequest(() ->
-                    drive.withVelocityX(drivetrain.PIDDriveToPointX(PoseConstants.CORAL_STATION_LEFT_BLUE_POSE.getX()) * MaxSpeed)
-                    .withVelocityY(drivetrain.PIDDriveToPointY(PoseConstants.CORAL_STATION_LEFT_BLUE_POSE.getY()) * MaxSpeed)
-                    .withRotationalRate(drivetrain.PIDDriveToPointDEG(PoseConstants.CORAL_STATION_LEFT_BLUE_POSE.getRotation().getDegrees()))
+                m_drivetrain.applyRequest(() ->
+                    drive.withVelocityX(m_drivetrain.PIDDriveToPointX(PoseConstants.CORAL_STATION_LEFT_BLUE_POSE.getX()) * MaxSpeed)
+                    .withVelocityY(m_drivetrain.PIDDriveToPointY(PoseConstants.CORAL_STATION_LEFT_BLUE_POSE.getY()) * MaxSpeed)
+                    .withRotationalRate(m_drivetrain.PIDDriveToPointDEG(PoseConstants.CORAL_STATION_LEFT_BLUE_POSE.getRotation().getDegrees()))
                 ),
-                new GetCoral(drivetrain, m_ShooterBoxx)
+                new GetCoral(m_drivetrain, m_ShooterBoxx)
             )
         ));
 
         // RED
 
-        P1controller.x().and(drivetrain::isAllianceRed)
-        .whileTrue(drivetrain.pathFindToLeftRedCoralStation().andThen(
+        P1controller.x().and(m_drivetrain::isAllianceRed)
+        .whileTrue(m_drivetrain.pathFindToLeftRedCoralStation().andThen(
             Commands.parallel(
-                drivetrain.applyRequest(() ->
-                    drive.withVelocityX(drivetrain.PIDDriveToPointX(PoseConstants.CORAL_STATION_LEFT_RED_POSE.getX()) * MaxSpeed)
-                    .withVelocityY(drivetrain.PIDDriveToPointY(PoseConstants.CORAL_STATION_LEFT_RED_POSE.getY()) * MaxSpeed)
-                    .withRotationalRate(drivetrain.PIDDriveToPointDEG(PoseConstants.CORAL_STATION_LEFT_RED_POSE.getRotation().getDegrees()))
+                m_drivetrain.applyRequest(() ->
+                    drive.withVelocityX(m_drivetrain.PIDDriveToPointX(PoseConstants.CORAL_STATION_LEFT_RED_POSE.getX()) * MaxSpeed)
+                    .withVelocityY(m_drivetrain.PIDDriveToPointY(PoseConstants.CORAL_STATION_LEFT_RED_POSE.getY()) * MaxSpeed)
+                    .withRotationalRate(m_drivetrain.PIDDriveToPointDEG(PoseConstants.CORAL_STATION_LEFT_RED_POSE.getRotation().getDegrees()))
                 ),
-                new GetCoral(drivetrain, m_ShooterBoxx)
+                new GetCoral(m_drivetrain, m_ShooterBoxx)
             )
         ));
         
@@ -153,54 +158,54 @@ public class RobotContainer {
 
         // BLUE
 
-        P1controller.b().and(drivetrain::isAllianceBlue)
-        .whileTrue(drivetrain.pathFindToRightBlueCoralStation().andThen(
+        P1controller.b().and(m_drivetrain::isAllianceBlue)
+        .whileTrue(m_drivetrain.pathFindToRightBlueCoralStation().andThen(
             Commands.parallel(
-                drivetrain.applyRequest(() ->
-                    drive.withVelocityX(drivetrain.PIDDriveToPointX(PoseConstants.CORAL_STATION_RIGHT_BLUE_POSE.getX()) * MaxSpeed)
-                    .withVelocityY(drivetrain.PIDDriveToPointY(PoseConstants.CORAL_STATION_RIGHT_BLUE_POSE.getY()) * MaxSpeed)
-                    .withRotationalRate(drivetrain.PIDDriveToPointDEG(PoseConstants.CORAL_STATION_RIGHT_BLUE_POSE.getRotation().getDegrees()))
+                m_drivetrain.applyRequest(() ->
+                    drive.withVelocityX(m_drivetrain.PIDDriveToPointX(PoseConstants.CORAL_STATION_RIGHT_BLUE_POSE.getX()) * MaxSpeed)
+                    .withVelocityY(m_drivetrain.PIDDriveToPointY(PoseConstants.CORAL_STATION_RIGHT_BLUE_POSE.getY()) * MaxSpeed)
+                    .withRotationalRate(m_drivetrain.PIDDriveToPointDEG(PoseConstants.CORAL_STATION_RIGHT_BLUE_POSE.getRotation().getDegrees()))
                 ),
-                new GetCoral(drivetrain, m_ShooterBoxx)
+                new GetCoral(m_drivetrain, m_ShooterBoxx)
             )
         ));
 
         // RED
 
-        P1controller.b().and(drivetrain::isAllianceRed)
-        .whileTrue(drivetrain.pathFindToRightRedCoralStation().andThen(
+        P1controller.b().and(m_drivetrain::isAllianceRed)
+        .whileTrue(m_drivetrain.pathFindToRightRedCoralStation().andThen(
             Commands.parallel(
-                drivetrain.applyRequest(() ->
-                    drive.withVelocityX(drivetrain.PIDDriveToPointX(PoseConstants.CORAL_STATION_RIGHT_RED_POSE.getX()) * MaxSpeed)
-                    .withVelocityY(drivetrain.PIDDriveToPointY(PoseConstants.CORAL_STATION_RIGHT_RED_POSE.getY()) * MaxSpeed)
-                    .withRotationalRate(drivetrain.PIDDriveToPointDEG(PoseConstants.CORAL_STATION_RIGHT_RED_POSE.getRotation().getDegrees()))
+                m_drivetrain.applyRequest(() ->
+                    drive.withVelocityX(m_drivetrain.PIDDriveToPointX(PoseConstants.CORAL_STATION_RIGHT_RED_POSE.getX()) * MaxSpeed)
+                    .withVelocityY(m_drivetrain.PIDDriveToPointY(PoseConstants.CORAL_STATION_RIGHT_RED_POSE.getY()) * MaxSpeed)
+                    .withRotationalRate(m_drivetrain.PIDDriveToPointDEG(PoseConstants.CORAL_STATION_RIGHT_RED_POSE.getRotation().getDegrees()))
                 ),
-                new GetCoral(drivetrain, m_ShooterBoxx)
+                new GetCoral(m_drivetrain, m_ShooterBoxx)
             )
         ));
 
         // REEF SCORING
 
         // SCORE BLUE
-        P1controller.a().and(drivetrain::isAllianceBlue).and(() -> m_CameraSubsystem.checkReady() == true).whileTrue(drivetrain.pathFindToAllTheReefsBlue().andThen(
+        P1controller.a().and(m_drivetrain::isAllianceBlue).whileTrue(m_drivetrain.pathFindToAllTheReefsBlue().andThen(
             Commands.parallel(
-                drivetrain.applyRequest(() ->
-                    drive.withVelocityX(drivetrain.PIDDriveToPointX(PoseConstants.BLUE_REEF_POSES[drivetrain.getReefIndex()].getX()) * MaxSpeed)
-                    .withVelocityY(drivetrain.PIDDriveToPointY(PoseConstants.BLUE_REEF_POSES[drivetrain.getReefIndex()].getY()) * MaxSpeed)
-                    .withRotationalRate(drivetrain.PIDDriveToPointDEG(PoseConstants.BLUE_REEF_POSES[drivetrain.getReefIndex()].getRotation().getDegrees()))
+                m_drivetrain.applyRequest(() ->
+                    drive.withVelocityX(m_drivetrain.PIDDriveToPointX(PoseConstants.BLUE_REEF_POSES[m_drivetrain.getReefIndex()].getX()) * MaxSpeed)
+                    .withVelocityY(m_drivetrain.PIDDriveToPointY(PoseConstants.BLUE_REEF_POSES[m_drivetrain.getReefIndex()].getY()) * MaxSpeed)
+                    .withRotationalRate(m_drivetrain.PIDDriveToPointDEG(PoseConstants.BLUE_REEF_POSES[m_drivetrain.getReefIndex()].getRotation().getDegrees()))
                 ),
-                new ScoreCoral(drivetrain, m_ElevatorSubsystem, m_ShooterBoxx)
+                new ScoreCoral(m_drivetrain, m_ElevatorSubsystem, m_ShooterBoxx)
             )
         ));
         // SCORE RED
-        P1controller.a().and(drivetrain::isAllianceRed).and(() -> m_CameraSubsystem.checkReady() == true).whileTrue(drivetrain.pathFindToAllTheReefsRed().andThen(
+        P1controller.a().and(m_drivetrain::isAllianceRed).whileTrue(m_drivetrain.pathFindToAllTheReefsRed().andThen(
             Commands.parallel(
-                drivetrain.applyRequest(() ->
-                    drive.withVelocityX(drivetrain.PIDDriveToPointX(PoseConstants.RED_REEF_POSES[drivetrain.getReefIndex()].getX()) * MaxSpeed)
-                    .withVelocityY(drivetrain.PIDDriveToPointY(PoseConstants.RED_REEF_POSES[drivetrain.getReefIndex()].getY()) * MaxSpeed)
-                    .withRotationalRate(drivetrain.PIDDriveToPointDEG(PoseConstants.RED_REEF_POSES[drivetrain.getReefIndex()].getRotation().getDegrees()))
+                m_drivetrain.applyRequest(() ->
+                    drive.withVelocityX(m_drivetrain.PIDDriveToPointX(PoseConstants.RED_REEF_POSES[m_drivetrain.getReefIndex()].getX()) * MaxSpeed)
+                    .withVelocityY(m_drivetrain.PIDDriveToPointY(PoseConstants.RED_REEF_POSES[m_drivetrain.getReefIndex()].getY()) * MaxSpeed)
+                    .withRotationalRate(m_drivetrain.PIDDriveToPointDEG(PoseConstants.RED_REEF_POSES[m_drivetrain.getReefIndex()].getRotation().getDegrees()))
                 ),
-                new ScoreCoral(drivetrain, m_ElevatorSubsystem, m_ShooterBoxx)
+                new ScoreCoral(m_drivetrain, m_ElevatorSubsystem, m_ShooterBoxx)
             )
         ));
         
@@ -216,7 +221,7 @@ public class RobotContainer {
         
         // SLOW MODE
 
-        P1controller.rightTrigger().whileTrue(drivetrain.applyRequest(() ->
+        P1controller.rightTrigger().whileTrue(m_drivetrain.applyRequest(() ->
          drive.withVelocityX(-P1controller.getLeftY() * MaxSpeed * Constants.DrivetrainConstants.SlowMoSpeed) // Drive forward with negative Y (forward)
              .withVelocityY(-P1controller.getLeftX() * MaxSpeed * Constants.DrivetrainConstants.SlowMoSpeed) // Drive left with negative X (left)
              .withRotationalRate(-P1controller.getRightX() * MaxAngularRate * Constants.DrivetrainConstants.SlowMoSpeed) // Faces the Reef
@@ -224,7 +229,7 @@ public class RobotContainer {
         
         // CENTRIC MODE
 
-        P1controller.leftTrigger().whileTrue(drivetrain.applyRequest(() ->
+        P1controller.leftTrigger().whileTrue(m_drivetrain.applyRequest(() ->
          driveCentric.withVelocityX(-P1controller.getLeftY() * Constants.DrivetrainConstants.SlowMoSpeed) // Drive forward with negative Y (forward)
              .withVelocityY(-P1controller.getLeftX() * Constants.DrivetrainConstants.SlowMoSpeed) // Drive left with negative X (left)
              .withRotationalRate(-P1controller.getRightX() * Constants.DrivetrainConstants.SlowMoSpeed) // Faces the Reef
@@ -247,8 +252,8 @@ public class RobotContainer {
                 
         // Reef Index
 
-        P2controller.leftBumper().onTrue(Commands.runOnce(() -> drivetrain.poseIndexSwitch(false)));
-        P2controller.rightBumper().onTrue(Commands.runOnce(() -> drivetrain.poseIndexSwitch(true)));
+        P2controller.leftBumper().onTrue(Commands.runOnce(() -> m_drivetrain.poseIndexSwitch(false)));
+        P2controller.rightBumper().onTrue(Commands.runOnce(() -> m_drivetrain.poseIndexSwitch(true)));
 
         // Climb 
 
@@ -258,7 +263,7 @@ public class RobotContainer {
 
         // Send values to P1
 
-        P2controller.a().whileTrue(m_CameraSubsystem.imNotReadyCommand(false));
+        P2controller.a().whileTrue(m_ElevatorSubsystem.updateP1levelIndex().alongWith(m_drivetrain.updateP1Index()));
 
         // 
 
@@ -269,8 +274,8 @@ public class RobotContainer {
         // -----------------------------Manual Stuff---------------------------------
         
         // Intake and shooting coral
-        P3controller.y().whileTrue(m_ShooterBoxx.RunShooter(MaxSpeed));
-        P3controller.b().whileTrue(m_ShooterBoxx.RunShooter(-MaxSpeed));
+        P3controller.y().whileTrue(m_ShooterBoxx.RunShooter(.4));
+        P3controller.b().whileTrue(m_ShooterBoxx.RunShooter(.6));
         P3controller.a().whileTrue(m_ShooterBoxx.SuckTillSensor());
         P3controller.x().whileTrue(m_ShooterBoxx.SpitTillSensor());
 
@@ -568,5 +573,6 @@ public class RobotContainer {
 
     public Command getAutonomousCommand() {
         return autoChooser.getSelected();
+        //return pathPlannerAutoChooser.getSelected();
     }
 }

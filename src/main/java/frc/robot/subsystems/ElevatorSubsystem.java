@@ -43,6 +43,7 @@ public class ElevatorSubsystem extends SubsystemBase{
     final MotionMagicVoltage m_request = new MotionMagicVoltage(0);
 
     private int levelIndex = 1;
+    private int player1Index = 1;
   
     /* Constructor */
     public ElevatorSubsystem() {
@@ -116,6 +117,13 @@ public class ElevatorSubsystem extends SubsystemBase{
    , this);
   }
 
+  public Command updateP1levelIndex(){ //May have to move all the index stuff to a new subsystem due to requirements
+    return Commands.runOnce(() -> {
+      player1Index = levelIndex;
+    }
+    , this);
+}
+
  /*  public Command elevatorToIndex() {
     return Commands.run(() -> 
       motorLeader.setControl(new PositionDutyCycle(levelIndex.convertto constants )), this);
@@ -143,6 +151,44 @@ public class ElevatorSubsystem extends SubsystemBase{
     //   return Commands.run(() -> 
     //     motorLeader.setControl(new MotionMagicDutyCycle(Constants.elevatorConstants.L4Position)), this);
     //   }
+
+    public Command elevatorToIndex() {
+      return Commands.run(() -> {
+          if (levelIndex == 1) {
+            motorLeader.setControl(m_request.withPosition(Constants.elevatorConstants.L1Position));
+          } 
+          else if (levelIndex ==2) {
+            motorLeader.setControl(m_request.withPosition(Constants.elevatorConstants.L2Position));
+          } 
+          else if (levelIndex ==3) {
+            motorLeader.setControl(m_request.withPosition(Constants.elevatorConstants.L3Position));
+          } 
+          else if (levelIndex ==4) {
+            motorLeader.setControl(m_request.withPosition(Constants.elevatorConstants.L4Position));
+
+      }},this);
+
+    }
+
+    public Command elevatorToP1Index() {
+      return Commands.run(() -> {
+          if (player1Index == 1) {
+            motorLeader.setControl(m_request.withPosition(Constants.elevatorConstants.L1Position));
+          } 
+          else if (player1Index ==2) {
+            motorLeader.setControl(m_request.withPosition(Constants.elevatorConstants.L2Position));
+          } 
+          else if (player1Index ==3) {
+            motorLeader.setControl(m_request.withPosition(Constants.elevatorConstants.L3Position));
+          } 
+          else if (player1Index ==4) {
+            motorLeader.setControl(m_request.withPosition(Constants.elevatorConstants.L4Position));
+
+      }},this);
+
+    }
+
+   
 
     // public Command elevatorToHome() {
     //   return Commands.run(() -> {
@@ -255,10 +301,10 @@ public class ElevatorSubsystem extends SubsystemBase{
       System.out.println(output);
     }
 
-    public void FFPosition(double positionRad, double FF) { // STOEL FROM MECHANICAL ADVANTAGE
-      //motorLeader.setControl(
-      //positionTorqueCurrentRequest.withPosition(Units.radiansToRotations(positionRad)).withFeedForward(FF));
-    }
+    // public void FFPosition(double positionRad, double FF) { // STOEL FROM MECHANICAL ADVANTAGE
+    //   //motorLeader.setControl(
+    //   //positionTorqueCurrentRequest.withPosition(Units.radiansToRotations(positionRad)).withFeedForward(FF));
+    // }
 
     public double getElevatorPosition() {
       return motorLeader.getPosition().getValueAsDouble();
@@ -273,6 +319,10 @@ public class ElevatorSubsystem extends SubsystemBase{
     public int getLevelIndex() {
       return levelIndex;
       }
+
+    public int getPlayer1Index() {
+      return player1Index;
+    }
 
     // public Command ElevatorMove(double setpoint) {
     //   return Commands.runOnce(() -> {

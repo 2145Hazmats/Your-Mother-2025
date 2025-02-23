@@ -17,7 +17,7 @@ public class ReefConstants {
   // CONSTANTS YOU CAN EDIT
   private static double centerDistanceOffset = 1;
   private static double playingDistanceOffset = 0.522;
-  private static double leftOffset = -0.0235; // smaller = closer to right side
+  private static double leftOffset = -0.0235; // more negative = closer to right side
   private static double rightOffset = 0.3412; //DO NOT CHANGE
 
   public final class ReefMathConstants {

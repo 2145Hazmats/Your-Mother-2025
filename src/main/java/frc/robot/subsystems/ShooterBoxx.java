@@ -108,6 +108,18 @@ public boolean ElevatorCoralSensorTriggered() {
   return !ElevatorCoralSensor.get();
 }
 
+public Command IntakeDefaultCommand() {
+  return Commands.run(() -> {
+    if (ElevatorCoralSensorTriggered()) {
+      shooterMotor.set(.3);
+    } else if (BoxxCoralSensorTriggered() && ElevatorCoralSensorUntriggered()) {
+      shooterMotor.set(0);
+    }
+
+
+  }, this);
+}
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
