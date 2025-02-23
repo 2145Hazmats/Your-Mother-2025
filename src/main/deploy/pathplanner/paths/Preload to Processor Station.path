@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.394467213114754,
-        "y": 2.658401639344263
+        "x": 11.42,
+        "y": 4.025
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.3527499999999995,
-        "y": 1.9482499999999994
+        "x": 11.67,
+        "y": 4.025
       },
       "isLocked": false,
       "linkedName": "Processor Preload"
     },
     {
       "anchor": {
-        "x": 1.4039999999999997,
-        "y": 0.8659999999999991
+        "x": 14.429,
+        "y": 4.025
       },
       "prevControl": {
-        "x": 2.19375,
-        "y": 0.6612500000000001
+        "x": 14.179,
+        "y": 4.025
       },
       "nextControl": null,
       "isLocked": false,
@@ -42,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -126.0
+    "rotation": 180.0
   },
   "reversed": false,
-  "folder": "Processor Side",
+  "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 119.99999999999999
+    "rotation": 0.0
   },
   "useDefaultConstraints": true
 }

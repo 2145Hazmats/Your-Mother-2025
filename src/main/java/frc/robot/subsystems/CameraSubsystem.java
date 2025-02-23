@@ -124,7 +124,7 @@ public class CameraSubsystem extends SubsystemBase {
   public double getPoseRot() { return charizardsSkateboard.getState().Pose.getRotation().getDegrees(); }
 
 
-  public Command imNotReady(boolean ready) {
+  public Command imNotReadyCommand(boolean ready) {
     return Commands.runOnce(() -> imNotReady = ready, this);
   }
 

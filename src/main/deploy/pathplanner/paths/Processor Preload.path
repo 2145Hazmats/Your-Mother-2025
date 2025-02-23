@@ -16,12 +16,12 @@
     },
     {
       "anchor": {
-        "x": 5.394467213114754,
-        "y": 2.658401639344263
+        "x": 11.42,
+        "y": 4.025
       },
       "prevControl": {
-        "x": 5.826024590163933,
-        "y": 2.0230532786885256
+        "x": 11.851557377049179,
+        "y": 3.389651639344263
       },
       "nextControl": null,
       "isLocked": false,
@@ -42,10 +42,10 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 119.99999999999999
+    "rotation": 0.005731909216621846
   },
   "reversed": false,
-  "folder": "Processor Side",
+  "folder": null,
   "idealStartingState": {
     "velocity": 0,
     "rotation": 180.0

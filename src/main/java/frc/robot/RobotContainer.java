@@ -258,7 +258,7 @@ public class RobotContainer {
 
         // Send values to P1
 
-        P2controller.a().whileTrue(m_CameraSubsystem.imNotReady(false));
+        P2controller.a().whileTrue(m_CameraSubsystem.imNotReadyCommand(false));
 
         // 
 

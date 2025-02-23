@@ -20,9 +20,11 @@ import com.pathplanner.lib.path.PathConstraints;
 import com.pathplanner.lib.path.PathPlannerPath;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
@@ -49,8 +51,8 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
 
     private int reefIndex = 0;
 
-    private final PIDController pidControllerX = new PIDController(DrivetrainConstants.P_X, DrivetrainConstants.I_X, DrivetrainConstants.D_X); 
-    private final PIDController pidControllerY = new PIDController(DrivetrainConstants.P_Y, DrivetrainConstants.I_Y, DrivetrainConstants.D_Y); 
+    private final PIDController pidControllerX = new PIDController(DrivetrainConstants.P_X, DrivetrainConstants.I_X, DrivetrainConstants.D_X);
+    private final PIDController pidControllerY = new PIDController(DrivetrainConstants.P_Y, DrivetrainConstants.I_Y, DrivetrainConstants.D_Y);
     private final PIDController pidControllerDeg = new PIDController(DrivetrainConstants.P_DEGREE, 0, DrivetrainConstants.D_DEGREE); 
 
     private final PIDController pidFaceRad = new PIDController(DrivetrainConstants.PID_RAD, 0, 0); // kP * radians
@@ -218,12 +220,11 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     public Command pathFindToRightBlueCoralStation() {
         return AutoBuilder.pathfindToPose(PoseConstants.CORAL_STATION_RIGHT_BLUE_PATHFIND_POSE, pathFindingConstraints, 0);
     }
-    //TODO: CHANGE THIS AFTER CONSTANTS
     public Command pathFindToLeftRedCoralStation() {
-        return AutoBuilder.pathfindToPose(PoseConstants.CORAL_STATION_LEFT_RED_POSE, pathFindingConstraints, 0);
+        return AutoBuilder.pathfindToPose(PoseConstants.CORAL_STATION_LEFT_RED_PATHFIND_POSE, pathFindingConstraints, 0);
     }
     public Command pathFindToRightRedCoralStation() {
-        return AutoBuilder.pathfindToPose(PoseConstants.CORAL_STATION_RIGHT_RED_POSE, pathFindingConstraints, 0);
+        return AutoBuilder.pathfindToPose(PoseConstants.CORAL_STATION_RIGHT_RED_PATHFIND_POSE, pathFindingConstraints, 0);
     }
 
     // CLIMB PATHFIND
@@ -236,6 +237,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     // return speed for the X Direction to get to desired Pose
     public double PIDDriveToPointX(double DesiredPoseX) {
         double SpeedsForPose = pidControllerX.calculate(getPose2d().getX(), DesiredPoseX);
+        SpeedsForPose = Math.min(Math.max(SpeedsForPose, -DrivetrainConstants.PID_MAX), DrivetrainConstants.PID_MAX);
         // SpeedsForPose = SpeedsForPose + Math.signum(SpeedsForPose) * DrivetrainConstants.FEEDFORWARD_CONSTANT;
         if (isAllianceRed()) {
             return -SpeedsForPose;
@@ -245,6 +247,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     // return speed for the Y Direction to get to desired Pose
     public double PIDDriveToPointY(double DesiredPoseY) {
         double SpeedsForPose = pidControllerY.calculate(getPose2d().getY(), DesiredPoseY);
+        SpeedsForPose = Math.min(Math.max(SpeedsForPose, -DrivetrainConstants.PID_MAX), DrivetrainConstants.PID_MAX);
         // SpeedsForPose = SpeedsForPose + Math.signum(SpeedsForPose) * DrivetrainConstants.FEEDFORWARD_CONSTANT;
         if (isAllianceRed()) {
             return -SpeedsForPose;

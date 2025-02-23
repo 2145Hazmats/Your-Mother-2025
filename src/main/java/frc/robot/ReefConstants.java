@@ -16,9 +16,9 @@ public class ReefConstants {
 
   // CONSTANTS YOU CAN EDIT
   private static double centerDistanceOffset = 1;
-  private static double playingDistanceOffset = 0.36;
-  private static double leftOffset = 0.05;
-  private static double rightOffset = 0.36;
+  private static double playingDistanceOffset = 0.522;
+  private static double leftOffset = -0.0235; // smaller = closer to right side
+  private static double rightOffset = 0.3412; //DO NOT CHANGE
 
   public final class ReefMathConstants {
 
@@ -115,7 +115,7 @@ public class ReefConstants {
       REEF_SIDE_POSE_GH, REEF_SIDE_POSE_IJ, REEF_SIDE_POSE_KL
     };
 
-    public static final double RED_TRANSFORMATION_X = 8.5;
+    public static final double RED_TRANSFORMATION_X = 8.5695756472;
 
     public static final Pose2d[] RED_REEF_SIDE_POSES = {
       new Pose2d(REEF_SIDE_POSE_GH.getX() + RED_TRANSFORMATION_X, REEF_SIDE_POSE_GH.getY(), REEF_SIDE_POSE_GH.getRotation()),
@@ -160,44 +160,31 @@ public class ReefConstants {
     };
 
     public static final double BLUE_CORAL_STATION_DEG = 306;
-    public static final double RED_TRANSFORMATION_STATION_X = 15.1;
-    public static final double RED_CORAL_STATION_DEG = 54;
+    public static final double RED_CORAL_STATION_DEG = 126;
 
-    public static final Pose2d CORAL_STATION_LEFT_BLUE_PATHFIND_POSE = new Pose2d(1.7, 6.45, new Rotation2d(Units.degreesToRadians(BLUE_CORAL_STATION_DEG)));
-    public static final Pose2d CORAL_STATION_LEFT_BLUE_POSE = new Pose2d(1.175, 6.95, new Rotation2d(Units.degreesToRadians(BLUE_CORAL_STATION_DEG)));
-    public static final Pose2d CORAL_STATION_RIGHT_BLUE_PATHFIND_POSE = new Pose2d(1.7, 1.55, new Rotation2d(Units.degreesToRadians(-BLUE_CORAL_STATION_DEG)));
-    public static final Pose2d CORAL_STATION_RIGHT_BLUE_POSE = new Pose2d(1.175, 1.05, new Rotation2d(Units.degreesToRadians(-BLUE_CORAL_STATION_DEG)));
-    
-    
-    // TODO: RED SIDE FIX
-    public static final Pose2d CORAL_STATION_LEFT_RED_POSE = new Pose2d(
-      CORAL_STATION_RIGHT_BLUE_POSE.getX() + RED_TRANSFORMATION_STATION_X,
-      CORAL_STATION_RIGHT_BLUE_POSE.getY(),
-      new Rotation2d(Units.degreesToRadians(-RED_CORAL_STATION_DEG))
-    );
-    public static final Pose2d CORAL_STATION_RIGHT_RED_POSE = new Pose2d(
-      CORAL_STATION_LEFT_BLUE_POSE.getX() + RED_TRANSFORMATION_STATION_X,
-      CORAL_STATION_LEFT_BLUE_POSE.getY(),
-      new Rotation2d(Units.degreesToRadians(RED_CORAL_STATION_DEG))
-    );
+    public static final Pose2d CORAL_STATION_LEFT_BLUE_PATHFIND_POSE = new Pose2d(1.6, 6.7, new Rotation2d(Units.degreesToRadians(BLUE_CORAL_STATION_DEG)));
+    public static final Pose2d CORAL_STATION_LEFT_BLUE_POSE = new Pose2d(1.394, 7.165, new Rotation2d(Units.degreesToRadians(BLUE_CORAL_STATION_DEG)));
+    public static final Pose2d CORAL_STATION_RIGHT_BLUE_PATHFIND_POSE = new Pose2d(1.641, 1.439, new Rotation2d(Units.degreesToRadians(-BLUE_CORAL_STATION_DEG)));
+    public static final Pose2d CORAL_STATION_RIGHT_BLUE_POSE = new Pose2d(1.193, 1.019, new Rotation2d(Units.degreesToRadians(-BLUE_CORAL_STATION_DEG)));
+
+    public static final Pose2d CORAL_STATION_LEFT_RED_PATHFIND_POSE = new Pose2d(15.896, 1.411, new Rotation2d(Units.degreesToRadians(RED_CORAL_STATION_DEG)));
+    public static final Pose2d CORAL_STATION_LEFT_RED_POSE = new Pose2d(16.273, 0.962, new Rotation2d(Units.degreesToRadians(RED_CORAL_STATION_DEG)));
+    public static final Pose2d CORAL_STATION_RIGHT_RED_PATHFIND_POSE = new Pose2d(15.983, 6.7, new Rotation2d(Units.degreesToRadians(-RED_CORAL_STATION_DEG)));
+    public static final Pose2d CORAL_STATION_RIGHT_RED_POSE = new Pose2d(16.186, 7.136, new Rotation2d(Units.degreesToRadians(-RED_CORAL_STATION_DEG)));
   }
   
   // Climb Drive Setpoints
+  public static final double GENERAL_CLIMB_BLUE_DEG = 180;
+  public static final double GENERAL_CLIMB_RED_TRANSFORMATION_X = 0; // TODO: ASK CODY WHAT TO DO!
+  public static final double GENERAL_CLIMB_RED_DEG = 0;
 
-    public static final double GENERAL_CLIMB_BLUE_DEG = 180;
-    public static final double GENERAL_CLIMB_RED_TRANSFORMATION_X = 0; // TODO: ASK CODY WHAT TO DO!
-    public static final double GENERAL_CLIMB_RED_DEG = 0;
-
-    public static final Pose2d CLIMB_BLUE_PROCCESOR_PATHFIND_POSE = new Pose2d(1.7, 6.45, new Rotation2d(Units.degreesToRadians(GENERAL_CLIMB_BLUE_DEG)));
-    public static final Pose2d CLIMB_BLUE_PROCCESOR_POSE = new Pose2d(1.175, 6.95, new Rotation2d(Units.degreesToRadians(-GENERAL_CLIMB_BLUE_DEG)));
-    public static final Pose2d CLIMB_BLUE_CENTER_PATHFIND_POSE = new Pose2d(1.7, 1.55, new Rotation2d(Units.degreesToRadians(GENERAL_CLIMB_BLUE_DEG)));
-    public static final Pose2d CLIMB_BLUE_CENTER_POSE = new Pose2d(1.175, 1.05, new Rotation2d(Units.degreesToRadians(-GENERAL_CLIMB_BLUE_DEG)));
-    public static final Pose2d CLIMB_BLUE_NET_PATHFIND_POSE = new Pose2d(1.7, 6.45, new Rotation2d(Units.degreesToRadians(GENERAL_CLIMB_BLUE_DEG)));
-    public static final Pose2d CLIMB_BLUE_NET_POSE = new Pose2d(1.175, 6.95, new Rotation2d(Units.degreesToRadians(-GENERAL_CLIMB_BLUE_DEG)));
-    
-    public static final Pose2d CLIMB_BLUE_PROCCESOR_SIDE = new Pose2d();
-
-
-
+  public static final Pose2d CLIMB_BLUE_PROCCESOR_PATHFIND_POSE = new Pose2d(1.7, 6.45, new Rotation2d(Units.degreesToRadians(GENERAL_CLIMB_BLUE_DEG)));
+  public static final Pose2d CLIMB_BLUE_PROCCESOR_POSE = new Pose2d(1.175, 6.95, new Rotation2d(Units.degreesToRadians(-GENERAL_CLIMB_BLUE_DEG)));
+  public static final Pose2d CLIMB_BLUE_CENTER_PATHFIND_POSE = new Pose2d(1.7, 1.55, new Rotation2d(Units.degreesToRadians(GENERAL_CLIMB_BLUE_DEG)));
+  public static final Pose2d CLIMB_BLUE_CENTER_POSE = new Pose2d(1.175, 1.05, new Rotation2d(Units.degreesToRadians(-GENERAL_CLIMB_BLUE_DEG)));
+  public static final Pose2d CLIMB_BLUE_NET_PATHFIND_POSE = new Pose2d(1.7, 6.45, new Rotation2d(Units.degreesToRadians(GENERAL_CLIMB_BLUE_DEG)));
+  public static final Pose2d CLIMB_BLUE_NET_POSE = new Pose2d(1.175, 6.95, new Rotation2d(Units.degreesToRadians(-GENERAL_CLIMB_BLUE_DEG)));
+  
+  public static final Pose2d CLIMB_BLUE_PROCCESOR_SIDE = new Pose2d();
 
 }

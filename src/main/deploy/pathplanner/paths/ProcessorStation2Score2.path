@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.4039999999999997,
-        "y": 0.8659999999999991
+        "x": 14.42,
+        "y": 4.025
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.9932500000000006,
-        "y": 1.6654999999999995
+        "x": 16.00925,
+        "y": 4.824500000000001
       },
       "isLocked": false,
       "linkedName": "Processor Station"
@@ -21,7 +21,7 @@
       },
       "prevControl": {
         "x": 2.954249999999999,
-        "y": 1.67525
+        "y": 1.6752499999999997
       },
       "nextControl": null,
       "isLocked": false,
@@ -45,10 +45,10 @@
     "rotation": 59.99999999999999
   },
   "reversed": false,
-  "folder": "Processor Side",
+  "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -126.0
+    "rotation": 180.0
   },
   "useDefaultConstraints": true
 }

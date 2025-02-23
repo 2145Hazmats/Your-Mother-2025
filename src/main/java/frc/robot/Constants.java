@@ -20,18 +20,19 @@ public final class Constants {
     public static final double SlowMoSpeed = 0.3;
 
     // PID  Drive to pose Constants
-    public static final double P_X = 1.68; //1.7
-    public static final double P_Y = 1.68; //1.7
+    public static final double P_X = 2.6; //2.55
+    public static final double P_Y = 2.6; //2.55
     public static final double I_X = 0; // 0.001
     public static final double I_Y = 0; // 0.001
-    public static final double D_X = 1; //0.5
-    public static final double D_Y = 1; //0.5
+    public static final double D_X = 0.375; //0.375
+    public static final double D_Y = 0.375; //0.375
     public static final double P_DEGREE = 0.15;
     public static final double D_DEGREE = 0;
     public static final double PID_RAD = 0;
 
+    public static final double PID_MAX = 0.15;
+
     // Feed Forward Constants
-    //TODO: DISABLE FEEDFORWARD BECAUSE WE ADDED kS ?????
     public static final double FEEDFORWARD_CONSTANT = 0.0;
     public static final double FEEDFORWARD_CONSTANT_DEGREE = 0; //.12
   }
@@ -55,9 +56,13 @@ public final class Constants {
     //The Cameras are mounted on the back of the value so all transform signs are flipped (not rotations). + ➔ -
     
     public static final Transform3d ROBOT_TO_CENTRAL_CAMERA =
-        new Transform3d(Units.inchesToMeters(10.18917), Units.inchesToMeters(-12.61233), Units.inchesToMeters(8.62949), new Rotation3d(0, Units.degreesToRadians(10), Units.degreesToRadians(45)));
+        new Transform3d(Units.inchesToMeters(14.45), Units.inchesToMeters(-8.875), Units.inchesToMeters(8.62949), new Rotation3d(0, Units.degreesToRadians(-10), Units.degreesToRadians(45.5)));
+        //new Transform3d(Units.inchesToMeters(12.30768), Units.inchesToMeters(-10.49383), Units.inchesToMeters(8.05352), new Rotation3d(0, Units.degreesToRadians(10), Units.degreesToRadians(45)));
+        //new Transform3d(Units.inchesToMeters(10.18917), Units.inchesToMeters(-12.61233), Units.inchesToMeters(8.62949), new Rotation3d(0, Units.degreesToRadians(10), Units.degreesToRadians(45)));
     public static final Transform3d ROBOT_TO_LEFT_CAMERA =
-        new Transform3d(Units.inchesToMeters(10.97833), Units.inchesToMeters(12.87533),  Units.inchesToMeters(8.62949), new Rotation3d(0, Units.degreesToRadians(10), 0));
+        new Transform3d(Units.inchesToMeters(14.615), Units.inchesToMeters(12.575),  Units.inchesToMeters(8.62949), new Rotation3d(0, Units.degreesToRadians(-10), 0));
+        //new Transform3d(Units.inchesToMeters(12.65758), Units.inchesToMeters(11.33858),  Units.inchesToMeters(8.05352), new Rotation3d(0, Units.degreesToRadians(10), 0));
+        //new Transform3d(Units.inchesToMeters(10.97833), Units.inchesToMeters(12.87533),  Units.inchesToMeters(8.62949), new Rotation3d(0, Units.degreesToRadians(10), 0));
 }
     
   // Elevator Constants
