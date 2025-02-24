@@ -27,28 +27,16 @@ import frc.robot.subsystems.ShooterBoxx;
 
 // This command drives up to the reef and it moves the elevator up to the spot depending on what the reef 
 // index says then it drops the coral on the branches.
-public class ScoreCoral extends Command {
+public class ScoreCoralManual extends Command {
   // Declare other subsystems 
-  private CommandSwerveDrivetrain theLegs;
   private ElevatorSubsystem theElephant;
   private ShooterBoxx theSnout;
   
-  // Sets max speed for drivetrain
-  private static final double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond);
-  private static final double MaxAngularRate = RotationsPerSecond.of(DrivetrainConstants.MAX_ROTATIONS_PER_SECOND).in(RadiansPerSecond);
-  
-  private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
-          .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // Use open-loop control for drive motors
-
-  // Declare the variables for desired Drivetrain positions and elevator height
-  double xGoal;
-  double yGoal;
-  double degGoal;
+  // Declare the variables for desired elevator height
   double elevatorGoal;
 
   // Constructor
-  public ScoreCoral(CommandSwerveDrivetrain theFakeLegs, ElevatorSubsystem theFakeElephant, ShooterBoxx theFakeSnout) {
-    theLegs = theFakeLegs;
+  public ScoreCoralManual(ElevatorSubsystem theFakeElephant, ShooterBoxx theFakeSnout) {
     theElephant = theFakeElephant;
     theSnout = theFakeSnout;
 
@@ -61,43 +49,25 @@ public class ScoreCoral extends Command {
   // sets all the variables, The command starts, The elevator moves to the desire level.
   @Override
   public void initialize() {
-    // Gets desired Drivetrain positions dependant on team color 
-    if (theLegs.isAllianceBlue()) {
-      xGoal = PoseConstants.BLUE_REEF_POSES[theLegs.getPlayer1ReefIndex()].getX();
-      yGoal = PoseConstants.BLUE_REEF_POSES[theLegs.getPlayer1ReefIndex()].getY();
-      degGoal = PoseConstants.BLUE_REEF_POSES[theLegs.getPlayer1ReefIndex()].getRotation().getDegrees();
-    } else if (theLegs.isAllianceRed()) {
-      xGoal = PoseConstants.RED_REEF_POSES[theLegs.getPlayer1ReefIndex()].getX();
-      yGoal = PoseConstants.RED_REEF_POSES[theLegs.getPlayer1ReefIndex()].getY();
-      degGoal = PoseConstants.RED_REEF_POSES[theLegs.getPlayer1ReefIndex()].getRotation().getDegrees();
-    }
-    
     // Retrives our desired level index
     int level = theElephant.getPlayer1LevelIndex();
     
     // Moves elevator to desired height and sets elevator goal
-    // if (level == 1) {theElephant.elevatorToL1(); elevatorGoal = elevatorConstants.L1Position;}
-    // else if (level == 2) {theElephant.elevatorToL2(); elevatorGoal = elevatorConstants.L2Position;}
-    // else if (level == 3) {theElephant.elevatorToL3(); elevatorGoal = elevatorConstants.L3Position;}
-    // else if (level == 4) {theElephant.elevatorToL4(); elevatorGoal = elevatorConstants.L4Position;}
+    if (level == 1) {theElephant.elevatorToSomething(1); elevatorGoal = elevatorConstants.L1Position;}
+    else if (level == 2) {theElephant.elevatorToSomething(2); elevatorGoal = elevatorConstants.L2Position;}
+    else if (level == 3) {theElephant.elevatorToSomething(3); elevatorGoal = elevatorConstants.L3Position;}
+    //else if (level == 4) {theElephant.elevatorToSomething(4); elevatorGoal = elevatorConstants.L4Position;}
   }
 
   // Every 20ms We have a PID (funny math) and we check if the height of the elevator and the postition of the robot 
   // After our conditions are satisfied we will spit out coral 
   @Override
   public void execute() {
-    // Declares our Drivetrain and elevator positions
-    double currentDriveX = theLegs.getPose2d().getX();
-    double currentDriveY = theLegs.getPose2d().getY();
     double currentElevatorPosition = theElephant.getElevatorPosition();
     
-    // Checks to see if Elevator and Drivetrain are in the correct position before playing the coral
+    // Checks to see if Elevator is in the correct position before playing the coral
     if (
-    currentDriveX > (xGoal - ScoreCoralConstants.DriveTrainError)
-    && currentDriveX < (xGoal + ScoreCoralConstants.DriveTrainError)
-    && currentDriveY > (yGoal - ScoreCoralConstants.DriveTrainError)
-    && currentDriveY < (yGoal + ScoreCoralConstants.DriveTrainError)
-    && currentElevatorPosition > (elevatorGoal - ScoreCoralConstants.ElevatorError)
+    currentElevatorPosition > (elevatorGoal - ScoreCoralConstants.ElevatorError)
     && currentElevatorPosition < (elevatorGoal + ScoreCoralConstants.ElevatorError)) {
       theSnout.RunShooter(shooterBoxxContants.kSpitSpeed); // Runs shooter if drivetrain and elevator positions are within their bounds of error
     }
@@ -106,15 +76,12 @@ public class ScoreCoral extends Command {
       theElephant.elevatorToHome();
     }
 
-    SmartDashboard.putNumber("ScoreCoral currentDriveX", currentDriveX);
-    SmartDashboard.putNumber("ScoreCoral currentDriveY", currentDriveY);
     SmartDashboard.putNumber("ScoreCoral currentElevatorPosition", currentElevatorPosition);
   }
 
   // Sends elevator to its default position after the command ends.
   @Override
   public void end(boolean interrupted) {
-    theLegs.stopCommand();
     theElephant.elevatorToHome();
     theSnout.StopShooterMotor();
   }
@@ -125,7 +92,6 @@ public class ScoreCoral extends Command {
   public boolean isFinished() {
     // THIS ENDS THE COMMAND IF THE SENSOR IS UNTRIGGERED
    if (theElephant.isDrivingSafeQuestionMark() && theSnout.BoxxCoralSensorUntriggered()) {
-
       return true;
     }
     else {

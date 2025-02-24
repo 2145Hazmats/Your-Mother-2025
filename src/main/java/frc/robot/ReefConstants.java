@@ -16,13 +16,13 @@ public class ReefConstants {
 
   // CONSTANTS YOU CAN EDIT
   private static double centerDistanceOffset = 1;
-  private static double playingDistanceOffset = 0.522;
+  private static double playingDistanceOffset = 0.52;
   private static double kLeftOffset = -0.0235; // more negative = closer to right side
   private static double kRightOffset = 0.3412; //DO NOT CHANGE
 
   // Calibration Stuff For Blue Alliance Only
-  private static boolean usePose2D = false;
-  private static Pose2d playLeftPoseAB = new Pose2d(1, 3, new Rotation2d());
+  private static boolean usePose2D = true;
+  private static Pose2d playLeftPoseAB = new Pose2d(3.3, 3.55, new Rotation2d(0));
   private static Pose2d playRightPoseAB = new Pose2d(1, 3, new Rotation2d());
   
   public final class ReefMathConstants {

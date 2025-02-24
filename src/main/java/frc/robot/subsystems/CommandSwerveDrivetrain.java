@@ -49,8 +49,8 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
 
     private PathConstraints pathFindingConstraints;
 
-    private int reefIndex = 0;
     private int player1ReefIndex = 0;
+    private int player2ReefIndex = 0;
 
     private final PIDController pidControllerX = new PIDController(DrivetrainConstants.P_X, DrivetrainConstants.I_X, DrivetrainConstants.D_X);
     private final PIDController pidControllerY = new PIDController(DrivetrainConstants.P_Y, DrivetrainConstants.I_Y, DrivetrainConstants.D_Y);
@@ -168,35 +168,35 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     // Magic Blue Side Reef Pathfinding Button
     public Command pathFindToAllTheReefsBlue() {
         return AutoBuilder.pathfindToPose(
-        PoseConstants.BLUE_REEF_SIDE_POSES[0], pathFindingConstraints, 0).onlyIf(() -> reefIndex == 0)
-        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.BLUE_REEF_SIDE_POSES[0], pathFindingConstraints, 0).onlyIf(() -> reefIndex == 1))
-        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.BLUE_REEF_SIDE_POSES[1], pathFindingConstraints, 0).onlyIf(() -> reefIndex == 2))
-        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.BLUE_REEF_SIDE_POSES[1], pathFindingConstraints, 0).onlyIf(() -> reefIndex == 3))
-        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.BLUE_REEF_SIDE_POSES[2], pathFindingConstraints, 0).onlyIf(() -> reefIndex == 4))
-        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.BLUE_REEF_SIDE_POSES[2], pathFindingConstraints, 0).onlyIf(() -> reefIndex == 5))
-        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.BLUE_REEF_SIDE_POSES[3], pathFindingConstraints, 0).onlyIf(() -> reefIndex == 6))
-        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.BLUE_REEF_SIDE_POSES[3], pathFindingConstraints, 0).onlyIf(() -> reefIndex == 7))
-        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.BLUE_REEF_SIDE_POSES[4], pathFindingConstraints, 0).onlyIf(() -> reefIndex == 8))
-        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.BLUE_REEF_SIDE_POSES[4], pathFindingConstraints, 0).onlyIf(() -> reefIndex == 9))
-        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.BLUE_REEF_SIDE_POSES[5], pathFindingConstraints, 0).onlyIf(() -> reefIndex == 10))
-        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.BLUE_REEF_SIDE_POSES[5], pathFindingConstraints, 0).onlyIf(() -> reefIndex == 11));
+        PoseConstants.BLUE_REEF_SIDE_POSES[0], pathFindingConstraints, 0).onlyIf(() -> player1ReefIndex == 0)
+        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.BLUE_REEF_SIDE_POSES[0], pathFindingConstraints, 0).onlyIf(() -> player1ReefIndex == 1))
+        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.BLUE_REEF_SIDE_POSES[1], pathFindingConstraints, 0).onlyIf(() -> player1ReefIndex == 2))
+        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.BLUE_REEF_SIDE_POSES[1], pathFindingConstraints, 0).onlyIf(() -> player1ReefIndex == 3))
+        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.BLUE_REEF_SIDE_POSES[2], pathFindingConstraints, 0).onlyIf(() -> player1ReefIndex == 4))
+        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.BLUE_REEF_SIDE_POSES[2], pathFindingConstraints, 0).onlyIf(() -> player1ReefIndex == 5))
+        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.BLUE_REEF_SIDE_POSES[3], pathFindingConstraints, 0).onlyIf(() -> player1ReefIndex == 6))
+        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.BLUE_REEF_SIDE_POSES[3], pathFindingConstraints, 0).onlyIf(() -> player1ReefIndex == 7))
+        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.BLUE_REEF_SIDE_POSES[4], pathFindingConstraints, 0).onlyIf(() -> player1ReefIndex == 8))
+        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.BLUE_REEF_SIDE_POSES[4], pathFindingConstraints, 0).onlyIf(() -> player1ReefIndex == 9))
+        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.BLUE_REEF_SIDE_POSES[5], pathFindingConstraints, 0).onlyIf(() -> player1ReefIndex == 10))
+        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.BLUE_REEF_SIDE_POSES[5], pathFindingConstraints, 0).onlyIf(() -> player1ReefIndex == 11));
     }
 
     // Magic Red Side Reef Pathfinding Button
     public Command pathFindToAllTheReefsRed() {
         return AutoBuilder.pathfindToPose(
-        PoseConstants.RED_REEF_SIDE_POSES[0], pathFindingConstraints, 0).onlyIf(() -> reefIndex == 0)
-        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.RED_REEF_SIDE_POSES[0], pathFindingConstraints, 0).onlyIf(() -> reefIndex == 1))
-        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.RED_REEF_SIDE_POSES[1], pathFindingConstraints, 0).onlyIf(() -> reefIndex == 2))
-        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.RED_REEF_SIDE_POSES[1], pathFindingConstraints, 0).onlyIf(() -> reefIndex == 3))
-        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.RED_REEF_SIDE_POSES[2], pathFindingConstraints, 0).onlyIf(() -> reefIndex == 4))
-        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.RED_REEF_SIDE_POSES[2], pathFindingConstraints, 0).onlyIf(() -> reefIndex == 5))
-        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.RED_REEF_SIDE_POSES[3], pathFindingConstraints, 0).onlyIf(() -> reefIndex == 6))
-        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.RED_REEF_SIDE_POSES[3], pathFindingConstraints, 0).onlyIf(() -> reefIndex == 7))
-        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.RED_REEF_SIDE_POSES[4], pathFindingConstraints, 0).onlyIf(() -> reefIndex == 8))
-        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.RED_REEF_SIDE_POSES[4], pathFindingConstraints, 0).onlyIf(() -> reefIndex == 9))
-        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.RED_REEF_SIDE_POSES[5], pathFindingConstraints, 0).onlyIf(() -> reefIndex == 10))
-        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.RED_REEF_SIDE_POSES[5], pathFindingConstraints, 0).onlyIf(() -> reefIndex == 11));
+        PoseConstants.RED_REEF_SIDE_POSES[0], pathFindingConstraints, 0).onlyIf(() -> player1ReefIndex == 0)
+        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.RED_REEF_SIDE_POSES[0], pathFindingConstraints, 0).onlyIf(() -> player1ReefIndex == 1))
+        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.RED_REEF_SIDE_POSES[1], pathFindingConstraints, 0).onlyIf(() -> player1ReefIndex == 2))
+        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.RED_REEF_SIDE_POSES[1], pathFindingConstraints, 0).onlyIf(() -> player1ReefIndex == 3))
+        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.RED_REEF_SIDE_POSES[2], pathFindingConstraints, 0).onlyIf(() -> player1ReefIndex == 4))
+        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.RED_REEF_SIDE_POSES[2], pathFindingConstraints, 0).onlyIf(() -> player1ReefIndex == 5))
+        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.RED_REEF_SIDE_POSES[3], pathFindingConstraints, 0).onlyIf(() -> player1ReefIndex == 6))
+        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.RED_REEF_SIDE_POSES[3], pathFindingConstraints, 0).onlyIf(() -> player1ReefIndex == 7))
+        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.RED_REEF_SIDE_POSES[4], pathFindingConstraints, 0).onlyIf(() -> player1ReefIndex == 8))
+        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.RED_REEF_SIDE_POSES[4], pathFindingConstraints, 0).onlyIf(() -> player1ReefIndex == 9))
+        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.RED_REEF_SIDE_POSES[5], pathFindingConstraints, 0).onlyIf(() -> player1ReefIndex == 10))
+        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.RED_REEF_SIDE_POSES[5], pathFindingConstraints, 0).onlyIf(() -> player1ReefIndex == 11));
     }
     
     // Goes to a certain point instead of all of them
@@ -237,9 +237,9 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
 
     // return speed for the X Direction to get to desired Pose
     public double PIDDriveToPointX(double DesiredPoseX) {
+        SmartDashboard.putNumber("GOTO PID POSE X", DesiredPoseX);
         double SpeedsForPose = pidControllerX.calculate(getPose2d().getX(), DesiredPoseX);
         SpeedsForPose = Math.min(Math.max(SpeedsForPose, -DrivetrainConstants.PID_MAX), DrivetrainConstants.PID_MAX);
-        // SpeedsForPose = SpeedsForPose + Math.signum(SpeedsForPose) * DrivetrainConstants.FEEDFORWARD_CONSTANT;
         if (isAllianceRed()) {
             return -SpeedsForPose;
         }
@@ -247,16 +247,17 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     }
     // return speed for the Y Direction to get to desired Pose
     public double PIDDriveToPointY(double DesiredPoseY) {
+        SmartDashboard.putNumber("GOTO PID POSE Y", DesiredPoseY);
         double SpeedsForPose = pidControllerY.calculate(getPose2d().getY(), DesiredPoseY);
         SpeedsForPose = Math.min(Math.max(SpeedsForPose, -DrivetrainConstants.PID_MAX), DrivetrainConstants.PID_MAX);
-        // SpeedsForPose = SpeedsForPose + Math.signum(SpeedsForPose) * DrivetrainConstants.FEEDFORWARD_CONSTANT;
         if (isAllianceRed()) {
             return -SpeedsForPose;
         }
-        return SpeedsForPose; 
+        return SpeedsForPose;
     }
     // return angular speed to rotate to desired Degrees
     public double PIDDriveToPointDEG(double DesiredPoseDeg) {
+        SmartDashboard.putNumber("GOTO PID POSE DEG", DesiredPoseDeg);
         pidControllerDeg.enableContinuousInput(-180, 180);
         double SpeedsForPose = pidControllerDeg.calculate(getPose2d().getRotation().getDegrees(), DesiredPoseDeg);
         //SpeedsForPose = SpeedsForPose * Math.signum(getPose2d().getRotation().getDegrees());
@@ -301,37 +302,26 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     // Switches our reef index
     public void poseIndexSwitch(boolean clockwise){
         if(clockwise == true) {
-            if (reefIndex == 0) { reefIndex = 11; }
-            else { reefIndex--; }
+            if (player2ReefIndex == 0) { player2ReefIndex = 11; }
+            else { player2ReefIndex--; }
         }
         else {
-            if(reefIndex == 11) { reefIndex = 0; }
-            else{ reefIndex++; }
+            if(player2ReefIndex == 11) { player2ReefIndex = 0; }
+            else{ player2ReefIndex++; }
         }
 
-        indexSmartDashboardUpdate(reefIndex);
+        indexSmartDashboardUpdate(player2ReefIndex);
     }
 
-    public Command updateP1Index() {
-        return Commands.runOnce(() -> {
-            player1ReefIndex = reefIndex;
-        }, this);
+    public void updateP1Index() {
+        player1ReefIndex = player2ReefIndex;
+        SmartDashboard.putNumber("player1ReefIndex", (double) player1ReefIndex);
     }
 
     
     // Updates SmartDashboard Numbers
     public void indexSmartDashboardUpdate(int light) {
-        SmartDashboard.putNumber("Reef Index", (double) reefIndex);
-
-        if (isAllianceRed()) {
-            SmartDashboard.putNumber("Reef Pose X", PoseConstants.RED_REEF_POSES[reefIndex].getX());
-            SmartDashboard.putNumber("Reef Pose Y", PoseConstants.RED_REEF_POSES[reefIndex].getY());
-            SmartDashboard.putNumber("Reef Pose Deg", PoseConstants.RED_REEF_POSES[reefIndex].getRotation().getDegrees());
-        } else {
-            SmartDashboard.putNumber("Reef Pose X", PoseConstants.BLUE_REEF_POSES[reefIndex].getX());
-            SmartDashboard.putNumber("Reef Pose Y", PoseConstants.BLUE_REEF_POSES[reefIndex].getY());
-            SmartDashboard.putNumber("Reef Pose Deg", PoseConstants.BLUE_REEF_POSES[reefIndex].getRotation().getDegrees());
-        }
+        SmartDashboard.putNumber("player2ReefIndex", (double) player2ReefIndex);
         
         // Resets SmartDashboard Reef Interface Circle
         SmartDashboard.putBoolean("ReefPos0", false); SmartDashboard.putBoolean("ReefPos1", false);
@@ -375,11 +365,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         return this.getState().Pose;
     }
 
-    public int getReefIndex() {
-        return this.reefIndex;
-    }
-
-    public int getP1ReefIndex() {
+    public int getPlayer1ReefIndex() {
         return this.player1ReefIndex;
     }
 
@@ -389,19 +375,15 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
 
     @Override
     public void periodic() {
-
-        SmartDashboard.putData("PIDControllerDeg",pidControllerDeg);
-        SmartDashboard.putData("PIDControllerX",pidControllerX);
-        SmartDashboard.putData("PIDControllerY",pidControllerY);
-
-
-        SmartDashboard.putNumber("Blue Reef PID X", PIDDriveToPointX(PoseConstants.BLUE_REEF_POSES[reefIndex].getX()));
-        SmartDashboard.putNumber("Blue Reef PID Y", PIDDriveToPointY(PoseConstants.BLUE_REEF_POSES[reefIndex].getY()));
-        SmartDashboard.putNumber("Blue Reef PID Rot", angularSpeedToFaceReef());
-
-        SmartDashboard.putNumber("Red Reef PID X", PIDDriveToPointX(PoseConstants.RED_REEF_POSES[reefIndex].getX()));
-        SmartDashboard.putNumber("Red Reef PID Y", PIDDriveToPointY(PoseConstants.RED_REEF_POSES[reefIndex].getY()));
-        SmartDashboard.putNumber("Red Reef PID Rot", angularSpeedToFaceReef());
+        if (isAllianceRed()) {
+            SmartDashboard.putNumber("Reef Pose X", PoseConstants.RED_REEF_POSES[player1ReefIndex].getX());
+            SmartDashboard.putNumber("Reef Pose Y", PoseConstants.RED_REEF_POSES[player1ReefIndex].getY());
+            SmartDashboard.putNumber("Reef Pose Deg", PoseConstants.RED_REEF_POSES[player1ReefIndex].getRotation().getDegrees());
+        } else {
+            SmartDashboard.putNumber("Reef Pose X", PoseConstants.BLUE_REEF_POSES[player1ReefIndex].getX());
+            SmartDashboard.putNumber("Reef Pose Y", PoseConstants.BLUE_REEF_POSES[player1ReefIndex].getY());
+            SmartDashboard.putNumber("Reef Pose Deg", PoseConstants.BLUE_REEF_POSES[player1ReefIndex].getRotation().getDegrees());
+        }
 
         //this.resetRotation(newIMU.getRotation2d());
 

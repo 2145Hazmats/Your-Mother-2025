@@ -17,16 +17,16 @@ public final class Constants {
     public static final double MAX_ROTATIONS_PER_SECOND = 0.75;
     
     // Controller Nerf
-    public static final double SlowMoSpeed = 0.3;
+    public static final double SlowMoSpeed = 0.25;
 
     // PID  Drive to pose Constants
-    public static final double P_X = 2.6; //2.55
-    public static final double P_Y = 2.6; //2.55
+    public static final double P_X = 2.1; //2.6
+    public static final double P_Y = 2.1; //2.6
     public static final double I_X = 0; // 0.001
     public static final double I_Y = 0; // 0.001
     public static final double D_X = 0.375; //0.375
     public static final double D_Y = 0.375; //0.375
-    public static final double P_DEGREE = 0.15;
+    public static final double P_DEGREE = 0.1; //0.15
     public static final double D_DEGREE = 0;
     public static final double PID_RAD = 0;
 
@@ -86,7 +86,7 @@ public final class Constants {
     public static final double L3Position = -50.5; //-49.1 is perfect from oxford, our pid is bad
     public static final double L4Position = -50.5;
     //public static final double L4Position = -83;  //-81.15 is perfect from oxford, our pid is bad
-    public static final double HomePosition = -2;
+    public static final double HomePosition = -0.5;
     
     public static final double MarginOfError = 3;
 
@@ -99,12 +99,12 @@ public final class Constants {
     public static final double kShooterMotorNominalVoltageConstant = 10.5;
     public static final int kBoxxCoralSensorChannel = 2;
     public static final int kElevatorCoralSensorChannel = 1;
-    public static final double kSpitSpeed = 0.3;
+    public static final double kSpitSpeed = -0.4;
     public static final double kSuckSpeed = -0.5;
     public static final double kFinalSpeed = -0.2;
   }
   public static class ClimbContants {
-    public static final int ClimbMotorId = 4000;
+    public static final int ClimbMotorId = 33;
     public static final int ClimbHomeSetpoint = 44;
     public static final int ClimbLockInSetPoint = 44;
     public static final int ClimbUpSetPoint = 44;

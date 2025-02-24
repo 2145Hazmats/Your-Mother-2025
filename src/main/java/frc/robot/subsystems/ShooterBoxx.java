@@ -110,7 +110,9 @@ public boolean ElevatorCoralSensorTriggered() {
 
 public Command IntakeDefaultCommand() {
   return Commands.run(() -> {
-    if (BoxxCoralSensorTriggered() && ElevatorCoralSensorUntriggered()) {
+    if (BoxxCoralSensorUntriggered() && ElevatorCoralSensorUntriggered()) {
+      shooterMotor.set(0);
+    } else if (BoxxCoralSensorTriggered() && ElevatorCoralSensorUntriggered()) {
       shooterMotor.set(0);
     } else if (BoxxCoralSensorTriggered() && ElevatorCoralSensorTriggered()) {
       shooterMotor.set(Constants.shooterBoxxContants.kFinalSpeed);

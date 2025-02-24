@@ -7,7 +7,25 @@
         {
           "type": "path",
           "data": {
-            "pathName": null
+            "pathName": "Awesome Path"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Elevator2L4"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootTillSensor"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Elevator2Home"
           }
         }
       ]
