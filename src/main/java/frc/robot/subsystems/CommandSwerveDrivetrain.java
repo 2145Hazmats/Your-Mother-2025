@@ -33,6 +33,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
+import frc.robot.Constants;
 import frc.robot.Constants.DrivetrainConstants;
 import frc.robot.Constants.PathPlannerConstants;
 import frc.robot.ReefConstants.ReefMathConstants;
@@ -356,6 +357,38 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         return DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red;
     }
 
+    public boolean isPoseCloseEnoughToSetpointBlue() {
+        if (getPose2d().getX() < PoseConstants.BLUE_REEF_POSES[player1ReefIndex].getX()+Constants.DrivetrainConstants.MarginOfErrorXY 
+            && getPose2d().getX() > PoseConstants.BLUE_REEF_POSES[player1ReefIndex].getX()-Constants.DrivetrainConstants.MarginOfErrorXY 
+            && getPose2d().getY() < PoseConstants.BLUE_REEF_POSES[player1ReefIndex].getY()+Constants.DrivetrainConstants.MarginOfErrorXY 
+            && getPose2d().getY() > PoseConstants.BLUE_REEF_POSES[player1ReefIndex].getY()-Constants.DrivetrainConstants.MarginOfErrorXY 
+            && getPose2d().getRotation().getDegrees() < PoseConstants.BLUE_REEF_POSES[player1ReefIndex].getRotation().getDegrees()+Constants.DrivetrainConstants.MarginOfErrorDeg 
+            && getPose2d().getRotation().getDegrees() > PoseConstants.BLUE_REEF_POSES[player1ReefIndex].getRotation().getDegrees()-Constants.DrivetrainConstants.MarginOfErrorDeg)
+            {
+
+            return true;
+        } else {
+
+            return false;
+        }
+    }
+
+    public boolean isPoseCloseEnoughToSetpointRed() {
+        if (getPose2d().getX() < PoseConstants.RED_REEF_POSES[player1ReefIndex].getX()+Constants.DrivetrainConstants.MarginOfErrorXY
+            && getPose2d().getX() > PoseConstants.RED_REEF_POSES[player1ReefIndex].getX()-Constants.DrivetrainConstants.MarginOfErrorXY
+            && getPose2d().getY() < PoseConstants.RED_REEF_POSES[player1ReefIndex].getY()+Constants.DrivetrainConstants.MarginOfErrorXY 
+            && getPose2d().getY() >PoseConstants.RED_REEF_POSES[player1ReefIndex].getY()-Constants.DrivetrainConstants.MarginOfErrorXY 
+            && getPose2d().getRotation().getDegrees() < PoseConstants.RED_REEF_POSES[player1ReefIndex].getRotation().getDegrees()+Constants.DrivetrainConstants.MarginOfErrorDeg 
+            && getPose2d().getRotation().getDegrees() > PoseConstants.RED_REEF_POSES[player1ReefIndex].getRotation().getDegrees()-Constants.DrivetrainConstants.MarginOfErrorDeg)
+            {
+
+            return true;
+        } else {
+
+            return false;
+        }
+    }
+
     // Returns true if the alliance is blue
     public boolean isAllianceBlue() {
         return DriverStation.getAlliance().orElse(Alliance.Red) == Alliance.Blue;
@@ -384,7 +417,18 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
             SmartDashboard.putNumber("Reef Pose Y", PoseConstants.BLUE_REEF_POSES[player1ReefIndex].getY());
             SmartDashboard.putNumber("Reef Pose Deg", PoseConstants.BLUE_REEF_POSES[player1ReefIndex].getRotation().getDegrees());
         }
+        //CHECK TO SEE WHETEHR OUR CONDITIONS ARE TRUE TO FIRE
+    if (isAllianceRed()) {
+         if (isPoseCloseEnoughToSetpointRed()) {
+            SmartDashboard.putBoolean("Alligned", true);
+        } else SmartDashboard.putBoolean("Alligned", false);
 
+    } else { //BLUE POSE CHECKS
+         if (isPoseCloseEnoughToSetpointBlue()) {
+            SmartDashboard.putBoolean("Alligned", true);
+        } else SmartDashboard.putBoolean("Alligned", false);
+    } 
+        
         //this.resetRotation(newIMU.getRotation2d());
 
         // Periodically try to apply the operator perspective.

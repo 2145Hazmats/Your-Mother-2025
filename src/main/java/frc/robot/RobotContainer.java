@@ -287,6 +287,8 @@ public class RobotContainer {
 
         
         // Elevator
+
+        P3controller.back().whileTrue(m_ElevatorSubsystem.elevatorJoystick(() -> P3controller.getLeftY())); //Not sure if this will work needs testing
         P3controller.povDown().whileTrue(m_ElevatorSubsystem.elevatorToL1());
         P3controller.povLeft().whileTrue(m_ElevatorSubsystem.elevatorToL2());
         P3controller.povRight().whileTrue(m_ElevatorSubsystem.elevatorToL3());
