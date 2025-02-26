@@ -56,7 +56,7 @@ public class ScoreCoralManual extends Command {
     if (level == 1) {theElephant.elevatorToSomething(1); elevatorGoal = elevatorConstants.L1Position;}
     else if (level == 2) {theElephant.elevatorToSomething(2); elevatorGoal = elevatorConstants.L2Position;}
     else if (level == 3) {theElephant.elevatorToSomething(3); elevatorGoal = elevatorConstants.L3Position;}
-    //else if (level == 4) {theElephant.elevatorToSomething(4); elevatorGoal = elevatorConstants.L4Position;}
+    else if (level == 4) {theElephant.elevatorToSomething(4); elevatorGoal = elevatorConstants.L4Position;}
   }
 
   // Every 20ms We have a PID (funny math) and we check if the height of the elevator and the postition of the robot 
@@ -66,10 +66,9 @@ public class ScoreCoralManual extends Command {
     double currentElevatorPosition = theElephant.getElevatorPosition();
     
     // Checks to see if Elevator is in the correct position before playing the coral
-    if (
-    currentElevatorPosition > (elevatorGoal - ScoreCoralConstants.ElevatorError)
-    && currentElevatorPosition < (elevatorGoal + ScoreCoralConstants.ElevatorError)) {
-      theSnout.RunShooter(shooterBoxxContants.kSpitSpeed); // Runs shooter if drivetrain and elevator positions are within their bounds of error
+    if (currentElevatorPosition > (elevatorGoal - ScoreCoralConstants.ElevatorError)
+     && currentElevatorPosition < (elevatorGoal + ScoreCoralConstants.ElevatorError)) {
+      theSnout.shootCoralMethod(); // Runs shooter if drivetrain and elevator positions are within their bounds of error
     }
 
     if (theSnout.BoxxCoralSensorUntriggered()) {
@@ -77,6 +76,8 @@ public class ScoreCoralManual extends Command {
     }
 
     SmartDashboard.putNumber("ScoreCoral currentElevatorPosition", currentElevatorPosition);
+    SmartDashboard.putBoolean("currentElevatorPosition 1", currentElevatorPosition > (elevatorGoal - ScoreCoralConstants.ElevatorError));
+    SmartDashboard.putBoolean("currentElevatorPosition 2", currentElevatorPosition < (elevatorGoal + ScoreCoralConstants.ElevatorError));
   }
 
   // Sends elevator to its default position after the command ends.

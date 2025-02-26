@@ -142,10 +142,10 @@ public class ElevatorSubsystem extends SubsystemBase{
         motorLeader.setControl(m_request.withPosition(Constants.elevatorConstants.L3Position)), this);
       }
 
-    // public Command elevatorToL4() {
-    //   return Commands.run(() -> 
-    //     motorLeader.setControl(new MotionMagicDutyCycle(Constants.elevatorConstants.L4Position)), this);
-    //   }
+    public Command elevatorToL4() {
+      return Commands.run(() -> 
+        motorLeader.setControl(m_request.withPosition(Constants.elevatorConstants.L4Position)), this);
+      }
 
     public void elevatorToSomething(double index) {
       if (index == 1) {
@@ -155,7 +155,7 @@ public class ElevatorSubsystem extends SubsystemBase{
       } else if (index == 3) {
         motorLeader.setControl(m_request.withPosition(Constants.elevatorConstants.L3Position));
       } else if (index == 4) {
-        //motorLeader.setControl(new MotionMagicDutyCycle(Constants.elevatorConstants.L4Position));
+        motorLeader.setControl(m_request.withPosition(Constants.elevatorConstants.L4Position));
       }
     }
 

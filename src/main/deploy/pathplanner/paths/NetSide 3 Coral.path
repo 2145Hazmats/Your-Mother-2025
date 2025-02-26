@@ -40,7 +40,7 @@
         "y": 8.026076111410957
       },
       "nextControl": {
-        "x": 0.3193511048217913,
+        "x": 0.3193511048217914,
         "y": 6.073986687050385
       },
       "isLocked": false,
@@ -48,16 +48,16 @@
     },
     {
       "anchor": {
-        "x": 3.4522985387706933,
-        "y": 4.953510199657874
+        "x": 3.512397540983606,
+        "y": 5.019979508196721
       },
       "prevControl": {
-        "x": 2.718459335773505,
-        "y": 4.372636780953449
+        "x": 2.778558337986418,
+        "y": 4.439106089492297
       },
       "nextControl": {
-        "x": 4.367734907955724,
-        "y": 5.678127597042832
+        "x": 4.427833910168636,
+        "y": 5.7445969055816795
       },
       "isLocked": false,
       "linkedName": null
@@ -80,12 +80,12 @@
     },
     {
       "anchor": {
-        "x": 4.123597728587962,
-        "y": 5.333066767939815
+        "x": 3.8240778688524584,
+        "y": 5.163831967213115
       },
       "prevControl": {
-        "x": 3.4963821206127284,
-        "y": 4.784489500718193
+        "x": 3.196862260877225,
+        "y": 4.6152546999914925
       },
       "nextControl": null,
       "isLocked": false,
@@ -121,8 +121,8 @@
   "constraintZones": [
     {
       "name": "Preload",
-      "minWaypointRelativePos": 0.8206758720930227,
-      "maxWaypointRelativePos": 1.0398800872093026,
+      "minWaypointRelativePos": 0.7427413909520614,
+      "maxWaypointRelativePos": 1.0398379473328834,
       "constraints": {
         "maxVelocity": 0.2,
         "maxAcceleration": 3.0,
@@ -134,7 +134,7 @@
     },
     {
       "name": "Coral2",
-      "minWaypointRelativePos": 2.95,
+      "minWaypointRelativePos": 2.8494260634706388,
       "maxWaypointRelativePos": 3.025,
       "constraints": {
         "maxVelocity": 0.2,
@@ -147,7 +147,7 @@
     },
     {
       "name": "Coral 3",
-      "minWaypointRelativePos": 4.983012354651166,
+      "minWaypointRelativePos": 4.753544902093186,
       "maxWaypointRelativePos": 5,
       "constraints": {
         "maxVelocity": 0.2,

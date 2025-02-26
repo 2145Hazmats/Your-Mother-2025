@@ -51,6 +51,7 @@ return Commands.run(() -> {
 shooterMotor.set(CustomSpeed);
 } );
 }
+
 public Command worksShoot() {
 
   return Commands.run(() -> shooterMotor.set(-.5), this);
@@ -82,6 +83,10 @@ public Command SpitTillSensor() {
 return Commands.run(() -> {
   shooterMotor.set(Constants.shooterBoxxContants.kSpitSpeed);
 }).until(() -> StopCoralShot()); }
+
+public void shootCoralMethod() {
+  shooterMotor.set(Constants.shooterBoxxContants.kSpitSpeed);
+}
 
 
 public boolean StopCoralIntake() {
