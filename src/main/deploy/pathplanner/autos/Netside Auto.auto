@@ -13,37 +13,31 @@
         {
           "type": "named",
           "data": {
-            "name": "FireCoral"
+            "name": "Elevator2L2"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Elevator2Home"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": null
+            "pathName": "PreloadToSource"
           }
         },
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": null
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": null
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": null
+            "name": "SuckTillSensor"
           }
         }
       ]
     }
   },
-  "resetOdom": true,
+  "resetOdom": false,
   "folder": "Net Side",
   "choreoAuto": false
 }

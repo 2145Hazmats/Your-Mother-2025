@@ -98,7 +98,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
             config = RobotConfig.fromGUISettings();
 
             AutoBuilder.configure(
-                () -> getState().Pose, 
+                () -> getPose2d(), 
                 this::resetPose,
                 () -> getState().Speeds,
                 // Consumer for robot-centric speeds and feedfowards

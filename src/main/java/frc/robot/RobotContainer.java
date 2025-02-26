@@ -45,6 +45,8 @@ import frc.robot.subsystems.ShooterBoxx;
 
 public class RobotContainer {
 
+    private final SendableChooser<Command> autoChooser;
+
     public static final double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
     private static final double MaxAngularRate = RotationsPerSecond.of(DrivetrainConstants.MAX_ROTATIONS_PER_SECOND).in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
     
@@ -61,8 +63,8 @@ public class RobotContainer {
             .withDeadband(MaxSpeed * 0.05).withRotationalDeadband(MaxAngularRate * 0.05) // 10% deadband changed to 5%
             .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // Use open-loop control for drive motors
 
-    private SendableChooser<Command> pathPlannerAutoChooser;
-    private SendableChooser<Command> autoChooser = new SendableChooser<>();
+   // private SendableChooser<Command> pathPlannerAutoChooser;
+    //private SendableChooser<Command> autoChooser = new SendableChooser<>();
 
     private final Telemetry logger = new Telemetry(MaxSpeed);
 
@@ -76,12 +78,19 @@ public class RobotContainer {
     private CameraSubsystem m_CameraSubsystem = new CameraSubsystem(m_drivetrain);
     private ShooterBoxx m_ShooterBoxx = new ShooterBoxx();
     private ElevatorSubsystem m_ElevatorSubsystem = new ElevatorSubsystem();
-    private ClimbSubsystem m_ClimbSubsystem = new ClimbSubsystem();
+    //private ClimbSubsystem m_ClimbSubsystem = new ClimbSubsystem();
 
     private Indexing m_indexing = new Indexing(m_ElevatorSubsystem, m_drivetrain);
 
     public RobotContainer() {
         configureBindings();
+
+        
+
+        // Another option that allows you to specify the default auto by its name
+        // autoChooser = AutoBuilder.buildAutoChooser("My Default Auto");
+
+        
 
          NamedCommands.registerCommand("Elevator2Home", m_ElevatorSubsystem.elevatorToHome().withTimeout(3));
          NamedCommands.registerCommand("Elevator2L2", m_ElevatorSubsystem.elevatorToL2().withTimeout(3));
@@ -91,15 +100,16 @@ public class RobotContainer {
          NamedCommands.registerCommand("SuckTillSensor", m_ShooterBoxx.SuckTillSensor());
          NamedCommands.registerCommand("ShootTillSensor", m_ShooterBoxx.SpitTillSensor());
 
-        pathPlannerAutoChooser = AutoBuilder.buildAutoChooser();
-        SmartDashboard.putData("pathPlannerAutoChooser", autoChooser);
+         autoChooser = AutoBuilder.buildAutoChooser();
+         SmartDashboard.putData("Auto Chooser", autoChooser);
+        // SmartDashboard.putData("pathPlannerAutoChooser", autoChooser);
 
         // autoChooser.setDefaultOption("AwesomeAuton", new AwesomeAuton(m_drivetrain,m_ElevatorSubsystem,m_ShooterBoxx));
         // autoChooser.addOption("NetSideAuto", new NetSideAuto(m_drivetrain,m_ElevatorSubsystem,m_ShooterBoxx));
         // autoChooser.addOption("ProcessorSideAuto", new ProcessorSideAuto());
         //autoChooser.addOption("Net Side Auto", new netSideAuto());
         //autoChooser.addOption("Processor Side Auto", processorSideAuto());
-        SmartDashboard.putData("autoChooser", autoChooser);
+        //SmartDashboard.putData("autoChooser", autoChooser);
 
         ReefConstants.displayReefMath();
         SmartDashboard.putBoolean("SCORE", false);
@@ -296,10 +306,10 @@ public class RobotContainer {
         
         //CLIMB
         
-        P3controller.rightTrigger
-        ().whileTrue(m_ClimbSubsystem.ClimbUp());
-        P3controller.leftTrigger().whileTrue(m_ClimbSubsystem.ClimbToHome());
-        P3controller.start().whileTrue(m_ClimbSubsystem.ClimbLockIn());
+        //P3controller.rightTrigger
+        //().whileTrue(m_ClimbSubsystem.ClimbUp());
+        //P3controller.leftTrigger().whileTrue(m_ClimbSubsystem.ClimbToHome());
+        //P3controller.start().whileTrue(m_ClimbSubsystem.ClimbLockIn());
 
         //P3controller.leftTrigger().whileTrue(m_ShooterBoxx.SuckTillSensor()).onFalse(m_ShooterBoxx.StopShooterMotor());
         //P3controller.rightTrigger().whileTrue(m_ShooterBoxx.SpitTillSensor()).onFalse(m_ShooterBoxx.StopShooterMotor());
@@ -337,7 +347,8 @@ public class RobotContainer {
     }
 
     public Command getAutonomousCommand() {
-        return autoChooser.getSelected();
-        //return pathPlannerAutoChooser.getSelected();
+        //return autoChooser.getSelected();
+     return autoChooser.getSelected();
+        
     }
 }
