@@ -20,13 +20,13 @@ public final class Constants {
     public static final double SlowMoSpeed = 0.25;
 
     // PID  Drive to pose Constants
-    public static final double P_X = 2.1; //2.6
-    public static final double P_Y = 2.1; //2.6
-    public static final double I_X = 0; // 0.001
-    public static final double I_Y = 0; // 0.001
-    public static final double D_X = 0.375; //0.375
-    public static final double D_Y = 0.375; //0.375
-    public static final double P_DEGREE = 0.1; //0.15
+    public static final double P_X = 2.95; //2.85
+    public static final double P_Y = 2.95; //2.85
+    public static final double I_X = 0;
+    public static final double I_Y = 0;
+    public static final double D_X = 0.027;
+    public static final double D_Y = 0.027;
+    public static final double P_DEGREE = 0.125; //0.1
     public static final double D_DEGREE = 0;
     public static final double PID_RAD = 0;
 
@@ -60,11 +60,15 @@ public final class Constants {
     //The Cameras are mounted on the back of the value so all transform signs are flipped (not rotations). + ➔ -
     
     public static final Transform3d ROBOT_TO_CENTRAL_CAMERA =
-        new Transform3d(Units.inchesToMeters(14.45), Units.inchesToMeters(-8.875), Units.inchesToMeters(8.62949), new Rotation3d(0, Units.degreesToRadians(-10), Units.degreesToRadians(45.5)));
+        //new Transform3d(Units.inchesToMeters(14.45), Units.inchesToMeters(-8.875), Units.inchesToMeters(-8.62949), new Rotation3d(0, Units.degreesToRadians(-10), Units.degreesToRadians(45.5)));
+        new Transform3d(Units.inchesToMeters(12.460005), Units.inchesToMeters(-10.3415), 0, new Rotation3d(0, Units.degreesToRadians(-10), Units.degreesToRadians(45)));
+
         //new Transform3d(Units.inchesToMeters(12.30768), Units.inchesToMeters(-10.49383), Units.inchesToMeters(8.05352), new Rotation3d(0, Units.degreesToRadians(10), Units.degreesToRadians(45)));
         //new Transform3d(Units.inchesToMeters(10.18917), Units.inchesToMeters(-12.61233), Units.inchesToMeters(8.62949), new Rotation3d(0, Units.degreesToRadians(10), Units.degreesToRadians(45)));
     public static final Transform3d ROBOT_TO_LEFT_CAMERA =
-        new Transform3d(Units.inchesToMeters(14.615), Units.inchesToMeters(12.575),  Units.inchesToMeters(8.62949), new Rotation3d(0, Units.degreesToRadians(-10), 0));
+        //new Transform3d(Units.inchesToMeters(14.615), Units.inchesToMeters(12.575),  Units.inchesToMeters(-8.62949), new Rotation3d(0, Units.degreesToRadians(-10), 0));
+        new Transform3d(Units.inchesToMeters(12.766455), Units.inchesToMeters(11.158455), 0, new Rotation3d(0, Units.degreesToRadians(10), 0));
+        
         //new Transform3d(Units.inchesToMeters(12.65758), Units.inchesToMeters(11.33858),  Units.inchesToMeters(8.05352), new Rotation3d(0, Units.degreesToRadians(10), 0));
         //new Transform3d(Units.inchesToMeters(10.97833), Units.inchesToMeters(12.87533),  Units.inchesToMeters(8.62949), new Rotation3d(0, Units.degreesToRadians(10), 0));
 }
@@ -88,12 +92,9 @@ public final class Constants {
     public static final double L1Position = -19;
     public static final double L2Position = -29;
     public static final double L3Position = -50.5; //-49.1 is perfect from oxford, our pid is bad
-    public static final double L4Position = -50.5;
-    //public static final double L4Position = -83;  //-81.15 is perfect from oxford, our pid is bad
+    public static final double L4Position = -50.5; //-81.15 is perfect from oxford, our pid is bad
     public static final double HomePosition = -0.5;
     
-    public static final double MarginOfError = 3;
-
     public static final double ElevatorJoystickSpeedNerf = 0.4;
   }
 
@@ -121,9 +122,9 @@ public final class Constants {
   }
   
   //Coral Scoring Constants 
-  public static class ScoreCoralConstants { 
-    public static final double ElevatorError = 3;
-    public static final double DriveTrainError = Units.inchesToMeters(1);
+  public static class ScoreCoralConstants {
+    public static final double ElevatorError = 1.5;
+    public static final double DriveTrainError = Units.inchesToMeters(1.5);
     
   }
   // Get Coral Constants

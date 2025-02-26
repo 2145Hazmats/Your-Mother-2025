@@ -16,14 +16,14 @@ public class ReefConstants {
 
   // CONSTANTS YOU CAN EDIT
   private static double centerDistanceOffset = 1;
-  private static double playingDistanceOffset = 0.52;
-  private static double kLeftOffset = -0.0235; // more negative = closer to right side
-  private static double kRightOffset = 0.3412; //DO NOT CHANGE
+  private static double playingDistanceOffset = 0.47; //0.52
+  private static double kLeftOffset = -0.02; // more negative = closer to right side .0185
+  private static double kRightOffset = 0.3912; //DO NOT CHANGE.3412
 
   // Calibration Stuff For Blue Alliance Only
   private static boolean usePose2D = true;
-  private static Pose2d playLeftPoseAB = new Pose2d(3.3, 3.55, new Rotation2d(0));
-  private static Pose2d playRightPoseAB = new Pose2d(1, 3, new Rotation2d());
+  private static Pose2d playLeftPoseAB = new Pose2d(3.21, 4.01, new Rotation2d(0)); //3.971624 id 0 should be this one
+  private static Pose2d playRightPoseAB = new Pose2d(3.21, 3.69, new Rotation2d(0)); //3.61076
   
   public final class ReefMathConstants {
     //---------------- Calculate 6 Central Poses Around Reef ---------------
@@ -35,8 +35,8 @@ public class ReefConstants {
     public static double[] KLReefCenter = new double[]{reefCenter[0] + (reefRadius + centerDistanceOffset) * Math.cos(Units.degreesToRadians(120)), reefCenter[1] + (reefRadius + centerDistanceOffset) * Math.sin(Units.degreesToRadians(120)), Math.PI*5/3};
     
     // calculates new offsets
-    public static double newLeftOffset = usePose2D ? playLeftPoseAB.getY()-ABReefCenter[1] : kLeftOffset;
-    public static double newRightOffset = usePose2D ? playRightPoseAB.getY()-ABReefCenter[1] : kRightOffset;
+    public static double newLeftOffset = usePose2D ? playLeftPoseAB.getY() - ABReefCenter[1] : kLeftOffset;
+    public static double newRightOffset = usePose2D ? ABReefCenter[1] - playRightPoseAB.getY() : kRightOffset;
 
     //---------------- Calculate 6 Playing Poses Around Reef ---------------
     private static double[] ABReefPlaying = new double[]{reefCenter[0] + (reefRadius + playingDistanceOffset) * Math.cos(Units.degreesToRadians(180)), reefCenter[1] + (reefRadius + playingDistanceOffset) * Math.sin(Units.degreesToRadians(180)), 0};
