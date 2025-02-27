@@ -7,13 +7,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Awesome Path"
+            "pathName": "Net Side Preload"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "Elevator2L4"
+            "name": "Elevator2L2"
           }
         },
         {
@@ -21,17 +21,11 @@
           "data": {
             "name": "ShootTillSensor"
           }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Elevator2Home"
-          }
         }
       ]
     }
   },
-  "resetOdom": true,
-  "folder": "Centre",
+  "resetOdom": false,
+  "folder": "Net Side",
   "choreoAuto": false
 }

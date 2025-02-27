@@ -6,33 +6,24 @@ package frc.robot;
 
 import static edu.wpi.first.units.Units.*;
 
-import org.ejml.dense.block.MatrixOps_DDRB;
-
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandPS4Controller;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
-import frc.robot.Constants.ClimbContants;
 import frc.robot.Constants.DrivetrainConstants;
-import frc.robot.Constants.shooterBoxxContants;
 import frc.robot.Constants.ControllerConstants.EVERYTHING_ENUM;
 import frc.robot.ReefConstants.PoseConstants;
-import frc.robot.ReefConstants.ReefMathConstants;
+import frc.robot.autos.AwesomestAutoBlue;
 // import frc.robot.autos.AwesomeAuton;
 // import frc.robot.autos.NetSideAuto;
 // import frc.robot.autos.ProcessorSideAuto;
-import frc.robot.commands.GetCoral;
 import frc.robot.commands.ScoreCoral;
 import frc.robot.commands.ScoreCoralManual;
 import frc.robot.generated.TunerConstants;
@@ -95,8 +86,8 @@ public class RobotContainer {
 
          NamedCommands.registerCommand("Elevator2Home", m_ElevatorSubsystem.elevatorToHome().withTimeout(3));
          NamedCommands.registerCommand("Elevator2L2", m_ElevatorSubsystem.elevatorToL2().withTimeout(3));
-         NamedCommands.registerCommand("Elevator2L3", m_ElevatorSubsystem.elevatorToL3().withTimeout(3));
-         NamedCommands.registerCommand("Elevator2L4", m_ElevatorSubsystem.elevatorToL3().withTimeout(3));
+         NamedCommands.registerCommand("Elevator2L3", m_ElevatorSubsystem.elevatorToL3());
+         NamedCommands.registerCommand("Elevator2L4", m_ElevatorSubsystem.elevatorToL3());
         
          NamedCommands.registerCommand("SuckTillSensor", m_ShooterBoxx.SuckTillSensor());
          NamedCommands.registerCommand("ShootTillSensor", m_ShooterBoxx.SpitTillSensor());
@@ -155,7 +146,7 @@ public class RobotContainer {
                     .withVelocityY(m_drivetrain.PIDDriveToPointY(PoseConstants.CORAL_STATION_LEFT_BLUE_POSE.getY()) * MaxSpeed)
                     .withRotationalRate(m_drivetrain.PIDDriveToPointDEG(PoseConstants.CORAL_STATION_LEFT_BLUE_POSE.getRotation().getDegrees()))
                 ),
-                new GetCoral(m_drivetrain, m_ShooterBoxx)
+                m_ShooterBoxx.SuckTillSensor()
             )
         ));
 
@@ -169,7 +160,7 @@ public class RobotContainer {
                     .withVelocityY(m_drivetrain.PIDDriveToPointY(PoseConstants.CORAL_STATION_LEFT_RED_POSE.getY()) * MaxSpeed)
                     .withRotationalRate(m_drivetrain.PIDDriveToPointDEG(PoseConstants.CORAL_STATION_LEFT_RED_POSE.getRotation().getDegrees()))
                 ),
-                new GetCoral(m_drivetrain, m_ShooterBoxx)
+                m_ShooterBoxx.SuckTillSensor()
             )
         ));
         
@@ -185,7 +176,7 @@ public class RobotContainer {
                     .withVelocityY(m_drivetrain.PIDDriveToPointY(PoseConstants.CORAL_STATION_RIGHT_BLUE_POSE.getY()) * MaxSpeed)
                     .withRotationalRate(m_drivetrain.PIDDriveToPointDEG(PoseConstants.CORAL_STATION_RIGHT_BLUE_POSE.getRotation().getDegrees()))
                 ),
-                new GetCoral(m_drivetrain, m_ShooterBoxx)
+                m_ShooterBoxx.SuckTillSensor()
             )
         ));
 
@@ -199,7 +190,7 @@ public class RobotContainer {
                     .withVelocityY(m_drivetrain.PIDDriveToPointY(PoseConstants.CORAL_STATION_RIGHT_RED_POSE.getY()) * MaxSpeed)
                     .withRotationalRate(m_drivetrain.PIDDriveToPointDEG(PoseConstants.CORAL_STATION_RIGHT_RED_POSE.getRotation().getDegrees()))
                 ),
-                new GetCoral(m_drivetrain, m_ShooterBoxx)
+                m_ShooterBoxx.SuckTillSensor()
             )
         ));
 
@@ -212,8 +203,8 @@ public class RobotContainer {
                     drive.withVelocityX(m_drivetrain.PIDDriveToPointX(PoseConstants.BLUE_REEF_POSES[m_drivetrain.getPlayer1ReefIndex()].getX()) * MaxSpeed)
                     .withVelocityY(m_drivetrain.PIDDriveToPointY(PoseConstants.BLUE_REEF_POSES[m_drivetrain.getPlayer1ReefIndex()].getY()) * MaxSpeed)
                     .withRotationalRate(m_drivetrain.PIDDriveToPointDEG(PoseConstants.BLUE_REEF_POSES[m_drivetrain.getPlayer1ReefIndex()].getRotation().getDegrees()))
-                ),
-                new ScoreCoral(m_drivetrain, m_ElevatorSubsystem, m_ShooterBoxx)
+                )//,
+                //new ScoreCoral(m_drivetrain, m_ElevatorSubsystem, m_ShooterBoxx)
             )
         ));
 
@@ -224,8 +215,8 @@ public class RobotContainer {
                     drive.withVelocityX(m_drivetrain.PIDDriveToPointX(PoseConstants.RED_REEF_POSES[m_drivetrain.getPlayer1ReefIndex()].getX()) * MaxSpeed)
                     .withVelocityY(m_drivetrain.PIDDriveToPointY(PoseConstants.RED_REEF_POSES[m_drivetrain.getPlayer1ReefIndex()].getY()) * MaxSpeed)
                     .withRotationalRate(m_drivetrain.PIDDriveToPointDEG(PoseConstants.RED_REEF_POSES[m_drivetrain.getPlayer1ReefIndex()].getRotation().getDegrees()))
-                ),
-                new ScoreCoral(m_drivetrain, m_ElevatorSubsystem, m_ShooterBoxx)
+                )//,
+                //new ScoreCoral(m_drivetrain, m_ElevatorSubsystem, m_ShooterBoxx)
             )
         ));
 
@@ -355,6 +346,7 @@ public class RobotContainer {
 
     public Command getAutonomousCommand() {
         return autoChooser.getSelected();
+        //return new AwesomestAutoBlue(m_drivetrain, m_ElevatorSubsystem, m_ShooterBoxx);
         
     }
 }

@@ -8,84 +8,52 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.741604125338487,
-        "y": 4.821761375500051
+        "x": 6.648378404119849,
+        "y": 4.8423404259434895
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 5.077613570599397,
-        "y": 5.213632812505097
+        "x": 5.14125390418077,
+        "y": 5.117233092075293
       },
       "prevControl": {
-        "x": 5.308364264608264,
-        "y": 5.1174344901994235
+        "x": 5.432671248252318,
+        "y": 5.003541877879231
       },
       "nextControl": {
-        "x": 4.197318646778687,
-        "y": 5.580621502049398
+        "x": 4.376638047828473,
+        "y": 5.4155341605282095
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 1.183810402199073,
-        "y": 7.016322699652778
+        "x": 1.1592110655737706,
+        "y": 7.045901639344262
       },
       "prevControl": {
-        "x": 2.11011557697657,
-        "y": 8.026076111410957
+        "x": 1.3665983606557375,
+        "y": 6.8660860655737705
       },
       "nextControl": {
-        "x": 0.3193511048217914,
-        "y": 6.073986687050385
+        "x": 0.7312248863367099,
+        "y": 7.416987921919747
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 3.512397540983606,
-        "y": 5.019979508196721
+        "x": 3.5816618058849508,
+        "y": 4.977177152177288
       },
       "prevControl": {
-        "x": 2.778558337986418,
-        "y": 4.439106089492297
-      },
-      "nextControl": {
-        "x": 4.427833910168636,
-        "y": 5.7445969055816795
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
-        "x": 1.461169704858656,
-        "y": 7.13901765046806
-      },
-      "prevControl": {
-        "x": 2.1780074986459375,
-        "y": 7.804966836906742
-      },
-      "nextControl": {
-        "x": 0.7787764089377758,
-        "y": 6.505067732943798
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
-        "x": 3.8240778688524584,
-        "y": 5.163831967213115
-      },
-      "prevControl": {
-        "x": 3.196862260877225,
-        "y": 4.6152546999914925
+        "x": 3.3613019217844564,
+        "y": 5.095251372391595
       },
       "nextControl": null,
       "isLocked": false,
@@ -95,7 +63,7 @@
   "rotationTargets": [
     {
       "waypointRelativePos": 1,
-      "rotationDegrees": -121.35656724143229
+      "rotationDegrees": -119.99999999999999
     },
     {
       "waypointRelativePos": 2,
@@ -106,15 +74,15 @@
       "rotationDegrees": -61.85734540956077
     },
     {
-      "waypointRelativePos": 4,
+      "waypointRelativePos": 3.5,
       "rotationDegrees": -52.33711236005037
     },
     {
-      "waypointRelativePos": 5,
+      "waypointRelativePos": 3.75,
       "rotationDegrees": -60.65151043602999
     },
     {
-      "waypointRelativePos": 5.5,
+      "waypointRelativePos": 3.9,
       "rotationDegrees": -52.744902298468
     }
   ],
@@ -135,7 +103,7 @@
     {
       "name": "Coral2",
       "minWaypointRelativePos": 2.8494260634706388,
-      "maxWaypointRelativePos": 3.025,
+      "maxWaypointRelativePos": 3,
       "constraints": {
         "maxVelocity": 0.2,
         "maxAcceleration": 3.0,
@@ -146,11 +114,11 @@
       }
     },
     {
-      "name": "Coral 3",
-      "minWaypointRelativePos": 4.753544902093186,
-      "maxWaypointRelativePos": 5,
+      "name": "Station 1",
+      "minWaypointRelativePos": 1.790681971640792,
+      "maxWaypointRelativePos": 2.3416610398379323,
       "constraints": {
-        "maxVelocity": 0.2,
+        "maxVelocity": 0.21,
         "maxAcceleration": 3.0,
         "maxAngularVelocity": 540.0,
         "maxAngularAcceleration": 720.0,
@@ -160,7 +128,14 @@
     }
   ],
   "pointTowardsZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "Elevator2L2",
+      "waypointRelativePos": 0,
+      "endWaypointRelativePos": null,
+      "command": null
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 3.0,
     "maxAcceleration": 3.0,

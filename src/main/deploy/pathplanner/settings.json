@@ -36,5 +36,7 @@
   "brModuleY": -0.29,
   "bumperOffsetX": 0.0,
   "bumperOffsetY": 0.0,
-  "robotFeatures": []
+  "robotFeatures": [
+    "{\"name\":\"Line\",\"type\":\"line\",\"data\":{\"start\":{\"x\":0.3,\"y\":0.145},\"end\":{\"x\":0.7,\"y\":0.145},\"strokeWidth\":0.03}}"
+  ]
 }

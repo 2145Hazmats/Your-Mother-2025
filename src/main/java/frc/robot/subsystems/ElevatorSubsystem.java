@@ -127,6 +127,11 @@ public class ElevatorSubsystem extends SubsystemBase{
         motorLeader.setControl(m_request.withPosition(Constants.elevatorConstants.HomePosition)), this);//new MotionMagicDutyCycle(Constants.elevatorConstants.HomePosition)), this);
       }
 
+      public void elevatorToHomeMethod() {
+         
+          motorLeader.setControl(m_request.withPosition(Constants.elevatorConstants.HomePosition));//new MotionMagicDutyCycle(Constants.elevatorConstants.HomePosition)), this);
+        }
+
      public Command elevatorToL1() {
        return Commands.run(() -> 
          motorLeader.setControl(m_request.withPosition(Constants.elevatorConstants.L1Position)), this);

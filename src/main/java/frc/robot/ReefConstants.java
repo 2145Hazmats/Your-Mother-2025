@@ -16,14 +16,14 @@ public class ReefConstants {
 
   // CONSTANTS YOU CAN EDIT
   private static double centerDistanceOffset = 1;
-  private static double playingDistanceOffset = 0.47; //0.52
+  private static double playingDistanceOffset = 0.43; //0.52
   private static double kLeftOffset = -0.02; // more negative = closer to right side .0185
   private static double kRightOffset = 0.3912; //DO NOT CHANGE.3412
 
   // Calibration Stuff For Blue Alliance Only
-  private static boolean usePose2D = true;
-  private static Pose2d playLeftPoseAB = new Pose2d(3.21, 4.01, new Rotation2d(0)); //3.971624 id 0 should be this one
-  private static Pose2d playRightPoseAB = new Pose2d(3.21, 3.69, new Rotation2d(0)); //3.61076
+  private static boolean usePose2D = true;//4.021 // no 5
+  private static Pose2d playLeftPoseAB = new Pose2d(3.1, 4.005, new Rotation2d(0)); //3.971624 id 0 should be this one
+  private static Pose2d playRightPoseAB = new Pose2d(3.21, 3.695, new Rotation2d(0)); //3.61076 /9
   
   public final class ReefMathConstants {
     //---------------- Calculate 6 Central Poses Around Reef ---------------
