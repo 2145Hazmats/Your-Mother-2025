@@ -37,7 +37,7 @@ import frc.robot.commands.ScoreCoral;
 import frc.robot.commands.ScoreCoralManual;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.CameraSubsystem;
-import frc.robot.subsystems.ClimbSubsystem;
+import frc.robot.subsystems.ClimbSubsystemNeo;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.Indexing;
@@ -78,6 +78,7 @@ public class RobotContainer {
     private CameraSubsystem m_CameraSubsystem = new CameraSubsystem(m_drivetrain);
     private ShooterBoxx m_ShooterBoxx = new ShooterBoxx();
     private ElevatorSubsystem m_ElevatorSubsystem = new ElevatorSubsystem();
+    private ClimbSubsystemNeo m_ClimbSubsystemNeo = new ClimbSubsystemNeo();
     //private ClimbSubsystem m_ClimbSubsystem = new ClimbSubsystem();
 
     private Indexing m_indexing = new Indexing(m_ElevatorSubsystem, m_drivetrain);
@@ -127,7 +128,7 @@ public class RobotContainer {
         //m_ClimbSubsystem.setDefaultCommand(m_ClimbSubsystem.ClimbJoystick(P2controller.getLeftY()));
         m_ShooterBoxx.setDefaultCommand(m_ShooterBoxx.IntakeDefaultCommand());
         //m_ElevatorSubsystem.setDefaultCommand(m_ElevatorSubsystem.elevatorJoystick(P4controller::getRightY));
-
+        m_ClimbSubsystemNeo.setDefaultCommand(m_ClimbSubsystemNeo.Keepclimbsafe());
 
         m_drivetrain.registerTelemetry(logger::telemeterize);
 
@@ -271,11 +272,18 @@ public class RobotContainer {
         P2controller.leftBumper().onTrue(Commands.runOnce(() -> m_indexing.poseIndexSwitch(false)));
         P2controller.rightBumper().onTrue(Commands.runOnce(() -> m_indexing.poseIndexSwitch(true)));
 
-        // Climb 
+        // Climb using Neo
 
-        //P2controller.leftTrigger().whileTrue(m_ClimbSubsystem.ClimbUp);
+        P2controller.leftTrigger().whileTrue(Commands.startEnd(() -> m_ClimbSubsystemNeo.climbBackwardCommand(), () -> m_ClimbSubsystemNeo.climbStopCommand(), m_ClimbSubsystemNeo));
 
-        //P2controller.rightTrigger().whileTrue(m_ClimbSubsystem.ClimbLockIn);
+        P2controller.rightTrigger().whileTrue(Commands.startEnd(() -> m_ClimbSubsystemNeo.climbForwardCommand(), () -> m_ClimbSubsystemNeo.climbStopCommand(), m_ClimbSubsystemNeo));
+
+        // Climb using Servo
+
+        P2controller.back().whileFalse(m_ClimbSubsystemNeo.climbLock());
+
+        P2controller.back().whileTrue(m_ClimbSubsystemNeo.climbUnlock());
+
 
         // Send values to P1
 
