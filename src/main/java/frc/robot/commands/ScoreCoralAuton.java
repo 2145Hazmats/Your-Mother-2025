@@ -29,26 +29,21 @@ import frc.robot.subsystems.ShooterBoxx;
 // index says then it drops the coral on the branches.
 public class ScoreCoralAuton extends Command {
   // Declare other subsystems 
-  private CommandSwerveDrivetrain theLegs;
   private ElevatorSubsystem theElephant;
   private ShooterBoxx theSnout;
 
   // Declare the variables for desired Drivetrain positions and elevator height
-  double xGoal;
-  double yGoal;
-  double degGoal;
+  
   double elevatorGoal;
 
-  int reefIndex;
   int levelIndex;
 
   // Constructor
-  public ScoreCoralAuton(CommandSwerveDrivetrain theFakeLegs, ElevatorSubsystem theFakeElephant, ShooterBoxx theFakeSnout, int reefIndex, int levelIndex) {
-    theLegs = theFakeLegs;
+  public ScoreCoralAuton(ElevatorSubsystem theFakeElephant, ShooterBoxx theFakeSnout, int levelIndex) {
     theElephant = theFakeElephant;
     theSnout = theFakeSnout;
 
-    this.reefIndex = reefIndex;
+    
     this.levelIndex = levelIndex;
 
     addRequirements(theFakeElephant, theFakeSnout);
@@ -59,15 +54,7 @@ public class ScoreCoralAuton extends Command {
   @Override
   public void initialize() {
     // Gets desired Drivetrain positions dependant on team color 
-    if (theLegs.isAllianceBlue()) {
-      xGoal = PoseConstants.BLUE_REEF_POSES[reefIndex].getX();
-      yGoal = PoseConstants.BLUE_REEF_POSES[reefIndex].getY();
-      degGoal = PoseConstants.BLUE_REEF_POSES[reefIndex].getRotation().getDegrees();
-    } else if (theLegs.isAllianceRed()) {
-      xGoal = PoseConstants.RED_REEF_POSES[reefIndex].getX();
-      yGoal = PoseConstants.RED_REEF_POSES[reefIndex].getY();
-      degGoal = PoseConstants.RED_REEF_POSES[reefIndex].getRotation().getDegrees();
-    }
+    
     
     // Moves elevator to desired height and sets elevator goal
     if (levelIndex == 1) {theElephant.elevatorToL1(); elevatorGoal = elevatorConstants.L1Position;}
@@ -81,16 +68,12 @@ public class ScoreCoralAuton extends Command {
   @Override
   public void execute() {
     // Declares our Drivetrain and elevator positions
-    double currentDriveX = theLegs.getPose2d().getX();
-    double currentDriveY = theLegs.getPose2d().getY();
+    
     double currentElevatorPosition = theElephant.getElevatorPosition();
 
-    if (currentDriveX > (xGoal - ScoreCoralConstants.DriveTrainError)
-    && currentDriveX < (xGoal + ScoreCoralConstants.DriveTrainError)
-    && currentDriveY > (yGoal - ScoreCoralConstants.DriveTrainError)
-    && currentDriveY < (yGoal + ScoreCoralConstants.DriveTrainError)) {
+    
       theElephant.elevatorToSomething(levelIndex);
-    }
+    
     
     // Checks to see if Elevator and Drivetrain are in the correct position before playing the coral
     if (currentElevatorPosition > (elevatorGoal - ScoreCoralConstants.ElevatorError)
@@ -106,7 +89,7 @@ public class ScoreCoralAuton extends Command {
   // Sends elevator to its default position after the command ends.
   @Override
   public void end(boolean interrupted) {
-    theLegs.stopCommand();
+    
     theElephant.elevatorToHome();
     theSnout.StopShooterMotor();
   }

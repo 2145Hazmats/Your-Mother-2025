@@ -31,7 +31,6 @@ public class ClimbSubsystemNeo extends SubsystemBase{
 
   private SparkMaxConfig ClimbConfig = new SparkMaxConfig();
 
-
   public ClimbSubsystemNeo() {
    ClimbConfig
     .inverted(true)
@@ -44,64 +43,78 @@ public class ClimbSubsystemNeo extends SubsystemBase{
   }
 
   //Neo position to down spot then servo turn 180 then Neo spin back up to up position
+  public void climbForwardCommand() {
+    climbMotorNeo.set(Constants.ClimbContants.climbForwardSpeed);
+  }
 
-    public void climbForwardCommand() {
+  public void climbBackwardCommand() {
+    if (climbMotorNeo.getEncoder().getPosition() > 0) {
+      climbMotorNeo.set(Constants.ClimbContants.ClimbBackwardSpeed);
+    } else {
+      climbMotorNeo.set(0);
+    }
+  }
+
+  public void climbStopCommand() {
+    climbMotorNeo.set(Constants.ClimbContants.ClimbStop);
+  }
+
+  // @Override
+  // public void setDefaultCommand(Command defaultCommand) {
+  //   // TODO Auto-generated method stub
+  //   super.setDefaultCommand(defaultCommand);
+  // }
+
+  public void ClimbJoystick(double joystick) { //MIGHT NEED TO CHANGE THIS TO SUPPLIER
+    climbMotorNeo.set(joystick * .3); //NERFED SPEED CHANGE LATER
+  }
+
+  public void disableClimbMotor() {
+      climbMotorNeo.set(0);
+  }
+
+  // Servo
+
+  public Command climbUnlock() {
+    return Commands.run(() -> climbServo.set(Constants.ClimbContants.climbUnlockServoPosition), this);
+  }
+
+  public Command climbLock() {
+    return Commands.run(() -> climbServo.set(Constants.ClimbContants.climbLockServoPosition), this);
+  }
+
+  public void ClimbJoystickServo(DoubleSupplier joystick) { //MIGHT NEED TO CHANGE THIS TO SUPPLIER
+      climbServo.set(joystick.getAsDouble() * .3); //NERFED SPEED CHANGE LATER
+  }
+
+  public void disableClimbServo() {
+      climbServo.set(0);
+  }
+
+  public Command PutTheClimbInPlease() {
+    return Commands.run(() -> {
+    // if (climbMotorNeo.getEncoder().getPosition() > Constants.ClimbContants.ClimbInLimit) {
       climbMotorNeo.set(Constants.ClimbContants.climbForwardSpeed);
+    });
+
+    //});
+  }
+
+  public Command PutTheClimbOutPlease() {
+    return Commands.run(() -> {
+    // if (climbMotorNeo.getEncoder().getPosition() < Constants.ClimbContants.ClimbOutLimit) {
+      climbServo.set(Constants.ClimbContants.climbLockServoPosition);
+      if (climbServo.getPosition() < 0.1) {
+        climbMotorNeo.set(Constants.ClimbContants.ClimbBackwardSpeed);
       }
-
-    public void climbBackwardCommand() {
-      if (climbMotorNeo.getEncoder().getPosition() > 0) {climbMotorNeo.set(Constants.ClimbContants.ClimbBackwardSpeed);}
-      else {
-        climbMotorNeo.set(0);
-      }
-      }
-
-    public void climbStopCommand() {
-        climbMotorNeo.set(Constants.ClimbContants.ClimbStop);
-      }
-
-      // @Override
-      // public void setDefaultCommand(Command defaultCommand) {
-      //   // TODO Auto-generated method stub
-      //   super.setDefaultCommand(defaultCommand);
-      // }
-       public void ClimbJoystick(double joystick) { //MIGHT NEED TO CHANGE THIS TO SUPPLIER
-        climbMotorNeo.set(joystick * .3); //NERFED SPEED CHANGE LATER
-    }
-
-    public void disableClimbMotor() {
-        climbMotorNeo.set(0);
-    }
-
-
-    // Servo
-
-    public Command climbUnlock() {
-      return Commands.run(() -> climbServo.setPosition(Constants.ClimbContants.climbUnlockServoPosition), this);
-      }
-
-    public Command climbLock() {
-      return Commands.run(() -> climbServo.setPosition(Constants.ClimbContants.climbLockServoPosition), this);
-      }
-
-    public void ClimbJoystickServo(DoubleSupplier joystick) { //MIGHT NEED TO CHANGE THIS TO SUPPLIER
-        climbServo.setPosition(joystick.getAsDouble() * .3); //NERFED SPEED CHANGE LATER
-    }
-
-    public void disableClimbServo() {
-        climbServo.setPosition(0);
-    }
-
-    public Command PutTheClimbDownPlease() {
-      return Commands.run(() -> {
-      if (climbMotorNeo.getEncoder().getPosition() < Constants.ClimbContants.ClimbDownPosition)
-       {climbForwardCommand();}}, this);
-
-    }
+    });
+        //climbBackwardCommand();}}, this);
+    // });
+  }
 
     public Command Keepclimbsafe() {
-return Commands.run(() -> { if (climbMotorNeo.getEncoder().getPosition() < 0) {
-
+return Commands.run(() -> { if (true) { //climbMotorNeo.getEncoder().getPosition() < 0) {
+  climbServo.set(Constants.ClimbContants.climbLockServoPosition);
   climbMotorNeo.set(0);
 }}, this);
      
@@ -122,7 +135,8 @@ return Commands.run(() -> { if (climbMotorNeo.getEncoder().getPosition() < 0) {
   public void periodic() {
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("Climb Position", climbMotorNeo.getEncoder().getPosition());
-  
+    SmartDashboard.putNumber("servo pos", climbServo.getPosition());
+    SmartDashboard.putNumber("servo angle", climbServo.getAngle());
   } 
 }
 

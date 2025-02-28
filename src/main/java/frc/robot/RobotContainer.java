@@ -20,11 +20,12 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.DrivetrainConstants;
 import frc.robot.Constants.ControllerConstants.EVERYTHING_ENUM;
 import frc.robot.ReefConstants.PoseConstants;
-import frc.robot.autos.AwesomestAutoBlue;
+//import frc.robot.autos.AwesomestAutoBlue;
 // import frc.robot.autos.AwesomeAuton;
 // import frc.robot.autos.NetSideAuto;
 // import frc.robot.autos.ProcessorSideAuto;
 import frc.robot.commands.ScoreCoral;
+import frc.robot.commands.ScoreCoralAuton;
 import frc.robot.commands.ScoreCoralManual;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.CameraSubsystem;
@@ -91,6 +92,7 @@ public class RobotContainer {
         
          NamedCommands.registerCommand("SuckTillSensor", m_ShooterBoxx.SuckTillSensor());
          NamedCommands.registerCommand("ShootTillSensor", m_ShooterBoxx.SpitTillSensor());
+         NamedCommands.registerCommand("AutoL4", new ScoreCoralAuton( m_ElevatorSubsystem, m_ShooterBoxx,  4));
 
          autoChooser = AutoBuilder.buildAutoChooser();
          SmartDashboard.putData("Auto Chooser", autoChooser);
@@ -203,8 +205,8 @@ public class RobotContainer {
                     drive.withVelocityX(m_drivetrain.PIDDriveToPointX(PoseConstants.BLUE_REEF_POSES[m_drivetrain.getPlayer1ReefIndex()].getX()) * MaxSpeed)
                     .withVelocityY(m_drivetrain.PIDDriveToPointY(PoseConstants.BLUE_REEF_POSES[m_drivetrain.getPlayer1ReefIndex()].getY()) * MaxSpeed)
                     .withRotationalRate(m_drivetrain.PIDDriveToPointDEG(PoseConstants.BLUE_REEF_POSES[m_drivetrain.getPlayer1ReefIndex()].getRotation().getDegrees()))
-                )//,
-                //new ScoreCoral(m_drivetrain, m_ElevatorSubsystem, m_ShooterBoxx)
+                ),
+                new ScoreCoral(m_drivetrain, m_ElevatorSubsystem, m_ShooterBoxx)
             )
         ));
 
@@ -215,8 +217,8 @@ public class RobotContainer {
                     drive.withVelocityX(m_drivetrain.PIDDriveToPointX(PoseConstants.RED_REEF_POSES[m_drivetrain.getPlayer1ReefIndex()].getX()) * MaxSpeed)
                     .withVelocityY(m_drivetrain.PIDDriveToPointY(PoseConstants.RED_REEF_POSES[m_drivetrain.getPlayer1ReefIndex()].getY()) * MaxSpeed)
                     .withRotationalRate(m_drivetrain.PIDDriveToPointDEG(PoseConstants.RED_REEF_POSES[m_drivetrain.getPlayer1ReefIndex()].getRotation().getDegrees()))
-                )//,
-                //new ScoreCoral(m_drivetrain, m_ElevatorSubsystem, m_ShooterBoxx)
+                ),
+                new ScoreCoral(m_drivetrain, m_ElevatorSubsystem, m_ShooterBoxx)
             )
         ));
 
@@ -265,13 +267,12 @@ public class RobotContainer {
 
         // Climb using Neo
 
-        P2controller.leftTrigger().whileTrue(Commands.startEnd(() -> m_ClimbSubsystemNeo.climbBackwardCommand(), () -> m_ClimbSubsystemNeo.climbStopCommand(), m_ClimbSubsystemNeo));
-
-        P2controller.rightTrigger().whileTrue(Commands.startEnd(() -> m_ClimbSubsystemNeo.climbForwardCommand(), () -> m_ClimbSubsystemNeo.climbStopCommand(), m_ClimbSubsystemNeo));
+        P2controller.leftTrigger().whileTrue(m_ClimbSubsystemNeo.PutTheClimbInPlease());
+        P2controller.rightTrigger().whileTrue(m_ClimbSubsystemNeo.PutTheClimbOutPlease());
 
         // Climb using Servo
 
-        P2controller.back().whileFalse(m_ClimbSubsystemNeo.climbLock());
+        //P2controller.back().whileFalse(m_ClimbSubsystemNeo.climbLock());
 
         P2controller.back().whileTrue(m_ClimbSubsystemNeo.climbUnlock());
 
@@ -279,6 +280,16 @@ public class RobotContainer {
         // Send values to P1
 
         P2controller.a().whileTrue(Commands.runOnce(() -> m_indexing.updateP1Index()));
+
+        // Stop Elevator
+
+        P2controller.start().whileTrue(m_ElevatorSubsystem.disableElevator());
+
+        P2controller.y().whileTrue(m_ElevatorSubsystem.elevatorToL4());
+
+        P2controller.b().whileTrue(m_ElevatorSubsystem.elevatorToL3());
+
+        P2controller.x().whileTrue(m_ElevatorSubsystem.elevatorToL2());
 
         // 
 
@@ -289,8 +300,8 @@ public class RobotContainer {
         // -----------------------------Manual Stuff---------------------------------
         
         // Intake and shooting coral
-        P3controller.y().whileTrue(m_ShooterBoxx.RunShooter(.4));
-        P3controller.b().whileTrue(m_ShooterBoxx.RunShooter(.6));
+        P3controller.y().whileTrue(m_ShooterBoxx.RunShooter(-.4));
+        P3controller.b().whileTrue(m_ShooterBoxx.RunShooter(-.6));
         P3controller.a().whileTrue(m_ShooterBoxx.SuckTillSensor());
         P3controller.x().whileTrue(m_ShooterBoxx.SpitTillSensor());
 

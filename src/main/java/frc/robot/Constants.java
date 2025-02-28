@@ -89,10 +89,10 @@ public final class Constants {
     public static final double ElaphantD = 0.00;//0.001
 
     // Elevator Level Heights
-    public static final double L1Position = -19;
+    public static final double L1Position = -29; //-19 is old number
     public static final double L2Position = -29;
     public static final double L3Position = -50.5; //-49.1 is perfect from oxford, our pid is bad
-    public static final double L4Position = -50.5; //-81.15 is perfect from oxford, our pid is bad
+    public static final double L4Position = -81.15; //-81.15 is perfect from oxford, our pid is bad
     public static final double HomePosition = -0.5;
     
     public static final double ElevatorJoystickSpeedNerf = 0.4;
@@ -102,11 +102,11 @@ public final class Constants {
   public static class shooterBoxxContants {
     public static final int ShooterMotorId = 39;
     public static final double kShooterMotorNominalVoltageConstant = 10.5;
-    public static final int kBoxxCoralSensorChannel = 2;
-    public static final int kElevatorCoralSensorChannel = 1;
+    public static final int kBoxxCoralSensorChannel = 0;
+    public static final int kElevatorCoralSensorChannel = 2;
     public static final double kSpitSpeed = -0.4;
-    public static final double kSuckSpeed = -0.5;
-    public static final double kFinalSpeed = -0.2;
+    public static final double kSuckSpeed = -0.3;
+    public static final double kFinalSpeed = -0.15;
   }
   public static class ClimbContants {
     public static final int ClimbMotorId = 33;
@@ -114,9 +114,10 @@ public final class Constants {
     public static final double ClimbBackwardSpeed = -.3;
     public static final int ClimbStop = 0;
     public static final int ClimbServoStop = 0;
-    public static final double climbLockServoPosition = 0.3;
-    public static final double climbUnlockServoPosition = -0.3;
-    public static final double ClimbDownPosition = 4;
+    public static final double climbLockServoPosition = 0;
+    public static final double climbUnlockServoPosition = 0.25;
+    public static final double ClimbInLimit = -4;
+    public static final double ClimbOutLimit = 0;
     public static final double ClimbP = 0.05;
     public static final double ClimbI = 0;
     public static final double ClimbD = 0;
