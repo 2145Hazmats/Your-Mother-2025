@@ -22,8 +22,8 @@ public class ReefConstants {
 
   // Calibration Stuff For Blue Alliance Only
   private static boolean usePose2D = true;//4.021 // no 5
-  private static Pose2d playLeftPoseAB = new Pose2d(3.1, 4.005, new Rotation2d(0)); //3.971624 id 0 should be this one
-  private static Pose2d playRightPoseAB = new Pose2d(3.21, 3.695, new Rotation2d(0)); //3.61076 /9
+  private static Pose2d playLeftPoseAB = new Pose2d(3.2075, 4.057323, new Rotation2d(0)); //3.971624 id 0 should be this one
+  private static Pose2d playRightPoseAB = new Pose2d(3.2075, 3.70955, new Rotation2d(0)); //3.61076 /9
   
   public final class ReefMathConstants {
     //---------------- Calculate 6 Central Poses Around Reef ---------------

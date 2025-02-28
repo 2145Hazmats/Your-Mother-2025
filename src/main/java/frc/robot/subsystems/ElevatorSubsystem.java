@@ -201,7 +201,7 @@ public class ElevatorSubsystem extends SubsystemBase{
     }
 
 
-    public Command elevatorJoystick(DoubleSupplier joystick) { // MAY NEED TO CHANGE THIS TO DOAGLE SUPPLIER :)()()))
+    public Command elevatorJoystick(DoubleSupplier joystick) { // MAY NEED TO CHANGE THIS TO DOABLE SUPPLIER :)()()))
       return Commands.run(() -> motorLeader.setControl(new DutyCycleOut(joystick.getAsDouble()*Constants.elevatorConstants.ElevatorJoystickSpeedNerf)));//motorLeader.setControl(new (joystick.getAsDouble()*.4)), this);
     }
 

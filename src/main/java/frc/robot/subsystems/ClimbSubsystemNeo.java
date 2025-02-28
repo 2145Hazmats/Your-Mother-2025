@@ -60,11 +60,11 @@ public class ClimbSubsystemNeo extends SubsystemBase{
         climbMotorNeo.set(Constants.ClimbContants.ClimbStop);
       }
 
-      @Override
-      public void setDefaultCommand(Command defaultCommand) {
-        // TODO Auto-generated method stub
-        super.setDefaultCommand(defaultCommand);
-      }
+      // @Override
+      // public void setDefaultCommand(Command defaultCommand) {
+      //   // TODO Auto-generated method stub
+      //   super.setDefaultCommand(defaultCommand);
+      // }
        public void ClimbJoystick(double joystick) { //MIGHT NEED TO CHANGE THIS TO SUPPLIER
         climbMotorNeo.set(joystick * .3); //NERFED SPEED CHANGE LATER
     }
@@ -77,11 +77,11 @@ public class ClimbSubsystemNeo extends SubsystemBase{
     // Servo
 
     public Command climbUnlock() {
-      return Commands.run(() -> climbServo.setPosition(Constants.ClimbContants.climbUnlockServoSpeed), this);
+      return Commands.run(() -> climbServo.setPosition(Constants.ClimbContants.climbUnlockServoPosition), this);
       }
 
     public Command climbLock() {
-      return Commands.run(() -> climbServo.setPosition(Constants.ClimbContants.climbLockServoSpeed), this);
+      return Commands.run(() -> climbServo.setPosition(Constants.ClimbContants.climbLockServoPosition), this);
       }
 
     public void ClimbJoystickServo(DoubleSupplier joystick) { //MIGHT NEED TO CHANGE THIS TO SUPPLIER
@@ -90,6 +90,13 @@ public class ClimbSubsystemNeo extends SubsystemBase{
 
     public void disableClimbServo() {
         climbServo.setPosition(0);
+    }
+
+    public Command PutTheClimbDownPlease() {
+      return Commands.run(() -> {
+      if (climbMotorNeo.getEncoder().getPosition() < Constants.ClimbContants.ClimbDownPosition)
+       {climbForwardCommand();}}, this);
+
     }
 
     public Command Keepclimbsafe() {

@@ -84,7 +84,7 @@ public class RobotContainer {
 
         
 
-         NamedCommands.registerCommand("Elevator2Home", m_ElevatorSubsystem.elevatorToHome().withTimeout(3));
+         NamedCommands.registerCommand("Elevator2Home", m_ElevatorSubsystem.elevatorToHome());
          NamedCommands.registerCommand("Elevator2L2", m_ElevatorSubsystem.elevatorToL2().withTimeout(3));
          NamedCommands.registerCommand("Elevator2L3", m_ElevatorSubsystem.elevatorToL3());
          NamedCommands.registerCommand("Elevator2L4", m_ElevatorSubsystem.elevatorToL3());

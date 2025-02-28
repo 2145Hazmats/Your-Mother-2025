@@ -110,12 +110,13 @@ public final class Constants {
   }
   public static class ClimbContants {
     public static final int ClimbMotorId = 33;
-    public static final int climbForwardSpeed = 1;
-    public static final int ClimbBackwardSpeed = -1;
+    public static final double climbForwardSpeed = .3;
+    public static final double ClimbBackwardSpeed = -.3;
     public static final int ClimbStop = 0;
     public static final int ClimbServoStop = 0;
-    public static final double climbLockServoSpeed = 0.3;
-    public static final double climbUnlockServoSpeed = -0.3;
+    public static final double climbLockServoPosition = 0.3;
+    public static final double climbUnlockServoPosition = -0.3;
+    public static final double ClimbDownPosition = 4;
     public static final double ClimbP = 0.05;
     public static final double ClimbI = 0;
     public static final double ClimbD = 0;
