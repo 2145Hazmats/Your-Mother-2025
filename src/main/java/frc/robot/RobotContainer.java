@@ -64,8 +64,8 @@ public class RobotContainer {
     private final CommandXboxController P1controller = new CommandXboxController(0);
     private final CommandXboxController P2controller = new CommandXboxController(1);
     private final CommandXboxController P3controller = new CommandXboxController(2);
-    private final CommandXboxController P4controller = new CommandXboxController(3);
-    private final CommandPS4Controller p5Controller = new CommandPS4Controller(4);
+    //private final CommandXboxController P4controller = new CommandXboxController(3);
+    //private final CommandPS4Controller p5Controller = new CommandPS4Controller(4);
     
     // We need to initialize an object of the camera subsystem, we don't have to use it
     private CameraSubsystem m_CameraSubsystem = new CameraSubsystem(m_drivetrain);
@@ -107,13 +107,13 @@ public class RobotContainer {
         //autoChooser.addOption("Processor Side Auto", processorSideAuto());
         //SmartDashboard.putData("autoChooser", autoChooser);
 
-        ReefConstants.displayReefMath();
-        SmartDashboard.putBoolean("SCORE", false);
-        SmartDashboard.putBoolean("LEFT_SOURCE", false);
-        SmartDashboard.putBoolean("RIGHT_SOURCE", false);
-        SmartDashboard.putBoolean("NET", false);
-        SmartDashboard.putBoolean("PROCESSOR", false);
-        SmartDashboard.putBoolean("CLIMB", false);
+        // ReefConstants.displayReefMath();
+        // SmartDashboard.putBoolean("SCORE", false);
+        // SmartDashboard.putBoolean("LEFT_SOURCE", false);
+        // SmartDashboard.putBoolean("RIGHT_SOURCE", false);
+        // SmartDashboard.putBoolean("NET", false);
+        // SmartDashboard.putBoolean("PROCESSOR", false);
+        // SmartDashboard.putBoolean("CLIMB", false);
     }
 
     private void configureBindings() {
@@ -295,9 +295,10 @@ public class RobotContainer {
         //P2controller.b().whileTrue(m_ShooterBoxx.RunShooter(shooterBoxxContants.kSuckSpeed)).onFalse(m_ShooterBoxx.RunShooter(0));
         //P2controller.b().whileTrue(m_ShooterBoxx.IntakeDefaultCommand()).onFalse(m_ShooterBoxx.StopShooterMotor());
 
-        P2controller.b().whileTrue(
-                m_ShooterBoxx.BanditSetIntakeMotorCommand(Constants.shooterBoxxContants.kSuckSpeed).until(m_ShooterBoxx::BanditNoteSensorTriggered)
-              );
+        // P2controller.b().whileTrue(
+        //         m_ShooterBoxx.BanditSetIntakeMotorCommand(Constants.shooterBoxxContants.kSuckSpeed).until(m_ShooterBoxx::BanditNoteSensorTriggered)
+        //       );
+        P2controller.b().whileTrue(m_ShooterBoxx.worksShoot().withTimeout(.45));
               //.until(m_ShooterBoxx.BanditNoteSensorTriggered());//BanditNoteSensorTriggered);//m_ShooterBoxx::BanditNoteSensorTriggered
 
         P2controller.back().whileTrue(m_ShooterBoxx.SpitTillSensor());

@@ -137,7 +137,7 @@ public class ClimbSubsystemNeo extends SubsystemBase{
   }
   public void PutTheServoInTheRightSpotPlease() {
 
-    climbServo.set(Constants.ClimbContants.climbUnlockServoPosition);
+    climbServo.set(Constants.ClimbContants.climbLockServoPosition);
   }
 
   public Command PutTheClimbOutPlease() {
