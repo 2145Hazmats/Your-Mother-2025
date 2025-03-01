@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.2587090163934425,
-        "y": 7.129815573770491
+        "x": 4.195696721311475,
+        "y": 7.213729508196722
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.4744877049180334,
-        "y": 6.758196721311474
+        "x": 5.195696721311475,
+        "y": 7.213729508196722
       },
       "isLocked": false,
-      "linkedName": "NetSource"
+      "linkedName": null
     },
     {
       "anchor": {
-        "x": 3.8646593089441597,
-        "y": 5.143570479223188
+        "x": 4.0,
+        "y": 6.0
       },
       "prevControl": {
-        "x": 3.612917413309344,
-        "y": 5.467238440177509
+        "x": 3.0,
+        "y": 6.0
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "NetS2"
+      "linkedName": null
     }
   ],
   "rotationTargets": [],
@@ -42,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -59.99999999999999
+    "rotation": 0.0
   },
   "reversed": false,
-  "folder": "Net Side",
+  "folder": "Processor Side",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -53.0
+    "rotation": 0.0
   },
   "useDefaultConstraints": true
 }

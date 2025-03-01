@@ -57,10 +57,10 @@ public class ScoreCoralAuton extends Command {
     
     
     // Moves elevator to desired height and sets elevator goal
-    if (levelIndex == 1) {theElephant.elevatorToL1(); elevatorGoal = elevatorConstants.L1Position;}
-    else if (levelIndex == 2) {theElephant.elevatorToL2(); elevatorGoal = elevatorConstants.L2Position;}
-    else if (levelIndex == 3) {theElephant.elevatorToL3(); elevatorGoal = elevatorConstants.L3Position;}
-    else if (levelIndex == 4) {theElephant.elevatorToL4(); elevatorGoal = elevatorConstants.L4Position;}
+    if (levelIndex == 1) {theElephant.elevatorToSomething(1); elevatorGoal = elevatorConstants.L1Position;}
+    else if (levelIndex == 2) {theElephant.elevatorToSomething(2); elevatorGoal = elevatorConstants.L2Position;}
+    else if (levelIndex == 3) {theElephant.elevatorToSomething(3); elevatorGoal = elevatorConstants.L3Position;}
+    else if (levelIndex == 4) {theElephant.elevatorToSomething(4); elevatorGoal = elevatorConstants.L4Position;}
   }
 
   // Every 20ms We have a PID (funny math) and we check if the height of the elevator and the postition of the robot 
@@ -76,22 +76,19 @@ public class ScoreCoralAuton extends Command {
     
     
     // Checks to see if Elevator and Drivetrain are in the correct position before playing the coral
-    if (currentElevatorPosition > (elevatorGoal - ScoreCoralConstants.ElevatorError)
+    if (theSnout.BoxxCoralSensorUntriggered()) {
+      theElephant.elevatorToSomething(-1);
+    } else if (currentElevatorPosition > (elevatorGoal - ScoreCoralConstants.ElevatorError)
      && currentElevatorPosition < (elevatorGoal + ScoreCoralConstants.ElevatorError)) {
       theSnout.shootCoralMethod(); // Runs shooter if drivetrain and elevator positions are within their bounds of error
-    }
-
-    if (theSnout.BoxxCoralSensorUntriggered()) {
-      theElephant.elevatorToHome();
     }
   }
 
   // Sends elevator to its default position after the command ends.
   @Override
   public void end(boolean interrupted) {
-    
     theElephant.elevatorToHome();
-    theSnout.StopShooterMotor();
+    theSnout.stopShooterMethod();
   }
 
   // Returns true when the sensor is untriggered 
@@ -100,6 +97,7 @@ public class ScoreCoralAuton extends Command {
   public boolean isFinished() {
     // THIS ENDS THE COMMAND IF THE SENSOR IS UNTRIGGERED
    if (theElephant.isDrivingSafeQuestionMark() && theSnout.BoxxCoralSensorUntriggered()) {
+      theSnout.stopShooterMethod();
       return true;
     } else {
       return false;

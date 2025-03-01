@@ -47,6 +47,8 @@ public class ElevatorSubsystem extends SubsystemBase{
 
     /* Constructor */
     public ElevatorSubsystem() {
+      motorLeader.setPosition(0);
+      motorFollower.setPosition(0);
 
       SmartDashboard.putNumber("TESTINPUT", 0); // THIS WORKS 
 
@@ -71,8 +73,8 @@ public class ElevatorSubsystem extends SubsystemBase{
     slot0Congfigs.GravityType = GravityTypeValue.Elevator_Static;
   // set Motion Magic settings
      MotionMagicConfigs motionMagicConfigs = config.MotionMagic;
-     motionMagicConfigs.MotionMagicCruiseVelocity = 220; // Target cruise velocity of 80 rps 
-     motionMagicConfigs.MotionMagicAcceleration = 400; // Target acceleration of 160 rps/s (0.5 seconds)
+     motionMagicConfigs.MotionMagicCruiseVelocity = 125; // Target cruise velocity of 80 rps 
+     motionMagicConfigs.MotionMagicAcceleration = 200; // Target acceleration of 160 rps/s (0.5 seconds)
     //motionMagicConfigs.MotionMagicJerk = 800; // Target jerk of 1600 rps/s/s (0.1 seconds)
 
       config.MotorOutput.NeutralMode = NeutralModeValue.Brake;
@@ -161,6 +163,8 @@ public class ElevatorSubsystem extends SubsystemBase{
         motorLeader.setControl(m_request.withPosition(Constants.elevatorConstants.L3Position));
       } else if (index == 4) {
         motorLeader.setControl(m_request.withPosition(Constants.elevatorConstants.L4Position));
+      } else {
+        motorLeader.setControl(m_request.withPosition(Constants.elevatorConstants.HomePosition));
       }
     }
 
@@ -216,7 +220,7 @@ public class ElevatorSubsystem extends SubsystemBase{
     
 
     public boolean isDrivingSafeQuestionMark() {
-       if (motorLeader.getPosition().getValueAsDouble() >= Constants.elevatorConstants.L2Position) {
+       if (motorLeader.getPosition().getValueAsDouble() >= Constants.elevatorConstants.SAFETY_LEVEL) {
         return true;
        }
       else {

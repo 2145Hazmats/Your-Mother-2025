@@ -98,8 +98,15 @@ public class ScoreCoral extends Command {
       theElephant.elevatorToSomething(level);
     }
     
-    // Checks to see if Elevator and Drivetrain are in the correct position before playing the coral
-    if (currentElevatorPosition > (elevatorGoal - ScoreCoralConstants.ElevatorError)
+    // // Checks to see if Elevator and Drivetrain are in the correct position before playing the coral
+    // if (currentElevatorPosition > (elevatorGoal - ScoreCoralConstants.ElevatorError)
+    //  && currentElevatorPosition < (elevatorGoal + ScoreCoralConstants.ElevatorError)) {
+    //   theSnout.shootCoralMethod(); // Runs shooter if drivetrain and elevator positions are within their bounds of error
+    // }
+
+    if (theSnout.BoxxCoralSensorUntriggered()) {
+      theElephant.elevatorToSomething(-1);
+    } else if (currentElevatorPosition > (elevatorGoal - ScoreCoralConstants.ElevatorError)
      && currentElevatorPosition < (elevatorGoal + ScoreCoralConstants.ElevatorError)) {
       theSnout.shootCoralMethod(); // Runs shooter if drivetrain and elevator positions are within their bounds of error
     }
@@ -122,20 +129,31 @@ public class ScoreCoral extends Command {
   // Sends elevator to its default position after the command ends.
   @Override
   public void end(boolean interrupted) {
-    theLegs.stopCommand();
+    // theLegs.stopCommand();
+    // theElephant.elevatorToHome();
+    // theSnout.StopShooterMotor();
     theElephant.elevatorToHome();
-    theSnout.StopShooterMotor();
+    theSnout.stopShooterMethod();
   }
 
   // Returns true when the sensor is untriggered 
   // Returns true when the command should end. Runs every 20ms
   @Override
   public boolean isFinished() {
-    // THIS ENDS THE COMMAND IF THE SENSOR IS UNTRIGGERED
+
+    
    if (theElephant.isDrivingSafeQuestionMark() && theSnout.BoxxCoralSensorUntriggered()) {
-      return true;
-    } else {
-      return false;
-    }
+    theSnout.stopShooterMethod();
+    return true;
+  } else {
+    return false;
   }
+}
+  //   // THIS ENDS THE COMMAND IF THE SENSOR IS UNTRIGGERED
+  //  if (theElephant.isDrivingSafeQuestionMark() && theSnout.BoxxCoralSensorUntriggered()) {
+  //     return true;
+  //   } else {
+  //     return false;
+  //   }
+  //}
 }

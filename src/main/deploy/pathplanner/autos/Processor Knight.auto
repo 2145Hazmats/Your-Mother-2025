@@ -7,7 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Net Side Preload"
+            "pathName": "Processor Unicorn"
           }
         },
         {
@@ -19,7 +19,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "PreloadToSource"
+            "pathName": "ProcessorPreload2Source"
           }
         },
         {
@@ -31,7 +31,31 @@
         {
           "type": "path",
           "data": {
-            "pathName": "NetSourceToS2"
+            "pathName": "ProcessorSource2Score2"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutoL4"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "ProcessorScore22Source"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "SuckTillSensor"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "ProcessorSource2Score3"
           }
         },
         {
@@ -44,6 +68,6 @@
     }
   },
   "resetOdom": false,
-  "folder": "Net Side",
+  "folder": "Processor Side",
   "choreoAuto": false
 }

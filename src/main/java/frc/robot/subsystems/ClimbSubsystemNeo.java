@@ -13,6 +13,7 @@ import com.revrobotics.spark.config.ClosedLoopConfig.FeedbackSensor;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -26,6 +27,11 @@ public class ClimbSubsystemNeo extends SubsystemBase{
   /** Creates a new ClimbingForWorlds. */
   private SparkMax climbMotorNeo = new SparkMax(Constants.ClimbContants.ClimbMotorId, MotorType.kBrushless);
   
+
+  //private PIDController pidControllerX = new PIDController(.1, 0, 0);
+
+  
+
   private Servo climbServo = new Servo(1);
   //private Servo climbServo = new Servo(2);
 
@@ -43,17 +49,33 @@ public class ClimbSubsystemNeo extends SubsystemBase{
   }
 
   //Neo position to down spot then servo turn 180 then Neo spin back up to up position
-  public void climbForwardCommand() {
+  public void climbInCommand() {//.05
+    //if(climbMotorNeo.getEncoder().getPosition() < ClimbContants.ClimbOutLimit) {
+    climbServo.set(Constants.ClimbContants.climbLockServoPosition);
     climbMotorNeo.set(Constants.ClimbContants.climbForwardSpeed);
+    //} else {climbMotorNeo.set(0);}
+  } 
+
+  public void climbOutCommand() {
+    //if(climbMotorNeo.getEncoder().getPosition() > ClimbContants.ClimbInLimit) {
+      climbServo.set(Constants.ClimbContants.climbUnlockServoPosition);
+      climbMotorNeo.set(Constants.ClimbContants.ClimbBackwardSpeed);
+    //} else {climbMotorNeo.set(0);}
   }
 
-  public void climbBackwardCommand() {
-    if (climbMotorNeo.getEncoder().getPosition() > 0) {
-      climbMotorNeo.set(Constants.ClimbContants.ClimbBackwardSpeed);
-    } else {
-      climbMotorNeo.set(0);
-    }
-  }
+  // public void climbToSetpoint() {
+
+  //   if climbMotorNeo < setpoing) {
+  //     climbMotorNeo.set(forwardspeedconstantthati havent made yet);
+  //   } else 
+  //   {climbMotorNeo.set(neg version);}
+  // }
+
+  // public void climbToSetpointPID() {
+
+  //   pidControllerX.calculate(climbMotorNeo.getEncoder(), 0)
+  // }
+
 
   public void climbStopCommand() {
     climbMotorNeo.set(Constants.ClimbContants.ClimbStop);
@@ -91,6 +113,11 @@ public class ClimbSubsystemNeo extends SubsystemBase{
       climbServo.set(0);
   }
 
+  public void resetMotorPosition() {
+
+    climbMotorNeo.getEncoder().setPosition(0);
+  }
+
   public Command PutTheClimbInPlease() {
     return Commands.run(() -> {
     // if (climbMotorNeo.getEncoder().getPosition() > Constants.ClimbContants.ClimbInLimit) {
@@ -99,18 +126,37 @@ public class ClimbSubsystemNeo extends SubsystemBase{
 
     //});
   }
+  public void PutTheServoInTheRightSpotPlease() {
+
+    climbServo.set(Constants.ClimbContants.climbUnlockServoPosition);
+  }
 
   public Command PutTheClimbOutPlease() {
     return Commands.run(() -> {
     // if (climbMotorNeo.getEncoder().getPosition() < Constants.ClimbContants.ClimbOutLimit) {
-      climbServo.set(Constants.ClimbContants.climbLockServoPosition);
-      if (climbServo.getPosition() < 0.1) {
-        climbMotorNeo.set(Constants.ClimbContants.ClimbBackwardSpeed);
-      }
-    });
+      if (climbServo.getPosition() ==.25 ) {
+        climbServo.set(Constants.ClimbContants.climbUnlockServoPosition);
+
+   
+        
+        //climbMotorNeo.set(Constants.ClimbContants.ClimbBackwardSpeed);
+        
+      }}
+
+      
+    //   else //if (climbServo.getPosition() < 0.05) {
+    //     climbMotorNeo.set(Constants.ClimbContants.ClimbBackwardSpeed);
+    // //  }
+    // }
+    );
         //climbBackwardCommand();}}, this);
     // });
   }
+
+  public  boolean ReadyToStickTheClimbOutIGuess() {
+    if (climbServo.getPosition() <.2) {return true;} else
+    return false;}
+  
 
     public Command Keepclimbsafe() {
 return Commands.run(() -> { if (true) { //climbMotorNeo.getEncoder().getPosition() < 0) {

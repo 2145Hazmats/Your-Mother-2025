@@ -64,7 +64,7 @@ public Command worksRegurgitate() {
 
 
 public Command StopShooterMotor() {
-return Commands.run(() -> {
+return Commands.runOnce(() -> {
   shooterMotor.set(0);
 }, this);
 }
@@ -79,6 +79,19 @@ return Commands.run(() -> {
   }
 }).until(() -> StopCoralIntake()); }
 
+public Command SuckTillSensorAuto() {
+  return Commands.run(() -> {
+    if (ElevatorCoralSensorTriggered() && BoxxCoralSensorTriggered()) {
+      shooterMotor.set(Constants.shooterBoxxContants.kFinalSpeed);
+    } else if (ElevatorCoralSensorUntriggered() && BoxxCoralSensorTriggered()) {
+      shooterMotor.set(0);
+    }
+    else {
+      shooterMotor.set(Constants.shooterBoxxContants.kSuckSpeed);
+    }
+  }).until(() -> StopCoralIntake());
+}
+
 public Command SpitTillSensor() {
 return Commands.run(() -> {
   shooterMotor.set(Constants.shooterBoxxContants.kSpitSpeed);
@@ -86,6 +99,11 @@ return Commands.run(() -> {
 
 public void shootCoralMethod() {
   shooterMotor.set(Constants.shooterBoxxContants.kSpitSpeed);
+}
+
+public void stopShooterMethod() {
+  //shooterMotor.set(0);
+  shooterMotor.stopMotor();
 }
 
 

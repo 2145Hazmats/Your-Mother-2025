@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandPS4Controller;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.DrivetrainConstants;
+import frc.robot.Constants.shooterBoxxContants;
 import frc.robot.Constants.ControllerConstants.EVERYTHING_ENUM;
 import frc.robot.ReefConstants.PoseConstants;
 //import frc.robot.autos.AwesomestAutoBlue;
@@ -90,9 +91,10 @@ public class RobotContainer {
          NamedCommands.registerCommand("Elevator2L3", m_ElevatorSubsystem.elevatorToL3());
          NamedCommands.registerCommand("Elevator2L4", m_ElevatorSubsystem.elevatorToL3());
         
-         NamedCommands.registerCommand("SuckTillSensor", m_ShooterBoxx.SuckTillSensor());
+         NamedCommands.registerCommand("SuckTillSensor", m_ShooterBoxx.SuckTillSensorAuto());
          NamedCommands.registerCommand("ShootTillSensor", m_ShooterBoxx.SpitTillSensor());
-         NamedCommands.registerCommand("AutoL4", new ScoreCoralAuton( m_ElevatorSubsystem, m_ShooterBoxx,  4));
+         NamedCommands.registerCommand("AutoL4", new ScoreCoralAuton( m_ElevatorSubsystem, m_ShooterBoxx, 4)); //.withTimeout(2).finallyDo(() -> m_ElevatorSubsystem.elevatorToHome()));
+         
 
          autoChooser = AutoBuilder.buildAutoChooser();
          SmartDashboard.putData("Auto Chooser", autoChooser);
@@ -119,7 +121,8 @@ public class RobotContainer {
         // Default Commands :)
         m_ElevatorSubsystem.setDefaultCommand(m_ElevatorSubsystem.defaultCommand());
         //m_ClimbSubsystem.setDefaultCommand(m_ClimbSubsystem.ClimbJoystick(P2controller.getLeftY()));
-        m_ShooterBoxx.setDefaultCommand(m_ShooterBoxx.IntakeDefaultCommand());
+        //m_ShooterBoxx.setDefaultCommand(m_ShooterBoxx.IntakeDefaultCommand()); 
+        m_ShooterBoxx.setDefaultCommand(Commands.run(() -> m_ShooterBoxx.stopShooterMethod(), m_ShooterBoxx));
         //m_ElevatorSubsystem.setDefaultCommand(m_ElevatorSubsystem.elevatorJoystick(P4controller::getRightY));
         m_ClimbSubsystemNeo.setDefaultCommand(m_ClimbSubsystemNeo.Keepclimbsafe());
 
@@ -140,66 +143,66 @@ public class RobotContainer {
 
         // BLUE
 
-        P1controller.x().and(m_drivetrain::isAllianceBlue)
-        .whileTrue(m_drivetrain.pathFindToLeftBlueCoralStation().andThen(
-            Commands.parallel(
+        P1controller.leftBumper().and(m_drivetrain::isAllianceBlue).whileTrue(
+            //m_drivetrain.pathFindToLeftBlueCoralStation().andThen(
+            //Commands.parallel(
                 m_drivetrain.applyRequest(() ->
                     drive.withVelocityX(m_drivetrain.PIDDriveToPointX(PoseConstants.CORAL_STATION_LEFT_BLUE_POSE.getX()) * MaxSpeed)
                     .withVelocityY(m_drivetrain.PIDDriveToPointY(PoseConstants.CORAL_STATION_LEFT_BLUE_POSE.getY()) * MaxSpeed)
                     .withRotationalRate(m_drivetrain.PIDDriveToPointDEG(PoseConstants.CORAL_STATION_LEFT_BLUE_POSE.getRotation().getDegrees()))
-                ),
-                m_ShooterBoxx.SuckTillSensor()
+                // ),
+                // m_ShooterBoxx.SuckTillSensorAuto()
             )
-        ));
+    );
 
         // RED
 
-        P1controller.x().and(m_drivetrain::isAllianceRed)
-        .whileTrue(m_drivetrain.pathFindToLeftRedCoralStation().andThen(
-            Commands.parallel(
+        P1controller.leftBumper().and(m_drivetrain::isAllianceRed).whileTrue(
+            //m_drivetrain.pathFindToLeftRedCoralStation().andThen(
+            //Commands.parallel(
                 m_drivetrain.applyRequest(() ->
                     drive.withVelocityX(m_drivetrain.PIDDriveToPointX(PoseConstants.CORAL_STATION_LEFT_RED_POSE.getX()) * MaxSpeed)
                     .withVelocityY(m_drivetrain.PIDDriveToPointY(PoseConstants.CORAL_STATION_LEFT_RED_POSE.getY()) * MaxSpeed)
                     .withRotationalRate(m_drivetrain.PIDDriveToPointDEG(PoseConstants.CORAL_STATION_LEFT_RED_POSE.getRotation().getDegrees()))
-                ),
-                m_ShooterBoxx.SuckTillSensor()
-            )
+                // ),
+                // m_ShooterBoxx.SuckTillSensorAuto()
+            
         ));
         
         // RIGHT SOURCE
 
         // BLUE
 
-        P1controller.b().and(m_drivetrain::isAllianceBlue)
-        .whileTrue(m_drivetrain.pathFindToRightBlueCoralStation().andThen(
-            Commands.parallel(
+        P1controller.rightBumper().and(m_drivetrain::isAllianceBlue).whileTrue(
+            //m_drivetrain.pathFindToRightBlueCoralStation().andThen(
+            //Commands.parallel(
                 m_drivetrain.applyRequest(() ->
                     drive.withVelocityX(m_drivetrain.PIDDriveToPointX(PoseConstants.CORAL_STATION_RIGHT_BLUE_POSE.getX()) * MaxSpeed)
                     .withVelocityY(m_drivetrain.PIDDriveToPointY(PoseConstants.CORAL_STATION_RIGHT_BLUE_POSE.getY()) * MaxSpeed)
                     .withRotationalRate(m_drivetrain.PIDDriveToPointDEG(PoseConstants.CORAL_STATION_RIGHT_BLUE_POSE.getRotation().getDegrees()))
-                ),
-                m_ShooterBoxx.SuckTillSensor()
-            )
-        ));
+                // ),
+                // m_ShooterBoxx.SuckTillSensorAuto()
+            //)
+        ));//.onFalse(m_ShooterBoxx.StopShooterMotor());
 
         // RED
 
-        P1controller.b().and(m_drivetrain::isAllianceRed)
-        .whileTrue(m_drivetrain.pathFindToRightRedCoralStation().andThen(
-            Commands.parallel(
+        P1controller.rightBumper().and(m_drivetrain::isAllianceRed).whileTrue(
+            //m_drivetrain.pathFindToRightRedCoralStation().andThen(
+            // Commands.parallel(
                 m_drivetrain.applyRequest(() ->
                     drive.withVelocityX(m_drivetrain.PIDDriveToPointX(PoseConstants.CORAL_STATION_RIGHT_RED_POSE.getX()) * MaxSpeed)
                     .withVelocityY(m_drivetrain.PIDDriveToPointY(PoseConstants.CORAL_STATION_RIGHT_RED_POSE.getY()) * MaxSpeed)
                     .withRotationalRate(m_drivetrain.PIDDriveToPointDEG(PoseConstants.CORAL_STATION_RIGHT_RED_POSE.getRotation().getDegrees()))
-                ),
-                m_ShooterBoxx.SuckTillSensor()
-            )
-        ));
+                // ),
+                // m_ShooterBoxx.SuckTillSensorAuto()
+            //)
+        ));//.onFalse(m_ShooterBoxx.StopShooterMotor());
 
         // REEF SCORING
 
         // SCORE BLUE
-        P1controller.a().and(m_drivetrain::isAllianceBlue).whileTrue(m_drivetrain.pathFindToAllTheReefsBlue().andThen(
+        P1controller.leftTrigger().and(m_drivetrain::isAllianceBlue).whileTrue(m_drivetrain.pathFindToAllTheReefsBlue().andThen(
             Commands.parallel(
                 m_drivetrain.applyRequest(() ->
                     drive.withVelocityX(m_drivetrain.PIDDriveToPointX(PoseConstants.BLUE_REEF_POSES[m_drivetrain.getPlayer1ReefIndex()].getX()) * MaxSpeed)
@@ -208,10 +211,10 @@ public class RobotContainer {
                 ),
                 new ScoreCoral(m_drivetrain, m_ElevatorSubsystem, m_ShooterBoxx)
             )
-        ));
+        )).onFalse(m_ShooterBoxx.StopShooterMotor());
 
         // SCORE RED
-        P1controller.a().and(m_drivetrain::isAllianceRed).whileTrue(m_drivetrain.pathFindToAllTheReefsRed().andThen(
+        P1controller.leftTrigger().and(m_drivetrain::isAllianceRed).whileTrue(m_drivetrain.pathFindToAllTheReefsRed().andThen(
             Commands.parallel(
                 m_drivetrain.applyRequest(() ->
                     drive.withVelocityX(m_drivetrain.PIDDriveToPointX(PoseConstants.RED_REEF_POSES[m_drivetrain.getPlayer1ReefIndex()].getX()) * MaxSpeed)
@@ -220,7 +223,7 @@ public class RobotContainer {
                 ),
                 new ScoreCoral(m_drivetrain, m_ElevatorSubsystem, m_ShooterBoxx)
             )
-        ));
+        )).onFalse(m_ShooterBoxx.StopShooterMotor());
 
         P1controller.povUp().whileTrue(new ScoreCoralManual(m_ElevatorSubsystem, m_ShooterBoxx));
         
@@ -234,7 +237,7 @@ public class RobotContainer {
         
         // SLOW MODE
 
-        P1controller.rightTrigger().whileTrue(m_drivetrain.applyRequest(() ->
+        P1controller.rightBumper().whileTrue(m_drivetrain.applyRequest(() ->
          drive.withVelocityX(-P1controller.getLeftY() * MaxSpeed * Constants.DrivetrainConstants.SlowMoSpeed) // Drive forward with negative Y (forward)
              .withVelocityY(-P1controller.getLeftX() * MaxSpeed * Constants.DrivetrainConstants.SlowMoSpeed) // Drive left with negative X (left)
              .withRotationalRate(-P1controller.getRightX() * MaxAngularRate * Constants.DrivetrainConstants.SlowMoSpeed) // Faces the Reef
@@ -242,11 +245,11 @@ public class RobotContainer {
         
         // CENTRIC MODE
 
-        P1controller.leftTrigger().whileTrue(m_drivetrain.applyRequest(() ->
-         driveCentric.withVelocityX(-P1controller.getLeftY() * Constants.DrivetrainConstants.SlowMoSpeed) // Drive forward with negative Y (forward)
-             .withVelocityY(-P1controller.getLeftX() * Constants.DrivetrainConstants.SlowMoSpeed) // Drive left with negative X (left)
-             .withRotationalRate(-P1controller.getRightX() * Constants.DrivetrainConstants.SlowMoSpeed) // Faces the Reef
-         ));
+        // P1controller.leftTrigger().whileTrue(m_drivetrain.applyRequest(() ->
+        //  driveCentric.withVelocityX(-P1controller.getLeftY() * Constants.DrivetrainConstants.SlowMoSpeed) // Drive forward with negative Y (forward)
+        //      .withVelocityY(-P1controller.getLeftX() * Constants.DrivetrainConstants.SlowMoSpeed) // Drive left with negative X (left)
+        //      .withRotationalRate(-P1controller.getRightX() * Constants.DrivetrainConstants.SlowMoSpeed) // Faces the Reef
+        //  ));
  
 
 
@@ -267,14 +270,15 @@ public class RobotContainer {
 
         // Climb using Neo
 
-        P2controller.leftTrigger().whileTrue(m_ClimbSubsystemNeo.PutTheClimbInPlease());
-        P2controller.rightTrigger().whileTrue(m_ClimbSubsystemNeo.PutTheClimbOutPlease());
-
+        P2controller.leftTrigger().whileTrue(Commands.run(() ->m_ClimbSubsystemNeo.climbInCommand(), m_ClimbSubsystemNeo));
+        //P2controller.rightTrigger().whileTrue(Commands.run(() -> m_ClimbSubsystemNeo.PutTheServoInTheRightSpotPlease(), m_ClimbSubsystemNeo).until(()->m_ClimbSubsystemNeo.ReadyToStickTheClimbOutIGuess()).andThen(Commands.waitSeconds(4)).andThen(()-> m_ClimbSubsystemNeo.climbForwardCommand()));//.andThen(() ->m_ClimbSubsystemNeo.climbForwardCommand()));
+        P2controller.x().whileTrue(Commands.run(() ->m_ClimbSubsystemNeo.PutTheServoInTheRightSpotPlease(), m_ClimbSubsystemNeo));
+        P2controller.rightTrigger().whileTrue(Commands.run(() ->m_ClimbSubsystemNeo.climbOutCommand(), m_ClimbSubsystemNeo));
         // Climb using Servo
-
+        //P2controller.b().whileTrue(Commands.run(() -> m_ClimbSubsystemNeo.resetMotorPosition(), m_ClimbSubsystemNeo));
         //P2controller.back().whileFalse(m_ClimbSubsystemNeo.climbLock());
 
-        P2controller.back().whileTrue(m_ClimbSubsystemNeo.climbUnlock());
+        //P2controller.back().whileTrue(m_ClimbSubsystemNeo.climbUnlock());
 
 
         // Send values to P1
@@ -285,11 +289,12 @@ public class RobotContainer {
 
         P2controller.start().whileTrue(m_ElevatorSubsystem.disableElevator());
 
-        P2controller.y().whileTrue(m_ElevatorSubsystem.elevatorToL4());
+        P2controller.y().whileTrue(m_ElevatorSubsystem.elevatorToHome());
 
-        P2controller.b().whileTrue(m_ElevatorSubsystem.elevatorToL3());
+        //P2controller.b().whileTrue(m_ShooterBoxx.RunShooter(shooterBoxxContants.kSuckSpeed)).onFalse(m_ShooterBoxx.RunShooter(0));
+        P2controller.b().whileTrue(m_ShooterBoxx.IntakeDefaultCommand()).onFalse(m_ShooterBoxx.StopShooterMotor());
 
-        P2controller.x().whileTrue(m_ElevatorSubsystem.elevatorToL2());
+        P2controller.back().whileTrue(m_ShooterBoxx.SpitTillSensor());
 
         // 
 
@@ -302,7 +307,7 @@ public class RobotContainer {
         // Intake and shooting coral
         P3controller.y().whileTrue(m_ShooterBoxx.RunShooter(-.4));
         P3controller.b().whileTrue(m_ShooterBoxx.RunShooter(-.6));
-        P3controller.a().whileTrue(m_ShooterBoxx.SuckTillSensor());
+        //P3controller.a().whileTrue(m_ShooterBoxx.SuckTillSensor());
         P3controller.x().whileTrue(m_ShooterBoxx.SpitTillSensor());
 
         
@@ -312,6 +317,8 @@ public class RobotContainer {
         P3controller.povLeft().whileTrue(m_ElevatorSubsystem.elevatorToL2());
         P3controller.povRight().whileTrue(m_ElevatorSubsystem.elevatorToL3());
         P3controller.povUp().whileTrue(m_ElevatorSubsystem.elevatorToL4());
+
+        P3controller.a().whileTrue(new ScoreCoralAuton( m_ElevatorSubsystem, m_ShooterBoxx,  4).withTimeout(1.75));
         
         //CLIMB
         
