@@ -55,7 +55,11 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
 
     private final PIDController pidControllerX = new PIDController(DrivetrainConstants.P_X, DrivetrainConstants.I_X, DrivetrainConstants.D_X);
     private final PIDController pidControllerY = new PIDController(DrivetrainConstants.P_Y, DrivetrainConstants.I_Y, DrivetrainConstants.D_Y);
-    private final PIDController pidControllerDeg = new PIDController(DrivetrainConstants.P_DEGREE, 0, DrivetrainConstants.D_DEGREE); 
+    private final PIDController pidControllerDeg = new PIDController(DrivetrainConstants.P_DEGREE, 0, DrivetrainConstants.D_DEGREE);
+    
+    private final PIDController StationpidControllerX = new PIDController(DrivetrainConstants.P_X, DrivetrainConstants.I_X, DrivetrainConstants.D_X);
+    private final PIDController StationpidControllerY = new PIDController(DrivetrainConstants.P_X, DrivetrainConstants.I_X, DrivetrainConstants.D_X);
+    private final PIDController StationpidControllerDeg = new PIDController(DrivetrainConstants.P_DEGREE, 0, DrivetrainConstants.D_DEGREE);
 
     private final PIDController pidFaceRad = new PIDController(DrivetrainConstants.PID_RAD, 0, 0); // kP * radians
 
@@ -235,6 +239,29 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         return AutoBuilder.pathfindToPose(PoseConstants.)
 
     }*/
+    //SPECIAL STATION CODER HERE ------------------------------------------
+
+    public double StationPIDDriveToPointX(double DesiredPoseX) {
+        SmartDashboard.putNumber("GOTO PID POSE X", DesiredPoseX);
+        double SpeedsForPose = StationpidControllerX.calculate(getPose2d().getX(), DesiredPoseX);
+        SpeedsForPose = Math.min(Math.max(SpeedsForPose, -DrivetrainConstants.STATION_PID_MAX), DrivetrainConstants.STATION_PID_MAX);
+        if (isAllianceRed()) {
+            return -SpeedsForPose;
+        }
+        return SpeedsForPose; 
+    }
+    // return speed for the Y Direction to get to desired Pose
+    public double StationPIDDriveToPointY(double DesiredPoseY) {
+        SmartDashboard.putNumber("GOTO PID POSE Y", DesiredPoseY);
+        double SpeedsForPose = StationpidControllerY.calculate(getPose2d().getY(), DesiredPoseY);
+        SpeedsForPose = Math.min(Math.max(SpeedsForPose, -DrivetrainConstants.STATION_PID_MAX), DrivetrainConstants.STATION_PID_MAX);
+        if (isAllianceRed()) {
+            return -SpeedsForPose;
+        }
+        return SpeedsForPose;
+    }
+
+    //------------------------------------------
 
     // return speed for the X Direction to get to desired Pose
     public double PIDDriveToPointX(double DesiredPoseX) {

@@ -107,6 +107,21 @@ public void stopShooterMethod() {
 }
 
 
+public Command BanditStopCommand() {
+  return runOnce(() -> {
+    shooterMotor.stopMotor();
+  });
+}
+
+public Command BanditSetIntakeMotorCommand(double speed) {
+  return run(() -> shooterMotor.set(speed));
+}
+
+public boolean BanditNoteSensorTriggered() {
+  return (ElevatorCoralSensor.get() && !BoxxCoralSensor.get());
+ // return (ElevatorCoralSensorUntriggered() && BoxxCoralSensorTriggered());
+}
+
 public boolean StopCoralIntake() {
   return (ElevatorCoralSensorUntriggered() && BoxxCoralSensorTriggered());
 }

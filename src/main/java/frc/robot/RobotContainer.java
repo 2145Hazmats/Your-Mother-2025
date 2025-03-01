@@ -122,7 +122,8 @@ public class RobotContainer {
         m_ElevatorSubsystem.setDefaultCommand(m_ElevatorSubsystem.defaultCommand());
         //m_ClimbSubsystem.setDefaultCommand(m_ClimbSubsystem.ClimbJoystick(P2controller.getLeftY()));
         //m_ShooterBoxx.setDefaultCommand(m_ShooterBoxx.IntakeDefaultCommand()); 
-        m_ShooterBoxx.setDefaultCommand(Commands.run(() -> m_ShooterBoxx.stopShooterMethod(), m_ShooterBoxx));
+        //m_ShooterBoxx.setDefaultCommand(Commands.run(() -> m_ShooterBoxx.stopShooterMethod(), m_ShooterBoxx));
+        m_ShooterBoxx.setDefaultCommand(m_ShooterBoxx.BanditStopCommand());
         //m_ElevatorSubsystem.setDefaultCommand(m_ElevatorSubsystem.elevatorJoystick(P4controller::getRightY));
         m_ClimbSubsystemNeo.setDefaultCommand(m_ClimbSubsystemNeo.Keepclimbsafe());
 
@@ -292,7 +293,12 @@ public class RobotContainer {
         P2controller.y().whileTrue(m_ElevatorSubsystem.elevatorToHome());
 
         //P2controller.b().whileTrue(m_ShooterBoxx.RunShooter(shooterBoxxContants.kSuckSpeed)).onFalse(m_ShooterBoxx.RunShooter(0));
-        P2controller.b().whileTrue(m_ShooterBoxx.IntakeDefaultCommand()).onFalse(m_ShooterBoxx.StopShooterMotor());
+        //P2controller.b().whileTrue(m_ShooterBoxx.IntakeDefaultCommand()).onFalse(m_ShooterBoxx.StopShooterMotor());
+
+        P2controller.b().whileTrue(
+                m_ShooterBoxx.BanditSetIntakeMotorCommand(Constants.shooterBoxxContants.kSuckSpeed).until(m_ShooterBoxx::BanditNoteSensorTriggered)
+              );
+              //.until(m_ShooterBoxx.BanditNoteSensorTriggered());//BanditNoteSensorTriggered);//m_ShooterBoxx::BanditNoteSensorTriggered
 
         P2controller.back().whileTrue(m_ShooterBoxx.SpitTillSensor());
 
