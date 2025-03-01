@@ -123,6 +123,8 @@ public final class Constants {
     public static final double ClimbP = 0.05;
     public static final double ClimbI = 0;
     public static final double ClimbD = 0;
+    public static final double ClimbReadySetpoint = -4.1;
+    public static final double ClimbLockedInSetpoint = 0;
   
   
 

@@ -28,7 +28,9 @@ public class ClimbSubsystemNeo extends SubsystemBase{
   private SparkMax climbMotorNeo = new SparkMax(Constants.ClimbContants.ClimbMotorId, MotorType.kBrushless);
   
 
-  //private PIDController pidControllerX = new PIDController(.1, 0, 0);
+  private PIDController pidControllerClimbReady = new PIDController(1, 0, 0);
+
+  private PIDController pidControllerClimbNailedIt = new PIDController(6, 0, 0);
 
   
 
@@ -71,10 +73,17 @@ public class ClimbSubsystemNeo extends SubsystemBase{
   //   {climbMotorNeo.set(neg version);}
   // }
 
-  // public void climbToSetpointPID() {
+  public void climbToSetpointPID() {
+    climbServo.set(Constants.ClimbContants.climbUnlockServoPosition);
+    climbMotorNeo.set(pidControllerClimbReady.calculate(climbMotorNeo.getEncoder().getPosition(), Constants.ClimbContants.ClimbReadySetpoint));
+    
+  }
 
-  //   pidControllerX.calculate(climbMotorNeo.getEncoder(), 0)
-  // }
+  public void climbToNailItPID() {
+    climbServo.set(Constants.ClimbContants.climbLockServoPosition);
+    climbMotorNeo.set(pidControllerClimbNailedIt.calculate(climbMotorNeo.getEncoder().getPosition(), Constants.ClimbContants.ClimbLockedInSetpoint));
+
+  }
 
 
   public void climbStopCommand() {
@@ -160,7 +169,7 @@ public class ClimbSubsystemNeo extends SubsystemBase{
 
     public Command Keepclimbsafe() {
 return Commands.run(() -> { if (true) { //climbMotorNeo.getEncoder().getPosition() < 0) {
-  climbServo.set(Constants.ClimbContants.climbLockServoPosition);
+  climbServo.set(Constants.ClimbContants.climbUnlockServoPosition);
   climbMotorNeo.set(0);
 }}, this);
      

@@ -305,8 +305,10 @@ public class RobotContainer {
         // -----------------------------Manual Stuff---------------------------------
         
         // Intake and shooting coral
-        P3controller.y().whileTrue(m_ShooterBoxx.RunShooter(-.4));
-        P3controller.b().whileTrue(m_ShooterBoxx.RunShooter(-.6));
+        //P3controller.y().whileTrue(m_ShooterBoxx.RunShooter(-.4));
+        P3controller.y().whileTrue(Commands.run(() ->m_ClimbSubsystemNeo.climbToSetpointPID(), m_ClimbSubsystemNeo));
+        P3controller.b().whileTrue(Commands.run(() -> m_ClimbSubsystemNeo.climbToNailItPID(), m_ClimbSubsystemNeo));
+        //P3controller.b().whileTrue(m_ShooterBoxx.RunShooter(-.6));
         //P3controller.a().whileTrue(m_ShooterBoxx.SuckTillSensor());
         P3controller.x().whileTrue(m_ShooterBoxx.SpitTillSensor());
 
