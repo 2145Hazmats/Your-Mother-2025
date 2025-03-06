@@ -93,7 +93,7 @@ public final class Constants {
     public static final double L1Position = -29; //-19 is old number
     public static final double L2Position = -29;
     public static final double L3Position = -50.5; //-49.1 is perfect from oxford, our pid is bad
-    public static final double L4Position = -81.15; //-81.15 is perfect from oxford, our pid is bad
+    public static final double L4Position = -50.5; //-81.15 is perfect from oxford, our pid is bad
     public static final double HomePosition = -0.6;
 
     public static final double SAFETY_LEVEL = -20; //.8
