@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import com.ctre.phoenix6.signals.NeutralModeValue;
+
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -25,7 +27,9 @@ public class Robot extends TimedRobot {
   }
 
   @Override
-  public void disabledInit() {}
+  public void disabledInit() {
+    //m_robotContainer.getSwerveDrivetrain().configNeutralMode(NeutralModeValue.Coast);
+  }
 
   @Override
   public void disabledPeriodic() {}
@@ -36,6 +40,7 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    //m_robotContainer.getSwerveDrivetrain().configNeutralMode(NeutralModeValue.Brake);
 
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
@@ -50,6 +55,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
+    //m_robotContainer.getSwerveDrivetrain().configNeutralMode(NeutralModeValue.Brake);
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }

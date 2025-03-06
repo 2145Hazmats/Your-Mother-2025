@@ -123,6 +123,10 @@ public class RobotContainer {
         // SmartDashboard.putBoolean("CLIMB", false);
     }
 
+    public CommandSwerveDrivetrain getSwerveDrivetrain() {
+        return m_drivetrain;
+    }
+
     private void configureBindings() {
 
         // Default Commands :)
