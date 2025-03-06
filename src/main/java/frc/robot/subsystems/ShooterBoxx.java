@@ -79,7 +79,20 @@ return Commands.run(() -> {
   }
 }).until(() -> StopCoralIntake()); }
 
-public Command SuckTillSensorAuto() {
+public Command SuckTillCoralSensorAuto() {
+  return Commands.run(() -> {
+    if (ElevatorCoralSensorTriggered() && BoxxCoralSensorTriggered()) {
+      shooterMotor.set(Constants.shooterBoxxContants.kFinalSpeed);
+    } else if (ElevatorCoralSensorUntriggered() && BoxxCoralSensorTriggered()) {
+      shooterMotor.set(0);
+    }
+    else {
+      shooterMotor.set(Constants.shooterBoxxContants.kSuckSpeed);
+    }
+  }).until(() -> StopCoralIntake());
+}
+
+public Command SuckTillElevatorSensorAuto() {
   return Commands.run(() -> {
     if (ElevatorCoralSensorTriggered() && BoxxCoralSensorTriggered()) {
       shooterMotor.set(Constants.shooterBoxxContants.kFinalSpeed);
@@ -159,9 +172,8 @@ public Command IntakeDefaultCommand() {
     }
 
   }, this);
-
 }
-
+ 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run

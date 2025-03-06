@@ -21,6 +21,7 @@ import frc.robot.Constants.DrivetrainConstants;
 import frc.robot.Constants.shooterBoxxContants;
 import frc.robot.Constants.ControllerConstants.EVERYTHING_ENUM;
 import frc.robot.ReefConstants.PoseConstants;
+import frc.robot.commands.FireCoralAuton;
 //import frc.robot.autos.AwesomestAutoBlue;
 // import frc.robot.autos.AwesomeAuton;
 // import frc.robot.autos.NetSideAuto;
@@ -91,10 +92,16 @@ public class RobotContainer {
          NamedCommands.registerCommand("Elevator2L3", m_ElevatorSubsystem.elevatorToL3());
          NamedCommands.registerCommand("Elevator2L4", m_ElevatorSubsystem.elevatorToL3());
         
-         NamedCommands.registerCommand("SuckTillSensor", m_ShooterBoxx.SuckTillSensorAuto());
+         NamedCommands.registerCommand("SuckTilCorallSensor", m_ShooterBoxx.SuckTillCoralSensorAuto());
+         NamedCommands.registerCommand("SuckTillElevatorSensor", m_ShooterBoxx.SuckTillElevatorSensorAuto());
+
+         NamedCommands.registerCommand("SuckTillSensor", m_ShooterBoxx.SuckTillCoralSensorAuto()); //OG Command Depricating soon
+
+         NamedCommands.registerCommand("SuckTillLeaveStation", getAutonomousCommand());
          NamedCommands.registerCommand("ShootTillSensor", m_ShooterBoxx.SpitTillSensor());
          NamedCommands.registerCommand("AutoL4", new ScoreCoralAuton( m_ElevatorSubsystem, m_ShooterBoxx, 4)); //.withTimeout(2).finallyDo(() -> m_ElevatorSubsystem.elevatorToHome()));
-         
+         NamedCommands.registerCommand("FireL4", new FireCoralAuton( m_ElevatorSubsystem, m_ShooterBoxx, 4  ));
+        // NamedCommands.registerCommand("ReadyToLeaveStation", m_ShooterBoxx.ElevatorCoralSensorTriggered() );
 
          autoChooser = AutoBuilder.buildAutoChooser();
          SmartDashboard.putData("Auto Chooser", autoChooser);
@@ -237,13 +244,27 @@ public class RobotContainer {
         // ROBOT MODES
         
         // SLOW MODE
+        
 
         P1controller.rightBumper().whileTrue(m_drivetrain.applyRequest(() ->
          drive.withVelocityX(-P1controller.getLeftY() * MaxSpeed * Constants.DrivetrainConstants.SlowMoSpeed) // Drive forward with negative Y (forward)
              .withVelocityY(-P1controller.getLeftX() * MaxSpeed * Constants.DrivetrainConstants.SlowMoSpeed) // Drive left with negative X (left)
              .withRotationalRate(-P1controller.getRightX() * MaxAngularRate * Constants.DrivetrainConstants.SlowMoSpeed) // Faces the Reef
          ));
-        
+
+         P1controller.x().whileTrue(
+            m_drivetrain.applyRequest(() ->
+            drive.withVelocityX(-P1controller.getLeftY() * MaxSpeed) // Drive forward with negative Y (forward)
+             .withVelocityY(-P1controller.getLeftX() * MaxSpeed) // Drive left with negative X (left)
+             .withRotationalRate(-m_drivetrain.angularSpeedToFaceLeftCoralStation()) // Drive counterclockwise with negative X (left)
+             //.withCenterOfRotation(Translation2d)
+     ));
+        P1controller.b().whileTrue(m_drivetrain.applyRequest(() ->
+        drive.withVelocityX(-P1controller.getLeftY() * MaxSpeed) // Drive forward with negative Y (forward)
+         .withVelocityY(-P1controller.getLeftX() * MaxSpeed) // Drive left with negative X (left)
+         .withRotationalRate(-m_drivetrain.angularSpeedToFaceRightCoralStation()) // Drive counterclockwise with negative X (left)
+         //.withCenterOfRotation(Translation2d)
+    ));
         // CENTRIC MODE
 
         // P1controller.leftTrigger().whileTrue(m_drivetrain.applyRequest(() ->
@@ -251,8 +272,6 @@ public class RobotContainer {
         //      .withVelocityY(-P1controller.getLeftX() * Constants.DrivetrainConstants.SlowMoSpeed) // Drive left with negative X (left)
         //      .withRotationalRate(-P1controller.getRightX() * Constants.DrivetrainConstants.SlowMoSpeed) // Faces the Reef
         //  ));
- 
-
 
         //-------------------------------P2 Controls---------------------------------
         

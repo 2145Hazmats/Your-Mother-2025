@@ -134,7 +134,7 @@ public final class Constants {
   //Coral Scoring Constants 
   public static class ScoreCoralConstants {
     public static final double ElevatorError = 1.5;
-    public static final double DriveTrainError = Units.inchesToMeters(1.5);
+    public static final double DriveTrainError = Units.inchesToMeters(7.5); //1.5 
     
   }
   // Get Coral Constants
