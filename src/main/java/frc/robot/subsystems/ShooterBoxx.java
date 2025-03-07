@@ -102,7 +102,7 @@ public Command SuckTillElevatorSensorAuto() {
     else {
       shooterMotor.set(Constants.shooterBoxxContants.kSuckSpeed);
     }
-  }).until(() -> StopCoralIntake());
+  }).until(() -> ElevatorCoralSensorTriggered());//.until(() -> StopCoralIntake());
 }
 
 public Command SpitTillSensor() {

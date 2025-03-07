@@ -48,11 +48,13 @@ public final class Constants {
     public static final PIDConstants ROTATIONAL_PID = new PIDConstants(5, 0, 0);
     
     // PathPlanner Pathfinding Constants
-    public static final double MAX_VELOCITY_MPS = 2.450; //5.450
+    public static final double MAX_VELOCITY_MPS = 2.450; //5.450 //2.450
     public static final double MAX_ACCELERATION_MPS = 3.6;
-    public static final double MAX_ANGULAR_VELOCITY_RAD = Units.degreesToRadians(360);
-    public static final double MAX_ANGULAR_ACCELERATION_RAD = Units.degreesToRadians(862);
+    public static final double MAX_ANGULAR_VELOCITY_RAD = Units.degreesToRadians(90); //360
+    public static final double MAX_ANGULAR_ACCELERATION_RAD = Units.degreesToRadians(400); //862
     public static final double NOMINAL_VOLTAGE_VOLTS = 11.5;
+
+    public static final double PATHFIND_END_SPEED_MPS = 1;
   }
 
   // Camera Constants
@@ -61,18 +63,17 @@ public final class Constants {
     //The Cameras are mounted on the back of the value so all transform signs are flipped (not rotations). + ➔ -
     
     public static final Transform3d ROBOT_TO_CENTRAL_CAMERA =
-        //new Transform3d(Units.inchesToMeters(14.45), Units.inchesToMeters(-8.875), Units.inchesToMeters(-8.62949), new Rotation3d(0, Units.degreesToRadians(-10), Units.degreesToRadians(45.5)));
         new Transform3d(Units.inchesToMeters(12.460005), Units.inchesToMeters(-10.3415), 0, new Rotation3d(0, Units.degreesToRadians(-10), Units.degreesToRadians(45)));
 
-        //new Transform3d(Units.inchesToMeters(12.30768), Units.inchesToMeters(-10.49383), Units.inchesToMeters(8.05352), new Rotation3d(0, Units.degreesToRadians(10), Units.degreesToRadians(45)));
-        //new Transform3d(Units.inchesToMeters(10.18917), Units.inchesToMeters(-12.61233), Units.inchesToMeters(8.62949), new Rotation3d(0, Units.degreesToRadians(10), Units.degreesToRadians(45)));
     public static final Transform3d ROBOT_TO_LEFT_CAMERA =
-        //new Transform3d(Units.inchesToMeters(14.615), Units.inchesToMeters(12.575),  Units.inchesToMeters(-8.62949), new Rotation3d(0, Units.degreesToRadians(-10), 0));
         new Transform3d(Units.inchesToMeters(12.766455), Units.inchesToMeters(11.158455), 0, new Rotation3d(0, Units.degreesToRadians(10), 0));
         
-        //new Transform3d(Units.inchesToMeters(12.65758), Units.inchesToMeters(11.33858),  Units.inchesToMeters(8.05352), new Rotation3d(0, Units.degreesToRadians(10), 0));
-        //new Transform3d(Units.inchesToMeters(10.97833), Units.inchesToMeters(12.87533),  Units.inchesToMeters(8.62949), new Rotation3d(0, Units.degreesToRadians(10), 0));
-}
+    public static final Transform3d ROBOT_TO_BACK_LEFT_CAMERA =
+        new Transform3d(Units.inchesToMeters(-432142321), Units.inchesToMeters(32131), 0, new Rotation3d(0, Units.degreesToRadians(-30), Units.degreesToRadians(-30))); // +-180
+        
+    public static final Transform3d ROBOT_TO_BACK_RIGHT_CAMERA =
+        new Transform3d(Units.inchesToMeters(-43214), Units.inchesToMeters(-3212), 0, new Rotation3d(0, Units.degreesToRadians(-30), Units.degreesToRadians(30)));
+  }
     
   // Elevator Constants
   public static class elevatorConstants {
@@ -94,7 +95,7 @@ public final class Constants {
     public static final double L2Position = -29;
     public static final double L3Position = -50.5; //-49.1 is perfect from oxford, our pid is bad
     public static final double L4Position = -50.5; //-81.15 is perfect from oxford, our pid is bad
-    public static final double HomePosition = -0.6;
+    public static final double HomePosition = -0.2; //-.6
 
     public static final double SAFETY_LEVEL = -20; //.8
     

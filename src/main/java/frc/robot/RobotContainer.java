@@ -92,7 +92,7 @@ public class RobotContainer {
          NamedCommands.registerCommand("Elevator2L3", m_ElevatorSubsystem.elevatorToL3());
          NamedCommands.registerCommand("Elevator2L4", m_ElevatorSubsystem.elevatorToL3());
         
-         NamedCommands.registerCommand("SuckTilCorallSensor", m_ShooterBoxx.SuckTillCoralSensorAuto());
+         NamedCommands.registerCommand("SuckTillCoralSensor", m_ShooterBoxx.SuckTillCoralSensorAuto());
          NamedCommands.registerCommand("SuckTillElevatorSensor", m_ShooterBoxx.SuckTillElevatorSensorAuto());
 
          NamedCommands.registerCommand("SuckTillSensor", m_ShooterBoxx.SuckTillCoralSensorAuto()); //OG Command Depricating soon
@@ -156,29 +156,29 @@ public class RobotContainer {
         // BLUE
 
         P1controller.leftBumper().and(m_drivetrain::isAllianceBlue).whileTrue(
-            //m_drivetrain.pathFindToLeftBlueCoralStation().andThen(
-            //Commands.parallel(
+            m_drivetrain.pathFindToLeftBlueCoralStation().andThen(
+            Commands.parallel(
                 m_drivetrain.applyRequest(() ->
                     drive.withVelocityX(m_drivetrain.PIDDriveToPointX(PoseConstants.CORAL_STATION_LEFT_BLUE_POSE.getX()) * MaxSpeed)
                     .withVelocityY(m_drivetrain.PIDDriveToPointY(PoseConstants.CORAL_STATION_LEFT_BLUE_POSE.getY()) * MaxSpeed)
                     .withRotationalRate(m_drivetrain.PIDDriveToPointDEG(PoseConstants.CORAL_STATION_LEFT_BLUE_POSE.getRotation().getDegrees()))
-                // ),
-                // m_ShooterBoxx.SuckTillSensorAuto()
+                 ),
+                 m_ShooterBoxx.SuckTillCoralSensorAuto()
             )
-    );
+        ));
 
         // RED
 
         P1controller.leftBumper().and(m_drivetrain::isAllianceRed).whileTrue(
-            //m_drivetrain.pathFindToLeftRedCoralStation().andThen(
-            //Commands.parallel(
+            m_drivetrain.pathFindToLeftRedCoralStation().andThen(
+            Commands.parallel(
                 m_drivetrain.applyRequest(() ->
                     drive.withVelocityX(m_drivetrain.PIDDriveToPointX(PoseConstants.CORAL_STATION_LEFT_RED_POSE.getX()) * MaxSpeed)
                     .withVelocityY(m_drivetrain.PIDDriveToPointY(PoseConstants.CORAL_STATION_LEFT_RED_POSE.getY()) * MaxSpeed)
                     .withRotationalRate(m_drivetrain.PIDDriveToPointDEG(PoseConstants.CORAL_STATION_LEFT_RED_POSE.getRotation().getDegrees()))
-                // ),
-                // m_ShooterBoxx.SuckTillSensorAuto()
-            
+                 ),
+                 m_ShooterBoxx.SuckTillCoralSensorAuto()
+            )
         ));
         
         // RIGHT SOURCE
@@ -186,30 +186,30 @@ public class RobotContainer {
         // BLUE
 
         P1controller.rightBumper().and(m_drivetrain::isAllianceBlue).whileTrue(
-            //m_drivetrain.pathFindToRightBlueCoralStation().andThen(
-            //Commands.parallel(
+            m_drivetrain.pathFindToRightBlueCoralStation().andThen(
+            Commands.parallel(
                 m_drivetrain.applyRequest(() ->
                     drive.withVelocityX(m_drivetrain.PIDDriveToPointX(PoseConstants.CORAL_STATION_RIGHT_BLUE_POSE.getX()) * MaxSpeed)
                     .withVelocityY(m_drivetrain.PIDDriveToPointY(PoseConstants.CORAL_STATION_RIGHT_BLUE_POSE.getY()) * MaxSpeed)
                     .withRotationalRate(m_drivetrain.PIDDriveToPointDEG(PoseConstants.CORAL_STATION_RIGHT_BLUE_POSE.getRotation().getDegrees()))
-                // ),
-                // m_ShooterBoxx.SuckTillSensorAuto()
-            //)
-        ));//.onFalse(m_ShooterBoxx.StopShooterMotor());
+                 ),
+                 m_ShooterBoxx.SuckTillCoralSensorAuto()
+            )
+        ));
 
         // RED
 
         P1controller.rightBumper().and(m_drivetrain::isAllianceRed).whileTrue(
-            //m_drivetrain.pathFindToRightRedCoralStation().andThen(
-            // Commands.parallel(
+            m_drivetrain.pathFindToRightRedCoralStation().andThen(
+             Commands.parallel(
                 m_drivetrain.applyRequest(() ->
                     drive.withVelocityX(m_drivetrain.PIDDriveToPointX(PoseConstants.CORAL_STATION_RIGHT_RED_POSE.getX()) * MaxSpeed)
                     .withVelocityY(m_drivetrain.PIDDriveToPointY(PoseConstants.CORAL_STATION_RIGHT_RED_POSE.getY()) * MaxSpeed)
                     .withRotationalRate(m_drivetrain.PIDDriveToPointDEG(PoseConstants.CORAL_STATION_RIGHT_RED_POSE.getRotation().getDegrees()))
-                // ),
-                // m_ShooterBoxx.SuckTillSensorAuto()
-            //)
-        ));//.onFalse(m_ShooterBoxx.StopShooterMotor());
+                 ),
+                 m_ShooterBoxx.SuckTillCoralSensorAuto()
+            )
+        ));
 
         // REEF SCORING
 

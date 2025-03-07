@@ -129,7 +129,8 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
             PathPlannerConstants.MAX_ACCELERATION_MPS,
             PathPlannerConstants.MAX_ANGULAR_VELOCITY_RAD,
             PathPlannerConstants.MAX_ANGULAR_ACCELERATION_RAD,
-            PathPlannerConstants.NOMINAL_VOLTAGE_VOLTS, false
+            PathPlannerConstants.NOMINAL_VOLTAGE_VOLTS, 
+            false
         );
 
         // DO THIS AFTER CONFIGURATION OF YOUR DESIRED PATHFINDER 
@@ -174,63 +175,63 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     public Command pathFindToAllTheReefsBlue() {
         return AutoBuilder.pathfindToPose(
         PoseConstants.BLUE_REEF_SIDE_POSES[0], pathFindingConstraints, 0).onlyIf(() -> player1ReefIndex == 0)
-        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.BLUE_REEF_SIDE_POSES[0], pathFindingConstraints, 0).onlyIf(() -> player1ReefIndex == 1))
-        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.BLUE_REEF_SIDE_POSES[1], pathFindingConstraints, 0).onlyIf(() -> player1ReefIndex == 2))
-        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.BLUE_REEF_SIDE_POSES[1], pathFindingConstraints, 0).onlyIf(() -> player1ReefIndex == 3))
-        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.BLUE_REEF_SIDE_POSES[2], pathFindingConstraints, 0).onlyIf(() -> player1ReefIndex == 4))
-        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.BLUE_REEF_SIDE_POSES[2], pathFindingConstraints, 0).onlyIf(() -> player1ReefIndex == 5))
-        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.BLUE_REEF_SIDE_POSES[3], pathFindingConstraints, 0).onlyIf(() -> player1ReefIndex == 6))
-        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.BLUE_REEF_SIDE_POSES[3], pathFindingConstraints, 0).onlyIf(() -> player1ReefIndex == 7))
-        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.BLUE_REEF_SIDE_POSES[4], pathFindingConstraints, 0).onlyIf(() -> player1ReefIndex == 8))
-        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.BLUE_REEF_SIDE_POSES[4], pathFindingConstraints, 0).onlyIf(() -> player1ReefIndex == 9))
-        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.BLUE_REEF_SIDE_POSES[5], pathFindingConstraints, 0).onlyIf(() -> player1ReefIndex == 10))
-        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.BLUE_REEF_SIDE_POSES[5], pathFindingConstraints, 0).onlyIf(() -> player1ReefIndex == 11));
+        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.BLUE_REEF_SIDE_POSES[0], pathFindingConstraints, PathPlannerConstants.PATHFIND_END_SPEED_MPS).onlyIf(() -> player1ReefIndex == 1))
+        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.BLUE_REEF_SIDE_POSES[1], pathFindingConstraints, PathPlannerConstants.PATHFIND_END_SPEED_MPS).onlyIf(() -> player1ReefIndex == 2))
+        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.BLUE_REEF_SIDE_POSES[1], pathFindingConstraints, PathPlannerConstants.PATHFIND_END_SPEED_MPS).onlyIf(() -> player1ReefIndex == 3))
+        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.BLUE_REEF_SIDE_POSES[2], pathFindingConstraints, PathPlannerConstants.PATHFIND_END_SPEED_MPS).onlyIf(() -> player1ReefIndex == 4))
+        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.BLUE_REEF_SIDE_POSES[2], pathFindingConstraints, PathPlannerConstants.PATHFIND_END_SPEED_MPS).onlyIf(() -> player1ReefIndex == 5))
+        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.BLUE_REEF_SIDE_POSES[3], pathFindingConstraints, PathPlannerConstants.PATHFIND_END_SPEED_MPS).onlyIf(() -> player1ReefIndex == 6))
+        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.BLUE_REEF_SIDE_POSES[3], pathFindingConstraints, PathPlannerConstants.PATHFIND_END_SPEED_MPS).onlyIf(() -> player1ReefIndex == 7))
+        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.BLUE_REEF_SIDE_POSES[4], pathFindingConstraints, PathPlannerConstants.PATHFIND_END_SPEED_MPS).onlyIf(() -> player1ReefIndex == 8))
+        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.BLUE_REEF_SIDE_POSES[4], pathFindingConstraints, PathPlannerConstants.PATHFIND_END_SPEED_MPS).onlyIf(() -> player1ReefIndex == 9))
+        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.BLUE_REEF_SIDE_POSES[5], pathFindingConstraints, PathPlannerConstants.PATHFIND_END_SPEED_MPS).onlyIf(() -> player1ReefIndex == 10))
+        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.BLUE_REEF_SIDE_POSES[5], pathFindingConstraints, PathPlannerConstants.PATHFIND_END_SPEED_MPS).onlyIf(() -> player1ReefIndex == 11));
     }
 
     // Magic Red Side Reef Pathfinding Button
     public Command pathFindToAllTheReefsRed() {
         return AutoBuilder.pathfindToPose(
         PoseConstants.RED_REEF_SIDE_POSES[0], pathFindingConstraints, 0).onlyIf(() -> player1ReefIndex == 0)
-        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.RED_REEF_SIDE_POSES[0], pathFindingConstraints, 0).onlyIf(() -> player1ReefIndex == 1))
-        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.RED_REEF_SIDE_POSES[1], pathFindingConstraints, 0).onlyIf(() -> player1ReefIndex == 2))
-        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.RED_REEF_SIDE_POSES[1], pathFindingConstraints, 0).onlyIf(() -> player1ReefIndex == 3))
-        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.RED_REEF_SIDE_POSES[2], pathFindingConstraints, 0).onlyIf(() -> player1ReefIndex == 4))
-        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.RED_REEF_SIDE_POSES[2], pathFindingConstraints, 0).onlyIf(() -> player1ReefIndex == 5))
-        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.RED_REEF_SIDE_POSES[3], pathFindingConstraints, 0).onlyIf(() -> player1ReefIndex == 6))
-        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.RED_REEF_SIDE_POSES[3], pathFindingConstraints, 0).onlyIf(() -> player1ReefIndex == 7))
-        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.RED_REEF_SIDE_POSES[4], pathFindingConstraints, 0).onlyIf(() -> player1ReefIndex == 8))
-        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.RED_REEF_SIDE_POSES[4], pathFindingConstraints, 0).onlyIf(() -> player1ReefIndex == 9))
-        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.RED_REEF_SIDE_POSES[5], pathFindingConstraints, 0).onlyIf(() -> player1ReefIndex == 10))
-        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.RED_REEF_SIDE_POSES[5], pathFindingConstraints, 0).onlyIf(() -> player1ReefIndex == 11));
+        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.RED_REEF_SIDE_POSES[0], pathFindingConstraints, PathPlannerConstants.PATHFIND_END_SPEED_MPS).onlyIf(() -> player1ReefIndex == 1))
+        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.RED_REEF_SIDE_POSES[1], pathFindingConstraints, PathPlannerConstants.PATHFIND_END_SPEED_MPS).onlyIf(() -> player1ReefIndex == 2))
+        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.RED_REEF_SIDE_POSES[1], pathFindingConstraints, PathPlannerConstants.PATHFIND_END_SPEED_MPS).onlyIf(() -> player1ReefIndex == 3))
+        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.RED_REEF_SIDE_POSES[2], pathFindingConstraints, PathPlannerConstants.PATHFIND_END_SPEED_MPS).onlyIf(() -> player1ReefIndex == 4))
+        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.RED_REEF_SIDE_POSES[2], pathFindingConstraints, PathPlannerConstants.PATHFIND_END_SPEED_MPS).onlyIf(() -> player1ReefIndex == 5))
+        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.RED_REEF_SIDE_POSES[3], pathFindingConstraints, PathPlannerConstants.PATHFIND_END_SPEED_MPS).onlyIf(() -> player1ReefIndex == 6))
+        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.RED_REEF_SIDE_POSES[3], pathFindingConstraints, PathPlannerConstants.PATHFIND_END_SPEED_MPS).onlyIf(() -> player1ReefIndex == 7))
+        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.RED_REEF_SIDE_POSES[4], pathFindingConstraints, PathPlannerConstants.PATHFIND_END_SPEED_MPS).onlyIf(() -> player1ReefIndex == 8))
+        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.RED_REEF_SIDE_POSES[4], pathFindingConstraints, PathPlannerConstants.PATHFIND_END_SPEED_MPS).onlyIf(() -> player1ReefIndex == 9))
+        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.RED_REEF_SIDE_POSES[5], pathFindingConstraints, PathPlannerConstants.PATHFIND_END_SPEED_MPS).onlyIf(() -> player1ReefIndex == 10))
+        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.RED_REEF_SIDE_POSES[5], pathFindingConstraints, PathPlannerConstants.PATHFIND_END_SPEED_MPS).onlyIf(() -> player1ReefIndex == 11));
     }
     
     // Goes to a certain point instead of all of them
-    public Command pathFindToReefBlueAB() { return AutoBuilder.pathfindToPose(PoseConstants.BLUE_REEF_SIDE_POSES[0], pathFindingConstraints, 0.0); }
-    public Command pathFindToReefBlueCD() { return AutoBuilder.pathfindToPose(PoseConstants.BLUE_REEF_SIDE_POSES[1], pathFindingConstraints, 0.0); }
-    public Command pathFindToReefBlueEF() { return AutoBuilder.pathfindToPose(PoseConstants.BLUE_REEF_SIDE_POSES[2], pathFindingConstraints, 0.0); }
-    public Command pathFindToReefBlueGH() { return AutoBuilder.pathfindToPose(PoseConstants.BLUE_REEF_SIDE_POSES[3], pathFindingConstraints, 0.0); }
-    public Command pathFindToReefBlueIJ() { return AutoBuilder.pathfindToPose(PoseConstants.BLUE_REEF_SIDE_POSES[4], pathFindingConstraints, 0.0); }
-    public Command pathFindToReefBlueKL() { return AutoBuilder.pathfindToPose(PoseConstants.BLUE_REEF_SIDE_POSES[5], pathFindingConstraints, 0.0); }
+    public Command pathFindToReefBlueAB() { return AutoBuilder.pathfindToPose(PoseConstants.BLUE_REEF_SIDE_POSES[0], pathFindingConstraints, PathPlannerConstants.PATHFIND_END_SPEED_MPS); }
+    public Command pathFindToReefBlueCD() { return AutoBuilder.pathfindToPose(PoseConstants.BLUE_REEF_SIDE_POSES[1], pathFindingConstraints, PathPlannerConstants.PATHFIND_END_SPEED_MPS); }
+    public Command pathFindToReefBlueEF() { return AutoBuilder.pathfindToPose(PoseConstants.BLUE_REEF_SIDE_POSES[2], pathFindingConstraints, PathPlannerConstants.PATHFIND_END_SPEED_MPS); }
+    public Command pathFindToReefBlueGH() { return AutoBuilder.pathfindToPose(PoseConstants.BLUE_REEF_SIDE_POSES[3], pathFindingConstraints, PathPlannerConstants.PATHFIND_END_SPEED_MPS); }
+    public Command pathFindToReefBlueIJ() { return AutoBuilder.pathfindToPose(PoseConstants.BLUE_REEF_SIDE_POSES[4], pathFindingConstraints, PathPlannerConstants.PATHFIND_END_SPEED_MPS); }
+    public Command pathFindToReefBlueKL() { return AutoBuilder.pathfindToPose(PoseConstants.BLUE_REEF_SIDE_POSES[5], pathFindingConstraints, PathPlannerConstants.PATHFIND_END_SPEED_MPS); }
     
-    public Command pathFindToReefRedAB() { return AutoBuilder.pathfindToPose(PoseConstants.RED_REEF_SIDE_POSES[0], pathFindingConstraints, 0.0); }
-    public Command pathFindToReefRedCD() { return AutoBuilder.pathfindToPose(PoseConstants.RED_REEF_SIDE_POSES[1], pathFindingConstraints, 0.0); }
-    public Command pathFindToReefRedEF() { return AutoBuilder.pathfindToPose(PoseConstants.RED_REEF_SIDE_POSES[2], pathFindingConstraints, 0.0); }
-    public Command pathFindToReefRedGH() { return AutoBuilder.pathfindToPose(PoseConstants.RED_REEF_SIDE_POSES[3], pathFindingConstraints, 0.0); }
-    public Command pathFindToReefRedIJ() { return AutoBuilder.pathfindToPose(PoseConstants.RED_REEF_SIDE_POSES[4], pathFindingConstraints, 0.0); }
-    public Command pathFindToReefRedKL() { return AutoBuilder.pathfindToPose(PoseConstants.RED_REEF_SIDE_POSES[5], pathFindingConstraints, 0.0); }
+    public Command pathFindToReefRedAB() { return AutoBuilder.pathfindToPose(PoseConstants.RED_REEF_SIDE_POSES[0], pathFindingConstraints, PathPlannerConstants.PATHFIND_END_SPEED_MPS); }
+    public Command pathFindToReefRedCD() { return AutoBuilder.pathfindToPose(PoseConstants.RED_REEF_SIDE_POSES[1], pathFindingConstraints, PathPlannerConstants.PATHFIND_END_SPEED_MPS); }
+    public Command pathFindToReefRedEF() { return AutoBuilder.pathfindToPose(PoseConstants.RED_REEF_SIDE_POSES[2], pathFindingConstraints, PathPlannerConstants.PATHFIND_END_SPEED_MPS); }
+    public Command pathFindToReefRedGH() { return AutoBuilder.pathfindToPose(PoseConstants.RED_REEF_SIDE_POSES[3], pathFindingConstraints, PathPlannerConstants.PATHFIND_END_SPEED_MPS); }
+    public Command pathFindToReefRedIJ() { return AutoBuilder.pathfindToPose(PoseConstants.RED_REEF_SIDE_POSES[4], pathFindingConstraints, PathPlannerConstants.PATHFIND_END_SPEED_MPS); }
+    public Command pathFindToReefRedKL() { return AutoBuilder.pathfindToPose(PoseConstants.RED_REEF_SIDE_POSES[5], pathFindingConstraints, PathPlannerConstants.PATHFIND_END_SPEED_MPS); }
 
     // Goes to each coral station
     public Command pathFindToLeftBlueCoralStation() {
-        return AutoBuilder.pathfindToPose(PoseConstants.CORAL_STATION_LEFT_BLUE_PATHFIND_POSE, pathFindingConstraints, 0);
+        return AutoBuilder.pathfindToPose(PoseConstants.CORAL_STATION_LEFT_BLUE_PATHFIND_POSE, pathFindingConstraints, PathPlannerConstants.PATHFIND_END_SPEED_MPS);
     }
     public Command pathFindToRightBlueCoralStation() {
-        return AutoBuilder.pathfindToPose(PoseConstants.CORAL_STATION_RIGHT_BLUE_PATHFIND_POSE, pathFindingConstraints, 0);
+        return AutoBuilder.pathfindToPose(PoseConstants.CORAL_STATION_RIGHT_BLUE_PATHFIND_POSE, pathFindingConstraints, PathPlannerConstants.PATHFIND_END_SPEED_MPS);
     }
     public Command pathFindToLeftRedCoralStation() {
-        return AutoBuilder.pathfindToPose(PoseConstants.CORAL_STATION_LEFT_RED_PATHFIND_POSE, pathFindingConstraints, 0);
+        return AutoBuilder.pathfindToPose(PoseConstants.CORAL_STATION_LEFT_RED_PATHFIND_POSE, pathFindingConstraints, PathPlannerConstants.PATHFIND_END_SPEED_MPS);
     }
     public Command pathFindToRightRedCoralStation() {
-        return AutoBuilder.pathfindToPose(PoseConstants.CORAL_STATION_RIGHT_RED_PATHFIND_POSE, pathFindingConstraints, 0);
+        return AutoBuilder.pathfindToPose(PoseConstants.CORAL_STATION_RIGHT_RED_PATHFIND_POSE, pathFindingConstraints, PathPlannerConstants.PATHFIND_END_SPEED_MPS);
     }
 
     // CLIMB PATHFIND
