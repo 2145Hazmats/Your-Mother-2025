@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandPS4Controller;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.DrivetrainConstants;
 import frc.robot.Constants.shooterBoxxContants;
 import frc.robot.Constants.ControllerConstants.EVERYTHING_ENUM;
@@ -67,6 +68,7 @@ public class RobotContainer {
     private final CommandXboxController P3controller = new CommandXboxController(2);
     //private final CommandXboxController P4controller = new CommandXboxController(3);
     //private final CommandPS4Controller p5Controller = new CommandPS4Controller(4);
+    //private final Trigger disableCameras = overrides.cameraSwitch();
     
     // We need to initialize an object of the camera subsystem, we don't have to use it
     private CameraSubsystem m_CameraSubsystem = new CameraSubsystem(m_drivetrain);
@@ -163,8 +165,8 @@ public class RobotContainer {
                     drive.withVelocityX(m_drivetrain.PIDDriveToPointX(PoseConstants.CORAL_STATION_LEFT_BLUE_POSE.getX()) * MaxSpeed)
                     .withVelocityY(m_drivetrain.PIDDriveToPointY(PoseConstants.CORAL_STATION_LEFT_BLUE_POSE.getY()) * MaxSpeed)
                     .withRotationalRate(m_drivetrain.PIDDriveToPointDEG(PoseConstants.CORAL_STATION_LEFT_BLUE_POSE.getRotation().getDegrees()))
-                 ),
-                 m_ShooterBoxx.SuckTillCoralSensorAuto()
+                 )
+                
             )
         ));
 
@@ -177,8 +179,8 @@ public class RobotContainer {
                     drive.withVelocityX(m_drivetrain.PIDDriveToPointX(PoseConstants.CORAL_STATION_LEFT_RED_POSE.getX()) * MaxSpeed)
                     .withVelocityY(m_drivetrain.PIDDriveToPointY(PoseConstants.CORAL_STATION_LEFT_RED_POSE.getY()) * MaxSpeed)
                     .withRotationalRate(m_drivetrain.PIDDriveToPointDEG(PoseConstants.CORAL_STATION_LEFT_RED_POSE.getRotation().getDegrees()))
-                 ),
-                 m_ShooterBoxx.SuckTillCoralSensorAuto()
+                 )
+                
             )
         ));
         
@@ -193,8 +195,8 @@ public class RobotContainer {
                     drive.withVelocityX(m_drivetrain.PIDDriveToPointX(PoseConstants.CORAL_STATION_RIGHT_BLUE_POSE.getX()) * MaxSpeed)
                     .withVelocityY(m_drivetrain.PIDDriveToPointY(PoseConstants.CORAL_STATION_RIGHT_BLUE_POSE.getY()) * MaxSpeed)
                     .withRotationalRate(m_drivetrain.PIDDriveToPointDEG(PoseConstants.CORAL_STATION_RIGHT_BLUE_POSE.getRotation().getDegrees()))
-                 ),
-                 m_ShooterBoxx.SuckTillCoralSensorAuto()
+                 )
+                 
             )
         ));
 
@@ -207,8 +209,8 @@ public class RobotContainer {
                     drive.withVelocityX(m_drivetrain.PIDDriveToPointX(PoseConstants.CORAL_STATION_RIGHT_RED_POSE.getX()) * MaxSpeed)
                     .withVelocityY(m_drivetrain.PIDDriveToPointY(PoseConstants.CORAL_STATION_RIGHT_RED_POSE.getY()) * MaxSpeed)
                     .withRotationalRate(m_drivetrain.PIDDriveToPointDEG(PoseConstants.CORAL_STATION_RIGHT_RED_POSE.getRotation().getDegrees()))
-                 ),
-                 m_ShooterBoxx.SuckTillCoralSensorAuto()
+                 )
+                 
             )
         ));
         
@@ -270,6 +272,22 @@ public class RobotContainer {
          .withRotationalRate(-m_drivetrain.angularSpeedToFaceRightCoralStation()) // Drive counterclockwise with negative X (left)
          //.withCenterOfRotation(Translation2d)
     ));
+
+    P1controller.a().whileTrue(
+        m_drivetrain.applyRequest(() ->
+        drive.withVelocityX(-P1controller.getLeftY() * MaxSpeed) // Drive forward with negative Y (forward)
+         .withVelocityY(-P1controller.getLeftX() * MaxSpeed) // Drive left with negative X (left)
+         .withRotationalRate(-m_drivetrain.angularSpeedToFaceReef()) // Drive counterclockwise with negative X (left)
+         //.withCenterOfRotation(Translation2d)
+ ));
+
+ P1controller.y().whileTrue(
+    m_drivetrain.applyRequest(() ->
+    drive.withVelocityX(-P1controller.getLeftY() * MaxSpeed) // Drive forward with negative Y (forward)
+     .withVelocityY(-P1controller.getLeftX() * MaxSpeed) // Drive left with negative X (left)
+     .withRotationalRate(-m_drivetrain.angularSpeedToFaceNet()) // Drive counterclockwise with negative X (left)
+     //.withCenterOfRotation(Translation2d)
+));
         // CENTRIC MODE
 
         // P1controller.leftTrigger().whileTrue(m_drivetrain.applyRequest(() ->

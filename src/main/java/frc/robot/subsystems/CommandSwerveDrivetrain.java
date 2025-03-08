@@ -301,31 +301,31 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         double TriangleY = this.getState().Pose.getY() - 4;
         double TriangleX = this.getState().Pose.getX() - 4.5; // For Blue Alliance
         if (isAllianceRed()) { TriangleX = this.getState().Pose.getX() - 13; } // For Red Alliance
-        double angle = Math.atan2(TriangleY, TriangleX); // returns radians
+        double angle = Math.atan2(TriangleY, TriangleX)+Math.PI; // returns radians
 
         SmartDashboard.putNumber("ReefCenterSetpoint", angle);
-        return pidFaceRad.calculate(this.getState().Pose.getRotation().getRadians(), angle); 
+        return -pidFaceRad.calculate(this.getState().Pose.getRotation().getRadians(), angle); 
     }
     // Command to face towards left Coral station
     public double angularSpeedToFaceLeftCoralStation() {
         double angle = PoseConstants.BLUE_CORAL_STATION_DEG; // For Blue Alliance
         if (isAllianceRed()) { angle = -PoseConstants.RED_CORAL_STATION_DEG; } // For Red Alliance
         angle = Units.degreesToRadians(angle); // convert to radians
-        return pidFaceRad.calculate(this.getState().Pose.getRotation().getRadians(), angle);
+        return -pidFaceRad.calculate(this.getState().Pose.getRotation().getRadians(), angle);
     }
     // Command to face towards right Coral station
     public double angularSpeedToFaceRightCoralStation() {
         double angle = -PoseConstants.BLUE_CORAL_STATION_DEG; // For Blue Alliance
         if (isAllianceRed()) { angle = PoseConstants.RED_CORAL_STATION_DEG; } // For Red Alliance
         angle = Units.degreesToRadians(angle); // convert to radians
-        return pidFaceRad.calculate(this.getState().Pose.getRotation().getRadians(), angle); 
+        return -pidFaceRad.calculate(this.getState().Pose.getRotation().getRadians(), angle); 
     }
     // Command to face towards net
     public double angularSpeedToFaceNet() {
         double angle = 0; // For Blue Alliance
         if (isAllianceRed()) { angle = 180; } // For Red Alliance
         angle = Units.degreesToRadians(angle); // convert to radians
-        return pidFaceRad.calculate(this.getState().Pose.getRotation().getRadians(), angle);
+        return -pidFaceRad.calculate(this.getState().Pose.getRotation().getRadians(), angle);
     }
 
     // Switches our reef index

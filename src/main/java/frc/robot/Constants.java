@@ -28,7 +28,7 @@ public final class Constants {
     public static final double D_Y = 0.027;
     public static final double P_DEGREE = 0.125; //0.1
     public static final double D_DEGREE = 0;
-    public static final double PID_RAD = 0;
+    public static final double PID_RAD = 4.2145;
 
     public static final double PID_MAX = 0.15;
     public static final double STATION_PID_MAX = .35;
@@ -109,9 +109,10 @@ public final class Constants {
     public static final int kBoxxCoralSensorChannel = 0;
     public static final int kElevatorCoralSensorChannel = 2;
     public static final double kSpitSpeed = -0.4;
-    public static final double kSuckSpeed = -0.25;
-    public static final double kFinalSpeed = -0.15;
+    public static final double kSuckSpeed = -1;
+    public static final double kFinalSpeed = -0.3;
   }
+
   public static class ClimbContants {
     public static final int ClimbMotorId = 33;
     public static final double climbForwardSpeed = 1;
@@ -127,28 +128,22 @@ public final class Constants {
     public static final double ClimbD = 0;
     public static final double ClimbReadySetpoint = -4.1;
     public static final double ClimbLockedInSetpoint = 0;
-  
-  
-
   }
   
   //Coral Scoring Constants 
-  public static class ScoreCoralConstants {
+  public static class ErrorConstants {
     public static final double ElevatorError = 1.5;
-    public static final double DriveTrainError = Units.inchesToMeters(7.5); //1.5 
-    
-  }
-  // Get Coral Constants
-  public static class GetCoral {
-  public static final double GetCoralError = Units.inchesToMeters(4);
-    
+    public static final double DriveTrainElevatorUpError = Units.inchesToMeters(7.5);
+    public static final double DriveTrainScoreError = Units.inchesToMeters(1.5);
+    public static final double DriveTrainDegreesError = 5;
   }
 
+  // Get Coral Constants
+  public static class GetCoral {
+    public static final double GetCoralError = Units.inchesToMeters(4);
+  }
 
   public static class ControllerConstants {
     public static enum EVERYTHING_ENUM {SCORE, LEFT_SOURCE, RIGHT_SOURCE, NET, PROCESSOR, CLIMB};
   }
-    
 }
-
-

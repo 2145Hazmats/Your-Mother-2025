@@ -4,24 +4,12 @@
 
 package frc.robot.commands;
 
-import static edu.wpi.first.units.Units.MetersPerSecond;
-import static edu.wpi.first.units.Units.RadiansPerSecond;
-import static edu.wpi.first.units.Units.RotationsPerSecond;
-
-import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
-import com.ctre.phoenix6.swerve.SwerveRequest;
-
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.ReefConstants.PoseConstants;
-import frc.robot.Constants.DrivetrainConstants;
-import frc.robot.Constants.ScoreCoralConstants;
+import frc.robot.Constants.ErrorConstants;
 import frc.robot.Constants.elevatorConstants;
-import frc.robot.Constants.shooterBoxxContants;
 import frc.robot.Constants;
-import frc.robot.RobotContainer;
-import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.ShooterBoxx;
@@ -33,13 +21,6 @@ public class ScoreCoral extends Command {
   private CommandSwerveDrivetrain theLegs;
   private ElevatorSubsystem theElephant;
   private ShooterBoxx theSnout;
-  
-  // Sets max speed for drivetrain
-  private static final double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond);
-  private static final double MaxAngularRate = RotationsPerSecond.of(DrivetrainConstants.MAX_ROTATIONS_PER_SECOND).in(RadiansPerSecond);
-  
-  private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
-          .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // Use open-loop control for drive motors
 
   // Declare the variables for desired Drivetrain positions and elevator height
   double xGoal;
@@ -48,9 +29,6 @@ public class ScoreCoral extends Command {
   double elevatorGoal;
 
   int level = 0;
-
-  //boolean isElevatorSensorTrue = false;//theSnout.getElevatorSensor();
-  //boolean isCoralSensorTrue = true;//.getBoxxSensor(); 
 
   // Constructor
   public ScoreCoral(CommandSwerveDrivetrain theFakeLegs, ElevatorSubsystem theFakeElephant, ShooterBoxx theFakeSnout) {
@@ -94,6 +72,7 @@ public class ScoreCoral extends Command {
     // Declares our Drivetrain and elevator positions
     double currentDriveX = theLegs.getPose2d().getX();
     double currentDriveY = theLegs.getPose2d().getY();
+    double currentDriveDegrees = theLegs.getPose2d().getRotation().getDegrees();
     double currentElevatorPosition = theElephant.getElevatorPosition();
 
     boolean isElevatorSensorTrue = theSnout.getElevatorSensor();
@@ -102,33 +81,26 @@ public class ScoreCoral extends Command {
     SmartDashboard.putBoolean("elevator value", isElevatorSensorTrue);
     //SmartDashboard.putBoolean("coral value", isCoralSensorTrue);
 
-    if (currentDriveX > (xGoal - ScoreCoralConstants.DriveTrainError)
-      && currentDriveX < (xGoal + ScoreCoralConstants.DriveTrainError)
-      && currentDriveY > (yGoal - ScoreCoralConstants.DriveTrainError)
-      && currentDriveY < (yGoal + ScoreCoralConstants.DriveTrainError)
+    if (currentDriveX > (xGoal - ErrorConstants.DriveTrainElevatorUpError)
+      && currentDriveX < (xGoal + ErrorConstants.DriveTrainElevatorUpError)
+      && currentDriveY > (yGoal - ErrorConstants.DriveTrainElevatorUpError)
+      && currentDriveY < (yGoal + ErrorConstants.DriveTrainElevatorUpError)
       && !isElevatorSensorTrue) {
       //&& isCoralSensorTrue) {
         theElephant.elevatorToSomething(level);
     }
 
-    if (currentElevatorPosition > (elevatorGoal - ScoreCoralConstants.ElevatorError)
-     && currentElevatorPosition < (elevatorGoal + ScoreCoralConstants.ElevatorError)
-    && currentDriveX > (xGoal - ScoreCoralConstants.DriveTrainError)
-    && currentDriveX < (xGoal + ScoreCoralConstants.DriveTrainError)
-    && currentDriveY > (yGoal - ScoreCoralConstants.DriveTrainError)
-    && currentDriveY < (yGoal + ScoreCoralConstants.DriveTrainError)) {
-      theSnout.fireNow = true;//theSnout.shootCoralMethod(); // Runs shooter if drivetrain and elevator positions are within their bounds of error
+    // Runs shooter if drivetrain and elevator positions are within their bounds of error
+    if (currentElevatorPosition > (elevatorGoal - ErrorConstants.ElevatorError)
+     && currentElevatorPosition < (elevatorGoal + ErrorConstants.ElevatorError)
+    && currentDriveX > (xGoal - ErrorConstants.DriveTrainScoreError)
+    && currentDriveX < (xGoal + ErrorConstants.DriveTrainScoreError)
+    && currentDriveY > (yGoal - ErrorConstants.DriveTrainScoreError)
+    && currentDriveY < (yGoal + ErrorConstants.DriveTrainScoreError)
+    && currentDriveDegrees > (degGoal - ErrorConstants.DriveTrainDegreesError)
+    && currentDriveDegrees < (degGoal + ErrorConstants.DriveTrainDegreesError)) {
+      theSnout.fireNow = true;
     }
-
-    SmartDashboard.putNumber("ScoreCoral level", level); //can remove this for cimp
-
-    SmartDashboard.putBoolean("currentDriveX 1", currentDriveX > (xGoal - ScoreCoralConstants.DriveTrainError));
-    SmartDashboard.putBoolean("currentDriveX 2", currentDriveX < (xGoal + ScoreCoralConstants.DriveTrainError));
-    SmartDashboard.putBoolean("currentDriveY 1", currentDriveY > (yGoal - ScoreCoralConstants.DriveTrainError));
-    SmartDashboard.putBoolean("currentDriveY 2", currentDriveY < (yGoal + ScoreCoralConstants.DriveTrainError));
-
-    SmartDashboard.putBoolean("currentElevatorPosition 1", currentElevatorPosition > (elevatorGoal - ScoreCoralConstants.ElevatorError));
-    SmartDashboard.putBoolean("currentElevatorPosition 2", currentElevatorPosition < (elevatorGoal + ScoreCoralConstants.ElevatorError));
   }
 
   // Sends elevator to its default position after the command ends.
@@ -141,6 +113,6 @@ public class ScoreCoral extends Command {
   // Returns true when the command should end. Runs every 20ms
   @Override
   public boolean isFinished() {
-    return (theElephant.getElevatorPosition() < -5 && theSnout.StopCoralShot());
+    return (theElephant.getElevatorPosition() < elevatorConstants.L1Position/2 && theSnout.StopCoralShot());
   }
 }

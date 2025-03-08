@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.ReefConstants.PoseConstants;
 import frc.robot.Constants.DrivetrainConstants;
-import frc.robot.Constants.ScoreCoralConstants;
+import frc.robot.Constants.ErrorConstants;
 import frc.robot.Constants.elevatorConstants;
 import frc.robot.Constants.shooterBoxxContants;
 import frc.robot.RobotContainer;
@@ -66,8 +66,8 @@ public class ScoreCoralManual extends Command {
     double currentElevatorPosition = theElephant.getElevatorPosition();
     
     // Checks to see if Elevator is in the correct position before playing the coral
-    if (currentElevatorPosition > (elevatorGoal - ScoreCoralConstants.ElevatorError)
-     && currentElevatorPosition < (elevatorGoal + ScoreCoralConstants.ElevatorError)) {
+    if (currentElevatorPosition > (elevatorGoal - ErrorConstants.ElevatorError)
+     && currentElevatorPosition < (elevatorGoal + ErrorConstants.ElevatorError)) {
       theSnout.shootCoralMethod(); // Runs shooter if drivetrain and elevator positions are within their bounds of error
     }
 
@@ -76,8 +76,8 @@ public class ScoreCoralManual extends Command {
     }
 
     SmartDashboard.putNumber("ScoreCoral currentElevatorPosition", currentElevatorPosition);
-    SmartDashboard.putBoolean("currentElevatorPosition 1", currentElevatorPosition > (elevatorGoal - ScoreCoralConstants.ElevatorError));
-    SmartDashboard.putBoolean("currentElevatorPosition 2", currentElevatorPosition < (elevatorGoal + ScoreCoralConstants.ElevatorError));
+    SmartDashboard.putBoolean("currentElevatorPosition 1", currentElevatorPosition > (elevatorGoal - ErrorConstants.ElevatorError));
+    SmartDashboard.putBoolean("currentElevatorPosition 2", currentElevatorPosition < (elevatorGoal + ErrorConstants.ElevatorError));
   }
 
   // Sends elevator to its default position after the command ends.
