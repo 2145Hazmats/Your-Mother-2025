@@ -227,6 +227,7 @@ public Command IntakeSolosDefaultCommand() {
     // This method will be called once per scheduler run
     // SmartDashboard.putBoolean("Elevator Coral Sensor", ElevatorCoralSensorTriggered());
     // SmartDashboard.putBoolean("Boxx Coral Sensor", BoxxCoralSensorTriggered());
+    SmartDashboard.putBoolean("EitherSensorTrue", getEitherSensor());
     isElevatorSensorTrue = !ElevatorCoralSensor.get();
     isBoxxSensorTrue = !BoxxCoralSensor.get();
   }

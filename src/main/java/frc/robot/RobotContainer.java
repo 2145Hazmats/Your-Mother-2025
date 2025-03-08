@@ -136,8 +136,8 @@ public class RobotContainer {
 
     private void configureBindings() {
         // Default Commands :)
-        m_ElevatorSubsystem.setDefaultCommand(m_ElevatorSubsystem.defaultCommand());
-        m_ShooterBoxx.setDefaultCommand(m_ShooterBoxx.IntakeSolosDefaultCommand());
+        m_ElevatorSubsystem.setDefaultCommand(Commands.either(m_ElevatorSubsystem.defaultCommand(), m_ElevatorSubsystem.elevatorJoystick(P3controller::getLeftY), m_indexing::isP2ManualModeFalse)); //NEEDS TESTING
+        m_ShooterBoxx.setDefaultCommand(Commands.either(m_ShooterBoxx.IntakeSolosDefaultCommand(), Commands.run(() -> m_ShooterBoxx.stopShooterMethod(), m_ShooterBoxx), m_indexing::isP2ManualModeFalse));
         m_ClimbSubsystemNeo.setDefaultCommand(m_ClimbSubsystemNeo.Keepclimbsafe());
 
         m_drivetrain.registerTelemetry(logger::telemeterize);
@@ -152,6 +152,10 @@ public class RobotContainer {
 
         //-------------------------------P1 Controls---------------------------------
 
+
+        // Manual Controls
+        P2controller.povDown().whileTrue(Commands.either(Commands.runOnce(() ->  m_indexing.elevatorIndexChooser(1)),
+         m_ElevatorSubsystem.elevatorToL1(), m_indexing::isP1ManualModeFalse));
         // LOCK THE WHEELS
         P1controller.povLeft().whileTrue(m_drivetrain.applyRequest(() -> drivePointWheelsAt));
 
@@ -207,8 +211,10 @@ public class RobotContainer {
             )
         ));
         
-        // REEF SCORE BLUE
-        P1controller.leftTrigger().and(m_drivetrain::isAllianceBlue).whileTrue(m_drivetrain.pathFindToAllTheReefsBlue().andThen(
+        // REEF SCORING
+
+        // SCORE BLUE
+        P1controller.leftTrigger().and(m_drivetrain::isAllianceBlue).whileTrue(m_drivetrain.pathFindToAllTheReefsBlue().onlyIf(() -> m_ShooterBoxx.getEitherSensor()).andThen(
             Commands.parallel(
                 m_drivetrain.applyRequest(() ->
                     drive.withVelocityX(m_drivetrain.PIDDriveToPointX(PoseConstants.BLUE_REEF_POSES[m_drivetrain.getPlayer1ReefIndex()].getX()) * MaxSpeed)
@@ -301,10 +307,23 @@ public class RobotContainer {
         
         // Elevator
         
-        P2controller.povDown().whileTrue(Commands.runOnce(() ->  m_indexing.elevatorIndexChooser(1)));
+        //P2controller.povDown().whileTrue(Commands.runOnce(() ->  m_indexing.elevatorIndexChooser(1)));
         P2controller.povLeft().whileTrue(Commands.runOnce(() ->  m_indexing.elevatorIndexChooser(2)));
         P2controller.povRight().whileTrue(Commands.runOnce(() ->  m_indexing.elevatorIndexChooser(3)));
         P2controller.povUp().whileTrue(Commands.runOnce(() ->  m_indexing.elevatorIndexChooser(4)));
+
+         P2controller.povDown().whileTrue(Commands.either(Commands.runOnce(() ->  m_indexing.elevatorIndexChooser(1)),
+         m_ElevatorSubsystem.elevatorToL1(), m_indexing::isP2ManualModeFalse));
+/* 
+         P2controller.povLeft().whileTrue(Commands.either(Commands.runOnce(() ->  m_indexing.elevatorIndexChooser(2)),
+         m_ElevatorSubsystem.elevatorToL2(), m_indexing::isManualModeFalse));
+
+         P2controller.povRight().whileTrue(Commands.either(Commands.runOnce(() ->  m_indexing.elevatorIndexChooser(3)),
+         m_ElevatorSubsystem.elevatorToL3(), m_indexing::isManualModeFalse));
+
+         P2controller.povUp().whileTrue(Commands.either(Commands.runOnce(() ->  m_indexing.elevatorIndexChooser(4)),
+         m_ElevatorSubsystem.elevatorToL4(), m_indexing::isManualModeFalse));
+*/
 
                 
         // Reef Index
@@ -332,6 +351,8 @@ public class RobotContainer {
         // Stop Elevator
 
         P2controller.start().whileTrue(m_ElevatorSubsystem.disableElevator());
+        P2controller.back().toggleOnTrue(Commands.startEnd(() -> m_indexing.setP2ManualModeYes(), () -> m_indexing.setP2ManualModeNo(), m_indexing));
+        
 
         P2controller.y().whileTrue(m_ElevatorSubsystem.elevatorToHome());
 
@@ -341,10 +362,10 @@ public class RobotContainer {
         // P2controller.b().whileTrue(
         //         m_ShooterBoxx.BanditSetIntakeMotorCommand(Constants.shooterBoxxContants.kSuckSpeed).until(m_ShooterBoxx::BanditNoteSensorTriggered)
         //       );
-        P2controller.b().whileTrue(m_ShooterBoxx.worksShoot().withTimeout(.45));
+        P2controller.b().whileTrue(m_ShooterBoxx.worksShoot());
               //.until(m_ShooterBoxx.BanditNoteSensorTriggered());//BanditNoteSensorTriggered);//m_ShooterBoxx::BanditNoteSensorTriggered
 
-        P2controller.back().whileTrue(m_ShooterBoxx.SpitTillSensor());
+        //P2controller.back().whileTrue(m_ShooterBoxx.SpitTillSensor());
 
         // 
 

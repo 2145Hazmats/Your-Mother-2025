@@ -4,11 +4,17 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Indexing extends SubsystemBase {
   private ElevatorSubsystem m_ElevatorSubsystem;
   private CommandSwerveDrivetrain m_drivetrain;
+  
+
+  private boolean isP1ManualModeNo = true;
+  private boolean isP2ManualModeNo = true;
 
   /** Creates a new Indexing. */
   public Indexing() {}
@@ -29,5 +35,28 @@ public class Indexing extends SubsystemBase {
   public void updateP1Index() {
     m_ElevatorSubsystem.updateP1levelIndex();
     m_drivetrain.updateP1Index();
+  }
+  
+  //P1
+  public void setP1ManualModeNo() {
+    isP1ManualModeNo = true;
+  }
+
+  public void setP1ManualModeYes() {
+    isP1ManualModeNo = false;
+  }
+  public boolean isP1ManualModeFalse() {
+        return isP1ManualModeNo;
+    }
+    //P2 
+  public void setP2ManualModeNo() {
+      isP2ManualModeNo = true;
+    }
+  
+  public void setP2ManualModeYes() {
+      isP2ManualModeNo = false;
+    }
+  public boolean isP2ManualModeFalse() {
+      return isP2ManualModeNo;
   }
 }
