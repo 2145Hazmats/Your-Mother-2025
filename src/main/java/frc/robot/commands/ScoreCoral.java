@@ -101,6 +101,10 @@ public class ScoreCoral extends Command {
     && currentDriveDegrees < (degGoal + ErrorConstants.DriveTrainDegreesError)) {
       theSnout.fireNow = true;
     }
+
+    if (theElephant.getElevatorPosition() < elevatorConstants.SAFETY_LEVEL && theSnout.getEitherSensor()) {
+      theElephant.elevatorToSomething(Constants.elevatorConstants.HomePosition);
+    }
   }
 
   // Sends elevator to its default position after the command ends.
@@ -113,6 +117,6 @@ public class ScoreCoral extends Command {
   // Returns true when the command should end. Runs every 20ms
   @Override
   public boolean isFinished() {
-    return (theElephant.getElevatorPosition() < elevatorConstants.L1Position/2 && theSnout.StopCoralShot());
+    return (theElephant.getElevatorPosition() > elevatorConstants.SAFETY_LEVEL && theSnout.StopCoralShot());
   }
 }

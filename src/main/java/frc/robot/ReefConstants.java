@@ -181,6 +181,11 @@ public class ReefConstants {
     public static final Pose2d CORAL_STATION_LEFT_RED_POSE = new Pose2d(16.273, 0.962, new Rotation2d(Units.degreesToRadians(RED_CORAL_STATION_DEG)));
     public static final Pose2d CORAL_STATION_RIGHT_RED_PATHFIND_POSE = new Pose2d(15.983, 6.7, new Rotation2d(Units.degreesToRadians(-RED_CORAL_STATION_DEG)));
     public static final Pose2d CORAL_STATION_RIGHT_RED_POSE = new Pose2d(16.186, 7.136, new Rotation2d(Units.degreesToRadians(-RED_CORAL_STATION_DEG)));
+
+    public static final Pose2d NET_RED_PATHFIND_POSE = new Pose2d(10.14, 1.861, new Rotation2d(0));
+    public static final Pose2d NET_RED_POSE = new Pose2d(9.67, 1.891, new Rotation2d(0));
+    public static final Pose2d NET_BLUE_PATHFIND_POSE = new Pose2d(7.3, 6.159, new Rotation2d(Math.PI));
+    public static final Pose2d NET_BLUE_POSE = new Pose2d(7.708, 6.159, new Rotation2d(Math.PI));
   }
   
   // Climb Drive Setpoints

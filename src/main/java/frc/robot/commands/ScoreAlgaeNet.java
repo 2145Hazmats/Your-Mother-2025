@@ -30,7 +30,7 @@ public class ScoreAlgaeNet extends Command {
     elevator = elevatortemp;
     algae = algaetemp;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(elevatortemp, algaetemp);
+    addRequirements(elevator, algae);
   }
   
   // Called when the command is initially scheduled.

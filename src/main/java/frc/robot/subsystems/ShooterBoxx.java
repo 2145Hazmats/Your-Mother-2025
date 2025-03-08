@@ -217,6 +217,10 @@ public Command IntakeSolosDefaultCommand() {
   public boolean getElevatorSensor() {
     return isElevatorSensorTrue;
   }
+
+  public boolean getEitherSensor() {
+    return (isBoxxSensorTrue || isElevatorSensorTrue);
+  }
  
   @Override
   public void periodic() {

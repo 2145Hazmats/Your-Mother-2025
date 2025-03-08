@@ -23,6 +23,7 @@ import frc.robot.Constants.shooterBoxxContants;
 import frc.robot.Constants.ControllerConstants.EVERYTHING_ENUM;
 import frc.robot.ReefConstants.PoseConstants;
 import frc.robot.commands.FireCoralAuton;
+import frc.robot.commands.ScoreAlgaeNet;
 //import frc.robot.autos.AwesomestAutoBlue;
 // import frc.robot.autos.AwesomeAuton;
 // import frc.robot.autos.NetSideAuto;
@@ -31,6 +32,7 @@ import frc.robot.commands.ScoreCoral;
 import frc.robot.commands.ScoreCoralAuton;
 import frc.robot.commands.ScoreCoralManual;
 import frc.robot.generated.TunerConstants;
+import frc.robot.subsystems.AlgaeSubsystem;
 import frc.robot.subsystems.CameraSubsystem;
 import frc.robot.subsystems.ClimbSubsystemNeo;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
@@ -42,21 +44,23 @@ public class RobotContainer {
 
     private final SendableChooser<Command> autoChooser;
 
-    public static final double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
-    private static final double MaxAngularRate = RotationsPerSecond.of(DrivetrainConstants.MAX_ROTATIONS_PER_SECOND).in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
+    public final double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
+    private final double MaxAngularRate = RotationsPerSecond.of(DrivetrainConstants.MAX_ROTATIONS_PER_SECOND).in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
     
     private EVERYTHING_ENUM selectedEnum;
 
     private final CommandSwerveDrivetrain m_drivetrain = TunerConstants.createDrivetrain();
    
     /* Setting up bindings for necessary control of the swerve drive platform */
-    public final static SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
+    public final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
             .withDeadband(MaxSpeed * 0.05).withRotationalDeadband(MaxAngularRate * 0.05) // 10% deadband changed to 5%
             .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // Use open-loop control for drive motors
             
     private final SwerveRequest.RobotCentric driveCentric = new SwerveRequest.RobotCentric()
             .withDeadband(MaxSpeed * 0.05).withRotationalDeadband(MaxAngularRate * 0.05) // 10% deadband changed to 5%
             .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // Use open-loop control for drive motors
+
+    private final SwerveRequest.SwerveDriveBrake drivePointWheelsAt = new SwerveRequest.SwerveDriveBrake();
 
    // private SendableChooser<Command> pathPlannerAutoChooser;
     //private SendableChooser<Command> autoChooser = new SendableChooser<>();
@@ -75,6 +79,7 @@ public class RobotContainer {
     private ShooterBoxx m_ShooterBoxx = new ShooterBoxx();
     private ElevatorSubsystem m_ElevatorSubsystem = new ElevatorSubsystem();
     private ClimbSubsystemNeo m_ClimbSubsystemNeo = new ClimbSubsystemNeo();
+    private AlgaeSubsystem m_AlgaeSubsystem = new AlgaeSubsystem();
     //private ClimbSubsystem m_ClimbSubsystem = new ClimbSubsystem();
 
     private Indexing m_indexing = new Indexing(m_ElevatorSubsystem, m_drivetrain);
@@ -130,34 +135,27 @@ public class RobotContainer {
     }
 
     private void configureBindings() {
-
         // Default Commands :)
         m_ElevatorSubsystem.setDefaultCommand(m_ElevatorSubsystem.defaultCommand());
-        //m_ClimbSubsystem.setDefaultCommand(m_ClimbSubsystem.ClimbJoystick(P2controller.getLeftY()));
-        //m_ShooterBoxx.setDefaultCommand(m_ShooterBoxx.IntakeDefaultCommand()); 
         m_ShooterBoxx.setDefaultCommand(m_ShooterBoxx.IntakeSolosDefaultCommand());
-        //m_ShooterBoxx.setDefaultCommand(Commands.run(() -> m_ShooterBoxx.stopShooterMethod(), m_ShooterBoxx));
-        //m_ShooterBoxx.setDefaultCommand(m_ShooterBoxx.BanditStopCommand());
-        //m_ElevatorSubsystem.setDefaultCommand(m_ElevatorSubsystem.elevatorJoystick(P4controller::getRightY));
         m_ClimbSubsystemNeo.setDefaultCommand(m_ClimbSubsystemNeo.Keepclimbsafe());
 
         m_drivetrain.registerTelemetry(logger::telemeterize);
 
         m_drivetrain.setDefaultCommand(
             m_drivetrain.applyRequest(() ->
-                drive.withVelocityX(-P1controller.getLeftY() * MaxSpeed) // Drive forward with negative Y (forward)
-                    .withVelocityY(-P1controller.getLeftX() * MaxSpeed) // Drive left with negative X (left)
-                    .withRotationalRate(-P1controller.getRightX() * MaxAngularRate) // Drive counterclockwise with negative X (left)
-                    //.withCenterOfRotation(Translation2d)
+                drive.withVelocityX(-P1controller.getLeftY() * MaxSpeed * m_ElevatorSubsystem.getElevatorSlowSpeed()) // Drive forward with negative Y (forward)
+                    .withVelocityY(-P1controller.getLeftX() * MaxSpeed * m_ElevatorSubsystem.getElevatorSlowSpeed()) // Drive left with negative X (left)
+                    .withRotationalRate(-P1controller.getRightX() * MaxAngularRate * m_ElevatorSubsystem.getElevatorSlowSpeed()) // Drive counterclockwise with negative X (left)
             )
         );
 
         //-------------------------------P1 Controls---------------------------------
 
-        // LEFT SOURCE
+        // LOCK THE WHEELS
+        P1controller.povLeft().whileTrue(m_drivetrain.applyRequest(() -> drivePointWheelsAt));
 
-        // BLUE
-
+        // LEFT SOURCE BLUE
         P1controller.leftBumper().and(m_drivetrain::isAllianceBlue).whileTrue(
             m_drivetrain.pathFindToLeftBlueCoralStation().andThen(
             Commands.parallel(
@@ -170,8 +168,7 @@ public class RobotContainer {
             )
         ));
 
-        // RED
-
+        // LEFT SOURCE RED
         P1controller.leftBumper().and(m_drivetrain::isAllianceRed).whileTrue(
             m_drivetrain.pathFindToLeftRedCoralStation().andThen(
             Commands.parallel(
@@ -184,10 +181,7 @@ public class RobotContainer {
             )
         ));
         
-        // RIGHT SOURCE
-
-        // BLUE
-
+        // RIGHT SOURCE BLUE
         P1controller.rightBumper().and(m_drivetrain::isAllianceBlue).whileTrue(
             m_drivetrain.pathFindToRightBlueCoralStation().andThen(
             Commands.parallel(
@@ -200,8 +194,7 @@ public class RobotContainer {
             )
         ));
 
-        // RED
-
+        // RIGHT SOURCE RED
         P1controller.rightBumper().and(m_drivetrain::isAllianceRed).whileTrue(
             m_drivetrain.pathFindToRightRedCoralStation().andThen(
              Commands.parallel(
@@ -214,9 +207,7 @@ public class RobotContainer {
             )
         ));
         
-        // REEF SCORING
-
-        // SCORE BLUE
+        // REEF SCORE BLUE
         P1controller.leftTrigger().and(m_drivetrain::isAllianceBlue).whileTrue(m_drivetrain.pathFindToAllTheReefsBlue().andThen(
             Commands.parallel(
                 m_drivetrain.applyRequest(() ->
@@ -228,7 +219,7 @@ public class RobotContainer {
             )
         ));
 
-        // SCORE RED
+        // REEF SCORE RED
         P1controller.leftTrigger().and(m_drivetrain::isAllianceRed).whileTrue(m_drivetrain.pathFindToAllTheReefsRed().andThen(
             Commands.parallel(
                 m_drivetrain.applyRequest(() ->
@@ -240,56 +231,66 @@ public class RobotContainer {
             )
         ));
 
-        P1controller.povUp().whileTrue(new ScoreCoralManual(m_ElevatorSubsystem, m_ShooterBoxx));
-        
-        // CLIMB
-        
-        // BLUE
+        // NET SCORE BLUE
+        P1controller.a().and(m_drivetrain::isAllianceBlue).whileTrue(m_drivetrain.pathFindToBlueNet().andThen(
+            Commands.parallel(
+                m_drivetrain.applyRequest(() ->
+                    drive.withVelocityX(m_drivetrain.PIDDriveToPointX(PoseConstants.NET_BLUE_POSE.getX()) * MaxSpeed)
+                    // .withVelocityY(m_drivetrain.PIDDriveToPointY(PoseConstants.NET_BLUE_POSE.getY()) * MaxSpeed)
+                    .withRotationalRate(m_drivetrain.PIDDriveToPointDEG(PoseConstants.NET_BLUE_POSE.getRotation().getDegrees()))
+                ),
+                new ScoreAlgaeNet(m_drivetrain, m_ElevatorSubsystem, m_AlgaeSubsystem)
+            )
+        ));
 
-        //P1controller.y().and(drivetrain::isAllianceBlue).whileTrue(drivetrain.)
+        // NET SCORE RED
+        P1controller.a().and(m_drivetrain::isAllianceRed).whileTrue(m_drivetrain.pathFindToRedNet().andThen(
+            Commands.parallel(
+                m_drivetrain.applyRequest(() ->
+                    drive.withVelocityX(m_drivetrain.PIDDriveToPointX(PoseConstants.NET_RED_POSE.getX()) * MaxSpeed)
+                    // .withVelocityY(m_drivetrain.PIDDriveToPointY(PoseConstants.NET_RED_POSE.getY()) * MaxSpeed)
+                    .withRotationalRate(m_drivetrain.PIDDriveToPointDEG(PoseConstants.NET_RED_POSE.getRotation().getDegrees()))
+                ),
+                new ScoreAlgaeNet(m_drivetrain, m_ElevatorSubsystem, m_AlgaeSubsystem)
+            )
+        ));
 
-        // ROBOT MODES
-        
         // SLOW MODE
-        
-
         P1controller.rightTrigger().whileTrue(m_drivetrain.applyRequest(() ->
-         drive.withVelocityX(-P1controller.getLeftY() * MaxSpeed * Constants.DrivetrainConstants.SlowMoSpeed) // Drive forward with negative Y (forward)
-             .withVelocityY(-P1controller.getLeftX() * MaxSpeed * Constants.DrivetrainConstants.SlowMoSpeed) // Drive left with negative X (left)
-             .withRotationalRate(-P1controller.getRightX() * MaxAngularRate * Constants.DrivetrainConstants.SlowMoSpeed) // Faces the Reef
-         ));
+                drive.withVelocityX(-P1controller.getLeftY() * MaxSpeed * Constants.DrivetrainConstants.SlowMoSpeed)
+                .withVelocityY(-P1controller.getLeftX() * MaxSpeed * Constants.DrivetrainConstants.SlowMoSpeed)
+                .withRotationalRate(-P1controller.getRightX() * MaxAngularRate * Constants.DrivetrainConstants.SlowMoSpeed)
+        ));
 
-         P1controller.x().whileTrue(
-            m_drivetrain.applyRequest(() ->
-            drive.withVelocityX(-P1controller.getLeftY() * MaxSpeed) // Drive forward with negative Y (forward)
-             .withVelocityY(-P1controller.getLeftX() * MaxSpeed) // Drive left with negative X (left)
-             .withRotationalRate(-m_drivetrain.angularSpeedToFaceLeftCoralStation()) // Drive counterclockwise with negative X (left)
-             //.withCenterOfRotation(Translation2d)
-     ));
+        // FACE LEFT CORAL STATION
+        P1controller.x().whileTrue(m_drivetrain.applyRequest(() ->
+                drive.withVelocityX(-P1controller.getLeftY() * MaxSpeed * m_ElevatorSubsystem.getElevatorSlowSpeed())
+                .withVelocityY(-P1controller.getLeftX() * MaxSpeed * m_ElevatorSubsystem.getElevatorSlowSpeed())
+                .withRotationalRate(-m_drivetrain.angularSpeedToFaceLeftCoralStation() * m_ElevatorSubsystem.getElevatorSlowSpeed())
+        ));
+
+        // FACE RIGHT CORAL STATION
         P1controller.b().whileTrue(m_drivetrain.applyRequest(() ->
-        drive.withVelocityX(-P1controller.getLeftY() * MaxSpeed) // Drive forward with negative Y (forward)
-         .withVelocityY(-P1controller.getLeftX() * MaxSpeed) // Drive left with negative X (left)
-         .withRotationalRate(-m_drivetrain.angularSpeedToFaceRightCoralStation()) // Drive counterclockwise with negative X (left)
-         //.withCenterOfRotation(Translation2d)
-    ));
+                drive.withVelocityX(-P1controller.getLeftY() * MaxSpeed * m_ElevatorSubsystem.getElevatorSlowSpeed())
+                .withVelocityY(-P1controller.getLeftX() * MaxSpeed * m_ElevatorSubsystem.getElevatorSlowSpeed())
+                .withRotationalRate(-m_drivetrain.angularSpeedToFaceRightCoralStation() * m_ElevatorSubsystem.getElevatorSlowSpeed())
+        ));
 
-    P1controller.a().whileTrue(
-        m_drivetrain.applyRequest(() ->
-        drive.withVelocityX(-P1controller.getLeftY() * MaxSpeed) // Drive forward with negative Y (forward)
-         .withVelocityY(-P1controller.getLeftX() * MaxSpeed) // Drive left with negative X (left)
-         .withRotationalRate(-m_drivetrain.angularSpeedToFaceReef()) // Drive counterclockwise with negative X (left)
-         //.withCenterOfRotation(Translation2d)
- ));
+        // FACE REEF
+        // P1controller.a().whileTrue(m_drivetrain.applyRequest(() ->
+        //         drive.withVelocityX(-P1controller.getLeftY() * MaxSpeed * m_ElevatorSubsystem.getElevatorSlowSpeed())
+        //         .withVelocityY(-P1controller.getLeftX() * MaxSpeed * m_ElevatorSubsystem.getElevatorSlowSpeed())
+        //         .withRotationalRate(-m_drivetrain.angularSpeedToFaceReef() * m_ElevatorSubsystem.getElevatorSlowSpeed())
+        // ));
 
- P1controller.y().whileTrue(
-    m_drivetrain.applyRequest(() ->
-    drive.withVelocityX(-P1controller.getLeftY() * MaxSpeed) // Drive forward with negative Y (forward)
-     .withVelocityY(-P1controller.getLeftX() * MaxSpeed) // Drive left with negative X (left)
-     .withRotationalRate(-m_drivetrain.angularSpeedToFaceNet()) // Drive counterclockwise with negative X (left)
-     //.withCenterOfRotation(Translation2d)
-));
+        // FACE NET
+        P1controller.y().whileTrue(m_drivetrain.applyRequest(() ->
+                drive.withVelocityX(-P1controller.getLeftY() * MaxSpeed * m_ElevatorSubsystem.getElevatorSlowSpeed())
+                .withVelocityY(-P1controller.getLeftX() * MaxSpeed * m_ElevatorSubsystem.getElevatorSlowSpeed())
+                .withRotationalRate(-m_drivetrain.angularSpeedToFaceNet() * m_ElevatorSubsystem.getElevatorSlowSpeed())
+        ));
+
         // CENTRIC MODE
-
         // P1controller.leftTrigger().whileTrue(m_drivetrain.applyRequest(() ->
         //  driveCentric.withVelocityX(-P1controller.getLeftY() * Constants.DrivetrainConstants.SlowMoSpeed) // Drive forward with negative Y (forward)
         //      .withVelocityY(-P1controller.getLeftX() * Constants.DrivetrainConstants.SlowMoSpeed) // Drive left with negative X (left)

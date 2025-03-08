@@ -261,9 +261,10 @@ public class ElevatorSubsystem extends SubsystemBase{
     }
 
     public double getElevatorSlowSpeed() {
-      if (getElevatorPosition() < -5) {
-        return -(25/(getElevatorPosition() - 25));
-      } else {
+      // If the elevator is high enough...
+      if (getElevatorPosition() < elevatorConstants.SAFETY_LEVEL) {
+        return -25/(getElevatorPosition() - 25);
+      } else { //Else max speed
         return 1;
       }
     }
