@@ -87,20 +87,20 @@ public class RobotContainer {
 
         
 
-         NamedCommands.registerCommand("Elevator2Home", m_ElevatorSubsystem.elevatorToHome());
-         NamedCommands.registerCommand("Elevator2L2", m_ElevatorSubsystem.elevatorToL2().withTimeout(3));
-         NamedCommands.registerCommand("Elevator2L3", m_ElevatorSubsystem.elevatorToL3());
-         NamedCommands.registerCommand("Elevator2L4", m_ElevatorSubsystem.elevatorToL3());
+        //  NamedCommands.registerCommand("Elevator2Home", m_ElevatorSubsystem.elevatorToHome());
+        //  NamedCommands.registerCommand("Elevator2L2", m_ElevatorSubsystem.elevatorToL2().withTimeout(3));
+        //  NamedCommands.registerCommand("Elevator2L3", m_ElevatorSubsystem.elevatorToL3());
+          NamedCommands.registerCommand("Elevator2L4", m_ElevatorSubsystem.elevatorToL3());
         
-         NamedCommands.registerCommand("SuckTillCoralSensor", m_ShooterBoxx.SuckTillCoralSensorAuto());
-         NamedCommands.registerCommand("SuckTillElevatorSensor", m_ShooterBoxx.SuckTillElevatorSensorAuto());
+       //   NamedCommands.registerCommand("SuckTillCoralSensor", m_ShooterBoxx.SuckTillCoralSensorAuto());
+        //  NamedCommands.registerCommand("SuckTillElevatorSensor", m_ShooterBoxx.SuckTillElevatorSensorAuto());
 
-         NamedCommands.registerCommand("SuckTillSensor", m_ShooterBoxx.SuckTillCoralSensorAuto()); //OG Command Depricating soon
+          NamedCommands.registerCommand("SuckTillSensor", m_ShooterBoxx.SuckTillCoralSensorAuto()); //OG Command Depricating soon
 
-         NamedCommands.registerCommand("SuckTillLeaveStation", getAutonomousCommand());
-         NamedCommands.registerCommand("ShootTillSensor", m_ShooterBoxx.SpitTillSensor());
-         NamedCommands.registerCommand("AutoL4", new ScoreCoralAuton( m_ElevatorSubsystem, m_ShooterBoxx, 4)); //.withTimeout(2).finallyDo(() -> m_ElevatorSubsystem.elevatorToHome()));
-         NamedCommands.registerCommand("FireL4", new FireCoralAuton( m_ElevatorSubsystem, m_ShooterBoxx, 4  ));
+        //  NamedCommands.registerCommand("SuckTillLeaveStation", getAutonomousCommand());
+        //  NamedCommands.registerCommand("ShootTillSensor", m_ShooterBoxx.SpitTillSensor());
+          NamedCommands.registerCommand("AutoL4", new ScoreCoralAuton( m_ElevatorSubsystem, m_ShooterBoxx, 4)); //.withTimeout(2).finallyDo(() -> m_ElevatorSubsystem.elevatorToHome()));
+          NamedCommands.registerCommand("FireL4", new FireCoralAuton( m_ElevatorSubsystem, m_ShooterBoxx, 4  ));
         // NamedCommands.registerCommand("ReadyToLeaveStation", m_ShooterBoxx.ElevatorCoralSensorTriggered() );
 
          autoChooser = AutoBuilder.buildAutoChooser();
@@ -133,8 +133,9 @@ public class RobotContainer {
         m_ElevatorSubsystem.setDefaultCommand(m_ElevatorSubsystem.defaultCommand());
         //m_ClimbSubsystem.setDefaultCommand(m_ClimbSubsystem.ClimbJoystick(P2controller.getLeftY()));
         //m_ShooterBoxx.setDefaultCommand(m_ShooterBoxx.IntakeDefaultCommand()); 
+        m_ShooterBoxx.setDefaultCommand(m_ShooterBoxx.IntakeSolosDefaultCommand());
         //m_ShooterBoxx.setDefaultCommand(Commands.run(() -> m_ShooterBoxx.stopShooterMethod(), m_ShooterBoxx));
-        m_ShooterBoxx.setDefaultCommand(m_ShooterBoxx.BanditStopCommand());
+        //m_ShooterBoxx.setDefaultCommand(m_ShooterBoxx.BanditStopCommand());
         //m_ElevatorSubsystem.setDefaultCommand(m_ElevatorSubsystem.elevatorJoystick(P4controller::getRightY));
         m_ClimbSubsystemNeo.setDefaultCommand(m_ClimbSubsystemNeo.Keepclimbsafe());
 
@@ -210,7 +211,7 @@ public class RobotContainer {
                  m_ShooterBoxx.SuckTillCoralSensorAuto()
             )
         ));
-
+        
         // REEF SCORING
 
         // SCORE BLUE
@@ -223,7 +224,7 @@ public class RobotContainer {
                 ),
                 new ScoreCoral(m_drivetrain, m_ElevatorSubsystem, m_ShooterBoxx)
             )
-        )).onFalse(m_ShooterBoxx.StopShooterMotor());
+        ));
 
         // SCORE RED
         P1controller.leftTrigger().and(m_drivetrain::isAllianceRed).whileTrue(m_drivetrain.pathFindToAllTheReefsRed().andThen(
@@ -235,7 +236,7 @@ public class RobotContainer {
                 ),
                 new ScoreCoral(m_drivetrain, m_ElevatorSubsystem, m_ShooterBoxx)
             )
-        )).onFalse(m_ShooterBoxx.StopShooterMotor());
+        ));
 
         P1controller.povUp().whileTrue(new ScoreCoralManual(m_ElevatorSubsystem, m_ShooterBoxx));
         
@@ -250,7 +251,7 @@ public class RobotContainer {
         // SLOW MODE
         
 
-        P1controller.rightBumper().whileTrue(m_drivetrain.applyRequest(() ->
+        P1controller.rightTrigger().whileTrue(m_drivetrain.applyRequest(() ->
          drive.withVelocityX(-P1controller.getLeftY() * MaxSpeed * Constants.DrivetrainConstants.SlowMoSpeed) // Drive forward with negative Y (forward)
              .withVelocityY(-P1controller.getLeftX() * MaxSpeed * Constants.DrivetrainConstants.SlowMoSpeed) // Drive left with negative X (left)
              .withRotationalRate(-P1controller.getRightX() * MaxAngularRate * Constants.DrivetrainConstants.SlowMoSpeed) // Faces the Reef
@@ -351,7 +352,7 @@ public class RobotContainer {
         P3controller.povUp().whileTrue(m_ElevatorSubsystem.elevatorToL4());
 
         P3controller.a().whileTrue(new ScoreCoralAuton( m_ElevatorSubsystem, m_ShooterBoxx,  4).withTimeout(1.75));
-        
+        P3controller.start().whileTrue(Commands.run(() -> m_ShooterBoxx.SuckTillCoralSensorDerekSkillIssueFix(), m_ShooterBoxx));
         //CLIMB
         
         //P3controller.rightTrigger

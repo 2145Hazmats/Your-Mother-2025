@@ -26,8 +26,13 @@ public class ShooterBoxx extends SubsystemBase {
   private SparkMaxConfig shooterConfig = new SparkMaxConfig();
 
   // Sensor
-  private DigitalInput BoxxCoralSensor = new DigitalInput(shooterBoxxContants.kBoxxCoralSensorChannel);
-  private DigitalInput ElevatorCoralSensor = new DigitalInput(shooterBoxxContants.kElevatorCoralSensorChannel);
+  public DigitalInput BoxxCoralSensor = new DigitalInput(shooterBoxxContants.kBoxxCoralSensorChannel);
+  public DigitalInput ElevatorCoralSensor = new DigitalInput(shooterBoxxContants.kElevatorCoralSensorChannel);
+
+  public boolean fireNow = false;
+
+  private boolean isElevatorSensorTrue = false;
+  private boolean isBoxxSensorTrue = false;   
 
   public ShooterBoxx() {
   
@@ -46,11 +51,13 @@ shooterConfig.closedLoop
   shooterMotor.configure(shooterConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
   }
 
-public Command RunShooter(double CustomSpeed ) {
-return Commands.run(() -> {
+public void RunShooter(double CustomSpeed ) {
+ 
 shooterMotor.set(CustomSpeed);
-} );
+ 
 }
+
+
 
 public Command worksShoot() {
 
@@ -90,6 +97,17 @@ public Command SuckTillCoralSensorAuto() {
       shooterMotor.set(Constants.shooterBoxxContants.kSuckSpeed);
     }
   }).until(() -> StopCoralIntake());
+}
+
+public void SuckTillCoralSensorDerekSkillIssueFix() {
+    if (ElevatorCoralSensorTriggered() && BoxxCoralSensorTriggered()) {
+      shooterMotor.set(Constants.shooterBoxxContants.kFinalSpeed);
+    } else if (ElevatorCoralSensorUntriggered() && BoxxCoralSensorTriggered()) {
+      shooterMotor.set(0);
+    }
+    else {
+      shooterMotor.set(Constants.shooterBoxxContants.kSuckSpeed);
+    }
 }
 
 public Command SuckTillElevatorSensorAuto() {
@@ -140,7 +158,7 @@ public boolean StopCoralIntake() {
 }
 
 public boolean StopCoralShot() {
-  return (BoxxCoralSensorUntriggered());
+  return (BoxxCoralSensorUntriggered() && ElevatorCoralSensorUntriggered());
 }
 
 public boolean BoxxCoralSensorUntriggered() {
@@ -173,11 +191,39 @@ public Command IntakeDefaultCommand() {
 
   }, this);
 }
+
+public Command IntakeSolosDefaultCommand() {
+  return Commands.run(() -> {
+    if (BoxxCoralSensorUntriggered() && ElevatorCoralSensorUntriggered()) {
+      fireNow = false;
+      shooterMotor.set(0);
+    } else if (fireNow == true) {
+      shooterMotor.set(shooterBoxxContants.kSpitSpeed);
+    } else if (BoxxCoralSensorTriggered() && ElevatorCoralSensorUntriggered()) {
+      shooterMotor.set(0);
+    } else if (BoxxCoralSensorTriggered() && ElevatorCoralSensorTriggered()) {
+      shooterMotor.set(Constants.shooterBoxxContants.kFinalSpeed);
+    } else if (ElevatorCoralSensorTriggered()) {
+      shooterMotor.set(Constants.shooterBoxxContants.kSuckSpeed);
+    }
+
+  }, this);
+}
+
+  public boolean getBoxxSensor() {
+    return isBoxxSensorTrue;
+  }
+
+  public boolean getElevatorSensor() {
+    return isElevatorSensorTrue;
+  }
  
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putBoolean("Elevator Coral Sensor", ElevatorCoralSensorTriggered());
-    SmartDashboard.putBoolean("Boxx Coral Sensor", BoxxCoralSensorTriggered());
+    // SmartDashboard.putBoolean("Elevator Coral Sensor", ElevatorCoralSensorTriggered());
+    // SmartDashboard.putBoolean("Boxx Coral Sensor", BoxxCoralSensorTriggered());
+    isElevatorSensorTrue = !ElevatorCoralSensor.get();
+    isBoxxSensorTrue = !BoxxCoralSensor.get();
   }
 }

@@ -49,13 +49,17 @@ public class ScoreCoral extends Command {
 
   int level = 0;
 
+  //boolean isElevatorSensorTrue = false;//theSnout.getElevatorSensor();
+  //boolean isCoralSensorTrue = true;//.getBoxxSensor(); 
+
   // Constructor
   public ScoreCoral(CommandSwerveDrivetrain theFakeLegs, ElevatorSubsystem theFakeElephant, ShooterBoxx theFakeSnout) {
     theLegs = theFakeLegs;
     theElephant = theFakeElephant;
     theSnout = theFakeSnout;
 
-    addRequirements(theFakeElephant, theFakeSnout); //why drivetrain not requirement
+    //addRequirements(theFakeElephant, theFakeSnout); //why drivetrain not requirement
+    addRequirements(theFakeElephant);
   }
 
   // Called when the command is initially scheduled.
@@ -77,10 +81,10 @@ public class ScoreCoral extends Command {
     level = theElephant.getPlayer1LevelIndex();
     
     // Moves elevator to desired height and sets elevator goal
-    if (level == 1) {theElephant.elevatorToL1(); elevatorGoal = elevatorConstants.L1Position;}//Try removing this
-    else if (level == 2) {theElephant.elevatorToL2(); elevatorGoal = elevatorConstants.L2Position;}
-    else if (level == 3) {theElephant.elevatorToL3(); elevatorGoal = elevatorConstants.L3Position;}
-    else if (level == 4) {theElephant.elevatorToL4(); elevatorGoal = elevatorConstants.L4Position;}
+    if (level == 1) {elevatorGoal = elevatorConstants.L1Position;}
+    else if (level == 2) {elevatorGoal = elevatorConstants.L2Position;}
+    else if (level == 3) {elevatorGoal = elevatorConstants.L3Position;}
+    else if (level == 4) {elevatorGoal = elevatorConstants.L4Position;}
   }
 
   // Every 20ms We have a PID (funny math) and we check if the height of the elevator and the postition of the robot 
@@ -92,28 +96,28 @@ public class ScoreCoral extends Command {
     double currentDriveY = theLegs.getPose2d().getY();
     double currentElevatorPosition = theElephant.getElevatorPosition();
 
+    boolean isElevatorSensorTrue = theSnout.getElevatorSensor();
+    //boolean isCoralSensorTrue = theSnout.getBoxxSensor();
+
+    SmartDashboard.putBoolean("elevator value", isElevatorSensorTrue);
+    //SmartDashboard.putBoolean("coral value", isCoralSensorTrue);
+
     if (currentDriveX > (xGoal - ScoreCoralConstants.DriveTrainError)
+      && currentDriveX < (xGoal + ScoreCoralConstants.DriveTrainError)
+      && currentDriveY > (yGoal - ScoreCoralConstants.DriveTrainError)
+      && currentDriveY < (yGoal + ScoreCoralConstants.DriveTrainError)
+      && !isElevatorSensorTrue) {
+      //&& isCoralSensorTrue) {
+        theElephant.elevatorToSomething(level);
+    }
+
+    if (currentElevatorPosition > (elevatorGoal - ScoreCoralConstants.ElevatorError)
+     && currentElevatorPosition < (elevatorGoal + ScoreCoralConstants.ElevatorError)
+    && currentDriveX > (xGoal - ScoreCoralConstants.DriveTrainError)
     && currentDriveX < (xGoal + ScoreCoralConstants.DriveTrainError)
     && currentDriveY > (yGoal - ScoreCoralConstants.DriveTrainError)
     && currentDriveY < (yGoal + ScoreCoralConstants.DriveTrainError)) {
-      theElephant.elevatorToSomething(level);
-    }
-    
-    // // Checks to see if Elevator and Drivetrain are in the correct position before playing the coral
-    // if (currentElevatorPosition > (elevatorGoal - ScoreCoralConstants.ElevatorError)
-    //  && currentElevatorPosition < (elevatorGoal + ScoreCoralConstants.ElevatorError)) {
-    //   theSnout.shootCoralMethod(); // Runs shooter if drivetrain and elevator positions are within their bounds of error
-    // }
-
-    if (theSnout.BoxxCoralSensorUntriggered()) {
-      theElephant.elevatorToSomething(Constants.elevatorConstants.HomePosition);//-1 Changed post comp not tested
-    } else if (currentElevatorPosition > (elevatorGoal - ScoreCoralConstants.ElevatorError)
-     && currentElevatorPosition < (elevatorGoal + ScoreCoralConstants.ElevatorError)) {
-      theSnout.shootCoralMethod(); // Runs shooter if drivetrain and elevator positions are within their bounds of error
-    }
-
-    if (theSnout.BoxxCoralSensorUntriggered()) { //try removing not working i think
-      theElephant.elevatorToHome();
+      theSnout.fireNow = true;//theSnout.shootCoralMethod(); // Runs shooter if drivetrain and elevator positions are within their bounds of error
     }
 
     SmartDashboard.putNumber("ScoreCoral level", level); //can remove this for cimp
@@ -130,31 +134,13 @@ public class ScoreCoral extends Command {
   // Sends elevator to its default position after the command ends.
   @Override
   public void end(boolean interrupted) {
-    // theLegs.stopCommand();
-    // theElephant.elevatorToHome();
-    // theSnout.StopShooterMotor();
-    theElephant.elevatorToHome(); //do commands not work?
-    theSnout.stopShooterMethod();
+    theElephant.elevatorToSomething(Constants.elevatorConstants.HomePosition);
   }
 
-  // Returns true when the sensor is untriggered 
+  // Returns true when the sensor is untriggered and the elevator is up
   // Returns true when the command should end. Runs every 20ms
   @Override
   public boolean isFinished() {
-
-    
-   if (theElephant.isDrivingSafeQuestionMark() && theSnout.BoxxCoralSensorUntriggered()) { //mess with driving safe method
-    theSnout.stopShooterMethod();
-    return true;
-  } else {
-    return false;
+    return (theElephant.getElevatorPosition() < -5 && theSnout.StopCoralShot());
   }
-}
-  //   // THIS ENDS THE COMMAND IF THE SENSOR IS UNTRIGGERED
-  //  if (theElephant.isDrivingSafeQuestionMark() && theSnout.BoxxCoralSensorUntriggered()) {
-  //     return true;
-  //   } else {
-  //     return false;
-  //   }
-  //}
 }
