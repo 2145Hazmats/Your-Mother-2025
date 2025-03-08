@@ -56,7 +56,7 @@ public class CameraSubsystem extends SubsystemBase {
   private EstimatedRobotPose leftEstimatedRobotPose = null;
 
   // Back Left Camera
-  private final PhotonCamera backLeftCamera = new PhotonCamera("BackLeftfdsafsdfaf_Arducam_OV9281");
+  private final PhotonCamera backLeftCamera = new PhotonCamera("BackLeft_Arducam_OV9281");
   private PhotonPipelineResult backLeftResult = null;
   private PhotonTrackedTarget backLeftTarget = null;
   private PhotonPoseEstimator backLeftPoseEstimator = new PhotonPoseEstimator(
@@ -67,7 +67,7 @@ public class CameraSubsystem extends SubsystemBase {
   private EstimatedRobotPose backLeftEstimatedRobotPose = null;
 
   // Back Right Camera
-  private final PhotonCamera backRightCamera = new PhotonCamera("BackRight fdsjasdfafadsf_Arducam_OV9281");
+  private final PhotonCamera backRightCamera = new PhotonCamera("BackRight_Arducam_OV9281");
   private PhotonPipelineResult backRightResult = null;
   private PhotonTrackedTarget backRightTarget = null;
   private PhotonPoseEstimator backRightPoseEstimator = new PhotonPoseEstimator(
