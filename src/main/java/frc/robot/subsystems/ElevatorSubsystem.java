@@ -228,6 +228,10 @@ public class ElevatorSubsystem extends SubsystemBase{
       }
     }
 
+    public boolean isElevatorHome() {
+      return (motorLeader.getPosition().getValueAsDouble() >= Constants.elevatorConstants.NEAR_HOME);
+    }
+
     public Command setElevatorPID() {
       return Commands.runOnce(() -> {
         config.Slot0.kS = SmartDashboard.getNumber("ElevatorkS", 0);

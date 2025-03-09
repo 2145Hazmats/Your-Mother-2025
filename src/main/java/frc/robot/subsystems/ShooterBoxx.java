@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Constants.elevatorConstants;
 import frc.robot.Constants.shooterBoxxContants;
 
 public class ShooterBoxx extends SubsystemBase {
@@ -32,9 +33,12 @@ public class ShooterBoxx extends SubsystemBase {
   public boolean fireNow = false;
 
   private boolean isElevatorSensorTrue = false;
-  private boolean isBoxxSensorTrue = false;   
+  private boolean isBoxxSensorTrue = false;
 
-  public ShooterBoxx() {
+  private ElevatorSubsystem elevator;
+
+  public ShooterBoxx(ElevatorSubsystem fakeElevator) {
+    elevator = fakeElevator;
   
     shooterConfig
     .inverted(false)
@@ -201,9 +205,9 @@ public Command IntakeSolosDefaultCommand() {
       shooterMotor.set(shooterBoxxContants.kSpitSpeed);
     } else if (BoxxCoralSensorTriggered() && ElevatorCoralSensorUntriggered()) {
       shooterMotor.set(0);
-    } else if (BoxxCoralSensorTriggered() && ElevatorCoralSensorTriggered()) {
+    } else if (BoxxCoralSensorTriggered() && ElevatorCoralSensorTriggered() && (elevator.isElevatorHome())) {
       shooterMotor.set(Constants.shooterBoxxContants.kFinalSpeed);
-    } else if (ElevatorCoralSensorTriggered()) {
+    } else if (ElevatorCoralSensorTriggered() && (elevator.isElevatorHome())) {
       shooterMotor.set(Constants.shooterBoxxContants.kSuckSpeed);
     }
 

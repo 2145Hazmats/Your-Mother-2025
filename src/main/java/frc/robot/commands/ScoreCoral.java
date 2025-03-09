@@ -66,7 +66,7 @@ public class ScoreCoral extends Command {
   }
 
   // Every 20ms We have a PID (funny math) and we check if the height of the elevator and the postition of the robot 
-  // After our conditions are satisfied we will spit out coral 
+  // After our conditions are satisfied we will spit out coral
   @Override
   public void execute() {
     // Declares our Drivetrain and elevator positions
@@ -81,29 +81,31 @@ public class ScoreCoral extends Command {
     SmartDashboard.putBoolean("elevator value", isElevatorSensorTrue);
     //SmartDashboard.putBoolean("coral value", isCoralSensorTrue);
 
-    if (currentDriveX > (xGoal - ErrorConstants.DriveTrainElevatorUpError)
-      && currentDriveX < (xGoal + ErrorConstants.DriveTrainElevatorUpError)
-      && currentDriveY > (yGoal - ErrorConstants.DriveTrainElevatorUpError)
-      && currentDriveY < (yGoal + ErrorConstants.DriveTrainElevatorUpError)
-      && !isElevatorSensorTrue) {
-      //&& isCoralSensorTrue) {
-        theElephant.elevatorToSomething(level);
-    }
+    SmartDashboard.putNumber("ScoreCoral X", currentDriveX - xGoal);
+    SmartDashboard.putNumber("ScoreCoral Y", currentDriveY - yGoal);
+    SmartDashboard.putNumber("ScoreCoral Degrees", currentDriveDegrees + degGoal);
+    SmartDashboard.putNumber("ScoreCoral Elevator", currentElevatorPosition - elevatorGoal);
 
-    // Runs shooter if drivetrain and elevator positions are within their bounds of error
-    if (currentElevatorPosition > (elevatorGoal - ErrorConstants.ElevatorError)
-     && currentElevatorPosition < (elevatorGoal + ErrorConstants.ElevatorError)
-    && currentDriveX > (xGoal - ErrorConstants.DriveTrainScoreError)
-    && currentDriveX < (xGoal + ErrorConstants.DriveTrainScoreError)
-    && currentDriveY > (yGoal - ErrorConstants.DriveTrainScoreError)
-    && currentDriveY < (yGoal + ErrorConstants.DriveTrainScoreError)
-    && currentDriveDegrees > (degGoal - ErrorConstants.DriveTrainDegreesError)
-    && currentDriveDegrees < (degGoal + ErrorConstants.DriveTrainDegreesError)) {
-      theSnout.fireNow = true;
-    }
-
-    if (theElephant.getElevatorPosition() < elevatorConstants.SAFETY_LEVEL && theSnout.getEitherSensor()) {
+    if (theElephant.getElevatorPosition() < elevatorConstants.SAFETY_LEVEL && !theSnout.getEitherSensor()) {
       theElephant.elevatorToSomething(Constants.elevatorConstants.HomePosition);
+    }
+    
+    if (currentElevatorPosition > (elevatorGoal - ErrorConstants.ElevatorError)
+        && currentElevatorPosition < (elevatorGoal + ErrorConstants.ElevatorError)
+        && currentDriveX > (xGoal - ErrorConstants.DriveTrainScoreError)
+        && currentDriveX < (xGoal + ErrorConstants.DriveTrainScoreError)
+        && currentDriveY > (yGoal - ErrorConstants.DriveTrainScoreError)
+        && currentDriveY < (yGoal + ErrorConstants.DriveTrainScoreError)
+        && currentDriveDegrees > (degGoal - ErrorConstants.DriveTrainDegreesError)
+        && currentDriveDegrees < (degGoal + ErrorConstants.DriveTrainDegreesError)) {
+      theSnout.fireNow = true;
+    } else if (currentDriveX > (xGoal - ErrorConstants.DriveTrainElevatorUpError)
+        && currentDriveX < (xGoal + ErrorConstants.DriveTrainElevatorUpError)
+        && currentDriveY > (yGoal - ErrorConstants.DriveTrainElevatorUpError)
+        && currentDriveY < (yGoal + ErrorConstants.DriveTrainElevatorUpError)
+        && !isElevatorSensorTrue
+        && theElephant.isElevatorHome()) {
+      theElephant.elevatorToSomething(level);
     }
   }
 
@@ -117,6 +119,6 @@ public class ScoreCoral extends Command {
   // Returns true when the command should end. Runs every 20ms
   @Override
   public boolean isFinished() {
-    return (theElephant.getElevatorPosition() > elevatorConstants.SAFETY_LEVEL && theSnout.StopCoralShot());
+    return (theElephant.getElevatorPosition() > elevatorConstants.SAFETY_LEVEL && !theSnout.getEitherSensor());
   }
 }

@@ -71,10 +71,10 @@ public final class Constants {
         new Transform3d(Units.inchesToMeters(12.766455), Units.inchesToMeters(11.158455), 0, new Rotation3d(0, Units.degreesToRadians(10), 0));
         
     public static final Transform3d ROBOT_TO_BACK_LEFT_CAMERA =
-        new Transform3d(Units.inchesToMeters(-432142321), Units.inchesToMeters(32131), 0, new Rotation3d(0, Units.degreesToRadians(-30), Units.degreesToRadians(-30))); // +-180
+        new Transform3d(Units.inchesToMeters(-12.85706), Units.inchesToMeters(7.99237), 0, new Rotation3d(0, Units.degreesToRadians(-30), Units.degreesToRadians(150)));
         
     public static final Transform3d ROBOT_TO_BACK_RIGHT_CAMERA =
-        new Transform3d(Units.inchesToMeters(-43214), Units.inchesToMeters(-3212), 0, new Rotation3d(0, Units.degreesToRadians(-30), Units.degreesToRadians(30)));
+        new Transform3d(Units.inchesToMeters(-12.85706), Units.inchesToMeters(-7.99237), 0, new Rotation3d(0, Units.degreesToRadians(-30), Units.degreesToRadians(210)));
   }
     
   // Elevator Constants
@@ -99,7 +99,8 @@ public final class Constants {
     public static final double L4Position = -50.5; //-81.15
     public static final double HomePosition = -0.2; //-.6
 
-    public static final double SAFETY_LEVEL = -L1Position/2;
+    public static final double SAFETY_LEVEL = L1Position/2;
+    public static final double NEAR_HOME = HomePosition-1;
     
     public static final double ElevatorJoystickSpeedNerf = 0.4;
   }
@@ -111,7 +112,7 @@ public final class Constants {
     public static final int kBoxxCoralSensorChannel = 0;
     public static final int kElevatorCoralSensorChannel = 2;
     public static final double kSpitSpeed = -0.4;
-    public static final double kSuckSpeed = -0.5; // too fast = bad?
+    public static final double kSuckSpeed = -0.4;
     public static final double kFinalSpeed = -0.3;
   }
 
@@ -134,10 +135,10 @@ public final class Constants {
   
   //Coral Scoring Constants 
   public static class ErrorConstants {
-    public static final double ElevatorError = 1.5;
+    public static final double ElevatorError = 0.75;
     public static final double DriveTrainElevatorUpError = Units.inchesToMeters(7.5);
-    public static final double DriveTrainScoreError = Units.inchesToMeters(1.5);
-    public static final double DriveTrainDegreesError = 5;
+    public static final double DriveTrainScoreError = Units.inchesToMeters(1);
+    public static final double DriveTrainDegreesError = 8;
   }
 
   // Get Coral Constants
