@@ -38,10 +38,8 @@ public class ScoreAlgaeNet extends Command {
   public void initialize() {
     if (drive.isAllianceBlue()) {
       xGoal = AlgaeConstants.BLUE_NET_POSES.getX();
-      degGoal = AlgaeConstants.BLUE_NET_POSES.getRotation().getDegrees();
     } else if (drive.isAllianceRed()) {
       xGoal = AlgaeConstants.RED_NET_POSES.getX();
-      degGoal = AlgaeConstants.RED_NET_POSES.getRotation().getDegrees();
     }
   }
  
@@ -49,14 +47,11 @@ public class ScoreAlgaeNet extends Command {
   @Override
   public void execute() {
     double currentDriveX = drive.getPose2d().getX();
-    double currentDriveDeg = drive.getPose2d().getRotation().getDegrees();
     double currentElevatorPosition = elevator.getElevatorPosition();
     double currentAlgaeArmPosition = algae.getAlgaeArmPosition();
 
     if (currentDriveX > (xGoal - ErrorConstants.DriveTrainScoreError)
-        && currentDriveX < (xGoal + ErrorConstants.DriveTrainScoreError)
-        && currentDriveDeg > (degGoal - ErrorConstants.DriveTrainDegreesError)
-        && currentDriveDeg < (degGoal + ErrorConstants.DriveTrainDegreesError))
+        && currentDriveX < (xGoal + ErrorConstants.DriveTrainScoreError))
     {
       elevator.elevatorToSomething(elevatorConstants.L4Position);
       algae.moveArmToPointMethod(AlgaeConstants.NetPosition);
@@ -67,9 +62,7 @@ public class ScoreAlgaeNet extends Command {
         && currentAlgaeArmPosition > (currentAlgaeArmPosition - AlgaeConstants.ALGAE_ARM_ERROR)
         && currentAlgaeArmPosition < (currentAlgaeArmPosition + AlgaeConstants.ALGAE_ARM_ERROR)
         && currentDriveX > (xGoal - ErrorConstants.DriveTrainScoreError)
-        && currentDriveX < (xGoal + ErrorConstants.DriveTrainScoreError)
-        && currentDriveDeg > (degGoal - ErrorConstants.DriveTrainDegreesError)
-        && currentDriveDeg < (degGoal + ErrorConstants.DriveTrainDegreesError))
+        && currentDriveX < (xGoal + ErrorConstants.DriveTrainScoreError))
     {
       algae.outtakeAlgaeMethod();
     }

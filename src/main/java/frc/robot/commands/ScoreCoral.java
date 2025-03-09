@@ -25,7 +25,6 @@ public class ScoreCoral extends Command {
   // Declare the variables for desired Drivetrain positions and elevator height
   double xGoal;
   double yGoal;
-  double degGoal;
   double elevatorGoal;
 
   int level = 0;
@@ -48,11 +47,9 @@ public class ScoreCoral extends Command {
     if (theLegs.isAllianceBlue()) {
       xGoal = PoseConstants.BLUE_REEF_POSES[theLegs.getPlayer1ReefIndex()].getX();
       yGoal = PoseConstants.BLUE_REEF_POSES[theLegs.getPlayer1ReefIndex()].getY();
-      degGoal = PoseConstants.BLUE_REEF_POSES[theLegs.getPlayer1ReefIndex()].getRotation().getDegrees();
     } else if (theLegs.isAllianceRed()) {
       xGoal = PoseConstants.RED_REEF_POSES[theLegs.getPlayer1ReefIndex()].getX();
       yGoal = PoseConstants.RED_REEF_POSES[theLegs.getPlayer1ReefIndex()].getY();
-      degGoal = PoseConstants.RED_REEF_POSES[theLegs.getPlayer1ReefIndex()].getRotation().getDegrees();
     }
     
     // Retrives our desired level index
@@ -72,7 +69,6 @@ public class ScoreCoral extends Command {
     // Declares our Drivetrain and elevator positions
     double currentDriveX = theLegs.getPose2d().getX();
     double currentDriveY = theLegs.getPose2d().getY();
-    double currentDriveDegrees = theLegs.getPose2d().getRotation().getDegrees();
     double currentElevatorPosition = theElephant.getElevatorPosition();
 
     boolean isElevatorSensorTrue = theSnout.getElevatorSensor();
@@ -83,7 +79,6 @@ public class ScoreCoral extends Command {
 
     SmartDashboard.putNumber("ScoreCoral X", currentDriveX - xGoal);
     SmartDashboard.putNumber("ScoreCoral Y", currentDriveY - yGoal);
-    SmartDashboard.putNumber("ScoreCoral Degrees", currentDriveDegrees + degGoal);
     SmartDashboard.putNumber("ScoreCoral Elevator", currentElevatorPosition - elevatorGoal);
 
     if (theElephant.getElevatorPosition() < elevatorConstants.SAFETY_LEVEL && !theSnout.getEitherSensor()) {
@@ -95,9 +90,7 @@ public class ScoreCoral extends Command {
         && currentDriveX > (xGoal - ErrorConstants.DriveTrainScoreError)
         && currentDriveX < (xGoal + ErrorConstants.DriveTrainScoreError)
         && currentDriveY > (yGoal - ErrorConstants.DriveTrainScoreError)
-        && currentDriveY < (yGoal + ErrorConstants.DriveTrainScoreError)
-        && currentDriveDegrees > (degGoal - ErrorConstants.DriveTrainDegreesError)
-        && currentDriveDegrees < (degGoal + ErrorConstants.DriveTrainDegreesError)) {
+        && currentDriveY < (yGoal + ErrorConstants.DriveTrainScoreError)) {
       theSnout.fireNow = true;
     } else if (currentDriveX > (xGoal - ErrorConstants.DriveTrainElevatorUpError)
         && currentDriveX < (xGoal + ErrorConstants.DriveTrainElevatorUpError)

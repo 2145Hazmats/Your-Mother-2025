@@ -50,13 +50,13 @@ public final class Constants {
     public static final PIDConstants ROTATIONAL_PID = new PIDConstants(5, 0, 0);
     
     // PathPlanner Pathfinding Constants
-    public static final double MAX_VELOCITY_MPS = 2.450; //5.450 //2.450
-    public static final double MAX_ACCELERATION_MPS = 3.6;
+    public static final double MAX_VELOCITY_MPS = 3; //5.450 //2.450
+    public static final double MAX_ACCELERATION_MPS = 3; //3.6
     public static final double MAX_ANGULAR_VELOCITY_RAD = Units.degreesToRadians(90); //360
     public static final double MAX_ANGULAR_ACCELERATION_RAD = Units.degreesToRadians(400); //862
     public static final double NOMINAL_VOLTAGE_VOLTS = 11.5;
 
-    public static final double PATHFIND_END_SPEED_MPS = 1;
+    public static final double PATHFIND_END_SPEED_MPS = 0.1;
   }
 
   // Camera Constants
@@ -136,7 +136,7 @@ public final class Constants {
   //Coral Scoring Constants 
   public static class ErrorConstants {
     public static final double ElevatorError = 0.75;
-    public static final double DriveTrainElevatorUpError = Units.inchesToMeters(7.5);
+    public static final double DriveTrainElevatorUpError = Units.inchesToMeters(18);
     public static final double DriveTrainScoreError = Units.inchesToMeters(1);
     public static final double DriveTrainDegreesError = 8;
   }
