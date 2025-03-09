@@ -87,12 +87,8 @@ public class RobotContainer {
     public RobotContainer() {
         configureBindings();
 
-        
-
         // Another option that allows you to specify the default auto by its name
         // autoChooser = AutoBuilder.buildAutoChooser("My Default Auto");
-
-        
 
         //  NamedCommands.registerCommand("Elevator2Home", m_ElevatorSubsystem.elevatorToHome());
         //  NamedCommands.registerCommand("Elevator2L2", m_ElevatorSubsystem.elevatorToL2().withTimeout(3));
@@ -120,14 +116,6 @@ public class RobotContainer {
         //autoChooser.addOption("Net Side Auto", new netSideAuto());
         //autoChooser.addOption("Processor Side Auto", processorSideAuto());
         //SmartDashboard.putData("autoChooser", autoChooser);
-
-        // ReefConstants.displayReefMath();
-        // SmartDashboard.putBoolean("SCORE", false);
-        // SmartDashboard.putBoolean("LEFT_SOURCE", false);
-        // SmartDashboard.putBoolean("RIGHT_SOURCE", false);
-        // SmartDashboard.putBoolean("NET", false);
-        // SmartDashboard.putBoolean("PROCESSOR", false);
-        // SmartDashboard.putBoolean("CLIMB", false);
     }
 
     public CommandSwerveDrivetrain getSwerveDrivetrain() {

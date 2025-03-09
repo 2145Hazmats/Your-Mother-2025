@@ -22,8 +22,8 @@ public final class Constants {
     public static final double SlowMoSpeed = 0.25;
 
     // PID  Drive to pose Constants
-    public static final double P_X = 2.95; //2.85
-    public static final double P_Y = 2.95; //2.85
+    public static final double P_X = 2.85; //2.95
+    public static final double P_Y = 2.85; //2.95
     public static final double I_X = 0;
     public static final double I_Y = 0;
     public static final double D_X = 0.027;
@@ -33,7 +33,7 @@ public final class Constants {
     public static final double PID_RAD = 4.2145;
 
     public static final double PID_MAX = 0.15;
-    public static final double STATION_PID_MAX = .35;
+    public static final double STATION_PID_MAX = 0.25;
 
     // Feed Forward Constants
     public static final double FEEDFORWARD_CONSTANT = 0.0;
@@ -100,7 +100,7 @@ public final class Constants {
     public static final double HomePosition = -0.2; //-.6
 
     public static final double SAFETY_LEVEL = L1Position/2;
-    public static final double NEAR_HOME = HomePosition-1;
+    public static final double NEAR_HOME = HomePosition-0.5;
     
     public static final double ElevatorJoystickSpeedNerf = 0.4;
   }
@@ -136,7 +136,7 @@ public final class Constants {
   //Coral Scoring Constants 
   public static class ErrorConstants {
     public static final double ElevatorError = 0.75;
-    public static final double DriveTrainElevatorUpError = Units.inchesToMeters(18);
+    public static final double DriveTrainElevatorUpError = Units.inchesToMeters(24);
     public static final double DriveTrainScoreError = Units.inchesToMeters(1);
     public static final double DriveTrainDegreesError = 8;
   }
