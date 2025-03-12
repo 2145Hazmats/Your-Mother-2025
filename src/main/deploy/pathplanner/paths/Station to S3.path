@@ -8,24 +8,24 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.7621926229438662,
-        "y": 6.818135245904959
+        "x": 1.950320578596452,
+        "y": 7.013792128331772
       },
       "isLocked": false,
       "linkedName": "NetSource"
     },
     {
       "anchor": {
-        "x": 3.8646593089441597,
-        "y": 5.143570479223188
+        "x": 3.5612650749119363,
+        "y": 4.989154813054735
       },
       "prevControl": {
-        "x": 3.612917413309344,
-        "y": 5.467238440177509
+        "x": 2.8183917609152624,
+        "y": 5.5914412032036775
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "NetS2"
+      "linkedName": "NetS3"
     }
   ],
   "rotationTargets": [],
@@ -42,7 +42,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -59.99999999999999
+    "rotation": -59.00000000000001
   },
   "reversed": false,
   "folder": "Net Side",

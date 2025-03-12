@@ -49,7 +49,7 @@ public class RobotContainer {
     
     private EVERYTHING_ENUM selectedEnum;
 
-    private final CommandSwerveDrivetrain m_drivetrain = TunerConstants.createDrivetrain();
+    //private final CommandSwerveDrivetrain m_drivetrain = TunerConstants.createDrivetrain();
    
     /* Setting up bindings for necessary control of the swerve drive platform */
     public final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
@@ -75,11 +75,12 @@ public class RobotContainer {
     //private final Trigger disableCameras = overrides.cameraSwitch();
     
     // We need to initialize an object of the camera subsystem, we don't have to use it
+    private final CommandSwerveDrivetrain m_drivetrain = TunerConstants.createDrivetrain();
     private CameraSubsystem m_CameraSubsystem = new CameraSubsystem(m_drivetrain);
     private ElevatorSubsystem m_ElevatorSubsystem = new ElevatorSubsystem();
     private ShooterBoxx m_ShooterBoxx = new ShooterBoxx(m_ElevatorSubsystem);
     private ClimbSubsystemNeo m_ClimbSubsystemNeo = new ClimbSubsystemNeo();
-    private AlgaeSubsystem m_AlgaeSubsystem = new AlgaeSubsystem();
+    //private AlgaeSubsystem m_AlgaeSubsystem = new AlgaeSubsystem();
     //private ClimbSubsystem m_ClimbSubsystem = new ClimbSubsystem();
 
     private Indexing m_indexing = new Indexing(m_ElevatorSubsystem, m_drivetrain);
@@ -90,20 +91,22 @@ public class RobotContainer {
         // Another option that allows you to specify the default auto by its name
         // autoChooser = AutoBuilder.buildAutoChooser("My Default Auto");
 
-        //  NamedCommands.registerCommand("Elevator2Home", m_ElevatorSubsystem.elevatorToHome());
-        //  NamedCommands.registerCommand("Elevator2L2", m_ElevatorSubsystem.elevatorToL2().withTimeout(3));
-        //  NamedCommands.registerCommand("Elevator2L3", m_ElevatorSubsystem.elevatorToL3());
+          NamedCommands.registerCommand("Elevator2Home", m_ElevatorSubsystem.elevatorToHome());
+          NamedCommands.registerCommand("Elevator2L2", m_ElevatorSubsystem.elevatorToL2().withTimeout(3));
+          NamedCommands.registerCommand("Elevator2L3", m_ElevatorSubsystem.elevatorToL3());
           NamedCommands.registerCommand("Elevator2L4", m_ElevatorSubsystem.elevatorToL3());
         
-       //   NamedCommands.registerCommand("SuckTillCoralSensor", m_ShooterBoxx.SuckTillCoralSensorAuto());
-        //  NamedCommands.registerCommand("SuckTillElevatorSensor", m_ShooterBoxx.SuckTillElevatorSensorAuto());
+          //NamedCommands.registerCommand("SuckTillCoralSensor", m_ShooterBoxx.SuckTillCoralSensorAuto());
+          //NamedCommands.registerCommand("SuckTillElevatorSensor", m_ShooterBoxx.SuckTillElevatorSensorAuto());
 
           NamedCommands.registerCommand("SuckTillSensor", m_ShooterBoxx.SuckTillCoralSensorAuto()); //OG Command Depricating soon
+          NamedCommands.registerCommand("ShootTillSensor", m_ShooterBoxx.SpitTillSensor());
+          NamedCommands.registerCommand("SpitOnFloor", Commands.run(() -> m_ShooterBoxx.RunShooter(shooterBoxxContants.kSpitSpeed), m_ShooterBoxx).withTimeout(2));
 
-        //  NamedCommands.registerCommand("SuckTillLeaveStation", getAutonomousCommand());
-        //  NamedCommands.registerCommand("ShootTillSensor", m_ShooterBoxx.SpitTillSensor());
+
           NamedCommands.registerCommand("AutoL4", new ScoreCoralAuton( m_ElevatorSubsystem, m_ShooterBoxx, 4)); //.withTimeout(2).finallyDo(() -> m_ElevatorSubsystem.elevatorToHome()));
           NamedCommands.registerCommand("FireL4", new FireCoralAuton( m_ElevatorSubsystem, m_ShooterBoxx, 4  ));
+          
         // NamedCommands.registerCommand("ReadyToLeaveStation", m_ShooterBoxx.ElevatorCoralSensorTriggered() );
 
          autoChooser = AutoBuilder.buildAutoChooser();
@@ -225,29 +228,29 @@ public class RobotContainer {
             )
         ));
 
-        // NET SCORE BLUE
-        P1controller.a().and(m_drivetrain::isAllianceBlue).whileTrue(m_drivetrain.pathFindToBlueNet().andThen(
-            Commands.deadline(
-                new ScoreAlgaeNet(m_drivetrain, m_ElevatorSubsystem, m_AlgaeSubsystem),
-                m_drivetrain.applyRequest(() ->
-                    drive.withVelocityX(m_drivetrain.PIDDriveToPointX(PoseConstants.NET_BLUE_POSE.getX()) * MaxSpeed)
-                    // .withVelocityY(m_drivetrain.PIDDriveToPointY(PoseConstants.NET_BLUE_POSE.getY()) * MaxSpeed)
-                    .withRotationalRate(m_drivetrain.PIDDriveToPointDEG(PoseConstants.NET_BLUE_POSE.getRotation().getDegrees()))
-                )
-            )
-        ));
+        // // NET SCORE BLUE
+        // P1controller.a().and(m_drivetrain::isAllianceBlue).whileTrue(m_drivetrain.pathFindToBlueNet().andThen(
+        //     Commands.deadline(
+        //         new ScoreAlgaeNet(m_drivetrain, m_ElevatorSubsystem, m_AlgaeSubsystem),
+        //         m_drivetrain.applyRequest(() ->
+        //             drive.withVelocityX(m_drivetrain.PIDDriveToPointX(PoseConstants.NET_BLUE_POSE.getX()) * MaxSpeed)
+        //             // .withVelocityY(m_drivetrain.PIDDriveToPointY(PoseConstants.NET_BLUE_POSE.getY()) * MaxSpeed)
+        //             .withRotationalRate(m_drivetrain.PIDDriveToPointDEG(PoseConstants.NET_BLUE_POSE.getRotation().getDegrees()))
+        //         )
+        //     )
+        // ));
 
-        // NET SCORE RED
-        P1controller.a().and(m_drivetrain::isAllianceRed).whileTrue(m_drivetrain.pathFindToRedNet().andThen(
-            Commands.deadline(
-                new ScoreAlgaeNet(m_drivetrain, m_ElevatorSubsystem, m_AlgaeSubsystem),
-                m_drivetrain.applyRequest(() ->
-                    drive.withVelocityX(m_drivetrain.PIDDriveToPointX(PoseConstants.NET_RED_POSE.getX()) * MaxSpeed)
-                    // .withVelocityY(m_drivetrain.PIDDriveToPointY(PoseConstants.NET_RED_POSE.getY()) * MaxSpeed)
-                    .withRotationalRate(m_drivetrain.PIDDriveToPointDEG(PoseConstants.NET_RED_POSE.getRotation().getDegrees()))
-                )
-            )
-        ));
+        // // NET SCORE RED
+        // P1controller.a().and(m_drivetrain::isAllianceRed).whileTrue(m_drivetrain.pathFindToRedNet().andThen(
+        //     Commands.deadline(
+        //         new ScoreAlgaeNet(m_drivetrain, m_ElevatorSubsystem, m_AlgaeSubsystem),
+        //         m_drivetrain.applyRequest(() ->
+        //             drive.withVelocityX(m_drivetrain.PIDDriveToPointX(PoseConstants.NET_RED_POSE.getX()) * MaxSpeed)
+        //             // .withVelocityY(m_drivetrain.PIDDriveToPointY(PoseConstants.NET_RED_POSE.getY()) * MaxSpeed)
+        //             .withRotationalRate(m_drivetrain.PIDDriveToPointDEG(PoseConstants.NET_RED_POSE.getRotation().getDegrees()))
+        //         )
+        //     )
+        // ));
 
         // SLOW MODE
         P1controller.rightTrigger().whileTrue(m_drivetrain.applyRequest(() ->
