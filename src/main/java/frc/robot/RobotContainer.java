@@ -34,6 +34,7 @@ import frc.robot.commands.ScoreCoralManual;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.AlgaeSubsystem;
 import frc.robot.subsystems.CameraSubsystem;
+//import frc.robot.subsystems.ChirpMusic;
 import frc.robot.subsystems.ClimbSubsystemNeo;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.ElevatorSubsystem;
@@ -82,6 +83,7 @@ public class RobotContainer {
     private ClimbSubsystemNeo m_ClimbSubsystemNeo = new ClimbSubsystemNeo();
     //private AlgaeSubsystem m_AlgaeSubsystem = new AlgaeSubsystem();
     //private ClimbSubsystem m_ClimbSubsystem = new ClimbSubsystem();
+   // private ChirpMusic m_ChirpMusic = new ChirpMusic(m_drivetrain, m_ElevatorSubsystem);
 
     private Indexing m_indexing = new Indexing(m_ElevatorSubsystem, m_drivetrain);
 

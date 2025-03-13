@@ -294,4 +294,11 @@ public class ElevatorSubsystem extends SubsystemBase{
       SmartDashboard.putNumber("getPlayer1LevelIndex", getPlayer1LevelIndex());
       SmartDashboard.putNumber("getPlayer2LevelIndex", player2LevelIndex);
     }
+    public final TalonFX LeftElevatorMotor() {
+      return motorLeader;
+  }
+  public final TalonFX RightElevatorMotor() {
+    return motorFollower;
+}
+
 }

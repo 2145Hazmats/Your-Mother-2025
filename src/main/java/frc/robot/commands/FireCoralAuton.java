@@ -96,7 +96,7 @@ public class FireCoralAuton extends Command {
   @Override
   public boolean isFinished() {
     // THIS ENDS THE COMMAND IF THE SENSOR IS UNTRIGGERED
-   if (theElephant.isDrivingSafeQuestionMark() && theSnout.BoxxCoralSensorUntriggered()) {
+   if (theSnout.BoxxCoralSensorUntriggered()) { //(theElephant.isDrivingSafeQuestionMark() && theSnout.BoxxCoralSensorUntriggered())
       theSnout.stopShooterMethod();
       return true;
     } else {

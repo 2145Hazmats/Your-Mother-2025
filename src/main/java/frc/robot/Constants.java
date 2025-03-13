@@ -97,7 +97,7 @@ public final class Constants {
     public static final double L2Position = -29;
     public static final double L3Position = -50.5; //-49.1
     public static final double L4Position = -50.5; //-81.15
-    public static final double HomePosition = -0.2; //-.6
+    public static final double HomePosition = -0.4; //-.6
 
     public static final double SAFETY_LEVEL = L1Position/2;
     public static final double NEAR_HOME = HomePosition-0.5;
@@ -111,9 +111,9 @@ public final class Constants {
     public static final double kShooterMotorNominalVoltageConstant = 10.5;
     public static final int kBoxxCoralSensorChannel = 0;
     public static final int kElevatorCoralSensorChannel = 2;
-    public static final double kSpitSpeed = -0.4;
-    public static final double kSuckSpeed = -0.4;
-    public static final double kFinalSpeed = -0.3;
+    public static final double kSpitSpeed = -0.45;
+    public static final double kSuckSpeed = -0.75;
+    public static final double kFinalSpeed = -0.4;
   }
 
   public static class ClimbContants {

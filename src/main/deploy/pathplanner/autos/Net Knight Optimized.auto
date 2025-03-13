@@ -1,0 +1,87 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Net Side Preload"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "FireL4"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "PreloadToSource"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "NetSourceToS2"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "SuckTillSensor"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "FireL4"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "S2 station net"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Station to S3"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "SuckTillSensor"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "FireL4"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": false,
+  "folder": "Net Side",
+  "choreoAuto": false
+}

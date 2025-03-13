@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.5464139344192753,
-        "y": 7.189754098363976
+        "x": 1.1388319672131146,
+        "y": 7.069877049180328
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.950320578596452,
-        "y": 7.013792128331772
+        "x": 1.4505122950819673,
+        "y": 6.794159836065574
       },
       "isLocked": false,
       "linkedName": "NetSource"
@@ -20,8 +20,8 @@
         "y": 4.989154813054735
       },
       "prevControl": {
-        "x": 2.8183917609152624,
-        "y": 5.5914412032036775
+        "x": 3.3205942622950824,
+        "y": 5.163831967213115
       },
       "nextControl": null,
       "isLocked": false,
@@ -31,10 +31,22 @@
   "rotationTargets": [],
   "constraintZones": [],
   "pointTowardsZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "Prep play 3",
+      "waypointRelativePos": 0.5563808237677204,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "AutoL4"
+        }
+      }
+    }
+  ],
   "globalConstraints": {
-    "maxVelocity": 3.0,
-    "maxAcceleration": 3.0,
+    "maxVelocity": 5.4,
+    "maxAcceleration": 5.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,
