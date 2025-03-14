@@ -24,10 +24,7 @@ public class AlgaeSuperSystem extends SubsystemBase {
 
   }
 
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
-  }
+
   public void ClawGoesForAlgae(boolean LowAlgae) {
     if (coralSensor.ElevatorCoralSensorUntriggered()) {
       if (LowAlgae == true) {
@@ -43,7 +40,7 @@ public class AlgaeSuperSystem extends SubsystemBase {
   public Command ClawGoesForAlgaeCommand() {
    return Commands.run(()->{if (coralSensor.ElevatorCoralSensorUntriggered()) {
       int index = theElevator.getPlayer1LevelIndex();
-      if (index == 2 || index == 3 || index == 6 || index == 7 || index == 10 || index == 11) {
+      if (index == 2 || index == 3 || index == 6 || index == 7 || index == 10 || index == 11) { //change to just bigger number for 6 pole
         theElevator.elevatorToSomething(2);
       } else {
         theElevator.elevatorToSomething(4);
@@ -51,5 +48,9 @@ public class AlgaeSuperSystem extends SubsystemBase {
       theClaw.moveArmToPointMethod(AlgaeConstants.GrabPosition);
       theClaw.intakeAlgaeMethod();
     }},theElevator, theClaw);
+  }
+  @Override
+  public void periodic() {
+    // This method will be called once per scheduler run
   }
 }

@@ -135,6 +135,7 @@ public class RobotContainer {
         m_ElevatorSubsystem.setDefaultCommand(Commands.either(m_ElevatorSubsystem.defaultCommand(), m_ElevatorSubsystem.elevatorJoystick(P3controller::getLeftY), m_indexing::isP2ManualModeFalse)); //NEEDS TESTING
         m_ShooterBoxx.setDefaultCommand(Commands.either(m_ShooterBoxx.IntakeSolosDefaultCommand(), Commands.run(() -> m_ShooterBoxx.stopShooterMethod(), m_ShooterBoxx), m_indexing::isP2ManualModeFalse));
         m_ClimbSubsystemNeo.setDefaultCommand(m_ClimbSubsystemNeo.Keepclimbsafe());
+        
 
         m_drivetrain.registerTelemetry(logger::telemeterize);
 
