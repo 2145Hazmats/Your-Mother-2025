@@ -15,7 +15,7 @@ public class Indexing extends SubsystemBase {
 
   private boolean isP1ManualModeNo = true;
   private boolean isP2ManualModeNo = true;
-
+  public boolean pathFindingInProgress = false;
   /** Creates a new Indexing. */
   public Indexing() {}
 
@@ -33,9 +33,13 @@ public class Indexing extends SubsystemBase {
   }
 
   public void updateP1Index() {
-    m_ElevatorSubsystem.updateP1levelIndex();
-    m_drivetrain.updateP1Index();
+    if (pathFindingInProgress == false) {
+      m_ElevatorSubsystem.updateP1levelIndex();
+      m_drivetrain.updateP1Index();
+    }
   }
+
+  
   
   //P1
   public void setP1ManualModeNo() {

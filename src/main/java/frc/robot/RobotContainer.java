@@ -33,6 +33,7 @@ import frc.robot.commands.ScoreCoralAuton;
 import frc.robot.commands.ScoreCoralManual;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.AlgaeSubsystem;
+import frc.robot.subsystems.AlgaeSuperSystem;
 import frc.robot.subsystems.CameraSubsystem;
 //import frc.robot.subsystems.ChirpMusic;
 import frc.robot.subsystems.ClimbSubsystemNeo;
@@ -81,6 +82,8 @@ public class RobotContainer {
     private ElevatorSubsystem m_ElevatorSubsystem = new ElevatorSubsystem();
     private ShooterBoxx m_ShooterBoxx = new ShooterBoxx(m_ElevatorSubsystem);
     private ClimbSubsystemNeo m_ClimbSubsystemNeo = new ClimbSubsystemNeo();
+    private AlgaeSubsystem m_AlgaeSubsystem = new AlgaeSubsystem();
+    private AlgaeSuperSystem m_AlgaeSuperSystem = new AlgaeSuperSystem(m_ElevatorSubsystem, m_AlgaeSubsystem, m_ShooterBoxx);
     //private AlgaeSubsystem m_AlgaeSubsystem = new AlgaeSubsystem();
     //private ClimbSubsystem m_ClimbSubsystem = new ClimbSubsystem();
    // private ChirpMusic m_ChirpMusic = new ChirpMusic(m_drivetrain, m_ElevatorSubsystem);
@@ -229,6 +232,8 @@ public class RobotContainer {
                 )
             )
         ));
+
+        P1controller.leftTrigger().whileTrue(Commands.startEnd(() -> m_indexing.pathFindingInProgress = true, () -> {m_indexing.pathFindingInProgress = false; m_indexing.updateP1Index();}));
 
         // // NET SCORE BLUE
         // P1controller.a().and(m_drivetrain::isAllianceBlue).whileTrue(m_drivetrain.pathFindToBlueNet().andThen(
@@ -379,10 +384,11 @@ public class RobotContainer {
         
         // Elevator
         P3controller.back().whileTrue(m_ElevatorSubsystem.elevatorJoystick(P3controller::getLeftY)); //Not sure if this will work needs testing
-        P3controller.povDown().whileTrue(m_ElevatorSubsystem.elevatorToL1());
-        P3controller.povLeft().whileTrue(m_ElevatorSubsystem.elevatorToL2());
-        P3controller.povRight().whileTrue(m_ElevatorSubsystem.elevatorToL3());
-        P3controller.povUp().whileTrue(m_ElevatorSubsystem.elevatorToL4());
+        // P3controller.povDown().whileTrue(m_ElevatorSubsystem.elevatorToL1());
+        // P3controller.povLeft().whileTrue(m_ElevatorSubsystem.elevatorToL2());
+        // P3controller.povRight().whileTrue(m_ElevatorSubsystem.elevatorToL3());
+        // P3controller.povUp().whileTrue(m_ElevatorSubsystem.elevatorToL4());
+        P3controller.povDown().whileTrue(m_AlgaeSuperSystem.ClawGoesForAlgaeCommand());
 
         P3controller.a().whileTrue(new ScoreCoralAuton( m_ElevatorSubsystem, m_ShooterBoxx,  4).withTimeout(1.75));
         P3controller.start().whileTrue(Commands.run(() -> m_ShooterBoxx.SuckTillCoralSensorDerekSkillIssueFix(), m_ShooterBoxx));

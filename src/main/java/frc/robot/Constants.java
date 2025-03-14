@@ -99,7 +99,7 @@ public final class Constants {
     public static final double L4Position = -50.5; //-81.15
     public static final double HomePosition = -0.4; //-.6
 
-    public static final double SAFETY_LEVEL = L1Position/2;
+    public static final double SAFETY_LEVEL = L1Position/1.5;
     public static final double NEAR_HOME = HomePosition-0.5;
     
     public static final double ElevatorJoystickSpeedNerf = 0.4;
@@ -150,6 +150,7 @@ public final class Constants {
     public static enum EVERYTHING_ENUM {SCORE, LEFT_SOURCE, RIGHT_SOURCE, NET, PROCESSOR, CLIMB};
   }
 
+  //Algae Constants
   public static class AlgaeConstants {
    public static final int shooterMotorID = 9999; 
    public static final int armMotorID = 9998;
