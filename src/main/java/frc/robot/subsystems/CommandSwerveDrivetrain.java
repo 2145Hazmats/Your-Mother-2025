@@ -358,6 +358,10 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         player1ReefIndex = i;
     }
 
+    public void updateP2Index(int index) {
+        player2ReefIndex = index;
+    }
+
     public int getPlayer2ReefIndex() {
         return player2ReefIndex;
     }

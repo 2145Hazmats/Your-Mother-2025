@@ -139,6 +139,8 @@ public class RobotContainer {
         m_ShooterBoxx.setDefaultCommand(Commands.either(m_ShooterBoxx.IntakeSolosDefaultCommand(), Commands.run(() -> m_ShooterBoxx.stopShooterMethod(), m_ShooterBoxx), m_indexing::isP2ManualModeFalse));
         m_ClimbSubsystemNeo.setDefaultCommand(m_ClimbSubsystemNeo.Keepclimbsafe());
         
+        // Inexing LOL!!
+        m_indexing.setDefaultCommand(m_indexing.SettingReefIndexBasedOnController(P2controller::getRightX, P2controller::getRightY));
 
         m_drivetrain.registerTelemetry(logger::telemeterize);
 
