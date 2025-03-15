@@ -24,7 +24,6 @@ import frc.robot.Constants.ControllerConstants.EVERYTHING_ENUM;
 import frc.robot.ReefConstants.PoseConstants;
 import frc.robot.commands.FireCoralAuton;
 import frc.robot.commands.PutElevatorUp;
-import frc.robot.commands.ScoreAlgaeNet;
 //import frc.robot.autos.AwesomestAutoBlue;
 // import frc.robot.autos.AwesomeAuton;
 // import frc.robot.autos.NetSideAuto;

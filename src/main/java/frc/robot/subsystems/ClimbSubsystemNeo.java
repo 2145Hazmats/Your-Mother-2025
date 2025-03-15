@@ -52,57 +52,40 @@ public class ClimbSubsystemNeo extends SubsystemBase{
 
   //Neo position to down spot then servo turn 180 then Neo spin back up to up position
   public void climbInCommand() {//.05
-    //if(climbMotorNeo.getEncoder().getPosition() < ClimbContants.ClimbOutLimit) {
     climbServo.set(Constants.ClimbContants.climbLockServoPosition);
     climbMotorNeo.set(Constants.ClimbContants.climbForwardSpeed);
-    //} else {climbMotorNeo.set(0);}
   } 
 
   public void climbOutCommand() {
-    //if(climbMotorNeo.getEncoder().getPosition() > ClimbContants.ClimbInLimit) {
       climbServo.set(Constants.ClimbContants.climbUnlockServoPosition);
       climbMotorNeo.set(Constants.ClimbContants.ClimbBackwardSpeed);
-    //} else {climbMotorNeo.set(0);}
   }
-
-  // public void climbToSetpoint() {
-
-  //   if climbMotorNeo < setpoing) {
-  //     climbMotorNeo.set(forwardspeedconstantthati havent made yet);
-  //   } else 
-  //   {climbMotorNeo.set(neg version);}
-  // }
 
   public void climbToSetpointPID() {
     climbServo.set(Constants.ClimbContants.climbUnlockServoPosition);
     climbMotorNeo.set(pidControllerClimbReady.calculate(climbMotorNeo.getEncoder().getPosition(), Constants.ClimbContants.ClimbReadySetpoint));
-    
   }
 
   public void climbToNailItPID() {
     climbServo.set(Constants.ClimbContants.climbLockServoPosition);
     climbMotorNeo.set(pidControllerClimbNailedIt.calculate(climbMotorNeo.getEncoder().getPosition(), Constants.ClimbContants.ClimbLockedInSetpoint));
-
   }
 
-
+  // Same Command?? cody fix it
   public void climbStopCommand() {
     climbMotorNeo.set(Constants.ClimbContants.ClimbStop);
   }
-
-  // @Override
-  // public void setDefaultCommand(Command defaultCommand) {
-  //   // TODO Auto-generated method stub
-  //   super.setDefaultCommand(defaultCommand);
-  // }
-
-  public void ClimbJoystick(double joystick) { //MIGHT NEED TO CHANGE THIS TO SUPPLIER
-    climbMotorNeo.set(joystick * .3); //NERFED SPEED CHANGE LATER
-  }
-
   public void disableClimbMotor() {
-      climbMotorNeo.set(0);
+    climbMotorNeo.set(0);
   }
+
+  // Untested lol prolly dont need it (STANLEY!!)
+  // public void ClimbJoystick(double joystick) { //MIGHT NEED TO CHANGE THIS TO SUPPLIER
+  //   climbMotorNeo.set(joystick * .3); //NERFED SPEED CHANGE LATER
+  // }
+  // public void ClimbJoystickServo(DoubleSupplier joystick) { //MIGHT NEED TO CHANGE THIS TO SUPPLIER
+  //   climbServo.set(joystick.getAsDouble() * .3); //NERFED SPEED CHANGE LATER
+  // }
 
   // Servo
 
@@ -114,77 +97,26 @@ public class ClimbSubsystemNeo extends SubsystemBase{
     return Commands.run(() -> climbServo.set(Constants.ClimbContants.climbLockServoPosition), this);
   }
 
-  public void ClimbJoystickServo(DoubleSupplier joystick) { //MIGHT NEED TO CHANGE THIS TO SUPPLIER
-      climbServo.set(joystick.getAsDouble() * .3); //NERFED SPEED CHANGE LATER
-  }
-
   public void disableClimbServo() {
-      climbServo.set(0);
+    climbServo.set(0);
   }
 
   public void resetMotorPosition() {
-
     climbMotorNeo.getEncoder().setPosition(0);
   }
 
-  public Command PutTheClimbInPlease() {
-    return Commands.run(() -> {
-    // if (climbMotorNeo.getEncoder().getPosition() > Constants.ClimbContants.ClimbInLimit) {
-      climbMotorNeo.set(Constants.ClimbContants.climbForwardSpeed);
-    });
-
-    //});
-  }
   public void PutTheServoInTheRightSpotPlease() {
 
     climbServo.set(Constants.ClimbContants.climbLockServoPosition);
   }
-
-  public Command PutTheClimbOutPlease() {
-    return Commands.run(() -> {
-    // if (climbMotorNeo.getEncoder().getPosition() < Constants.ClimbContants.ClimbOutLimit) {
-      if (climbServo.getPosition() ==.25 ) {
-        climbServo.set(Constants.ClimbContants.climbUnlockServoPosition);
-
-   
-        
-        //climbMotorNeo.set(Constants.ClimbContants.ClimbBackwardSpeed);
-        
-      }}
-
-      
-    //   else //if (climbServo.getPosition() < 0.05) {
-    //     climbMotorNeo.set(Constants.ClimbContants.ClimbBackwardSpeed);
-    // //  }
-    // }
-    );
-        //climbBackwardCommand();}}, this);
-    // });
-  }
-
-  public  boolean ReadyToStickTheClimbOutIGuess() {
-    if (climbServo.getPosition() <.2) {return true;} else
-    return false;}
   
-
     public Command Keepclimbsafe() {
-return Commands.run(() -> { if (true) { //climbMotorNeo.getEncoder().getPosition() < 0) {
+return Commands.run(() -> { if (true) { 
   climbServo.set(Constants.ClimbContants.climbUnlockServoPosition);
   climbMotorNeo.set(0);
 }}, this);
      
     }
-
-   
-
-    // public void isClimbSafe() {
-    //  if (climbMotorNeo.getEncoder().getPosition() > 10) {
-
-
-    //  }
-
-
-   // }
 
   @Override
   public void periodic() {

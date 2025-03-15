@@ -57,7 +57,7 @@ public final class Constants {
     public static final double NOMINAL_VOLTAGE_VOLTS = 11.5;
 
     public static final double PATHFIND_END_SPEED_MPS = 0.1;
-    public static final double PATHFIND_END_SPEED_MPS_STATION = 3;
+    public static final double PATHFIND_END_SPEED_MPS_STATION = 1.5;
 
   }
 

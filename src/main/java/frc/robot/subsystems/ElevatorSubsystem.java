@@ -1,27 +1,17 @@
 package frc.robot.subsystems;
 
-import java.util.function.DoubleSupplier;
 
 import com.ctre.phoenix6.configs.MotionMagicConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
-import com.ctre.phoenix6.controls.DifferentialDutyCycle;
 import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.Follower;
-import com.ctre.phoenix6.controls.MotionMagicDutyCycle;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
-import com.ctre.phoenix6.controls.PositionDutyCycle;
-import com.ctre.phoenix6.controls.PositionTorqueCurrentFOC;
-import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.GravityTypeValue;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
-import edu.wpi.first.math.util.Units;
-import edu.wpi.first.networktables.NetworkTableEntry;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.WidgetType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -50,16 +40,14 @@ public class ElevatorSubsystem extends SubsystemBase{
       motorLeader.setPosition(0);
       motorFollower.setPosition(0);
 
-      SmartDashboard.putNumber("TESTINPUT", 0); // THIS WORKS 
-
-      SmartDashboard.putNumber("ElevatorkS", 0);
-      SmartDashboard.putNumber("ElevatorkV", 0);
-      SmartDashboard.putNumber("ElevatorkA", 0);
+      // SmartDashboard.putNumber("ElevatorkS", 0);
+      // SmartDashboard.putNumber("ElevatorkV", 0);
+      // SmartDashboard.putNumber("ElevatorkA", 0);
       
-      SmartDashboard.putNumber("ElevatorP", 0);
-      SmartDashboard.putNumber("ElevatorI", 0);
-      SmartDashboard.putNumber("ElevatorD", 0);
-      SmartDashboard.putNumber("ElevatorG", 0);
+      // SmartDashboard.putNumber("ElevatorP", 0);
+      // SmartDashboard.putNumber("ElevatorI", 0);
+      // SmartDashboard.putNumber("ElevatorD", 0);
+      // SmartDashboard.putNumber("ElevatorG", 0);
 
     slot0Congfigs = config.Slot0;
 
@@ -84,7 +72,7 @@ public class ElevatorSubsystem extends SubsystemBase{
     
       //-------------------------------------------
       motorLeader.getConfigurator().apply(config);
-      motorFollower.getConfigurator().apply(config); // MECHANICAL ADVANTAGE DID NOT USE FOLLOWER
+      motorFollower.getConfigurator().apply(config);
 
       // Sets Follower to follow leader
       motorFollower.setControl(new Follower(motorLeader.getDeviceID(), false));
@@ -94,7 +82,7 @@ public class ElevatorSubsystem extends SubsystemBase{
 
     public void levelIndexSwitch(boolean up){
       if(up == true) {
-          if (player2LevelIndex < 4) { player2LevelIndex++; }//might need to be 3
+          if (player2LevelIndex < 4) { player2LevelIndex++; }
       }
       else {
           if(player2LevelIndex > 1) { player2LevelIndex--; }
@@ -117,7 +105,7 @@ public class ElevatorSubsystem extends SubsystemBase{
     }
   }
 
-  public void updateP1levelIndex() { //May have to move all the index stuff to a new subsystem due to requirements
+  public void updateP1levelIndex() { 
     player1LevelIndex = player2LevelIndex;
   }
 

@@ -63,13 +63,13 @@ public class AlgaeSubsystem extends SubsystemBase {
   }
 
   // Algae Outtake
-  public Command outtakeAlgae() {
+  public Command regurgitateAlgae(double speed) {
     return Commands.run(() -> 
-      shooterMotor.set(AlgaeConstants.outtakeSpeed)
+      shooterMotor.set(speed)
     );
   }
-  public void outtakeAlgaeMethod() {
-    shooterMotor.set(AlgaeConstants.outtakeSpeed);
+  public void regurgitateAlgaeMethod(double speed) {
+    shooterMotor.set(speed);
   }
 
   public void stopAlgaeShooter() {

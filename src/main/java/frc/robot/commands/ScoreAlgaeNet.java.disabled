@@ -64,7 +64,7 @@ public class ScoreAlgaeNet extends Command {
         && currentDriveX > (xGoal - ErrorConstants.DriveTrainScoreError)
         && currentDriveX < (xGoal + ErrorConstants.DriveTrainScoreError))
     {
-      algae.outtakeAlgaeMethod();
+      algae.regurgitateAlgaeMethod(AlgaeConstants.outtakeSpeed);
     }
   }
 
