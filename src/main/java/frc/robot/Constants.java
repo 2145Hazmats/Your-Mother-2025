@@ -95,7 +95,7 @@ public final class Constants {
     public static final double L2Position = -29;
     public static final double L3Position = -50.5; //-49.1
     public static final double L4Position = -50.5; //-81.15
-    public static final double HomePosition = -0.2; //-.6
+    public static final double HomePosition = 0.0; //-.6
 
     public static final double SAFETY_LEVEL = L1Position/1.5;
     public static final double NEAR_HOME = HomePosition-0.5;

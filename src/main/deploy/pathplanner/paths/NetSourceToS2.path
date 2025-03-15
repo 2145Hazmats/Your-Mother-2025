@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.1388319672131146,
-        "y": 7.069877049180328
+        "x": 1.3,
+        "y": 7.105
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.3546106557377056,
-        "y": 6.698258196721311
+        "x": 1.5525842655661832,
+        "y": 6.757347583479216
       },
       "isLocked": false,
       "linkedName": "NetSource"
     },
     {
       "anchor": {
-        "x": 3.8646593089441597,
-        "y": 5.143570479223188
+        "x": 3.847,
+        "y": 5.175
       },
       "prevControl": {
-        "x": 3.612917413309344,
-        "y": 5.467238440177509
+        "x": 3.5952581043651843,
+        "y": 5.498667960954321
       },
       "nextControl": null,
       "isLocked": false,
@@ -33,10 +33,10 @@
     {
       "name": "Intake Sped Nerf",
       "minWaypointRelativePos": 0,
-      "maxWaypointRelativePos": 0.19176232275489785,
+      "maxWaypointRelativePos": 0.15,
       "constraints": {
         "maxVelocity": 4.48,
-        "maxAcceleration": 1.0,
+        "maxAcceleration": 1.5,
         "maxAngularVelocity": 540.0,
         "maxAngularAcceleration": 720.0,
         "nominalVoltage": 12.0,
@@ -48,7 +48,7 @@
   "eventMarkers": [
     {
       "name": "Prep play 2",
-      "waypointRelativePos": 0.0972316002700853,
+      "waypointRelativePos": 0.2,
       "endWaypointRelativePos": null,
       "command": {
         "type": "named",
@@ -74,7 +74,7 @@
   "folder": "Net Side",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -53.0
+    "rotation": -54.0
   },
   "useDefaultConstraints": true
 }

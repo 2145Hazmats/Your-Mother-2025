@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.8646593089441597,
-        "y": 5.143570479223188
+        "x": 3.845797405843718,
+        "y": 5.1767583589050465
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.509892964686946,
-        "y": 5.2645003877880985
+        "x": 3.4910310615865043,
+        "y": 5.297688267469957
       },
       "isLocked": false,
       "linkedName": "NetS2"
     },
     {
       "anchor": {
-        "x": 1.1388319672131146,
-        "y": 7.069877049180328
+        "x": 1.3,
+        "y": 7.105
       },
       "prevControl": {
-        "x": 2.1109677136373746,
-        "y": 6.4003876494417815
+        "x": 2.2721357464242598,
+        "y": 6.435510600261454
       },
       "nextControl": null,
       "isLocked": false,
@@ -45,7 +45,7 @@
     },
     {
       "name": "SuckCoral2",
-      "waypointRelativePos": 0.4969615124915603,
+      "waypointRelativePos": 0.7535449020931759,
       "endWaypointRelativePos": null,
       "command": {
         "type": "named",
@@ -65,7 +65,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -53.0
+    "rotation": -54.0
   },
   "reversed": false,
   "folder": "Net Side",
