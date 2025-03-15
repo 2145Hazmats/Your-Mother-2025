@@ -32,10 +32,20 @@ public class Indexing extends SubsystemBase {
     m_drivetrain.poseIndexSwitch(clockwise);
   }
 
+  private int storedP2LevelIndex = -1;
+  private int storedP2Index = -1;
   public void updateP1Index() {
-    if (pathFindingInProgress == false) {
+    if (pathFindingInProgress) {
+      storedP2LevelIndex = m_ElevatorSubsystem.getPlayer2LevelIndex();
+      storedP2Index = m_drivetrain.getPlayer2ReefIndex();
+    } else if (storedP2LevelIndex == -1 || storedP2Index == -1) {
       m_ElevatorSubsystem.updateP1levelIndex();
       m_drivetrain.updateP1Index();
+    } else {
+      m_ElevatorSubsystem.setPl1LevelIndex(storedP2LevelIndex);
+      m_drivetrain.setP1Index(storedP2Index);
+      storedP2LevelIndex = -1;
+      storedP2Index = -1;
     }
   }
 

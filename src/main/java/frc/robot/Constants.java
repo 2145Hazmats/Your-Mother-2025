@@ -50,13 +50,15 @@ public final class Constants {
     public static final PIDConstants ROTATIONAL_PID = new PIDConstants(5, 0, 0);
     
     // PathPlanner Pathfinding Constants
-    public static final double MAX_VELOCITY_MPS = 3; //5.450 //2.450
-    public static final double MAX_ACCELERATION_MPS = 3; //3.6
+    public static final double MAX_VELOCITY_MPS = 4.48; //5.450 //2.450 //3
+    public static final double MAX_ACCELERATION_MPS = 5; //3.6 //3
     public static final double MAX_ANGULAR_VELOCITY_RAD = Units.degreesToRadians(90); //360
     public static final double MAX_ANGULAR_ACCELERATION_RAD = Units.degreesToRadians(400); //862
     public static final double NOMINAL_VOLTAGE_VOLTS = 11.5;
 
     public static final double PATHFIND_END_SPEED_MPS = 0.1;
+    public static final double PATHFIND_END_SPEED_MPS_STATION = 3;
+
   }
 
   // Camera Constants
@@ -97,7 +99,7 @@ public final class Constants {
     public static final double L2Position = -29;
     public static final double L3Position = -50.5; //-49.1
     public static final double L4Position = -50.5; //-81.15
-    public static final double HomePosition = -0.4; //-.6
+    public static final double HomePosition = -0.2; //-.6
 
     public static final double SAFETY_LEVEL = L1Position/1.5;
     public static final double NEAR_HOME = HomePosition-0.5;

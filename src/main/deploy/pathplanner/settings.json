@@ -12,7 +12,7 @@
     "Net Side",
     "Processor Side"
   ],
-  "defaultMaxVel": 5.4,
+  "defaultMaxVel": 4.48,
   "defaultMaxAccel": 5.0,
   "defaultMaxAngVel": 540.0,
   "defaultMaxAngAccel": 720.0,

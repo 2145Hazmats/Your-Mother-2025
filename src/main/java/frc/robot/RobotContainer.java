@@ -23,6 +23,7 @@ import frc.robot.Constants.shooterBoxxContants;
 import frc.robot.Constants.ControllerConstants.EVERYTHING_ENUM;
 import frc.robot.ReefConstants.PoseConstants;
 import frc.robot.commands.FireCoralAuton;
+import frc.robot.commands.PutElevatorUp;
 import frc.robot.commands.ScoreAlgaeNet;
 //import frc.robot.autos.AwesomestAutoBlue;
 // import frc.robot.autos.AwesomeAuton;
@@ -96,21 +97,23 @@ public class RobotContainer {
         // Another option that allows you to specify the default auto by its name
         // autoChooser = AutoBuilder.buildAutoChooser("My Default Auto");
 
-          NamedCommands.registerCommand("Elevator2Home", m_ElevatorSubsystem.elevatorToHome());
-          NamedCommands.registerCommand("Elevator2L2", m_ElevatorSubsystem.elevatorToL2().withTimeout(3));
-          NamedCommands.registerCommand("Elevator2L3", m_ElevatorSubsystem.elevatorToL3());
-          NamedCommands.registerCommand("Elevator2L4", m_ElevatorSubsystem.elevatorToL3());
+          NamedCommands.registerCommand("Elevator2Home", m_ElevatorSubsystem.elevatorToHome().withTimeout(.15));
+          NamedCommands.registerCommand("Elevator2L2", m_ElevatorSubsystem.elevatorToL2().withTimeout(.15));
+          NamedCommands.registerCommand("Elevator2L3", m_ElevatorSubsystem.elevatorToL3().withTimeout(.15));
+          NamedCommands.registerCommand("Elevator2L4", m_ElevatorSubsystem.elevatorToL3().withTimeout(.15));
         
           //NamedCommands.registerCommand("SuckTillCoralSensor", m_ShooterBoxx.SuckTillCoralSensorAuto());
-          //NamedCommands.registerCommand("SuckTillElevatorSensor", m_ShooterBoxx.SuckTillElevatorSensorAuto());
+          NamedCommands.registerCommand("SuckTillElevatorSensor", m_ShooterBoxx.SuckTillElevatorSensorAuto());
 
           NamedCommands.registerCommand("SuckTillSensor", m_ShooterBoxx.SuckTillCoralSensorAuto()); //OG Command Depricating soon
+          //NamedCommands.registerCommand("SuckTillSensor", m_ShooterBoxx.SimpleSuckTillCoralSensorAuto());
           NamedCommands.registerCommand("ShootTillSensor", m_ShooterBoxx.SpitTillSensor());
           NamedCommands.registerCommand("SpitOnFloor", Commands.run(() -> m_ShooterBoxx.RunShooter(shooterBoxxContants.kSpitSpeed), m_ShooterBoxx).withTimeout(2));
 
 
-          NamedCommands.registerCommand("AutoL4", new ScoreCoralAuton( m_ElevatorSubsystem, m_ShooterBoxx, 4)); //.withTimeout(2).finallyDo(() -> m_ElevatorSubsystem.elevatorToHome()));
-          NamedCommands.registerCommand("FireL4", new FireCoralAuton( m_ElevatorSubsystem, m_ShooterBoxx, 4  ));
+          //NamedCommands.registerCommand("AutoL4", new ScoreCoralAuton( m_ElevatorSubsystem, m_ShooterBoxx, 4)); //.withTimeout(2).finallyDo(() -> m_ElevatorSubsystem.elevatorToHome()));
+          NamedCommands.registerCommand("AutoL4", new PutElevatorUp(m_ElevatorSubsystem, m_ShooterBoxx, 4));
+          NamedCommands.registerCommand("FireL4", new FireCoralAuton(m_ElevatorSubsystem, m_ShooterBoxx, 4));
           
         // NamedCommands.registerCommand("ReadyToLeaveStation", m_ShooterBoxx.ElevatorCoralSensorTriggered() );
 
@@ -132,11 +135,11 @@ public class RobotContainer {
 
     private void configureBindings() {
         // Default Commands :)
-        m_ElevatorSubsystem.setDefaultCommand(Commands.either(Commands.run(()-> m_ElevatorSubsystem.elevatorJoystick(P2controller.getLeftY()), m_ElevatorSubsystem),m_ElevatorSubsystem.defaultCommand() , m_indexing::isP2ManualModeFalse)); //NEEDS TESTING
+        m_ElevatorSubsystem.setDefaultCommand(Commands.either(m_ElevatorSubsystem.defaultCommand(),Commands.run(()-> m_ElevatorSubsystem.elevatorJoystick(P2controller.getLeftY()), m_ElevatorSubsystem) , m_indexing::isP2ManualModeFalse)); //NEEDS TESTING
         //m_ElevatorSubsystem.setDefaultCommand(Commands.either(m_ElevatorSubsystem.elevatorToL1(),m_ElevatorSubsystem.defaultCommand() , m_indexing::isP2ManualModeFalse));
         m_ShooterBoxx.setDefaultCommand(Commands.either(m_ShooterBoxx.IntakeSolosDefaultCommand(), Commands.run(() -> m_ShooterBoxx.stopShooterMethod(), m_ShooterBoxx), m_indexing::isP2ManualModeFalse));
         m_ClimbSubsystemNeo.setDefaultCommand(m_ClimbSubsystemNeo.Keepclimbsafe());
-
+        
 
         m_drivetrain.registerTelemetry(logger::telemeterize);
 

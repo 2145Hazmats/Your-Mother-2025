@@ -222,16 +222,16 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
 
     // Goes to each coral station
     public Command pathFindToLeftBlueCoralStation() {
-        return AutoBuilder.pathfindToPose(PoseConstants.CORAL_STATION_LEFT_BLUE_PATHFIND_POSE, pathFindingConstraints, PathPlannerConstants.PATHFIND_END_SPEED_MPS);
+        return AutoBuilder.pathfindToPose(PoseConstants.CORAL_STATION_LEFT_BLUE_PATHFIND_POSE, pathFindingConstraints, PathPlannerConstants.PATHFIND_END_SPEED_MPS_STATION);
     }
     public Command pathFindToRightBlueCoralStation() {
-        return AutoBuilder.pathfindToPose(PoseConstants.CORAL_STATION_RIGHT_BLUE_PATHFIND_POSE, pathFindingConstraints, PathPlannerConstants.PATHFIND_END_SPEED_MPS);
+        return AutoBuilder.pathfindToPose(PoseConstants.CORAL_STATION_RIGHT_BLUE_PATHFIND_POSE, pathFindingConstraints, PathPlannerConstants.PATHFIND_END_SPEED_MPS_STATION);
     }
     public Command pathFindToLeftRedCoralStation() {
-        return AutoBuilder.pathfindToPose(PoseConstants.CORAL_STATION_LEFT_RED_PATHFIND_POSE, pathFindingConstraints, PathPlannerConstants.PATHFIND_END_SPEED_MPS);
+        return AutoBuilder.pathfindToPose(PoseConstants.CORAL_STATION_LEFT_RED_PATHFIND_POSE, pathFindingConstraints, PathPlannerConstants.PATHFIND_END_SPEED_MPS_STATION);
     }
     public Command pathFindToRightRedCoralStation() {
-        return AutoBuilder.pathfindToPose(PoseConstants.CORAL_STATION_RIGHT_RED_PATHFIND_POSE, pathFindingConstraints, PathPlannerConstants.PATHFIND_END_SPEED_MPS);
+        return AutoBuilder.pathfindToPose(PoseConstants.CORAL_STATION_RIGHT_RED_PATHFIND_POSE, pathFindingConstraints, PathPlannerConstants.PATHFIND_END_SPEED_MPS_STATION);
     }
 
     public Command pathFindToRedNet() {
@@ -352,6 +352,14 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     public void updateP1Index() {
         player1ReefIndex = player2ReefIndex;
         SmartDashboard.putNumber("player1ReefIndex", (double) player1ReefIndex);
+    }
+
+    public void setP1Index(int i) {
+        player1ReefIndex = i;
+    }
+
+    public int getPlayer2ReefIndex() {
+        return player2ReefIndex;
     }
 
     

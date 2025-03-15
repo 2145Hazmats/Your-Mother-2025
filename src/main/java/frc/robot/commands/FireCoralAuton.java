@@ -43,7 +43,6 @@ public class FireCoralAuton extends Command {
     theElephant = theFakeElephant;
     theSnout = theFakeSnout;
 
-    
     this.levelIndex = levelIndex;
 
     addRequirements(theFakeElephant, theFakeSnout);

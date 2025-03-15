@@ -103,6 +103,15 @@ public Command SuckTillCoralSensorAuto() {
   }).until(() -> StopCoralIntake());
 }
 
+// public Command SimpleSuckTillCoralSensorAuto() {
+//   return Commands.run(() -> {
+    
+//       shooterMotor.set(-Constants.shooterBoxxContants.kSuckSpeed);
+    
+//   }).until(() -> StopCoralIntake());}
+
+
+
 public void SuckTillCoralSensorDerekSkillIssueFix() {
     if (ElevatorCoralSensorTriggered() && BoxxCoralSensorTriggered()) {
       shooterMotor.set(Constants.shooterBoxxContants.kFinalSpeed);

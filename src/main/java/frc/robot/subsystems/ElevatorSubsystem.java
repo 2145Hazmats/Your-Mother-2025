@@ -121,6 +121,10 @@ public class ElevatorSubsystem extends SubsystemBase{
     player1LevelIndex = player2LevelIndex;
   }
 
+  public void setPl1LevelIndex(int i) {
+    player1LevelIndex = i;
+  }
+
  /*  public Command elevatorToIndex() {
     return Commands.run(() -> 
       motorLeader.setControl(new PositionDutyCycle(levelIndex.convertto constants )), this);
@@ -262,6 +266,10 @@ public class ElevatorSubsystem extends SubsystemBase{
 
     public int getPlayer1LevelIndex() {
       return player1LevelIndex;
+    }
+
+    public int getPlayer2LevelIndex() {
+      return player2LevelIndex;
     }
 
     public double getElevatorSlowSpeed() {
