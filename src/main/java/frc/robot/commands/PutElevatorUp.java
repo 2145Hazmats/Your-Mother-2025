@@ -67,7 +67,7 @@ public class PutElevatorUp extends Command {
     SmartDashboard.putNumber("ScoreCoral Elevator", currentElevatorPosition - elevatorGoal);
 
     if (theElephant.getElevatorPosition() < elevatorConstants.SAFETY_LEVEL && !theSnout.getEitherSensor()) {
-      theElephant.elevatorToSomething(Constants.elevatorConstants.HomePosition);
+      theElephant.elevatorToLevel(Constants.elevatorConstants.HomePosition);
     }
     
     if (currentElevatorPosition > (elevatorGoal - ErrorConstants.ElevatorError)
@@ -76,14 +76,14 @@ public class PutElevatorUp extends Command {
     } else if (
         !isElevatorSensorTrue
         && theElephant.isElevatorHome()) {
-      theElephant.elevatorToSomething(level);
+      theElephant.elevatorToLevel(level);
     }
   }
 
   // Sends elevator to its default position after the command ends.
   @Override
   public void end(boolean interrupted) {
-    theElephant.elevatorToSomething(Constants.elevatorConstants.HomePosition);
+    theElephant.elevatorToLevel(Constants.elevatorConstants.HomePosition);
   }
 
   // Returns true when the sensor is untriggered and the elevator is up

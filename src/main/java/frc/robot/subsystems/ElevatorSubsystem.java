@@ -40,6 +40,9 @@ public class ElevatorSubsystem extends SubsystemBase{
       motorLeader.setPosition(0);
       motorFollower.setPosition(0);
 
+      SmartDashboard.putBoolean("Reef Level 1", false); SmartDashboard.putBoolean("Reef Level 2", false);
+      SmartDashboard.putBoolean("Reef Level 3", false); SmartDashboard.putBoolean("Reef Level 4", false);
+
       // SmartDashboard.putNumber("ElevatorkS", 0);
       // SmartDashboard.putNumber("ElevatorkV", 0);
       // SmartDashboard.putNumber("ElevatorkA", 0);
@@ -80,50 +83,18 @@ public class ElevatorSubsystem extends SubsystemBase{
       SmartDashboard.putNumber("Elevator Level Index", player2LevelIndex);
     }
 
-    public void levelIndexSwitch(boolean up){
-      if(up == true) {
-          if (player2LevelIndex < 4) { player2LevelIndex++; }
-      }
-      else {
-          if(player2LevelIndex > 1) { player2LevelIndex--; }
-      }
-      SmartDashboard.putNumber("Elevator Level Index", player2LevelIndex);
-  }
-
-  public void levelIndexChoose(int level) {
-   if (level == 1) {
-    player2LevelIndex = 1;
-    } 
-    else if (level ==2) {
-    player2LevelIndex = 2;
-    } 
-    else if (level ==3) {
-    player2LevelIndex =3;
-    } 
-    else if (level ==4) {
-    player2LevelIndex =4;
-    }
-  }
-
-  public void updateP1levelIndex() { 
-    player1LevelIndex = player2LevelIndex;
-  }
-
-  public void setPl1LevelIndex(int i) {
-    player1LevelIndex = i;
-  }
-
- /*  public Command elevatorToIndex() {
+  public Command defaultCommand() {
     return Commands.run(() -> 
-      motorLeader.setControl(new PositionDutyCycle(levelIndex.convertto constants )), this);
-    }*/    public Command elevatorToHome() {
+      motorLeader.setControl(m_request.withPosition(Constants.elevatorConstants.HomePosition))).withTimeout(1).andThen(disableElevator());
+    }
+
+  public Command elevatorToHome() {
       return Commands.run(() -> 
-        motorLeader.setControl(m_request.withPosition(Constants.elevatorConstants.HomePosition)), this);//new MotionMagicDutyCycle(Constants.elevatorConstants.HomePosition)), this);
+        motorLeader.setControl(m_request.withPosition(Constants.elevatorConstants.HomePosition)), this);
       }
 
       public void elevatorToHomeMethod() {
-         
-          motorLeader.setControl(m_request.withPosition(Constants.elevatorConstants.HomePosition));//new MotionMagicDutyCycle(Constants.elevatorConstants.HomePosition)), this);
+          motorLeader.setControl(m_request.withPosition(Constants.elevatorConstants.HomePosition));
         }
 
      public Command elevatorToL1() {
@@ -146,7 +117,7 @@ public class ElevatorSubsystem extends SubsystemBase{
         motorLeader.setControl(m_request.withPosition(Constants.elevatorConstants.L4Position)), this);
       }
 
-    public void elevatorToSomething(double index) {
+    public void elevatorToLevel(double index) {
       if (index == 1) {
         motorLeader.setControl(m_request.withPosition(Constants.elevatorConstants.L1Position));
       } else if (index == 2) {
@@ -160,23 +131,22 @@ public class ElevatorSubsystem extends SubsystemBase{
       }
     }
 
-    public Command elevatorToIndex() {
-      return Commands.run(() -> {
-          if (player1LevelIndex == 1) {
-            motorLeader.setControl(m_request.withPosition(Constants.elevatorConstants.L1Position));
-          } 
-          else if (player1LevelIndex ==2) {
-            motorLeader.setControl(m_request.withPosition(Constants.elevatorConstants.L2Position));
-          } 
-          else if (player1LevelIndex ==3) {
-            motorLeader.setControl(m_request.withPosition(Constants.elevatorConstants.L3Position));
-          } 
-          else if (player1LevelIndex ==4) {
-            motorLeader.setControl(m_request.withPosition(Constants.elevatorConstants.L4Position));
-
-      }},this);
-
-    }
+    // erm why is it here twice??
+    // public Command elevatorToIndexCommand() {
+    //   return Commands.run(() -> {
+    //       if (player1LevelIndex == 1) {
+    //         motorLeader.setControl(m_request.withPosition(Constants.elevatorConstants.L1Position));
+    //       } 
+    //       else if (player1LevelIndex ==2) {
+    //         motorLeader.setControl(m_request.withPosition(Constants.elevatorConstants.L2Position));
+    //       } 
+    //       else if (player1LevelIndex ==3) {
+    //         motorLeader.setControl(m_request.withPosition(Constants.elevatorConstants.L3Position));
+    //       } 
+    //       else if (player1LevelIndex ==4) {
+    //         motorLeader.setControl(m_request.withPosition(Constants.elevatorConstants.L4Position));
+    //   }},this);
+    //}
 
     public Command elevatorToP1Index() {
       return Commands.run(() -> {
@@ -193,24 +163,17 @@ public class ElevatorSubsystem extends SubsystemBase{
             motorLeader.setControl(m_request.withPosition(Constants.elevatorConstants.L4Position));
 
       }},this);
-
     }
 
 
-    public void elevatorJoystick(double joystick) { // MAY NEED TO CHANGE THIS TO DOABLE SUPPLIER :)()()))
-       motorLeader.setControl(new DutyCycleOut(joystick*Constants.elevatorConstants.ElevatorJoystickSpeedNerf));//motorLeader.setControl(new (joystick.getAsDouble()*.4)), this);
+    public void elevatorJoystick(double joystick) { 
+       motorLeader.setControl(new DutyCycleOut(joystick*Constants.elevatorConstants.ElevatorJoystickSpeedNerf));
     }
 
     public Command disableElevator() {
       return Commands.run(() -> motorLeader.setControl(new DutyCycleOut(0)), this);
     }
-
-    public Command defaultCommand() {
-      return Commands.run(() -> 
-        motorLeader.setControl(m_request.withPosition(Constants.elevatorConstants.HomePosition))).withTimeout(1).andThen(disableElevator());
-      }
     
-
     public boolean isDrivingSafeQuestionMark() {
        if (motorLeader.getPosition().getValueAsDouble() >= Constants.elevatorConstants.SAFETY_LEVEL) {
         return true;
@@ -224,19 +187,19 @@ public class ElevatorSubsystem extends SubsystemBase{
       return (motorLeader.getPosition().getValueAsDouble() >= Constants.elevatorConstants.NEAR_HOME);
     }
 
-    public Command setElevatorPID() {
-      return Commands.runOnce(() -> {
-        config.Slot0.kS = SmartDashboard.getNumber("ElevatorkS", 0);
-        config.Slot0.kV = SmartDashboard.getNumber("ElevatorkV", 0);
-        config.Slot0.kA = SmartDashboard.getNumber("ElevatorkA", 0);
+    // public Command setElevatorPID() {
+    //   return Commands.runOnce(() -> {
+    //     config.Slot0.kS = SmartDashboard.getNumber("ElevatorkS", 0);
+    //     config.Slot0.kV = SmartDashboard.getNumber("ElevatorkV", 0);
+    //     config.Slot0.kA = SmartDashboard.getNumber("ElevatorkA", 0);
 
-        config.Slot0.kP = SmartDashboard.getNumber("ElevatorP", 0);
-        config.Slot0.kI = SmartDashboard.getNumber("ElevatorI", 0);
-        config.Slot0.kI = SmartDashboard.getNumber("ElevatorD", 0);
-        config.Slot0.kG = SmartDashboard.getNumber("ElevatorG", 0);
+    //     config.Slot0.kP = SmartDashboard.getNumber("ElevatorP", 0);
+    //     config.Slot0.kI = SmartDashboard.getNumber("ElevatorI", 0);
+    //     config.Slot0.kI = SmartDashboard.getNumber("ElevatorD", 0);
+    //     config.Slot0.kG = SmartDashboard.getNumber("ElevatorG", 0);
 
-        motorLeader.getConfigurator().apply(config);}, this);
-    }
+    //     motorLeader.getConfigurator().apply(config);}, this);
+    // }
 
     public double getElevatorPosition() {
       return motorLeader.getPosition().getValueAsDouble();
@@ -248,6 +211,7 @@ public class ElevatorSubsystem extends SubsystemBase{
 
     }
 
+  // Index stuff here 
     public void setPlayer1LevelIndex(int index) {
       player1LevelIndex = index;
     }
@@ -256,10 +220,40 @@ public class ElevatorSubsystem extends SubsystemBase{
       return player1LevelIndex;
     }
 
+    public void updateP1levelIndex() { 
+      player1LevelIndex = player2LevelIndex;
+    }
+
     public int getPlayer2LevelIndex() {
       return player2LevelIndex;
     }
 
+    public void P2LevelIndexSwitch(boolean up){
+      if(up == true) {
+          if (player2LevelIndex < 4) { player2LevelIndex++; }
+      }
+      else {
+          if(player2LevelIndex > 1) { player2LevelIndex--; }
+      }
+      SmartDashboard.putNumber("Elevator Level Index", player2LevelIndex);
+  }
+
+  public void P2LevelIndexChoose(int level) {
+   if (level == 1) {
+    player2LevelIndex = 1;
+    } 
+    else if (level ==2) {
+    player2LevelIndex = 2;
+    } 
+    else if (level ==3) {
+    player2LevelIndex =3;
+    } 
+    else if (level ==4) {
+    player2LevelIndex =4;
+    }
+  }
+
+  // Drivetrain speed limiter
     public double getElevatorSlowSpeed() {
       // If the elevator is high enough...
       if (getElevatorPosition() < elevatorConstants.SAFETY_LEVEL) {
@@ -269,32 +263,31 @@ public class ElevatorSubsystem extends SubsystemBase{
       }
     }
 
+    // for the robot to serenade us
+  public final TalonFX LeftElevatorMotor() {
+    return motorLeader;
+  }
+  public final TalonFX RightElevatorMotor() {
+    return motorFollower;
+  }
+
      @Override
     public void periodic() {
       SmartDashboard.putNumber("Right Elevator Position", motorFollower.getPosition().getValueAsDouble()); //MAY BE WRONG LEFT RIGHT IDK
       SmartDashboard.putNumber("Left Elevator Position", motorLeader.getPosition().getValueAsDouble());
-    
-      SmartDashboard.putBoolean("Reef Level 1", false); SmartDashboard.putBoolean("Reef Level 2", false);
-      SmartDashboard.putBoolean("Reef Level 3", false); SmartDashboard.putBoolean("Reef Level 4", false);
 
-      SmartDashboard.putNumber("getElevatorSlowSpeed", getElevatorSlowSpeed());
+    //SmartDashboard.putNumber("getElevatorSlowSpeed", getElevatorSlowSpeed());
 
       if (player2LevelIndex == 1) {SmartDashboard.putBoolean("Reef Level 1", true);}
       else if (player2LevelIndex == 2) {SmartDashboard.putBoolean("Reef Level 2", true);}
       else if (player2LevelIndex == 3) {SmartDashboard.putBoolean("Reef Level 3", true);}
       else if (player2LevelIndex == 4) {SmartDashboard.putBoolean("Reef Level 4", true);}
-      SmartDashboard.putNumber("ElevatorP", 0);
-      SmartDashboard.putNumber("ElevatorI", 0);
-      SmartDashboard.putNumber("ElevatorD", 0);
+      // SmartDashboard.putNumber("ElevatorP", 0);
+      // SmartDashboard.putNumber("ElevatorI", 0);
+      // SmartDashboard.putNumber("ElevatorD", 0);
 
       SmartDashboard.putNumber("getPlayer1LevelIndex", getPlayer1LevelIndex());
       SmartDashboard.putNumber("getPlayer2LevelIndex", player2LevelIndex);
     }
-    public final TalonFX LeftElevatorMotor() {
-      return motorLeader;
-  }
-  public final TalonFX RightElevatorMotor() {
-    return motorFollower;
-}
 
 }

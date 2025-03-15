@@ -26,29 +26,29 @@ public class AlgaeSuperSystem extends SubsystemBase {
 
   public void ClawGoesForAlgaeOffFloor() {
     if (coralSensor.ElevatorCoralSensorUntriggered()) {
-        theElevator.elevatorToSomething(0);
-        theClaw.moveArmToPointMethod(AlgaeConstants.FloorPosition);
-        theClaw.intakeAlgaeMethod();
+        theElevator.elevatorToLevel(0);
+        theClaw.MoveArmToPointMethod(AlgaeConstants.FloorPosition);
+        theClaw.IntakeAlgaeMethod();
     }
   }
 
   public void ClawPlaysProcessor() {
     if (coralSensor.ElevatorCoralSensorUntriggered()) {
-        theElevator.elevatorToSomething(0); // idk where to put elevator
-        theClaw.moveArmToPointMethod(AlgaeConstants.ProcessorPosition);
-        theClaw.regurgitateAlgaeMethod(AlgaeConstants.outtakeSpeed);
+        theElevator.elevatorToLevel(0); // idk where to put elevator
+        theClaw.MoveArmToPointMethod(AlgaeConstants.ProcessorPosition);
+        theClaw.RegurgitateAlgaeMethod(AlgaeConstants.outtakeSpeed);
     }
   }
 
   public void ClawGoesForAlgaeOffReef(boolean LowAlgae) {
     if (coralSensor.ElevatorCoralSensorUntriggered()) {
       if (LowAlgae == true) {
-        theElevator.elevatorToSomething(2);
+        theElevator.elevatorToLevel(2);
       } else {
-        theElevator.elevatorToSomething(3);
+        theElevator.elevatorToLevel(3);
       }
-      theClaw.moveArmToPointMethod(AlgaeConstants.GrabPosition);
-      theClaw.intakeAlgaeMethod();
+      theClaw.MoveArmToPointMethod(AlgaeConstants.GrabPosition);
+      theClaw.IntakeAlgaeMethod();
     }
   }
 
@@ -56,15 +56,15 @@ public class AlgaeSuperSystem extends SubsystemBase {
    return Commands.run(()->{if (coralSensor.ElevatorCoralSensorUntriggered()) {
       int index = theElevator.getPlayer1LevelIndex();
       if (index == 2 || index == 3 || index == 6 || index == 7 || index == 10 || index == 11) { //change to just bigger number for 6 pole
-        theElevator.elevatorToSomething(2);
+        theElevator.elevatorToLevel(2);
       } else {
-        theElevator.elevatorToSomething(4);
+        theElevator.elevatorToLevel(4);
       }
-      theClaw.moveArmToPointMethod(AlgaeConstants.GrabPosition);
-      theClaw.intakeAlgaeMethod();
+      theClaw.MoveArmToPointMethod(AlgaeConstants.GrabPosition);
+      theClaw.IntakeAlgaeMethod();
     }},theElevator, theClaw);
   }
-  
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run

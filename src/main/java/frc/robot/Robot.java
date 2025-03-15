@@ -21,7 +21,7 @@ public class Robot extends TimedRobot {
   public Robot() {
     m_robotContainer = new RobotContainer();
     CameraServer.startAutomaticCapture();
-    DriverStation.silenceJoystickConnectionWarning(true); //UNTESTED
+    DriverStation.silenceJoystickConnectionWarning(true);
   }
 
   @Override

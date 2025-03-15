@@ -44,46 +44,46 @@ public class AlgaeSubsystem extends SubsystemBase {
     armMotor.getConfigurator().apply(config);
   }
 
-  // Arm Moving Methods
-  public Command moveArmToPoint(double position) {
-    return Commands.run(() -> armMotor.setControl(m_request.withPosition(position)), this);
-  } 
-  public void moveArmToPointMethod(double position) {
-    armMotor.setControl(m_request.withPosition(position));
-  } 
-
-  // Algae Intake
-  public Command intakeAlgae() {
-    return Commands.run(() -> 
-      shooterMotor.set(AlgaeConstants.intakeSpeed)
-    );
-  }
-  public void intakeAlgaeMethod() {
-    shooterMotor.set(AlgaeConstants.intakeSpeed);
-  }
-
-  // Algae Outtake
-  public Command regurgitateAlgae(double speed) {
-    return Commands.run(() -> 
-      shooterMotor.set(speed)
-    );
-  }
-  public void regurgitateAlgaeMethod(double speed) {
-    shooterMotor.set(speed);
-  }
-
-  public void stopAlgaeShooter() {
-    shooterMotor.set(0);
-  }
-
-  public Command algaeDefaultCommand() {
+  public Command AlgaeDefaultCommand() {
     return Commands.run(() -> {
       shooterMotor.set(0);
       armMotor.setControl(m_request.withPosition(AlgaeConstants.HomePosition));
     });
   }
 
-  public double getAlgaeArmPosition() {
+  // Arm Moving Methods
+  public Command MoveArmToPointCommand(double position) {
+    return Commands.run(() -> armMotor.setControl(m_request.withPosition(position)), this);
+  } 
+  public void MoveArmToPointMethod(double position) {
+    armMotor.setControl(m_request.withPosition(position));
+  } 
+
+  // Algae Intake
+  public Command IntakeAlgaeCommmand() {
+    return Commands.run(() -> 
+      shooterMotor.set(AlgaeConstants.intakeSpeed)
+    );
+  }
+  public void IntakeAlgaeMethod() {
+    shooterMotor.set(AlgaeConstants.intakeSpeed);
+  }
+
+  // Algae Outtake
+  public Command RegurgitateAlgaeCommand(double speed) {
+    return Commands.run(() -> 
+      shooterMotor.set(speed)
+    );
+  }
+  public void RegurgitateAlgaeMethod(double speed) {
+    shooterMotor.set(speed);
+  }
+
+  public void StopAlgaeShooterMethod() {
+    shooterMotor.set(0);
+  }
+
+  public double GetAlgaeArmPosition() {
     return armMotor.getPosition().getValueAsDouble();
   }
 

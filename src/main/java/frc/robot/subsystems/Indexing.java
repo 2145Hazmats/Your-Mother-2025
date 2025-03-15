@@ -31,7 +31,7 @@ public class Indexing extends SubsystemBase {
   }
 
   public void elevatorIndexChooser(int level) {
-    m_ElevatorSubsystem.levelIndexChoose(level);
+    m_ElevatorSubsystem.P2LevelIndexChoose(level);
   }
 
   public void poseIndexSwitch(boolean clockwise) {
@@ -48,7 +48,7 @@ public class Indexing extends SubsystemBase {
       m_ElevatorSubsystem.updateP1levelIndex();
       m_drivetrain.updateP1Index();
     } else {
-      m_ElevatorSubsystem.setPl1LevelIndex(storedP2LevelIndex);
+      m_ElevatorSubsystem.setPlayer1LevelIndex(storedP2LevelIndex);
       m_drivetrain.setP1Index(storedP2Index);
       storedP2LevelIndex = -1;
       storedP2Index = -1;

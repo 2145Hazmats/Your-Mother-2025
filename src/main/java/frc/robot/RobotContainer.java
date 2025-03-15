@@ -15,9 +15,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
-import edu.wpi.first.wpilibj2.command.button.CommandPS4Controller;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.DrivetrainConstants;
 import frc.robot.Constants.shooterBoxxContants;
 import frc.robot.Constants.ControllerConstants.EVERYTHING_ENUM;
@@ -30,14 +28,13 @@ import frc.robot.commands.PutElevatorUp;
 // import frc.robot.autos.ProcessorSideAuto;
 import frc.robot.commands.ScoreCoral;
 import frc.robot.commands.ScoreCoralAuton;
-import frc.robot.commands.ScoreCoralManual;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.AlgaeSubsystem;
 import frc.robot.subsystems.AlgaeSuperSystem;
 import frc.robot.subsystems.CameraSubsystem;
 //import frc.robot.subsystems.ChirpMusic;
 import frc.robot.subsystems.ClimbSubsystemNeo;
-import frc.robot.subsystems.CommandSwerveDrivetrain;
+import frc.robot.subsystems.CommandSwerveDrivetrain; //
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.Indexing;
 import frc.robot.subsystems.ShooterBoxx;
@@ -49,9 +46,7 @@ public class RobotContainer {
     public final double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
     private final double MaxAngularRate = RotationsPerSecond.of(DrivetrainConstants.MAX_ROTATIONS_PER_SECOND).in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
     
-    private EVERYTHING_ENUM selectedEnum;
-
-    //private final CommandSwerveDrivetrain m_drivetrain = TunerConstants.createDrivetrain();
+    //private EVERYTHING_ENUM selectedEnum;
    
     /* Setting up bindings for necessary control of the swerve drive platform */
     public final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
@@ -62,20 +57,14 @@ public class RobotContainer {
             .withDeadband(MaxSpeed * 0.05).withRotationalDeadband(MaxAngularRate * 0.05) // 10% deadband changed to 5%
             .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // Use open-loop control for drive motors
 
-    private final SwerveRequest.SwerveDriveBrake drivePointWheelsAt = new SwerveRequest.SwerveDriveBrake();
-
-   // private SendableChooser<Command> pathPlannerAutoChooser;
-    //private SendableChooser<Command> autoChooser = new SendableChooser<>();
+    private final SwerveRequest.SwerveDriveBrake lockWheels = new SwerveRequest.SwerveDriveBrake();
 
     private final Telemetry logger = new Telemetry(MaxSpeed);
 
     private final CommandXboxController P1controller = new CommandXboxController(0);
     private final CommandXboxController P2controller = new CommandXboxController(1);
     private final CommandXboxController P3controller = new CommandXboxController(2);
-    //private final CommandXboxController P4controller = new CommandXboxController(3);
-    //private final CommandPS4Controller p5Controller = new CommandPS4Controller(4);
-    //private final Trigger disableCameras = overrides.cameraSwitch();
-    
+   
     // We need to initialize an object of the camera subsystem, we don't have to use it
     private final CommandSwerveDrivetrain m_drivetrain = TunerConstants.createDrivetrain();
     private CameraSubsystem m_CameraSubsystem = new CameraSubsystem(m_drivetrain);
@@ -84,10 +73,6 @@ public class RobotContainer {
     private ClimbSubsystemNeo m_ClimbSubsystemNeo = new ClimbSubsystemNeo();
     private AlgaeSubsystem m_AlgaeSubsystem = new AlgaeSubsystem();
     private AlgaeSuperSystem m_AlgaeSuperSystem = new AlgaeSuperSystem(m_ElevatorSubsystem, m_AlgaeSubsystem, m_ShooterBoxx);
-    //private AlgaeSubsystem m_AlgaeSubsystem = new AlgaeSubsystem();
-    //private ClimbSubsystem m_ClimbSubsystem = new ClimbSubsystem();
-   // private ChirpMusic m_ChirpMusic = new ChirpMusic(m_drivetrain, m_ElevatorSubsystem);
-
     private Indexing m_indexing = new Indexing(m_ElevatorSubsystem, m_drivetrain);
 
     public RobotContainer() {
@@ -104,9 +89,8 @@ public class RobotContainer {
           //NamedCommands.registerCommand("SuckTillCoralSensor", m_ShooterBoxx.SuckTillCoralSensorAuto());
           NamedCommands.registerCommand("SuckTillElevatorSensor", m_ShooterBoxx.SuckTillElevatorSensorAuto());
 
-          NamedCommands.registerCommand("SuckTillSensor", m_ShooterBoxx.SuckTillCoralSensorAuto()); //OG Command Depricating soon
-          //NamedCommands.registerCommand("SuckTillSensor", m_ShooterBoxx.SimpleSuckTillCoralSensorAuto());
-          NamedCommands.registerCommand("ShootTillSensor", m_ShooterBoxx.SpitTillSensor());
+          NamedCommands.registerCommand("SuckTillSensor", m_ShooterBoxx.SuckTillCoralSensorAutoCommand()); //OG Command Depricating soon
+          NamedCommands.registerCommand("ShootTillSensor", m_ShooterBoxx.SpitTillSensorCommand());
           NamedCommands.registerCommand("SpitOnFloor", Commands.run(() -> m_ShooterBoxx.RunShooter(shooterBoxxContants.kSpitSpeed), m_ShooterBoxx).withTimeout(2));
 
 
@@ -114,21 +98,13 @@ public class RobotContainer {
           NamedCommands.registerCommand("AutoL4", new PutElevatorUp(m_ElevatorSubsystem, m_ShooterBoxx, 4));
           NamedCommands.registerCommand("FireL4", new FireCoralAuton(m_ElevatorSubsystem, m_ShooterBoxx, 4));
           
-        // NamedCommands.registerCommand("ReadyToLeaveStation", m_ShooterBoxx.ElevatorCoralSensorTriggered() );
+          //NamedCommands.registerCommand("ReadyToLeaveStation", m_ShooterBoxx.ElevatorCoralSensorTriggered());
 
          autoChooser = AutoBuilder.buildAutoChooser();
          SmartDashboard.putData("Auto Chooser", autoChooser);
-        // SmartDashboard.putData("pathPlannerAutoChooser", autoChooser);
-
-        // autoChooser.setDefaultOption("AwesomeAuton", new AwesomeAuton(m_drivetrain,m_ElevatorSubsystem,m_ShooterBoxx));
-        // autoChooser.addOption("NetSideAuto", new NetSideAuto(m_drivetrain,m_ElevatorSubsystem,m_ShooterBoxx));
-        // autoChooser.addOption("ProcessorSideAuto", new ProcessorSideAuto());
-        //autoChooser.addOption("Net Side Auto", new netSideAuto());
-        //autoChooser.addOption("Processor Side Auto", processorSideAuto());
-        //SmartDashboard.putData("autoChooser", autoChooser);
     }
 
-    public CommandSwerveDrivetrain getSwerveDrivetrain() {
+    public CommandSwerveDrivetrain getSwerveDrivetrain() { // for coasting out of auto
         return m_drivetrain;
     }
 
@@ -136,8 +112,8 @@ public class RobotContainer {
         // Default Commands :)
         m_ElevatorSubsystem.setDefaultCommand(Commands.either(m_ElevatorSubsystem.defaultCommand(),Commands.run(()-> m_ElevatorSubsystem.elevatorJoystick(P2controller.getLeftY()), m_ElevatorSubsystem) , m_indexing::isP2ManualModeFalse)); //NEEDS TESTING
         //m_ElevatorSubsystem.setDefaultCommand(Commands.either(m_ElevatorSubsystem.elevatorToL1(),m_ElevatorSubsystem.defaultCommand() , m_indexing::isP2ManualModeFalse));
-        m_ShooterBoxx.setDefaultCommand(Commands.either(m_ShooterBoxx.IntakeSolosDefaultCommand(), Commands.run(() -> m_ShooterBoxx.stopShooterMethod(), m_ShooterBoxx), m_indexing::isP2ManualModeFalse));
-        m_ClimbSubsystemNeo.setDefaultCommand(m_ClimbSubsystemNeo.Keepclimbsafe());
+        m_ShooterBoxx.setDefaultCommand(Commands.either(m_ShooterBoxx.IntakeSolosDefaultCommand(), Commands.run(() -> m_ShooterBoxx.StopShooterMethod(), m_ShooterBoxx), m_indexing::isP2ManualModeFalse));
+        m_ClimbSubsystemNeo.setDefaultCommand(m_ClimbSubsystemNeo.KeepClimbSafeDefaultCommand());
         
         // Inexing LOL!!
         m_indexing.setDefaultCommand(m_indexing.SettingReefIndexBasedOnController(P2controller::getRightX, P2controller::getRightY));
@@ -159,7 +135,7 @@ public class RobotContainer {
         // P2controller.povDown().whileTrue(Commands.either(Commands.runOnce(() ->  m_indexing.elevatorIndexChooser(1)),
         //  m_ElevatorSubsystem.elevatorToL1(), m_indexing::isP1ManualModeFalse));
         // LOCK THE WHEELS
-        P1controller.povLeft().whileTrue(m_drivetrain.applyRequest(() -> drivePointWheelsAt));
+        P1controller.povLeft().whileTrue(m_drivetrain.applyRequest(() -> lockWheels));
 
         // LEFT SOURCE BLUE
         P1controller.leftBumper().and(m_drivetrain::isAllianceBlue).whileTrue(
@@ -366,7 +342,7 @@ public class RobotContainer {
         // P2controller.b().whileTrue(
         //         m_ShooterBoxx.BanditSetIntakeMotorCommand(Constants.shooterBoxxContants.kSuckSpeed).until(m_ShooterBoxx::BanditNoteSensorTriggered)
         //       );
-        P2controller.b().whileTrue(m_ShooterBoxx.worksShoot());
+        P2controller.b().whileTrue(m_ShooterBoxx.WorksShootCommand());
               //.until(m_ShooterBoxx.BanditNoteSensorTriggered());//BanditNoteSensorTriggered);//m_ShooterBoxx::BanditNoteSensorTriggered
 
         //P2controller.back().whileTrue(m_ShooterBoxx.SpitTillSensor());
@@ -385,7 +361,7 @@ public class RobotContainer {
         P3controller.b().whileTrue(Commands.run(() -> m_ClimbSubsystemNeo.climbToNailItPID(), m_ClimbSubsystemNeo));
         //P3controller.b().whileTrue(m_ShooterBoxx.RunShooter(-.6));
         //P3controller.a().whileTrue(m_ShooterBoxx.SuckTillSensor());
-        P3controller.x().whileTrue(m_ShooterBoxx.SpitTillSensor());
+        P3controller.x().whileTrue(m_ShooterBoxx.SpitTillSensorCommand());
 
         
         // Elevator
@@ -397,7 +373,6 @@ public class RobotContainer {
         P3controller.povDown().whileTrue(m_AlgaeSuperSystem.ClawGoesForAlgaeCommand());
 
         P3controller.a().whileTrue(new ScoreCoralAuton( m_ElevatorSubsystem, m_ShooterBoxx,  4).withTimeout(1.75));
-        P3controller.start().whileTrue(Commands.run(() -> m_ShooterBoxx.SuckTillCoralSensorDerekSkillIssueFix(), m_ShooterBoxx));
         //CLIMB
         
         //P3controller.rightTrigger
@@ -409,36 +384,36 @@ public class RobotContainer {
         //P3controller.rightTrigger().whileTrue(m_ShooterBoxx.SpitTillSensor()).onFalse(m_ShooterBoxx.StopShooterMotor());
     }
 
-    private void updateEnumSmartDashboard(String enumString) {
-        SmartDashboard.putBoolean("SCORE", false);
-        SmartDashboard.putBoolean("LEFT_SOURCE", false);
-        SmartDashboard.putBoolean("RIGHT_SOURCE", false);
-        SmartDashboard.putBoolean("NET", false);
-        SmartDashboard.putBoolean("PROCESSOR", false);
-        SmartDashboard.putBoolean("CLIMB", false);
-        switch (enumString) {
-            case "SCORE":
-                SmartDashboard.putBoolean("SCORE", true);
-                break;
-            case "LEFT_SOURCE":
-                SmartDashboard.putBoolean("LEFT_SOURCE", true);
-                break;
-            case "RIGHT_SOURCE":
-                SmartDashboard.putBoolean("RIGHT_SOURCE", true);
-                break;
-            case "NET":
-                SmartDashboard.putBoolean("NET", true);
-                break;
-            case "PROCESSOR":
-                SmartDashboard.putBoolean("PROCESSOR", true);
-                break;
-            case "CLIMB":
-                SmartDashboard.putBoolean("CLIMB", true);
-                break;
-            default:
-                break;
-        }
-    }
+    // private void updateEnumSmartDashboard(String enumString) {
+    //     SmartDashboard.putBoolean("SCORE", false);
+    //     SmartDashboard.putBoolean("LEFT_SOURCE", false);
+    //     SmartDashboard.putBoolean("RIGHT_SOURCE", false);
+    //     SmartDashboard.putBoolean("NET", false);
+    //     SmartDashboard.putBoolean("PROCESSOR", false);
+    //     SmartDashboard.putBoolean("CLIMB", false);
+    //     switch (enumString) {
+    //         case "SCORE":
+    //             SmartDashboard.putBoolean("SCORE", true);
+    //             break;
+    //         case "LEFT_SOURCE":
+    //             SmartDashboard.putBoolean("LEFT_SOURCE", true);
+    //             break;
+    //         case "RIGHT_SOURCE":
+    //             SmartDashboard.putBoolean("RIGHT_SOURCE", true);
+    //             break;
+    //         case "NET":
+    //             SmartDashboard.putBoolean("NET", true);
+    //             break;
+    //         case "PROCESSOR":
+    //             SmartDashboard.putBoolean("PROCESSOR", true);
+    //             break;
+    //         case "CLIMB":
+    //             SmartDashboard.putBoolean("CLIMB", true);
+    //             break;
+    //         default:
+    //             break;
+    //     }
+    // }
 
     public Command getAutonomousCommand() {
         return autoChooser.getSelected();

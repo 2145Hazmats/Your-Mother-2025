@@ -53,10 +53,10 @@ public class ScoreCoralManual extends Command {
     int level = theElephant.getPlayer1LevelIndex();
     
     // Moves elevator to desired height and sets elevator goal
-    if (level == 1) {theElephant.elevatorToSomething(1); elevatorGoal = elevatorConstants.L1Position;}
-    else if (level == 2) {theElephant.elevatorToSomething(2); elevatorGoal = elevatorConstants.L2Position;}
-    else if (level == 3) {theElephant.elevatorToSomething(3); elevatorGoal = elevatorConstants.L3Position;}
-    else if (level == 4) {theElephant.elevatorToSomething(4); elevatorGoal = elevatorConstants.L4Position;}
+    if (level == 1) {theElephant.elevatorToLevel(1); elevatorGoal = elevatorConstants.L1Position;}
+    else if (level == 2) {theElephant.elevatorToLevel(2); elevatorGoal = elevatorConstants.L2Position;}
+    else if (level == 3) {theElephant.elevatorToLevel(3); elevatorGoal = elevatorConstants.L3Position;}
+    else if (level == 4) {theElephant.elevatorToLevel(4); elevatorGoal = elevatorConstants.L4Position;}
   }
 
   // Every 20ms We have a PID (funny math) and we check if the height of the elevator and the postition of the robot 
@@ -68,7 +68,7 @@ public class ScoreCoralManual extends Command {
     // Checks to see if Elevator is in the correct position before playing the coral
     if (currentElevatorPosition > (elevatorGoal - ErrorConstants.ElevatorError)
      && currentElevatorPosition < (elevatorGoal + ErrorConstants.ElevatorError)) {
-      theSnout.shootCoralMethod(); // Runs shooter if drivetrain and elevator positions are within their bounds of error
+      theSnout.ShootCoralMethod(); // Runs shooter if drivetrain and elevator positions are within their bounds of error
     }
 
     if (theSnout.BoxxCoralSensorUntriggered()) {
@@ -84,7 +84,7 @@ public class ScoreCoralManual extends Command {
   @Override
   public void end(boolean interrupted) {
     theElephant.elevatorToHome();
-    theSnout.StopShooterMotor();
+    theSnout.StopShooterMotorCommand();
   }
 
   // Returns true when the sensor is untriggered 

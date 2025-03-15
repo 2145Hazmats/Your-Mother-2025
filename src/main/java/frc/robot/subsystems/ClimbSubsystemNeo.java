@@ -27,17 +27,21 @@ public class ClimbSubsystemNeo extends SubsystemBase{
   /** Creates a new ClimbingForWorlds. */
   private SparkMax climbMotorNeo = new SparkMax(Constants.ClimbContants.ClimbMotorId, MotorType.kBrushless);
   
-
   private PIDController pidControllerClimbReady = new PIDController(1, 0, 0);
 
   private PIDController pidControllerClimbNailedIt = new PIDController(6, 0, 0);
-
-  
 
   private Servo climbServo = new Servo(1);
   //private Servo climbServo = new Servo(2);
 
   private SparkMaxConfig ClimbConfig = new SparkMaxConfig();
+
+  public Command KeepClimbSafeDefaultCommand() {
+    return Commands.run(() -> { if (true) { 
+      climbServo.set(Constants.ClimbContants.climbUnlockServoPosition);
+      climbMotorNeo.set(0);
+    }}, this);
+  }
 
   public ClimbSubsystemNeo() {
    ClimbConfig
@@ -109,14 +113,7 @@ public class ClimbSubsystemNeo extends SubsystemBase{
 
     climbServo.set(Constants.ClimbContants.climbLockServoPosition);
   }
-  
-    public Command Keepclimbsafe() {
-return Commands.run(() -> { if (true) { 
-  climbServo.set(Constants.ClimbContants.climbUnlockServoPosition);
-  climbMotorNeo.set(0);
-}}, this);
-     
-    }
+
 
   @Override
   public void periodic() {

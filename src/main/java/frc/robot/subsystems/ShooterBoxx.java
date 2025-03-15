@@ -18,7 +18,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.Constants.elevatorConstants;
 import frc.robot.Constants.shooterBoxxContants;
 
 public class ShooterBoxx extends SubsystemBase {
@@ -38,7 +37,7 @@ public class ShooterBoxx extends SubsystemBase {
   private ElevatorSubsystem elevator;
 
   public ShooterBoxx(ElevatorSubsystem fakeElevator) {
-    elevator = fakeElevator;
+   elevator = fakeElevator;
   
     shooterConfig
     .inverted(false)
@@ -55,32 +54,42 @@ shooterConfig.closedLoop
   shooterMotor.configure(shooterConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
   }
 
-public void RunShooter(double CustomSpeed ) {
- 
-shooterMotor.set(CustomSpeed);
- 
+public Command IntakeSolosDefaultCommand() {
+  return Commands.run(() -> {
+    if (BoxxCoralSensorUntriggered() && ElevatorCoralSensorUntriggered()) {
+      fireNow = false;
+      shooterMotor.set(0);
+    } else if (fireNow == true) {
+      shooterMotor.set(shooterBoxxContants.kSpitSpeed);
+    } else if (BoxxCoralSensorTriggered() && ElevatorCoralSensorUntriggered()) {
+      shooterMotor.set(0);
+    } else if (BoxxCoralSensorTriggered() && ElevatorCoralSensorTriggered() && (elevator.isElevatorHome())) {
+      shooterMotor.set(Constants.shooterBoxxContants.kFinalSpeed);
+    } else if (ElevatorCoralSensorTriggered() && (elevator.isElevatorHome())) {
+      shooterMotor.set(Constants.shooterBoxxContants.kSuckSpeed);
+    }
+  }, this);
 }
 
+public void RunShooter(double CustomSpeed) {
+  shooterMotor.set(-CustomSpeed);
+}
 
-
-public Command worksShoot() {
-
+public Command WorksShootCommand() {
   return Commands.run(() -> shooterMotor.set(-.5), this);
 };
 
-public Command worksRegurgitate() {
+// public Command worksRegurgitate() {
+//   return Commands.run(() -> shooterMotor.set(.4), this);
+// };
 
-  return Commands.run(() -> shooterMotor.set(.4), this);
-};
-
-
-public Command StopShooterMotor() {
+public Command StopShooterMotorCommand() {
 return Commands.runOnce(() -> {
   shooterMotor.set(0);
 }, this);
 }
 
-public Command SuckTillSensor() {
+public Command SuckTillSensorCommand() {
 return Commands.run(() -> {
   if (ElevatorCoralSensorTriggered() && BoxxCoralSensorTriggered()) {
   shooterMotor.set(Constants.shooterBoxxContants.kFinalSpeed);
@@ -90,37 +99,17 @@ return Commands.run(() -> {
   }
 }).until(() -> StopCoralIntake()); }
 
-public Command SuckTillCoralSensorAuto() {
+public Command SuckTillCoralSensorAutoCommand() {
   return Commands.run(() -> {
     if (ElevatorCoralSensorTriggered() && BoxxCoralSensorTriggered()) {
       shooterMotor.set(Constants.shooterBoxxContants.kFinalSpeed);
     } else if (ElevatorCoralSensorUntriggered() && BoxxCoralSensorTriggered()) {
-      shooterMotor.set(0);
+      shooterMotor.set(0); // does this even do anything lol
     }
     else {
       shooterMotor.set(Constants.shooterBoxxContants.kSuckSpeed);
     }
   }).until(() -> StopCoralIntake());
-}
-
-// public Command SimpleSuckTillCoralSensorAuto() {
-//   return Commands.run(() -> {
-    
-//       shooterMotor.set(-Constants.shooterBoxxContants.kSuckSpeed);
-    
-//   }).until(() -> StopCoralIntake());}
-
-
-
-public void SuckTillCoralSensorDerekSkillIssueFix() {
-    if (ElevatorCoralSensorTriggered() && BoxxCoralSensorTriggered()) {
-      shooterMotor.set(Constants.shooterBoxxContants.kFinalSpeed);
-    } else if (ElevatorCoralSensorUntriggered() && BoxxCoralSensorTriggered()) {
-      shooterMotor.set(0);
-    }
-    else {
-      shooterMotor.set(Constants.shooterBoxxContants.kSuckSpeed);
-    }
 }
 
 public Command SuckTillElevatorSensorAuto() {
@@ -133,37 +122,21 @@ public Command SuckTillElevatorSensorAuto() {
     else {
       shooterMotor.set(Constants.shooterBoxxContants.kSuckSpeed);
     }
-  }).until(() -> ElevatorCoralSensorTriggered());//.until(() -> StopCoralIntake());
+  }).until(() -> ElevatorCoralSensorTriggered());
 }
 
-public Command SpitTillSensor() {
+public Command SpitTillSensorCommand() {
 return Commands.run(() -> {
   shooterMotor.set(Constants.shooterBoxxContants.kSpitSpeed);
 }).until(() -> StopCoralShot()); }
 
-public void shootCoralMethod() {
+public void ShootCoralMethod() {
   shooterMotor.set(Constants.shooterBoxxContants.kSpitSpeed);
 }
 
-public void stopShooterMethod() {
+public void StopShooterMethod() {
   //shooterMotor.set(0);
   shooterMotor.stopMotor();
-}
-
-
-public Command BanditStopCommand() {
-  return runOnce(() -> {
-    shooterMotor.stopMotor();
-  });
-}
-
-public Command BanditSetIntakeMotorCommand(double speed) {
-  return run(() -> shooterMotor.set(speed));
-}
-
-public boolean BanditNoteSensorTriggered() {
-  return (ElevatorCoralSensor.get() && !BoxxCoralSensor.get());
- // return (ElevatorCoralSensorUntriggered() && BoxxCoralSensorTriggered());
 }
 
 public boolean StopCoralIntake() {
@@ -172,6 +145,18 @@ public boolean StopCoralIntake() {
 
 public boolean StopCoralShot() {
   return (BoxxCoralSensorUntriggered() && ElevatorCoralSensorUntriggered());
+}
+
+public boolean getBoxxSensor() {
+  return isBoxxSensorTrue;
+}
+
+public boolean getElevatorSensor() {
+  return isElevatorSensorTrue;
+}
+
+public boolean getEitherSensor() {
+  return (isBoxxSensorTrue || isElevatorSensorTrue);
 }
 
 public boolean BoxxCoralSensorUntriggered() {
@@ -190,56 +175,26 @@ public boolean ElevatorCoralSensorTriggered() {
   return !ElevatorCoralSensor.get();
 }
 
-public Command IntakeDefaultCommand() {
-  return Commands.run(() -> {
-    if (BoxxCoralSensorUntriggered() && ElevatorCoralSensorUntriggered()) {
-      shooterMotor.set(0);
-    } else if (BoxxCoralSensorTriggered() && ElevatorCoralSensorUntriggered()) {
-      shooterMotor.set(0);
-    } else if (BoxxCoralSensorTriggered() && ElevatorCoralSensorTriggered()) {
-      shooterMotor.set(Constants.shooterBoxxContants.kFinalSpeed);
-    } else if (ElevatorCoralSensorTriggered()) {
-      shooterMotor.set(Constants.shooterBoxxContants.kSuckSpeed);
-    }
+// public Command IntakeDefaultCommand() {
+//   return Commands.run(() -> {
+//     if (BoxxCoralSensorUntriggered() && ElevatorCoralSensorUntriggered()) {
+//       shooterMotor.set(0);
+//     } else if (BoxxCoralSensorTriggered() && ElevatorCoralSensorUntriggered()) {
+//       shooterMotor.set(0);
+//     } else if (BoxxCoralSensorTriggered() && ElevatorCoralSensorTriggered()) {
+//       shooterMotor.set(Constants.shooterBoxxContants.kFinalSpeed);
+//     } else if (ElevatorCoralSensorTriggered()) {
+//       shooterMotor.set(Constants.shooterBoxxContants.kSuckSpeed);
+//     }
 
-  }, this);
-}
-
-public Command IntakeSolosDefaultCommand() {
-  return Commands.run(() -> {
-    if (BoxxCoralSensorUntriggered() && ElevatorCoralSensorUntriggered()) {
-      fireNow = false;
-      shooterMotor.set(0);
-    } else if (fireNow == true) {
-      shooterMotor.set(shooterBoxxContants.kSpitSpeed);
-    } else if (BoxxCoralSensorTriggered() && ElevatorCoralSensorUntriggered()) {
-      shooterMotor.set(0);
-    } else if (BoxxCoralSensorTriggered() && ElevatorCoralSensorTriggered() && (elevator.isElevatorHome())) {
-      shooterMotor.set(Constants.shooterBoxxContants.kFinalSpeed);
-    } else if (ElevatorCoralSensorTriggered() && (elevator.isElevatorHome())) {
-      shooterMotor.set(Constants.shooterBoxxContants.kSuckSpeed);
-    }
-
-  }, this);
-}
-
-  public boolean getBoxxSensor() {
-    return isBoxxSensorTrue;
-  }
-
-  public boolean getElevatorSensor() {
-    return isElevatorSensorTrue;
-  }
-
-  public boolean getEitherSensor() {
-    return (isBoxxSensorTrue || isElevatorSensorTrue);
-  }
+//   }, this);
+// }
  
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    // SmartDashboard.putBoolean("Elevator Coral Sensor", ElevatorCoralSensorTriggered());
-    // SmartDashboard.putBoolean("Boxx Coral Sensor", BoxxCoralSensorTriggered());
+    SmartDashboard.putBoolean("Elevator Coral Sensor", ElevatorCoralSensorTriggered());
+    SmartDashboard.putBoolean("Boxx Coral Sensor", BoxxCoralSensorTriggered());
     SmartDashboard.putBoolean("EitherSensorTrue", getEitherSensor());
     isElevatorSensorTrue = !ElevatorCoralSensor.get();
     isBoxxSensorTrue = !BoxxCoralSensor.get();
