@@ -6,6 +6,8 @@ package frc.robot;
 
 import static edu.wpi.first.units.Units.*;
 
+import java.util.function.BooleanSupplier;
+
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
@@ -42,6 +44,7 @@ import frc.robot.subsystems.ShooterBoxx;
 public class RobotContainer {
 
     private final SendableChooser<Command> autoChooser;
+    private final SendableChooser<Boolean> stationChooser;
 
     public final double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
     private final double MaxAngularRate = RotationsPerSecond.of(DrivetrainConstants.MAX_ROTATIONS_PER_SECOND).in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
@@ -102,6 +105,14 @@ public class RobotContainer {
 
          autoChooser = AutoBuilder.buildAutoChooser();
          SmartDashboard.putData("Auto Chooser", autoChooser);
+
+
+         
+         stationChooser = new SendableChooser<>();
+         stationChooser.addOption("LeftStation", true);
+         stationChooser.addOption("RightStation", false);
+         SmartDashboard.putData("Station Chooser", stationChooser);
+
     }
 
     public CommandSwerveDrivetrain getSwerveDrivetrain() { // for coasting out of auto
@@ -115,8 +126,8 @@ public class RobotContainer {
         m_ShooterBoxx.setDefaultCommand(Commands.either(m_ShooterBoxx.IntakeSolosDefaultCommand(), Commands.run(() -> m_ShooterBoxx.StopShooterMethod(), m_ShooterBoxx), m_indexing::isP2ManualModeFalse));
         //m_ClimbSubsystemNeo.setDefaultCommand(m_ClimbSubsystemNeo.KeepClimbSafeDefaultCommand());
         
-        // Inexing LOL!!
-        m_indexing.setDefaultCommand(m_indexing.SettingReefIndexBasedOnController(P2controller::getRightX, P2controller::getRightY));
+        // Indexing LOL!!
+    m_indexing.setDefaultCommand(m_indexing.SettingReefIndexBasedOnController(P2controller::getRightX, P2controller::getRightY));
 
         m_drivetrain.registerTelemetry(logger::telemeterize);
 
@@ -192,31 +203,109 @@ public class RobotContainer {
         // REEF SCORING
 
         // SCORE BLUE
-        P1controller.leftTrigger().and(m_drivetrain::isAllianceBlue).whileTrue(m_drivetrain.pathFindToAllTheReefsBlue().andThen(//.onlyIf(() -> m_ShooterBoxx.getEitherSensor()).andThen(
+        P1controller.leftTrigger().and(m_drivetrain::isAllianceBlue).whileTrue(Commands.repeatingSequence(m_drivetrain.pathFindToAllTheReefsBlue().andThen(//.onlyIf(() -> m_ShooterBoxx.getEitherSensor()).andThen(
             Commands.deadline(
                 new ScoreCoral(m_drivetrain, m_ElevatorSubsystem, m_ShooterBoxx),
                 m_drivetrain.applyRequest(() ->
                     drive.withVelocityX(m_drivetrain.PIDDriveToPointX(PoseConstants.BLUE_REEF_POSES[m_drivetrain.getPlayer1ReefIndex()].getX()) * MaxSpeed)
                     .withVelocityY(m_drivetrain.PIDDriveToPointY(PoseConstants.BLUE_REEF_POSES[m_drivetrain.getPlayer1ReefIndex()].getY()) * MaxSpeed)
                     .withRotationalRate(m_drivetrain.PIDDriveToPointDEG(PoseConstants.BLUE_REEF_POSES[m_drivetrain.getPlayer1ReefIndex()].getRotation().getDegrees()))
-                )
+                ))
+                
+                
+                .andThen( m_drivetrain.pathFindToLeftBlueCoralStation().andThen(
+                    
+                        m_drivetrain.applyRequest(() ->
+                            drive.withVelocityX(m_drivetrain.PIDDriveToPointX(PoseConstants.CORAL_STATION_LEFT_BLUE_POSE.getX()) * MaxSpeed)
+                            .withVelocityY(m_drivetrain.PIDDriveToPointY(PoseConstants.CORAL_STATION_LEFT_BLUE_POSE.getY()) * MaxSpeed)
+                            .withRotationalRate(m_drivetrain.PIDDriveToPointDEG(PoseConstants.CORAL_STATION_LEFT_BLUE_POSE.getRotation().getDegrees()))
+                         ).until(m_ShooterBoxx::ElevatorCoralSensorTriggered)
+                        
+                    
+                )))//.until(m_ShooterBoxx::ElevatorCoralSensorTriggered)
             )
-        ));
+        );
 
-        // REEF SCORE RED
-        P1controller.leftTrigger().and(m_drivetrain::isAllianceRed).whileTrue(m_drivetrain.pathFindToAllTheReefsRed().andThen(
-            Commands.deadline(
-                new ScoreCoral(m_drivetrain, m_ElevatorSubsystem, m_ShooterBoxx),
-                m_drivetrain.applyRequest(() ->
-                    drive.withVelocityX(m_drivetrain.PIDDriveToPointX(PoseConstants.RED_REEF_POSES[m_drivetrain.getPlayer1ReefIndex()].getX()) * MaxSpeed)
-                    .withVelocityY(m_drivetrain.PIDDriveToPointY(PoseConstants.RED_REEF_POSES[m_drivetrain.getPlayer1ReefIndex()].getY()) * MaxSpeed)
-                    .withRotationalRate(m_drivetrain.PIDDriveToPointDEG(PoseConstants.RED_REEF_POSES[m_drivetrain.getPlayer1ReefIndex()].getRotation().getDegrees()))
-                )
-            )
-        ));
+        // // REEF SCORE RED
+        // P1controller.leftTrigger().and(m_drivetrain::isAllianceRed).whileTrue(m_drivetrain.pathFindToAllTheReefsRed().andThen(
+        //     Commands.deadline(
+        //         new ScoreCoral(m_drivetrain, m_ElevatorSubsystem, m_ShooterBoxx),
+        //         m_drivetrain.applyRequest(() ->
+        //             drive.withVelocityX(m_drivetrain.PIDDriveToPointX(PoseConstants.RED_REEF_POSES[m_drivetrain.getPlayer1ReefIndex()].getX()) * MaxSpeed)
+        //             .withVelocityY(m_drivetrain.PIDDriveToPointY(PoseConstants.RED_REEF_POSES[m_drivetrain.getPlayer1ReefIndex()].getY()) * MaxSpeed)
+        //             .withRotationalRate(m_drivetrain.PIDDriveToPointDEG(PoseConstants.RED_REEF_POSES[m_drivetrain.getPlayer1ReefIndex()].getRotation().getDegrees()))
+        //         )
+        //     )
+        // ));
 
-        P1controller.leftTrigger().whileTrue(Commands.startEnd(() -> m_indexing.pathFindingInProgress = true, () -> {m_indexing.pathFindingInProgress = false; m_indexing.updateP1Index();}));
+        // P1controller.leftTrigger().whileTrue(Commands.startEnd(() -> m_indexing.pathFindingInProgress = true, () -> {m_indexing.pathFindingInProgress = false; m_indexing.updateP1Index();}));
 
+        //  P3controller.leftTrigger().whileTrue(Commands.repeatingSequence(
+            
+        //     Commands.either((m_drivetrain.pathFindToAllTheReefsBlue().andThen(//.onlyIf(() -> m_ShooterBoxx.getEitherSensor()).andThen(
+        //     Commands.deadline(
+        //         new ScoreCoral(m_drivetrain, m_ElevatorSubsystem, m_ShooterBoxx),
+        //         m_drivetrain.applyRequest(() ->
+        //             drive.withVelocityX(m_drivetrain.PIDDriveToPointX(PoseConstants.BLUE_REEF_POSES[m_drivetrain.getPlayer1ReefIndex()].getX()) * MaxSpeed)
+        //             .withVelocityY(m_drivetrain.PIDDriveToPointY(PoseConstants.BLUE_REEF_POSES[m_drivetrain.getPlayer1ReefIndex()].getY()) * MaxSpeed)
+        //             .withRotationalRate(m_drivetrain.PIDDriveToPointDEG(PoseConstants.BLUE_REEF_POSES[m_drivetrain.getPlayer1ReefIndex()].getRotation().getDegrees()))
+        //         )
+        //     )
+        // )), m_drivetrain.pathFindToAllTheReefsRed().andThen(
+        //     Commands.deadline(
+        //         new ScoreCoral(m_drivetrain, m_ElevatorSubsystem, m_ShooterBoxx),
+        //         m_drivetrain.applyRequest(() ->
+        //             drive.withVelocityX(m_drivetrain.PIDDriveToPointX(PoseConstants.RED_REEF_POSES[m_drivetrain.getPlayer1ReefIndex()].getX()) * MaxSpeed)
+        //             .withVelocityY(m_drivetrain.PIDDriveToPointY(PoseConstants.RED_REEF_POSES[m_drivetrain.getPlayer1ReefIndex()].getY()) * MaxSpeed)
+        //             .withRotationalRate(m_drivetrain.PIDDriveToPointDEG(PoseConstants.RED_REEF_POSES[m_drivetrain.getPlayer1ReefIndex()].getRotation().getDegrees()))
+        //         )
+        //     )
+        // ), () -> m_drivetrain.isAllianceBlue()))
+
+        // // .andThen(Commands.either(Commands.either(m_drivetrain.pathFindToLeftBlueCoralStation(),  m_drivetrain.pathFindToRightBlueCoralStation(), () -> stationChooser.getSelected()),
+        // //  Commands.either( m_drivetrain.pathFindToLeftRedCoralStation(),  m_drivetrain.pathFindToRightRedCoralStation(), () -> stationChooser.getSelected()), 
+        //  m_drivetrain::isAllianceBlue)
+        //  )
+         
+        //  .andThen(Commands.either(Commands.either(Commands.parallel(
+        //     m_drivetrain.applyRequest(() ->
+        //         drive.withVelocityX(m_drivetrain.PIDDriveToPointX(PoseConstants.CORAL_STATION_LEFT_BLUE_POSE.getX()) * MaxSpeed)
+        //         .withVelocityY(m_drivetrain.PIDDriveToPointY(PoseConstants.CORAL_STATION_LEFT_BLUE_POSE.getY()) * MaxSpeed)
+        //         .withRotationalRate(m_drivetrain.PIDDriveToPointDEG(PoseConstants.CORAL_STATION_LEFT_BLUE_POSE.getRotation().getDegrees()))
+        //      )
+            
+        // ),  Commands.parallel(
+        //     m_drivetrain.applyRequest(() ->
+        //         drive.withVelocityX(m_drivetrain.PIDDriveToPointX(PoseConstants.CORAL_STATION_RIGHT_BLUE_POSE.getX()) * MaxSpeed)
+        //         .withVelocityY(m_drivetrain.PIDDriveToPointY(PoseConstants.CORAL_STATION_RIGHT_BLUE_POSE.getY()) * MaxSpeed)
+        //         .withRotationalRate(m_drivetrain.PIDDriveToPointDEG(PoseConstants.CORAL_STATION_RIGHT_BLUE_POSE.getRotation().getDegrees()))
+        //      )
+             
+        // ), () -> stationChooser.getSelected()),
+        //  Commands.either(  Commands.parallel(
+        //     m_drivetrain.applyRequest(() ->
+        //         drive.withVelocityX(m_drivetrain.PIDDriveToPointX(PoseConstants.CORAL_STATION_LEFT_RED_POSE.getX()) * MaxSpeed)
+        //         .withVelocityY(m_drivetrain.PIDDriveToPointY(PoseConstants.CORAL_STATION_LEFT_RED_POSE.getY()) * MaxSpeed)
+        //         .withRotationalRate(m_drivetrain.PIDDriveToPointDEG(PoseConstants.CORAL_STATION_LEFT_RED_POSE.getRotation().getDegrees()))
+        //      )
+            
+        // ),  Commands.parallel(
+        //     m_drivetrain.applyRequest(() ->
+        //         drive.withVelocityX(m_drivetrain.PIDDriveToPointX(PoseConstants.CORAL_STATION_RIGHT_RED_POSE.getX()) * MaxSpeed)
+        //         .withVelocityY(m_drivetrain.PIDDriveToPointY(PoseConstants.CORAL_STATION_RIGHT_RED_POSE.getY()) * MaxSpeed)
+        //         .withRotationalRate(m_drivetrain.PIDDriveToPointDEG(PoseConstants.CORAL_STATION_RIGHT_RED_POSE.getRotation().getDegrees()))
+        //      )
+             
+        // ), () -> stationChooser.getSelected()), 
+        //  m_drivetrain::isAllianceBlue)
+        //  )
+         
+         
+         
+         
+         
+         
+         //);
         // // NET SCORE BLUE
         // P1controller.a().and(m_drivetrain::isAllianceBlue).whileTrue(m_drivetrain.pathFindToBlueNet().andThen(
         //     Commands.deadline(

@@ -110,7 +110,7 @@ public final class Constants {
     public static final int kBoxxCoralSensorChannel = 0;
     public static final int kElevatorCoralSensorChannel = 2;
     public static final double kSpitSpeed = -0.45;
-    public static final double kSuckSpeed = -0.75;
+    public static final double kSuckSpeed = -0.85;
     public static final double kFinalSpeed = -0.4;
   }
 
