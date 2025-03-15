@@ -132,10 +132,11 @@ public class RobotContainer {
 
     private void configureBindings() {
         // Default Commands :)
-        m_ElevatorSubsystem.setDefaultCommand(Commands.either(m_ElevatorSubsystem.defaultCommand(), m_ElevatorSubsystem.elevatorJoystick(P3controller::getLeftY), m_indexing::isP2ManualModeFalse)); //NEEDS TESTING
+        m_ElevatorSubsystem.setDefaultCommand(Commands.either(Commands.run(()-> m_ElevatorSubsystem.elevatorJoystick(P2controller.getLeftY()), m_ElevatorSubsystem),m_ElevatorSubsystem.defaultCommand() , m_indexing::isP2ManualModeFalse)); //NEEDS TESTING
+        //m_ElevatorSubsystem.setDefaultCommand(Commands.either(m_ElevatorSubsystem.elevatorToL1(),m_ElevatorSubsystem.defaultCommand() , m_indexing::isP2ManualModeFalse));
         m_ShooterBoxx.setDefaultCommand(Commands.either(m_ShooterBoxx.IntakeSolosDefaultCommand(), Commands.run(() -> m_ShooterBoxx.stopShooterMethod(), m_ShooterBoxx), m_indexing::isP2ManualModeFalse));
         m_ClimbSubsystemNeo.setDefaultCommand(m_ClimbSubsystemNeo.Keepclimbsafe());
-        
+
 
         m_drivetrain.registerTelemetry(logger::telemeterize);
 
@@ -151,8 +152,8 @@ public class RobotContainer {
 
 
         // Manual Controls
-        P2controller.povDown().whileTrue(Commands.either(Commands.runOnce(() ->  m_indexing.elevatorIndexChooser(1)),
-         m_ElevatorSubsystem.elevatorToL1(), m_indexing::isP1ManualModeFalse));
+        // P2controller.povDown().whileTrue(Commands.either(Commands.runOnce(() ->  m_indexing.elevatorIndexChooser(1)),
+        //  m_ElevatorSubsystem.elevatorToL1(), m_indexing::isP1ManualModeFalse));
         // LOCK THE WHEELS
         P1controller.povLeft().whileTrue(m_drivetrain.applyRequest(() -> drivePointWheelsAt));
 
@@ -307,22 +308,22 @@ public class RobotContainer {
         // Elevator
         
         //P2controller.povDown().whileTrue(Commands.runOnce(() ->  m_indexing.elevatorIndexChooser(1)));
-        P2controller.povLeft().whileTrue(Commands.runOnce(() ->  m_indexing.elevatorIndexChooser(2)));
-        P2controller.povRight().whileTrue(Commands.runOnce(() ->  m_indexing.elevatorIndexChooser(3)));
-        P2controller.povUp().whileTrue(Commands.runOnce(() ->  m_indexing.elevatorIndexChooser(4)));
+        // P2controller.povLeft().whileTrue(Commands.runOnce(() ->  m_indexing.elevatorIndexChooser(2)));
+        // P2controller.povRight().whileTrue(Commands.runOnce(() ->  m_indexing.elevatorIndexChooser(3)));
+        // P2controller.povUp().whileTrue(Commands.runOnce(() ->  m_indexing.elevatorIndexChooser(4)));
 
          P2controller.povDown().whileTrue(Commands.either(Commands.runOnce(() ->  m_indexing.elevatorIndexChooser(1)),
          m_ElevatorSubsystem.elevatorToL1(), m_indexing::isP2ManualModeFalse));
-/* 
+
          P2controller.povLeft().whileTrue(Commands.either(Commands.runOnce(() ->  m_indexing.elevatorIndexChooser(2)),
-         m_ElevatorSubsystem.elevatorToL2(), m_indexing::isManualModeFalse));
+         m_ElevatorSubsystem.elevatorToL2(), m_indexing::isP2ManualModeFalse));
 
          P2controller.povRight().whileTrue(Commands.either(Commands.runOnce(() ->  m_indexing.elevatorIndexChooser(3)),
-         m_ElevatorSubsystem.elevatorToL3(), m_indexing::isManualModeFalse));
+         m_ElevatorSubsystem.elevatorToL3(), m_indexing::isP2ManualModeFalse));
 
          P2controller.povUp().whileTrue(Commands.either(Commands.runOnce(() ->  m_indexing.elevatorIndexChooser(4)),
-         m_ElevatorSubsystem.elevatorToL4(), m_indexing::isManualModeFalse));
-*/
+         m_ElevatorSubsystem.elevatorToL4(), m_indexing::isP2ManualModeFalse));
+
 
                 
         // Reef Index
@@ -384,7 +385,7 @@ public class RobotContainer {
 
         
         // Elevator
-        P3controller.back().whileTrue(m_ElevatorSubsystem.elevatorJoystick(P3controller::getLeftY)); //Not sure if this will work needs testing
+        //P3controller.back().whileTrue(m_ElevatorSubsystem.elevatorJoystick(-.5)); //Not sure if this will work needs testing
         // P3controller.povDown().whileTrue(m_ElevatorSubsystem.elevatorToL1());
         // P3controller.povLeft().whileTrue(m_ElevatorSubsystem.elevatorToL2());
         // P3controller.povRight().whileTrue(m_ElevatorSubsystem.elevatorToL3());

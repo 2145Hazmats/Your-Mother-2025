@@ -11,12 +11,6 @@
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "FireL4"
-          }
-        },
-        {
           "type": "parallel",
           "data": {
             "commands": [
@@ -24,12 +18,6 @@
                 "type": "path",
                 "data": {
                   "pathName": "ProcessorPreload2Source"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "SuckTillSensor"
                 }
               }
             ]
@@ -42,21 +30,9 @@
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "FireL4"
-          }
-        },
-        {
           "type": "path",
           "data": {
             "pathName": "ProcessorScore22Source"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "SuckTillSensor"
           }
         },
         {
@@ -67,12 +43,6 @@
                 "type": "path",
                 "data": {
                   "pathName": "ProcessorSource2Score2"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "FireL4"
                 }
               }
             ]
@@ -86,12 +56,6 @@
                 "type": "path",
                 "data": {
                   "pathName": "ProcessorSource2Score3"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "FireL4"
                 }
               }
             ]
