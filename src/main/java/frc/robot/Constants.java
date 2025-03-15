@@ -159,7 +159,9 @@ public final class Constants {
    public static final double outtakeSpeed = -0.5;
 
    public static final double HomePosition = 0;
+   public static final double FloorPosition = 0;
    public static final double GrabPosition = 0;
+   public static final double ProcessorPosition = 0;
    public static final double NetPosition = 0;
   
    public static final Pose2d BLUE_NET_POSES = new Pose2d(0,0,new Rotation2d(0));

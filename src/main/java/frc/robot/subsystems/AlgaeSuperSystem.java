@@ -37,6 +37,22 @@ public class AlgaeSuperSystem extends SubsystemBase {
     }
   }
 
+  public void ClawGoesForAlgaeOfFloor() {
+    if (coralSensor.ElevatorCoralSensorUntriggered()) {
+        theElevator.elevatorToSomething(0);
+        theClaw.moveArmToPointMethod(AlgaeConstants.FloorPosition);
+        theClaw.intakeAlgaeMethod();
+    }
+  }
+
+  public void ClawPlaysProcessor() {
+    if (coralSensor.ElevatorCoralSensorUntriggered()) {
+        theElevator.elevatorToSomething(0); // idk where to put elevator
+        theClaw.moveArmToPointMethod(AlgaeConstants.ProcessorPosition);
+        theClaw.outtakeAlgae();
+    }
+  }
+
   public Command ClawGoesForAlgaeCommand() {
    return Commands.run(()->{if (coralSensor.ElevatorCoralSensorUntriggered()) {
       int index = theElevator.getPlayer1LevelIndex();
