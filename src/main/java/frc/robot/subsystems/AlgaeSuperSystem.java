@@ -36,8 +36,17 @@ public class AlgaeSuperSystem extends SubsystemBase {
     if (coralSensor.ElevatorCoralSensorUntriggered()) {
         theElevator.elevatorToLevel(0); // idk where to put elevator
         theClaw.MoveArmToPointMethod(AlgaeConstants.ProcessorPosition);
-        theClaw.RegurgitateAlgaeMethod(AlgaeConstants.outtakeSpeed);
+        theClaw.RegurgitateAlgaeMethod();
     }
+  }
+
+  public void ClawPlaysNet() {
+    if (coralSensor.ElevatorCoralSensorUntriggered()) {
+      theElevator.elevatorToLevel(4);
+      theClaw.MoveArmToPointMethod(AlgaeConstants.NetPosition);
+      theClaw.RegurgitateAlgaeMethod();
+    }
+
   }
 
   public void ClawGoesForAlgaeOffReef(boolean LowAlgae) {

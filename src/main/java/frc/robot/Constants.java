@@ -155,6 +155,7 @@ public final class Constants {
    public static final double armP = 0;
    public static final double intakeSpeed = 0.5;
    public static final double outtakeSpeed = -0.5;
+   public static final double armSpeed = 0.5;
 
    public static final double HomePosition = 0;
    public static final double FloorPosition = 0;

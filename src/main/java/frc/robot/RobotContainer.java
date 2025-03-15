@@ -13,6 +13,7 @@ import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -67,7 +68,8 @@ public class RobotContainer {
     private final CommandXboxController P1controller = new CommandXboxController(0);
     private final CommandXboxController P2controller = new CommandXboxController(1);
     private final CommandXboxController P3controller = new CommandXboxController(2);
-   
+    private final CommandXboxController P4controller = new CommandXboxController(3);
+    private final CommandXboxController P5controller = new CommandXboxController(4);
     // We need to initialize an object of the camera subsystem, we don't have to use it
     private final CommandSwerveDrivetrain m_drivetrain = TunerConstants.createDrivetrain();
     private CameraSubsystem m_CameraSubsystem = new CameraSubsystem(m_drivetrain);
@@ -125,9 +127,12 @@ public class RobotContainer {
         //m_ElevatorSubsystem.setDefaultCommand(Commands.either(m_ElevatorSubsystem.elevatorToL1(),m_ElevatorSubsystem.defaultCommand() , m_indexing::isP2ManualModeFalse));
         m_ShooterBoxx.setDefaultCommand(Commands.either(m_ShooterBoxx.IntakeSolosDefaultCommand(), Commands.run(() -> m_ShooterBoxx.StopShooterMethod(), m_ShooterBoxx), m_indexing::isP2ManualModeFalse));
         //m_ClimbSubsystemNeo.setDefaultCommand(m_ClimbSubsystemNeo.KeepClimbSafeDefaultCommand());
+        m_AlgaeSubsystem.setDefaultCommand(Commands.run(()-> m_AlgaeSubsystem.algaeJoystick(MathUtil.applyDeadband(P4controller.getRightY(), 0.1))));
         
         // Indexing LOL!!
-    m_indexing.setDefaultCommand(m_indexing.SettingReefIndexBasedOnController(P2controller::getRightX, P2controller::getRightY));
+        m_indexing.setDefaultCommand(m_indexing.SettingReefIndexBasedOnController(P2controller::getRightX, P2controller::getRightY));
+
+        
 
         m_drivetrain.registerTelemetry(logger::telemeterize);
 
@@ -366,11 +371,11 @@ public class RobotContainer {
         ));
 
         // CENTRIC MODE
-        // P1controller.leftTrigger().whileTrue(m_drivetrain.applyRequest(() ->
-        //  driveCentric.withVelocityX(-P1controller.getLeftY() * Constants.DrivetrainConstants.SlowMoSpeed) // Drive forward with negative Y (forward)
-        //      .withVelocityY(-P1controller.getLeftX() * Constants.DrivetrainConstants.SlowMoSpeed) // Drive left with negative X (left)
-        //      .withRotationalRate(-P1controller.getRightX() * Constants.DrivetrainConstants.SlowMoSpeed) // Faces the Reef
-        //  ));
+        P1controller.leftTrigger().whileTrue(m_drivetrain.applyRequest(() ->
+         driveCentric.withVelocityX(-P1controller.getLeftY() * Constants.DrivetrainConstants.SlowMoSpeed) // Drive forward with negative Y (forward)
+             .withVelocityY(-P1controller.getLeftX() * Constants.DrivetrainConstants.SlowMoSpeed) // Drive left with negative X (left)
+             .withRotationalRate(-P1controller.getRightX() * Constants.DrivetrainConstants.SlowMoSpeed) // Faces the Reef
+         ));
 
         //-------------------------------P2 Controls---------------------------------
         
@@ -471,8 +476,27 @@ public class RobotContainer {
 
         //P3controller.leftTrigger().whileTrue(m_ShooterBoxx.SuckTillSensor()).onFalse(m_ShooterBoxx.StopShooterMotor());
         //P3controller.rightTrigger().whileTrue(m_ShooterBoxx.SpitTillSensor()).onFalse(m_ShooterBoxx.StopShooterMotor());
-    }
-
+        
+        //----------------------------------------------------------P4 Controls-------------------------------------------------------
+    
+        //Algae Controls
+        P4controller.leftTrigger().whileTrue(m_AlgaeSubsystem.RegurgitateAlgaeCommand());
+        P4controller.rightTrigger().whileTrue(m_AlgaeSubsystem.IntakeAlgaeCommmand());
+        P4controller.a().whileTrue(
+            Commands.run(() -> m_AlgaeSuperSystem.ClawGoesForAlgaeOffReef(true), m_AlgaeSuperSystem)
+            .andThen(m_drivetrain.applyRequest(() ->
+                driveCentric.withVelocityX(-P1controller.getLeftY() * -Constants.DrivetrainConstants.SlowMoSpeed)
+                .withVelocityY(-P1controller.getLeftX()) 
+                .withRotationalRate(-P1controller.getRightX())
+            ))
+            .withTimeout(1)
+            .andThen(m_ElevatorSubsystem.elevatorToL1())
+            .andThen(() -> m_AlgaeSuperSystem.ClawPlaysNet())
+        );
+    
+    
+    } 
+        
     // private void updateEnumSmartDashboard(String enumString) {
     //     SmartDashboard.putBoolean("SCORE", false);
     //     SmartDashboard.putBoolean("LEFT_SOURCE", false);

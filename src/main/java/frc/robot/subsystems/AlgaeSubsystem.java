@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix6.configs.MotionMagicConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
@@ -16,6 +17,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.Constants.AlgaeConstants;
 
 public class AlgaeSubsystem extends SubsystemBase {
@@ -58,6 +60,16 @@ public class AlgaeSubsystem extends SubsystemBase {
   public void MoveArmToPointMethod(double position) {
     armMotor.setControl(m_request.withPosition(position));
   } 
+  // Manual Methods
+  public void algaeJoystick(double joystick) { 
+    armMotor.setControl(new DutyCycleOut(joystick*Constants.AlgaeConstants.armSpeed));
+ }
+
+ // KEEP ALGAE CLAW SAFE METHODS. DO LATER WHEN WE GET ALGAE CLAW!!!!
+ //public Command keepAlgaeClawSafe() {
+     //return ;
+ //}
+
 
   // Algae Intake
   public Command IntakeAlgaeCommmand() {
@@ -70,13 +82,13 @@ public class AlgaeSubsystem extends SubsystemBase {
   }
 
   // Algae Outtake
-  public Command RegurgitateAlgaeCommand(double speed) {
+  public Command RegurgitateAlgaeCommand() {
     return Commands.run(() -> 
-      shooterMotor.set(speed)
+      shooterMotor.set(AlgaeConstants.outtakeSpeed)
     );
   }
-  public void RegurgitateAlgaeMethod(double speed) {
-    shooterMotor.set(speed);
+  public void RegurgitateAlgaeMethod() {
+    shooterMotor.set(AlgaeConstants.outtakeSpeed);
   }
 
   public void StopAlgaeShooterMethod() {
