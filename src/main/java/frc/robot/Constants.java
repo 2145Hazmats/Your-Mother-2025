@@ -35,10 +35,6 @@ public final class Constants {
     public static final double PID_MAX = 0.15;
     public static final double STATION_PID_MAX = 0.25;
 
-    // Feed Forward Constants
-    public static final double FEEDFORWARD_CONSTANT = 0.0;
-    public static final double FEEDFORWARD_CONSTANT_DEGREE = 0; //.12
-
     //Margin of Error for Scoring
     public static final double MarginOfErrorXY = Units.inchesToMeters(1); // 2 inch
     public static final double MarginOfErrorDeg = 2.5; //5 degree error : Its doubled cuz math

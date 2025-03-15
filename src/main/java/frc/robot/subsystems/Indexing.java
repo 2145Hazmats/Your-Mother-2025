@@ -10,6 +10,7 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -82,24 +83,27 @@ public class Indexing extends SubsystemBase {
 
   public Command SettingReefIndexBasedOnController(DoubleSupplier RightX, DoubleSupplier RightY) {
     return Commands.run(() -> {
-      Double Y = MathUtil.applyDeadband(RightY.getAsDouble(), 0.5);
-      Double X = MathUtil.applyDeadband(RightX.getAsDouble(), 0.5);
+      Double Y = MathUtil.applyDeadband(RightY.getAsDouble(), 0.25);
+      Double X = MathUtil.applyDeadband(RightX.getAsDouble(), 0.25);
       double thetaRad = Math.atan2(Y, X);
       int newindex = 0;
 
-      if (thetaRad <= (-5 * Math.PI) / 6) {newindex = 0;}
-      else if (thetaRad <= (-4 * Math.PI) / 6) {newindex = 11;}
-      else if (thetaRad <= (-3 * Math.PI) / 6) {newindex = 10;}
-      else if (thetaRad <= (-2 * Math.PI) / 6) {newindex = 9;}
-      else if (thetaRad <= (-1 * Math.PI) / 6) {newindex = 8;}
-      else if (thetaRad <= (0 * Math.PI) / 6) {newindex = 7;}
-      else if (thetaRad <= (1 * Math.PI) / 6) {newindex = 6;}
-      else if (thetaRad <= (2 * Math.PI) / 6) {newindex = 5;}
-      else if (thetaRad <= (3 * Math.PI) / 6) {newindex = 4;}
-      else if (thetaRad <= (4 * Math.PI) / 6) {newindex = 3;}
-      else if (thetaRad <= (5 * Math.PI) / 6) {newindex = 2;}
-      else if (thetaRad <= (6 * Math.PI) / 6) {newindex = 1;}
-      m_drivetrain.updateP2Index(newindex);
-    });
+      if (X != 0 || Y != 0) {
+        if (thetaRad <= (-5 * Math.PI) / 6) {newindex = 9;}
+        else if (thetaRad <= (-4 * Math.PI) / 6) {newindex = 8;}
+        else if (thetaRad <= (-3 * Math.PI) / 6) {newindex = 7;}
+        else if (thetaRad <= (-2 * Math.PI) / 6) {newindex = 6;}
+        else if (thetaRad <= (-1 * Math.PI) / 6) {newindex = 5;}
+        else if (thetaRad <= (0 * Math.PI) / 6) {newindex = 4;}
+        else if (thetaRad <= (1 * Math.PI) / 6) {newindex = 3;}
+        else if (thetaRad <= (2 * Math.PI) / 6) {newindex = 2;}
+        else if (thetaRad <= (3 * Math.PI) / 6) {newindex = 1;}
+        else if (thetaRad <= (4 * Math.PI) / 6) {newindex = 0;}
+        else if (thetaRad <= (5 * Math.PI) / 6) {newindex = 11;}
+        else if (thetaRad <= (6 * Math.PI) / 6) {newindex = 10;}
+        m_drivetrain.setP2Index(newindex);
+      }
+
+    }, this);
   }
 }
