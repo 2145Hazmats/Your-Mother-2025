@@ -4,10 +4,13 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.AlgaeConstants;
+import frc.robot.Constants.ErrorConstants;
+import frc.robot.Constants.elevatorConstants;
 import frc.robot.subsystems.ShooterBoxx;
 
 public class AlgaeSuperSystem extends SubsystemBase {
@@ -67,12 +70,47 @@ public class AlgaeSuperSystem extends SubsystemBase {
       if (index == 2 || index == 3 || index == 6 || index == 7 || index == 10 || index == 11) { //change to just bigger number for 6 pole
         theElevator.elevatorToLevel(2);
       } else {
-        theElevator.elevatorToLevel(4);
+        theElevator.elevatorToLevel(3);
       }
       theClaw.MoveArmToPointMethod(AlgaeConstants.GrabPosition);
       theClaw.IntakeAlgaeMethod();
     }},theElevator, theClaw);
   }
+
+  public Command Dealgify() {
+    return Commands.run(()->{if (coralSensor.ElevatorCoralSensorUntriggered()) {
+      int index = theElevator.getPlayer1LevelIndex();
+      if (index == 2 || index == 3 || index == 6 || index == 7 || index == 10 || index == 11) { //change to just bigger number for 6 pole
+        theElevator.elevatorToLevel(2);
+        if (MathUtil.isNear(theElevator.getElevatorPosition(), elevatorConstants.L2Position, ErrorConstants.ElevatorError)) {
+          theClaw.MoveArmToPointMethod(AlgaeConstants.DealgifyPosition);
+          theClaw.RegurgitateAlgaeMethod();
+        }
+      } else {
+        theElevator.elevatorToLevel(3);
+        if (MathUtil.isNear(theElevator.getElevatorPosition(), elevatorConstants.L3Position, ErrorConstants.ElevatorError)) {
+          theClaw.MoveArmToPointMethod(AlgaeConstants.DealgifyPosition);
+          theClaw.RegurgitateAlgaeMethod();
+        }
+      }
+    }});
+  }
+
+ /*  public Command DealgifyLowAlgaeCommand() { //no saftey 
+    return Commands.startEnd(() -> {
+      theElevator.elevatorToLevel(2);
+      theClaw.IntakeAlgaeMethod();
+      theClaw.MoveArmToPointMethod(AlgaeConstants.GrabPosition);
+    
+  }, theElevator, theClaw);
+  }
+
+  public Command DealgifyHighAlgaeCommand() { //no saftey 
+    return Commands.startEnd(() -> {
+      theElevator.elevatorToL3().andThen(Commands.parallel(
+        theClaw.MoveArmToPointCommand(AlgaeConstants.DealgifyPosition)
+      ))});
+  }*/
 
   @Override
   public void periodic() {

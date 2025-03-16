@@ -19,10 +19,11 @@ public class Indexing extends SubsystemBase {
   private ElevatorSubsystem m_ElevatorSubsystem;
   private CommandSwerveDrivetrain m_drivetrain;
   
-
   private boolean isP1ManualModeNo = true;
   private boolean isP2ManualModeNo = true;
   public boolean pathFindingInProgress = false;
+
+  private boolean hitAlgaeWithElevator = false;
   /** Creates a new Indexing. */
   public Indexing() {}
 
@@ -56,7 +57,13 @@ public class Indexing extends SubsystemBase {
     }
   }
 
-  
+  public Command updateP1IndexInRepeatingCommand() {
+    return Commands.runOnce(() -> {
+      pathFindingInProgress = false;
+      updateP1Index();
+      pathFindingInProgress = true;
+    });
+  }
   
   //P1
   public void setP1ManualModeNo() {
@@ -79,6 +86,14 @@ public class Indexing extends SubsystemBase {
     }
   public boolean isP2ManualModeFalse() {
       return isP2ManualModeNo;
+  }
+
+  public boolean getHitAlgaeWithElevator() {
+    return hitAlgaeWithElevator;
+  }
+
+  public void setHitAlgaeWithElevator(boolean b) {
+    hitAlgaeWithElevator = b;
   }
 
   public Command SettingReefIndexBasedOnController(DoubleSupplier RightX, DoubleSupplier RightY) {

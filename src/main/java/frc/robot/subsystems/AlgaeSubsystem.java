@@ -13,12 +13,14 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.AlgaeConstants;
+import frc.robot.Constants.ErrorConstants;
 
 public class AlgaeSubsystem extends SubsystemBase {
   /** Creates a new AlgaeSubsystem. */
@@ -53,6 +55,10 @@ public class AlgaeSubsystem extends SubsystemBase {
     });
   }
 
+  public boolean isAlgaeAtHome() {
+    return MathUtil.isNear(AlgaeConstants.HomePosition, GetAlgaeArmPosition(), ErrorConstants.AlgaeError);
+  }
+
   // Arm Moving Methods
   public Command MoveArmToPointCommand(double position) {
     return Commands.run(() -> armMotor.setControl(m_request.withPosition(position)), this);
@@ -62,7 +68,7 @@ public class AlgaeSubsystem extends SubsystemBase {
   } 
   // Manual Methods
   public void algaeJoystick(double joystick) { 
-    armMotor.setControl(new DutyCycleOut(joystick*Constants.AlgaeConstants.armSpeed));
+    armMotor.setControl(new DutyCycleOut(joystick*Constants.AlgaeConstants.armspeed));
  }
 
  // KEEP ALGAE CLAW SAFE METHODS. DO LATER WHEN WE GET ALGAE CLAW!!!!

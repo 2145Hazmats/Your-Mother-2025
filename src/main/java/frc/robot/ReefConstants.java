@@ -186,6 +186,11 @@ public class ReefConstants {
     public static final Pose2d NET_RED_POSE = new Pose2d(9.67, 1.891, new Rotation2d(0));
     public static final Pose2d NET_BLUE_PATHFIND_POSE = new Pose2d(7.3, 6.159, new Rotation2d(Math.PI));
     public static final Pose2d NET_BLUE_POSE = new Pose2d(7.708, 6.159, new Rotation2d(Math.PI));
+
+    public static final Pose2d PROCESSOR_RED_PATHFIND_POSE = new Pose2d(11.505, 7.174, new Rotation2d(Math.PI/2));
+    public static final Pose2d PROCESSOR_RED_POSE = new Pose2d(11.515, 7.476, new Rotation2d(Math.PI/2));
+    public static final Pose2d PROCESSOR_BLUE_PATHFIND_POSE = new Pose2d(5.889, 1.051, new Rotation2d(-Math.PI/2));
+    public static final Pose2d PROCESSOR_BLUE_POSE = new Pose2d(5.938, 0.564, new Rotation2d(-Math.PI/2));
   }
   
   // Climb Drive Setpoints

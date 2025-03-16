@@ -241,6 +241,14 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         return AutoBuilder.pathfindToPose(PoseConstants.NET_BLUE_PATHFIND_POSE, pathFindingConstraints, PathPlannerConstants.PATHFIND_END_SPEED_MPS);
     }
 
+    public Command pathFindToBlueProcessor() {
+        return AutoBuilder.pathfindToPose(PoseConstants.PROCESSOR_BLUE_PATHFIND_POSE, pathFindingConstraints, PathPlannerConstants.PATHFIND_END_SPEED_MPS);
+    }
+
+    public Command pathFindToRedProcessor() {
+        return AutoBuilder.pathfindToPose(PoseConstants.PROCESSOR_RED_PATHFIND_POSE, pathFindingConstraints, PathPlannerConstants.PATHFIND_END_SPEED_MPS);
+    }
+
     // CLIMB PATHFIND
 
    /* public Command pathFindToBueClimbCage() {

@@ -97,8 +97,9 @@ public final class Constants {
     public static final double L4Position = -50.5; //-81.15
     public static final double HomePosition = 0.0; //-.6
 
-    public static final double SAFETY_LEVEL = L1Position/1.5;
+    public static final double SAFETY_LEVEL = L2Position;
     public static final double NEAR_HOME = HomePosition-0.5;
+    public static final double NEARER_HOME = HomePosition-0.05;
     
     public static final double ElevatorJoystickSpeedNerf = 0.4;
   }
@@ -137,6 +138,7 @@ public final class Constants {
     public static final double DriveTrainElevatorUpError = Units.inchesToMeters(24);
     public static final double DriveTrainScoreError = Units.inchesToMeters(1);
     public static final double DriveTrainDegreesError = 8;
+    public static final double AlgaeError = 2;
   }
 
   // Get Coral Constants
@@ -155,11 +157,12 @@ public final class Constants {
    public static final double armP = 0;
    public static final double intakeSpeed = 0.5;
    public static final double outtakeSpeed = -0.5;
-   public static final double armSpeed = 0.5;
+   public static final double armspeed = -.2;
 
    public static final double HomePosition = 0;
    public static final double FloorPosition = 0;
    public static final double GrabPosition = 0;
+   public static final double DealgifyPosition = 0;
    public static final double ProcessorPosition = 0;
    public static final double NetPosition = 0;
   

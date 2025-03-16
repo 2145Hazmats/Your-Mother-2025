@@ -35,38 +35,33 @@ public class ElevatorSubsystem extends SubsystemBase{
     private int player1LevelIndex = 1;
     private int player2LevelIndex = 1;
 
+    private AlgaeSubsystem algae;
+
     /* Constructor */
-    public ElevatorSubsystem() {
+    public ElevatorSubsystem(AlgaeSubsystem fakeAlgae) {
       motorLeader.setPosition(0);
       motorFollower.setPosition(0);
 
       SmartDashboard.putBoolean("Reef Level 1", false); SmartDashboard.putBoolean("Reef Level 2", false);
       SmartDashboard.putBoolean("Reef Level 3", false); SmartDashboard.putBoolean("Reef Level 4", false);
 
-      // SmartDashboard.putNumber("ElevatorkS", 0);
-      // SmartDashboard.putNumber("ElevatorkV", 0);
-      // SmartDashboard.putNumber("ElevatorkA", 0);
-      
-      // SmartDashboard.putNumber("ElevatorP", 0);
-      // SmartDashboard.putNumber("ElevatorI", 0);
-      // SmartDashboard.putNumber("ElevatorD", 0);
-      // SmartDashboard.putNumber("ElevatorG", 0);
+      algae = fakeAlgae;
 
-    slot0Congfigs = config.Slot0;
+      slot0Congfigs = config.Slot0;
 
-    slot0Congfigs.kS = 0; // Add 0.25 V output to overcome static friction //0.25
-    slot0Congfigs.kV = 0; // A velocity target of 1 rps results in 0.12 V output //0.12
-    slot0Congfigs.kA = 0; // An acceleration of 1 rps/s requires 0.01 V output //0.01
-    slot0Congfigs.kP = Constants.elevatorConstants.ElaphantP; // A position error of 2.5 rotations results in 12 V output //4.8
-    slot0Congfigs.kI = Constants.elevatorConstants.ElaphantI; // no output for integrated error //0
-    slot0Congfigs.kD = Constants.elevatorConstants.ElaphantD; // A velocity error of 1 rps results in 0.1 V output //0.1
-    slot0Congfigs.kG = 0; // Defying gravity //0.1
-    slot0Congfigs.GravityType = GravityTypeValue.Elevator_Static;
-  // set Motion Magic settings
-     MotionMagicConfigs motionMagicConfigs = config.MotionMagic;
-     motionMagicConfigs.MotionMagicCruiseVelocity = 125; // Target cruise velocity of 80 rps 
-     motionMagicConfigs.MotionMagicAcceleration = 200; // Target acceleration of 160 rps/s (0.5 seconds)
-    //motionMagicConfigs.MotionMagicJerk = 800; // Target jerk of 1600 rps/s/s (0.1 seconds)
+      slot0Congfigs.kS = 0; // Add 0.25 V output to overcome static friction //0.25
+      slot0Congfigs.kV = 0; // A velocity target of 1 rps results in 0.12 V output //0.12
+      slot0Congfigs.kA = 0; // An acceleration of 1 rps/s requires 0.01 V output //0.01
+      slot0Congfigs.kP = Constants.elevatorConstants.ElaphantP; // A position error of 2.5 rotations results in 12 V output //4.8
+      slot0Congfigs.kI = Constants.elevatorConstants.ElaphantI; // no output for integrated error //0
+      slot0Congfigs.kD = Constants.elevatorConstants.ElaphantD; // A velocity error of 1 rps results in 0.1 V output //0.1
+      slot0Congfigs.kG = 0; // Defying gravity //0.1
+      slot0Congfigs.GravityType = GravityTypeValue.Elevator_Static;
+      // set Motion Magic settings
+      MotionMagicConfigs motionMagicConfigs = config.MotionMagic;
+      motionMagicConfigs.MotionMagicCruiseVelocity = 125; // Target cruise velocity of 80 rps 
+      motionMagicConfigs.MotionMagicAcceleration = 200; // Target acceleration of 160 rps/s (0.5 seconds)
+      //motionMagicConfigs.MotionMagicJerk = 800; // Target jerk of 1600 rps/s/s (0.1 seconds)
 
       config.MotorOutput.NeutralMode = NeutralModeValue.Brake;
       //config.Slot0 = new Slot0Configs().withKP(Constants.elevatorConstants.ElaphantP).withKI(Constants.elevatorConstants.ElaphantI).withKD(Constants.elevatorConstants.ElaphantD);
@@ -84,9 +79,15 @@ public class ElevatorSubsystem extends SubsystemBase{
     }
 
   public Command defaultCommand() {
-    return Commands.run(() -> 
-      motorLeader.setControl(m_request.withPosition(Constants.elevatorConstants.HomePosition))).withTimeout(1).andThen(disableElevator());
-    }
+    return Commands.run(() -> {
+      if (algae.isAlgaeAtHome()) {
+        motorLeader.setControl(m_request.withPosition(Constants.elevatorConstants.HomePosition));
+      }
+      if (isElevatorEvenCloserToHome()) {
+        disableElevator();
+      }
+    });
+  }
 
   public Command elevatorToHome() {
       return Commands.run(() -> 
@@ -184,7 +185,11 @@ public class ElevatorSubsystem extends SubsystemBase{
     }
 
     public boolean isElevatorHome() {
-      return (motorLeader.getPosition().getValueAsDouble() >= Constants.elevatorConstants.NEAR_HOME);
+      return (motorLeader.getPosition().getValueAsDouble() >= elevatorConstants.NEAR_HOME);
+    }
+
+    public boolean isElevatorEvenCloserToHome() {
+      return (motorLeader.getPosition().getValueAsDouble() >= elevatorConstants.NEARER_HOME);
     }
 
     // public Command setElevatorPID() {
