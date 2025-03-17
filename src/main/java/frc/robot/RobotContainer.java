@@ -133,7 +133,7 @@ public class RobotContainer {
         //m_ElevatorSubsystem.setDefaultCommand(Commands.either(m_ElevatorSubsystem.elevatorToL1(),m_ElevatorSubsystem.defaultCommand() , m_indexing::isP2ManualModeFalse));
         m_ShooterBoxx.setDefaultCommand(Commands.either(m_ShooterBoxx.IntakeSolosDefaultCommand(), Commands.run(() -> m_ShooterBoxx.StopShooterMethod(), m_ShooterBoxx), m_indexing::isP2ManualModeFalse));
         //m_ClimbSubsystemNeo.setDefaultCommand(m_ClimbSubsystemNeo.KeepClimbSafeDefaultCommand());
-        m_AlgaeSubsystem.setDefaultCommand(Commands.run(()-> m_AlgaeSubsystem.algaeJoystick(MathUtil.applyDeadband(P4controller.getRightY(), 0.1))));
+        m_AlgaeSubsystem.setDefaultCommand(Commands.run(()-> m_AlgaeSubsystem.algaeJoystick(P4controller.getRightY(),P4controller.getLeftY()), m_AlgaeSubsystem));//(MathUtil.applyDeadband(P4controller.getRightY(), 0.1)), MathUtil.applyDeadband(P4controller.getLeftY(), 0.1)));
         
         // Indexing LOL!!
     m_indexing.setDefaultCommand(m_indexing.SettingReefIndexBasedOnController(P2controller::getRightX, P2controller::getRightY));
@@ -624,7 +624,7 @@ public class RobotContainer {
             .andThen(() -> m_AlgaeSuperSystem.ClawPlaysNet())
         );
     
-    
+        //P4controller.getRightY((Commands.run(()-> m_AlgaeSubsystem.algaeJoystick(MathUtil.applyDeadband(P4controller.getRightY(), 0.1))));)
     }
 
     // private void updateEnumSmartDashboard(String enumString) {

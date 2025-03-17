@@ -67,8 +67,9 @@ public class AlgaeSubsystem extends SubsystemBase {
     armMotor.setControl(m_request.withPosition(position));
   } 
   // Manual Methods
-  public void algaeJoystick(double joystick) { 
-    armMotor.setControl(new DutyCycleOut(joystick*Constants.AlgaeConstants.armspeed));
+  public void algaeJoystick(double joystick, double shooterspeed) { 
+    armMotor.setControl(new DutyCycleOut(joystick));
+    shooterMotor.setControl(new DutyCycleOut(shooterspeed));
  }
 
  // KEEP ALGAE CLAW SAFE METHODS. DO LATER WHEN WE GET ALGAE CLAW!!!!

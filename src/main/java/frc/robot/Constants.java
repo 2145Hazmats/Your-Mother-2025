@@ -152,8 +152,8 @@ public final class Constants {
 
   //Algae Constants
   public static class AlgaeConstants {
-   public static final int shooterMotorID = 9999; 
-   public static final int armMotorID = 9998;
+   public static final int shooterMotorID = 26; 
+   public static final int armMotorID = 27;
    public static final double armP = 0;
    public static final double intakeSpeed = 0.5;
    public static final double outtakeSpeed = -0.5;
