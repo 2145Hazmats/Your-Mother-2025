@@ -171,6 +171,9 @@ public final class Constants {
 
    public static final double ALGAE_ARM_ERROR = 2;
   }
+  public static class LEDConstants {
+  public static final int CANdleID = 89;
     
+  }
   
 }
