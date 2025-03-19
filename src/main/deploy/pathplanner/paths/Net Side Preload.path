@@ -45,7 +45,7 @@
     },
     {
       "name": "Prep Play",
-      "waypointRelativePos": 0.4645509790681968,
+      "waypointRelativePos": 0.0999324780553725,
       "endWaypointRelativePos": null,
       "command": {
         "type": "named",

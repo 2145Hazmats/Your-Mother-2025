@@ -42,9 +42,6 @@ public class ElevatorSubsystem extends SubsystemBase{
       motorLeader.setPosition(0);
       motorFollower.setPosition(0);
 
-      SmartDashboard.putBoolean("Reef Level 1", false); SmartDashboard.putBoolean("Reef Level 2", false);
-      SmartDashboard.putBoolean("Reef Level 3", false); SmartDashboard.putBoolean("Reef Level 4", false);
-
       algae = fakeAlgae;
 
       slot0Congfigs = config.Slot0;
@@ -80,9 +77,9 @@ public class ElevatorSubsystem extends SubsystemBase{
 
   public Command defaultCommand() {
     return Commands.run(() -> {
-      if (algae.isAlgaeAtHome()) {
+      //if (algae.isAlgaeAtHome()) {
         motorLeader.setControl(m_request.withPosition(Constants.elevatorConstants.HomePosition));
-      }
+      //}
       if (isElevatorEvenCloserToHome()) {
         disableElevator();
       }
@@ -213,7 +210,6 @@ public class ElevatorSubsystem extends SubsystemBase{
     public Command resetElevatorPosition() {
       return Commands.runOnce(() -> {motorLeader.setPosition(0);
       motorFollower.setPosition(0);}, this);
-
     }
 
   // Index stuff here 
@@ -281,7 +277,11 @@ public class ElevatorSubsystem extends SubsystemBase{
       SmartDashboard.putNumber("Right Elevator Position", motorFollower.getPosition().getValueAsDouble()); //MAY BE WRONG LEFT RIGHT IDK
       SmartDashboard.putNumber("Left Elevator Position", motorLeader.getPosition().getValueAsDouble());
 
-    //SmartDashboard.putNumber("getElevatorSlowSpeed", getElevatorSlowSpeed());
+      //SmartDashboard.putNumber("getElevatorSlowSpeed", getElevatorSlowSpeed());
+      SmartDashboard.putBoolean("Reef Level 1", false);
+      SmartDashboard.putBoolean("Reef Level 2", false);
+      SmartDashboard.putBoolean("Reef Level 3", false);
+      SmartDashboard.putBoolean("Reef Level 4", false);
 
       if (player2LevelIndex == 1) {SmartDashboard.putBoolean("Reef Level 1", true);}
       else if (player2LevelIndex == 2) {SmartDashboard.putBoolean("Reef Level 2", true);}

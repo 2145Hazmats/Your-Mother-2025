@@ -154,16 +154,16 @@ public final class Constants {
   public static class AlgaeConstants {
    public static final int shooterMotorID = 26; 
    public static final int armMotorID = 27;
-   public static final double armP = 0;
+   public static final double armP = 0.5;
    public static final double intakeSpeed = 0.5;
    public static final double outtakeSpeed = -0.5;
-   public static final double armspeed = -.2;
+   public static final double armspeed = 0.3;
 
    public static final double HomePosition = 0;
-   public static final double FloorPosition = 0;
-   public static final double GrabPosition = 0;
+   public static final double FloorPosition = 10.7;
+   public static final double GrabPosition = 7.3;
    public static final double DealgifyPosition = 0;
-   public static final double ProcessorPosition = 0;
+   public static final double ProcessorPosition = 8;
    public static final double NetPosition = 0;
   
    public static final Pose2d BLUE_NET_POSES = new Pose2d(0,0,new Rotation2d(0));

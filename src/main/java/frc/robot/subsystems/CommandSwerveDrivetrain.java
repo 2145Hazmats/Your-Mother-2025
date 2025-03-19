@@ -204,7 +204,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.RED_REEF_SIDE_POSES[5], pathFindingConstraints, PathPlannerConstants.PATHFIND_END_SPEED_MPS).onlyIf(() -> player1ReefIndex == 10))
         .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.RED_REEF_SIDE_POSES[5], pathFindingConstraints, PathPlannerConstants.PATHFIND_END_SPEED_MPS).onlyIf(() -> player1ReefIndex == 11));
     }
-    
+
     // Goes to a certain point instead of all of them
     public Command pathFindToReefBlueAB() { return AutoBuilder.pathfindToPose(PoseConstants.BLUE_REEF_SIDE_POSES[0], pathFindingConstraints, PathPlannerConstants.PATHFIND_END_SPEED_MPS); }
     public Command pathFindToReefBlueCD() { return AutoBuilder.pathfindToPose(PoseConstants.BLUE_REEF_SIDE_POSES[1], pathFindingConstraints, PathPlannerConstants.PATHFIND_END_SPEED_MPS); }
@@ -249,12 +249,15 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         return AutoBuilder.pathfindToPose(PoseConstants.PROCESSOR_RED_PATHFIND_POSE, pathFindingConstraints, PathPlannerConstants.PATHFIND_END_SPEED_MPS);
     }
 
-    // CLIMB PATHFIND
+    // CLIMB BLUE PATHFIND
+    public Command pathFindToBlueClimbNet() { return AutoBuilder.pathfindToPose(PoseConstants.CLIMB_BLUE_NET_PATHFIND_POSE, pathFindingConstraints, PathPlannerConstants.PATHFIND_END_SPEED_MPS); }
+    public Command pathFindToBlueClimbCenter() { return AutoBuilder.pathfindToPose(PoseConstants.CLIMB_BLUE_CENTER_PATHFIND_POSE, pathFindingConstraints, PathPlannerConstants.PATHFIND_END_SPEED_MPS); }
+    public Command pathFindToBlueClimbProcessor() { return AutoBuilder.pathfindToPose(PoseConstants.CLIMB_BLUE_PROCCESOR_PATHFIND_POSE, pathFindingConstraints, PathPlannerConstants.PATHFIND_END_SPEED_MPS); }
+    // CLIMB RED PATHFIND
+    public Command pathFindToRedClimbNet() { return AutoBuilder.pathfindToPose(PoseConstants.CLIMB_RED_NET_PATHFIND_POSE, pathFindingConstraints, PathPlannerConstants.PATHFIND_END_SPEED_MPS); }
+    public Command pathFindToRedClimbCenter() { return AutoBuilder.pathfindToPose(PoseConstants.CLIMB_RED_CENTER_PATHFIND_POSE, pathFindingConstraints, PathPlannerConstants.PATHFIND_END_SPEED_MPS); }
+    public Command pathFindToRedClimbProcessor() { return AutoBuilder.pathfindToPose(PoseConstants.CLIMB_RED_PROCCESOR_PATHFIND_POSE, pathFindingConstraints, PathPlannerConstants.PATHFIND_END_SPEED_MPS); }
 
-   /* public Command pathFindToBueClimbCage() {
-        return AutoBuilder.pathfindToPose(PoseConstants.)
-
-    }*/
     //SPECIAL STATION CODER HERE ------------------------------------------
 
     public double StationPIDDriveToPointX(double DesiredPoseX) {

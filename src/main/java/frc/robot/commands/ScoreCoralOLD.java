@@ -16,7 +16,7 @@ import frc.robot.subsystems.ShooterBoxx;
 
 // This command drives up to the reef and it moves the elevator up to the spot depending on what the reef 
 // index says then it drops the coral on the branches.
-public class ScoreCoral_y_PrepForAlgi extends Command {
+public class ScoreCoralOLD extends Command {
   // Declare other subsystems 
   private CommandSwerveDrivetrain theLegs;
   private ElevatorSubsystem theElephant;
@@ -30,7 +30,7 @@ public class ScoreCoral_y_PrepForAlgi extends Command {
   int level = 0;
 
   // Constructor
-  public ScoreCoral_y_PrepForAlgi(CommandSwerveDrivetrain theFakeLegs, ElevatorSubsystem theFakeElephant, ShooterBoxx theFakeSnout) {
+  public ScoreCoralOLD(CommandSwerveDrivetrain theFakeLegs, ElevatorSubsystem theFakeElephant, ShooterBoxx theFakeSnout) {
     theLegs = theFakeLegs;
     theElephant = theFakeElephant;
     theSnout = theFakeSnout;
@@ -77,8 +77,12 @@ public class ScoreCoral_y_PrepForAlgi extends Command {
     SmartDashboard.putBoolean("elevator value", isElevatorSensorTrue);
     //SmartDashboard.putBoolean("coral value", isCoralSensorTrue);
 
+    SmartDashboard.putNumber("ScoreCoral X", currentDriveX - xGoal);
+    SmartDashboard.putNumber("ScoreCoral Y", currentDriveY - yGoal);
+    SmartDashboard.putNumber("ScoreCoral Elevator", currentElevatorPosition - elevatorGoal);
+
     if (theElephant.getElevatorPosition() < elevatorConstants.SAFETY_LEVEL && !theSnout.getEitherSensor()) {
-      //theElephant.elevatorToLevel(Constants.elevatorConstants.HomePosition);
+      theElephant.elevatorToLevel(Constants.elevatorConstants.HomePosition);
     }
     
     if (currentElevatorPosition > (elevatorGoal - ErrorConstants.ElevatorError)
@@ -88,7 +92,6 @@ public class ScoreCoral_y_PrepForAlgi extends Command {
         && currentDriveY > (yGoal - ErrorConstants.DriveTrainScoreError)
         && currentDriveY < (yGoal + ErrorConstants.DriveTrainScoreError)) {
       theSnout.fireNow = true;
-      algaClaw.move();
     } else if (currentDriveX > (xGoal - ErrorConstants.DriveTrainElevatorUpError)
         && currentDriveX < (xGoal + ErrorConstants.DriveTrainElevatorUpError)
         && currentDriveY > (yGoal - ErrorConstants.DriveTrainElevatorUpError)
@@ -102,14 +105,13 @@ public class ScoreCoral_y_PrepForAlgi extends Command {
   // Sends elevator to its default position after the command ends.
   @Override
   public void end(boolean interrupted) {
-    //theElephant.elevatorToLevel(Constants.elevatorConstants.HomePosition);
+    theElephant.elevatorToLevel(Constants.elevatorConstants.HomePosition);
   }
 
   // Returns true when the sensor is untriggered and the elevator is up
   // Returns true when the command should end. Runs every 20ms
   @Override
   public boolean isFinished() {
-    return (theElephant.getElevatorPosition() < elevatorConstants.SAFETY_LEVEL && !theSnout.getEitherSensor());
-    // add && algaeClawInPosition()
+    return (theElephant.getElevatorPosition() > elevatorConstants.SAFETY_LEVEL && !theSnout.getEitherSensor());
   }
 }

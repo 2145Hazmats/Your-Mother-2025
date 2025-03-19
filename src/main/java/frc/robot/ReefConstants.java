@@ -191,20 +191,23 @@ public class ReefConstants {
     public static final Pose2d PROCESSOR_RED_POSE = new Pose2d(11.515, 7.476, new Rotation2d(Math.PI/2));
     public static final Pose2d PROCESSOR_BLUE_PATHFIND_POSE = new Pose2d(5.889, 1.051, new Rotation2d(-Math.PI/2));
     public static final Pose2d PROCESSOR_BLUE_POSE = new Pose2d(5.938, 0.564, new Rotation2d(-Math.PI/2));
+  
+    // Climb Drive Setpoints
+    public static final double GENERAL_CLIMB_BLUE_DEG = -170;
+    public static final double GENERAL_CLIMB_RED_DEG = 10;
+
+    public static final Pose2d CLIMB_BLUE_PROCCESOR_PATHFIND_POSE = new Pose2d(7.144, 5.004, new Rotation2d(Units.degreesToRadians(GENERAL_CLIMB_BLUE_DEG)));
+    public static final Pose2d CLIMB_BLUE_PROCCESOR_POSE =          new Pose2d(8.331, 5.004, new Rotation2d(Units.degreesToRadians(GENERAL_CLIMB_BLUE_DEG)));
+    public static final Pose2d CLIMB_BLUE_CENTER_PATHFIND_POSE =    new Pose2d(7.144, 6.105, new Rotation2d(Units.degreesToRadians(GENERAL_CLIMB_BLUE_DEG)));
+    public static final Pose2d CLIMB_BLUE_CENTER_POSE =             new Pose2d(8.331, 6.105, new Rotation2d(Units.degreesToRadians(GENERAL_CLIMB_BLUE_DEG)));
+    public static final Pose2d CLIMB_BLUE_NET_PATHFIND_POSE =       new Pose2d(7.144, 7.184, new Rotation2d(Units.degreesToRadians(GENERAL_CLIMB_BLUE_DEG)));
+    public static final Pose2d CLIMB_BLUE_NET_POSE =                new Pose2d(8.331, 7.184, new Rotation2d(Units.degreesToRadians(GENERAL_CLIMB_BLUE_DEG)));
+    
+    public static final Pose2d CLIMB_RED_PROCCESOR_PATHFIND_POSE = new Pose2d(10.468, 3.085, new Rotation2d(Units.degreesToRadians(GENERAL_CLIMB_RED_DEG)));
+    public static final Pose2d CLIMB_RED_PROCCESOR_POSE =          new Pose2d(9.226, 3.085, new Rotation2d(Units.degreesToRadians(GENERAL_CLIMB_RED_DEG)));
+    public static final Pose2d CLIMB_RED_CENTER_PATHFIND_POSE =    new Pose2d(10.468, 2.001, new Rotation2d(Units.degreesToRadians(GENERAL_CLIMB_RED_DEG)));
+    public static final Pose2d CLIMB_RED_CENTER_POSE =             new Pose2d(9.226, 2.001, new Rotation2d(Units.degreesToRadians(GENERAL_CLIMB_RED_DEG)));
+    public static final Pose2d CLIMB_RED_NET_PATHFIND_POSE =       new Pose2d(10.468, 0.917, new Rotation2d(Units.degreesToRadians(GENERAL_CLIMB_RED_DEG)));
+    public static final Pose2d CLIMB_RED_NET_POSE =                new Pose2d(9.226, 0.917, new Rotation2d(Units.degreesToRadians(GENERAL_CLIMB_RED_DEG)));
   }
-  
-  // Climb Drive Setpoints
-  public static final double GENERAL_CLIMB_BLUE_DEG = 180;
-  public static final double GENERAL_CLIMB_RED_TRANSFORMATION_X = 0; // TODO: ASK CODY WHAT TO DO!
-  public static final double GENERAL_CLIMB_RED_DEG = 0;
-
-  public static final Pose2d CLIMB_BLUE_PROCCESOR_PATHFIND_POSE = new Pose2d(1.7, 6.45, new Rotation2d(Units.degreesToRadians(GENERAL_CLIMB_BLUE_DEG)));
-  public static final Pose2d CLIMB_BLUE_PROCCESOR_POSE = new Pose2d(1.175, 6.95, new Rotation2d(Units.degreesToRadians(-GENERAL_CLIMB_BLUE_DEG)));
-  public static final Pose2d CLIMB_BLUE_CENTER_PATHFIND_POSE = new Pose2d(1.7, 1.55, new Rotation2d(Units.degreesToRadians(GENERAL_CLIMB_BLUE_DEG)));
-  public static final Pose2d CLIMB_BLUE_CENTER_POSE = new Pose2d(1.175, 1.05, new Rotation2d(Units.degreesToRadians(-GENERAL_CLIMB_BLUE_DEG)));
-  public static final Pose2d CLIMB_BLUE_NET_PATHFIND_POSE = new Pose2d(1.7, 6.45, new Rotation2d(Units.degreesToRadians(GENERAL_CLIMB_BLUE_DEG)));
-  public static final Pose2d CLIMB_BLUE_NET_POSE = new Pose2d(1.175, 6.95, new Rotation2d(Units.degreesToRadians(-GENERAL_CLIMB_BLUE_DEG)));
-  
-  public static final Pose2d CLIMB_BLUE_PROCCESOR_SIDE = new Pose2d();
-
 }

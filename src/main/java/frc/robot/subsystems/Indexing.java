@@ -43,12 +43,40 @@ public class Indexing extends SubsystemBase {
   private int storedP2LevelIndex = -1;
   private int storedP2Index = -1;
   public void updateP1Index() {
+    algaeMode = false;
+
     if (pathFindingInProgress) {
       storedP2LevelIndex = m_ElevatorSubsystem.getPlayer2LevelIndex();
       storedP2Index = m_drivetrain.getPlayer2ReefIndex();
     } else if (storedP2LevelIndex == -1 || storedP2Index == -1) {
       m_ElevatorSubsystem.updateP1levelIndex();
       m_drivetrain.updateP1Index();
+    } else {
+      m_ElevatorSubsystem.setPlayer1LevelIndex(storedP2LevelIndex);
+      m_drivetrain.setP1Index(storedP2Index);
+      storedP2LevelIndex = -1;
+      storedP2Index = -1;
+    }
+  }
+
+  public boolean algaeMode = false;
+  public void updateP1IndexAlgaeEdition() {
+    algaeMode = true;
+
+    int drivetrainIndexAlgaeEdition = m_drivetrain.getPlayer2ReefIndex();
+    if ((drivetrainIndexAlgaeEdition % 2) == 1) { // if drivetrainIndexAlgaeEdition is odd
+      drivetrainIndexAlgaeEdition = drivetrainIndexAlgaeEdition - 1;
+    }
+
+    if (pathFindingInProgress) {
+      storedP2LevelIndex = m_ElevatorSubsystem.getPlayer2LevelIndex();
+      storedP2Index = m_drivetrain.getPlayer2ReefIndex();
+      if ((storedP2Index % 2) == 1) { // if storedP2Index is odd
+        storedP2Index = storedP2Index - 1;
+      }
+    } else if (storedP2LevelIndex == -1 || storedP2Index == -1) {
+      m_ElevatorSubsystem.setPlayer1LevelIndex(drivetrainIndexAlgaeEdition);
+      m_drivetrain.setP1Index(drivetrainIndexAlgaeEdition);
     } else {
       m_ElevatorSubsystem.setPlayer1LevelIndex(storedP2LevelIndex);
       m_drivetrain.setP1Index(storedP2Index);

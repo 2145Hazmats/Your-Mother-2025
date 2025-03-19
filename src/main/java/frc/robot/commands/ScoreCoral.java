@@ -60,6 +60,10 @@ public class ScoreCoral extends Command {
     else if (level == 2) {elevatorGoal = elevatorConstants.L2Position;}
     else if (level == 3) {elevatorGoal = elevatorConstants.L3Position;}
     else if (level == 4) {elevatorGoal = elevatorConstants.L4Position;}
+
+    if ((theLegs.getPlayer1ReefIndex() % 2) == 0 && level == 4) {
+      // something cool happens one time
+    }
   }
 
   // Every 20ms We have a PID (funny math) and we check if the height of the elevator and the postition of the robot 
@@ -81,6 +85,16 @@ public class ScoreCoral extends Command {
     SmartDashboard.putNumber("ScoreCoral Y", currentDriveY - yGoal);
     SmartDashboard.putNumber("ScoreCoral Elevator", currentElevatorPosition - elevatorGoal);
 
+    if ((theLegs.getPlayer1ReefIndex() % 2) == 0 && level == 4) { // && magicBoolean == true) {
+      // HIGH ALGAE
+      if (theLegs.getPlayer1ReefIndex() == 0 || theLegs.getPlayer1ReefIndex() == 4 || theLegs.getPlayer1ReefIndex() == 8) {
+      }
+      // LOW ALGAE
+      if (theLegs.getPlayer1ReefIndex() == 2 || theLegs.getPlayer1ReefIndex() == 6 || theLegs.getPlayer1ReefIndex() == 10) {
+        
+      }
+    }
+
     if (theElephant.getElevatorPosition() < elevatorConstants.SAFETY_LEVEL && !theSnout.getEitherSensor()) {
       theElephant.elevatorToLevel(Constants.elevatorConstants.HomePosition);
     }
@@ -92,6 +106,10 @@ public class ScoreCoral extends Command {
         && currentDriveY > (yGoal - ErrorConstants.DriveTrainScoreError)
         && currentDriveY < (yGoal + ErrorConstants.DriveTrainScoreError)) {
       theSnout.fireNow = true;
+      if ((theLegs.getPlayer1ReefIndex() % 2) == 0 && level == 4) {
+        // maybe... magicBoolean = true;
+        //theAlgae.goToPosition(AlgaeConstants.READY_TO_DEALGAEFY);
+      }
     } else if (currentDriveX > (xGoal - ErrorConstants.DriveTrainElevatorUpError)
         && currentDriveX < (xGoal + ErrorConstants.DriveTrainElevatorUpError)
         && currentDriveY > (yGoal - ErrorConstants.DriveTrainElevatorUpError)

@@ -4,29 +4,23 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.ReefConstants.PoseConstants;
-import frc.robot.Constants.AlgaeConstants;
 import frc.robot.Constants.ErrorConstants;
 import frc.robot.Constants.elevatorConstants;
 import frc.robot.Constants;
-import frc.robot.subsystems.AlgaeSubsystem;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.ElevatorSubsystem;
-import frc.robot.subsystems.Indexing;
 import frc.robot.subsystems.ShooterBoxx;
 
 // This command drives up to the reef and it moves the elevator up to the spot depending on what the reef 
 // index says then it drops the coral on the branches.
-public class ScoreCoral_y_Dealgify extends Command {
+public class AlgaeOff extends Command {
   // Declare other subsystems 
   private CommandSwerveDrivetrain theLegs;
   private ElevatorSubsystem theElephant;
   private ShooterBoxx theSnout;
-  private AlgaeSubsystem theAlgae;
-  private Indexing theIndex;
 
   // Declare the variables for desired Drivetrain positions and elevator height
   double xGoal;
@@ -36,15 +30,13 @@ public class ScoreCoral_y_Dealgify extends Command {
   int level = 0;
 
   // Constructor
-  public ScoreCoral_y_Dealgify(CommandSwerveDrivetrain theFakeLegs, ElevatorSubsystem theFakeElephant, ShooterBoxx theFakeSnout, AlgaeSubsystem theFakeAlgae, Indexing theFakeIndex) {
+  public AlgaeOff(CommandSwerveDrivetrain theFakeLegs, ElevatorSubsystem theFakeElephant, ShooterBoxx theFakeSnout) {
     theLegs = theFakeLegs;
     theElephant = theFakeElephant;
     theSnout = theFakeSnout;
-    theAlgae = theFakeAlgae;
-    theIndex = theFakeIndex;
 
     //addRequirements(theFakeElephant, theFakeSnout); //why drivetrain not requirement
-    addRequirements(theFakeElephant, theFakeAlgae);
+    addRequirements(theFakeElephant);
   }
 
   // Called when the command is initially scheduled.
@@ -68,6 +60,10 @@ public class ScoreCoral_y_Dealgify extends Command {
     else if (level == 2) {elevatorGoal = elevatorConstants.L2Position;}
     else if (level == 3) {elevatorGoal = elevatorConstants.L3Position;}
     else if (level == 4) {elevatorGoal = elevatorConstants.L4Position;}
+
+    if ((theLegs.getPlayer1ReefIndex() % 2) == 0 && level == 4) {
+      // something cool happens here
+    }
   }
 
   // Every 20ms We have a PID (funny math) and we check if the height of the elevator and the postition of the robot 
@@ -100,16 +96,7 @@ public class ScoreCoral_y_Dealgify extends Command {
         && currentDriveY > (yGoal - ErrorConstants.DriveTrainScoreError)
         && currentDriveY < (yGoal + ErrorConstants.DriveTrainScoreError)) {
       theSnout.fireNow = true;
-    } else if (theIndex.getHitAlgaeWithElevator() == true
-        && currentDriveX > (xGoal - Units.inchesToMeters(1))
-        && currentDriveX < (xGoal + Units.inchesToMeters(1))
-        && currentDriveY > (yGoal - Units.inchesToMeters(1))
-        && currentDriveY < (yGoal + Units.inchesToMeters(1))
-        && !isElevatorSensorTrue
-        && theElephant.isElevatorHome()) {
-      theElephant.elevatorToLevel(level);
-    } else if (theIndex.getHitAlgaeWithElevator() == false
-        && currentDriveX > (xGoal - ErrorConstants.DriveTrainElevatorUpError)
+    } else if (currentDriveX > (xGoal - ErrorConstants.DriveTrainElevatorUpError)
         && currentDriveX < (xGoal + ErrorConstants.DriveTrainElevatorUpError)
         && currentDriveY > (yGoal - ErrorConstants.DriveTrainElevatorUpError)
         && currentDriveY < (yGoal + ErrorConstants.DriveTrainElevatorUpError)
@@ -123,7 +110,6 @@ public class ScoreCoral_y_Dealgify extends Command {
   @Override
   public void end(boolean interrupted) {
     theElephant.elevatorToLevel(Constants.elevatorConstants.HomePosition);
-    theAlgae.MoveArmToPointMethod(AlgaeConstants.HomePosition);
   }
 
   // Returns true when the sensor is untriggered and the elevator is up

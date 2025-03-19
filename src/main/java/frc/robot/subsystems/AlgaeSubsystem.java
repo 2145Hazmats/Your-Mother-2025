@@ -43,7 +43,8 @@ public class AlgaeSubsystem extends SubsystemBase {
     motionMagicConfigs.MotionMagicAcceleration = 200;
     
     config.MotorOutput.NeutralMode = NeutralModeValue.Brake;
-    config.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
+    config.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
+    armMotor.setPosition(0);
      
     armMotor.getConfigurator().apply(config);
   }
@@ -63,12 +64,14 @@ public class AlgaeSubsystem extends SubsystemBase {
   public Command MoveArmToPointCommand(double position) {
     return Commands.run(() -> armMotor.setControl(m_request.withPosition(position)), this);
   } 
+
   public void MoveArmToPointMethod(double position) {
     armMotor.setControl(m_request.withPosition(position));
   } 
+
   // Manual Methods
   public void algaeJoystick(double joystick, double shooterspeed) { 
-    armMotor.setControl(new DutyCycleOut(joystick));
+    armMotor.setControl(new DutyCycleOut(joystick * AlgaeConstants.armspeed));
     shooterMotor.setControl(new DutyCycleOut(shooterspeed));
  }
 
@@ -80,9 +83,8 @@ public class AlgaeSubsystem extends SubsystemBase {
 
   // Algae Intake
   public Command IntakeAlgaeCommmand() {
-    return Commands.run(() -> 
-      shooterMotor.set(AlgaeConstants.intakeSpeed)
-    );
+    return Commands.run(() -> shooterMotor.set(AlgaeConstants.intakeSpeed))
+                   .finallyDo(() -> shooterMotor.set(0));
   }
   public void IntakeAlgaeMethod() {
     shooterMotor.set(AlgaeConstants.intakeSpeed);
@@ -90,10 +92,10 @@ public class AlgaeSubsystem extends SubsystemBase {
 
   // Algae Outtake
   public Command RegurgitateAlgaeCommand() {
-    return Commands.run(() -> 
-      shooterMotor.set(AlgaeConstants.outtakeSpeed)
-    );
+    return Commands.run(() -> shooterMotor.set(AlgaeConstants.outtakeSpeed))
+                   .finallyDo(() -> shooterMotor.set(0));
   }
+
   public void RegurgitateAlgaeMethod() {
     shooterMotor.set(AlgaeConstants.outtakeSpeed);
   }
@@ -104,6 +106,10 @@ public class AlgaeSubsystem extends SubsystemBase {
 
   public double GetAlgaeArmPosition() {
     return armMotor.getPosition().getValueAsDouble();
+  }
+
+  public Command resetAlgaePosition() {
+    return Commands.runOnce(() -> armMotor.setPosition(0), this);
   }
 
   @Override
