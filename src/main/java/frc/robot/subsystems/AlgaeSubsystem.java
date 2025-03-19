@@ -25,7 +25,7 @@ import frc.robot.Constants.ErrorConstants;
 public class AlgaeSubsystem extends SubsystemBase {
   /** Creates a new AlgaeSubsystem. */
 
-  private TalonFX shooterMotor = new TalonFX(AlgaeConstants.shooterMotorID);
+  //private TalonFX shooterMotor = new TalonFX(AlgaeConstants.shooterMotorID);
   private TalonFX armMotor = new TalonFX(AlgaeConstants.armMotorID);
 
   private TalonFXConfiguration config = new TalonFXConfiguration();
@@ -51,7 +51,7 @@ public class AlgaeSubsystem extends SubsystemBase {
 
   public Command AlgaeDefaultCommand() {
     return Commands.run(() -> {
-      shooterMotor.set(0);
+      //shooterMotor.set(0);
       armMotor.setControl(m_request.withPosition(AlgaeConstants.HomePosition));
     });
   }
@@ -70,9 +70,9 @@ public class AlgaeSubsystem extends SubsystemBase {
   } 
 
   // Manual Methods
-  public void algaeJoystick(double joystick, double shooterspeed) { 
+  public void algaeJoystick(double joystick) { 
     armMotor.setControl(new DutyCycleOut(joystick * AlgaeConstants.armspeed));
-    shooterMotor.setControl(new DutyCycleOut(shooterspeed));
+    //shooterMotor.setControl(new DutyCycleOut(shooterspeed));
  }
 
  // KEEP ALGAE CLAW SAFE METHODS. DO LATER WHEN WE GET ALGAE CLAW!!!!
@@ -82,27 +82,27 @@ public class AlgaeSubsystem extends SubsystemBase {
 
 
   // Algae Intake
-  public Command IntakeAlgaeCommmand() {
-    return Commands.run(() -> shooterMotor.set(AlgaeConstants.intakeSpeed))
-                   .finallyDo(() -> shooterMotor.set(0));
-  }
-  public void IntakeAlgaeMethod() {
-    shooterMotor.set(AlgaeConstants.intakeSpeed);
-  }
+  // public Command IntakeAlgaeCommmand() {
+  //   return Commands.run(() -> shooterMotor.set(AlgaeConstants.intakeSpeed))
+  //                  .finallyDo(() -> shooterMotor.set(0));
+  // }
+  // public void IntakeAlgaeMethod() {
+  //   shooterMotor.set(AlgaeConstants.intakeSpeed);
+  // }
 
   // Algae Outtake
-  public Command RegurgitateAlgaeCommand() {
-    return Commands.run(() -> shooterMotor.set(AlgaeConstants.outtakeSpeed))
-                   .finallyDo(() -> shooterMotor.set(0));
-  }
+  // public Command RegurgitateAlgaeCommand() {
+  //   return Commands.run(() -> shooterMotor.set(AlgaeConstants.outtakeSpeed))
+  //                  .finallyDo(() -> shooterMotor.set(0));
+  // }
 
-  public void RegurgitateAlgaeMethod() {
-    shooterMotor.set(AlgaeConstants.outtakeSpeed);
-  }
+  // public void RegurgitateAlgaeMethod() {
+  //   shooterMotor.set(AlgaeConstants.outtakeSpeed);
+  // }
 
-  public void StopAlgaeShooterMethod() {
-    shooterMotor.set(0);
-  }
+  // public void StopAlgaeShooterMethod() {
+  //   shooterMotor.set(0);
+  // }
 
   public double GetAlgaeArmPosition() {
     return armMotor.getPosition().getValueAsDouble();
@@ -112,10 +112,12 @@ public class AlgaeSubsystem extends SubsystemBase {
     return Commands.runOnce(() -> armMotor.setPosition(0), this);
   }
 
+
+
   @Override
   public void periodic() {
     SmartDashboard.putNumber("Algae Arm Positon", armMotor.getPosition().getValueAsDouble());
     SmartDashboard.putNumber("Algae Arm Speed", armMotor.getVelocity().getValueAsDouble());
-    SmartDashboard.putNumber("Algae Shooter Speed", shooterMotor.getVelocity().getValueAsDouble()); 
+    //SmartDashboard.putNumber("Algae Shooter Speed", shooterMotor.getVelocity().getValueAsDouble()); 
   }
 }

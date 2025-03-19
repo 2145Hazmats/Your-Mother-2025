@@ -47,7 +47,7 @@ public final class Constants {
     
     // PathPlanner Pathfinding Constants
     public static final double MAX_VELOCITY_MPS = 4.48; //5.450 //2.450 //3
-    public static final double MAX_ACCELERATION_MPS = 5; //3.6 //3
+    public static final double MAX_ACCELERATION_MPS = 7; // 5 3.6 //3
     public static final double MAX_ANGULAR_VELOCITY_RAD = Units.degreesToRadians(90); //360
     public static final double MAX_ANGULAR_ACCELERATION_RAD = Units.degreesToRadians(400); //862
     public static final double NOMINAL_VOLTAGE_VOLTS = 11.5;

@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.AlgaeConstants;
 import frc.robot.Constants.DrivetrainConstants;
 import frc.robot.Constants.shooterBoxxContants;
@@ -78,7 +79,11 @@ public class RobotContainer {
     private final CommandXboxController P2controller = new CommandXboxController(1);
     private final CommandXboxController P3controller = new CommandXboxController(2);
     private final CommandXboxController P4controller = new CommandXboxController(3);
-    private final CommandXboxController P5controller = new CommandXboxController(4);
+    
+    private final XboxController P5controller = new XboxController(4);
+    private final XboxController P6controller = new XboxController(5);
+
+
     // We need to initialize an object of the camera subsystem, we don't have to use it
     private final CommandSwerveDrivetrain m_drivetrain = TunerConstants.createDrivetrain();
     private CameraSubsystem m_CameraSubsystem = new CameraSubsystem(m_drivetrain);
@@ -138,7 +143,7 @@ public class RobotContainer {
         //m_ElevatorSubsystem.setDefaultCommand(Commands.either(m_ElevatorSubsystem.elevatorToL1(),m_ElevatorSubsystem.defaultCommand() , m_indexing::isP2ManualModeFalse));
         m_ShooterBoxx.setDefaultCommand(Commands.either(m_ShooterBoxx.IntakeSolosDefaultCommand(), Commands.run(() -> m_ShooterBoxx.StopShooterMethod(), m_ShooterBoxx), m_indexing::isP2ManualModeFalse));
         //m_ClimbSubsystemNeo.setDefaultCommand(m_ClimbSubsystemNeo.KeepClimbSafeDefaultCommand());
-        m_AlgaeSubsystem.setDefaultCommand(Commands.run(()-> m_AlgaeSubsystem.algaeJoystick(P4controller.getRightY(),P4controller.getLeftY()), m_AlgaeSubsystem));//(MathUtil.applyDeadband(P4controller.getRightY(), 0.1)), MathUtil.applyDeadband(P4controller.getLeftY(), 0.1)));
+        m_AlgaeSubsystem.setDefaultCommand(Commands.run(()-> m_AlgaeSubsystem.algaeJoystick(P4controller.getRightY()), m_AlgaeSubsystem));//(MathUtil.applyDeadband(P4controller.getRightY(), 0.1)), MathUtil.applyDeadband(P4controller.getLeftY(), 0.1)));
         
     //     // Indexing LOL!!
     // m_indexing.setDefaultCommand(m_indexing.SettingReefIndexBasedOnController(P2controller::getRightX, P2controller::getRightY));
@@ -154,6 +159,36 @@ public class RobotContainer {
         );
 
         //-------------------------------P1 Controls---------------------------------
+
+        //----new Controllers------- 1 and 2 + 4 and 5 output same joystick direction.getrawaxis
+        //for bonus buttons do Trigger testbutton = nwe trigger( -> controller.getrawbutton(6))
+        
+        //testbutton.whiletrue
+        // (() -> P5controller.getRightX()); for sticks ???
+
+        // Trigger plusButton = new Trigger (() -> P5controller.getRawButton(12));
+        // Trigger minusButton = new Trigger (() -> P5controller.getRawButton(11));
+
+        // Trigger rightBaby = new Trigger (() -> P5controller.getRawButton(6));
+        // Trigger leftBaby = new Trigger (() -> P5controller.getRawButton(3));
+
+        // Trigger leftTrigger = new Trigger (() -> P5controller.getRawButton(9));
+        // Trigger rightTrigger = new Trigger (() -> P5controller.getRawButton(10));
+
+        // Trigger rightBumper = new Trigger (() -> P5controller.getRawButton(8));
+        // Trigger leftBumper = new Trigger (() -> P5controller.getRawButton(7));
+
+
+        // rightBaby.onTrue(Commands.runOnce(() -> m_indexing.poseIndexSwitch(false)));
+
+
+
+
+
+
+
+
+
 
 
         // Manual Controls
@@ -599,8 +634,8 @@ public class RobotContainer {
         //----------------------------------------------------------P4 Controls-------------------------------------------------------
     
         //Algae Controls
-        P4controller.leftTrigger().whileTrue(m_AlgaeSubsystem.RegurgitateAlgaeCommand());
-        P4controller.rightTrigger().whileTrue(m_AlgaeSubsystem.IntakeAlgaeCommmand());
+        //P4controller.leftTrigger().whileTrue(m_AlgaeSubsystem.RegurgitateAlgaeCommand());
+        //P4controller.rightTrigger().whileTrue(m_AlgaeSubsystem.IntakeAlgaeCommmand());
         // P4controller.a().whileTrue(
         //     Commands.run(() -> m_AlgaeSuperSystem.ClawGoesForAlgaeOffReef(true), m_AlgaeSuperSystem)
         //     .andThen(m_drivetrain.applyRequest(() ->
