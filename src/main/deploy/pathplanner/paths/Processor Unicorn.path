@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.108173755523226,
-        "y": 2.6069142938529195
+        "x": 6.969387662208686,
+        "y": 2.5598372119968222
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.509323770491802,
-        "y": 2.6224385245901645
+        "x": 6.370537677177262,
+        "y": 2.575361442734067
       },
       "isLocked": false,
       "linkedName": null
@@ -33,10 +33,21 @@
   "pointTowardsZones": [],
   "eventMarkers": [
     {
-      "name": "AutoL4",
-      "waypointRelativePos": 0.4297394102990029,
+      "name": "SuckTillSensor",
+      "waypointRelativePos": 0,
       "endWaypointRelativePos": null,
       "command": null
+    },
+    {
+      "name": "AutoL4",
+      "waypointRelativePos": 0.37430599619289323,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "AutoL4"
+        }
+      }
     }
   ],
   "globalConstraints": {
@@ -55,7 +66,7 @@
   "folder": "Processor Side",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 180.0
+    "rotation": 141.38950906498684
   },
   "useDefaultConstraints": true
 }

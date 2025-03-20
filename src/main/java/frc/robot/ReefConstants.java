@@ -14,6 +14,8 @@ public class ReefConstants {
   private static double[] reefCenter = {4.488, 4.025};
   private static double reefRadius = Units.inchesToMeters(32.75);
 
+  public static final Pose2d CENTER_OF_THE_FIELD = new Pose2d(8.775, 4.025, new Rotation2d(0));
+
   // CONSTANTS YOU CAN EDIT
   private static double centerDistanceOffset = 1;
   private static double playingDistanceOffset = 0.43; //0.52
@@ -24,6 +26,7 @@ public class ReefConstants {
   private static boolean usePose2D = true;//4.021 // no 5
   private static Pose2d playLeftPoseAB = new Pose2d(3.2075, 4.0342, new Rotation2d(0)); //4.057323
   private static Pose2d playRightPoseAB = new Pose2d(3.2075, 3.70955, new Rotation2d(0));
+  private static Pose2d suckLeftStationPose = new Pose2d(0,0, new Rotation2d(0));
   
   public final class ReefMathConstants {
     //---------------- Calculate 6 Central Poses Around Reef ---------------
@@ -83,7 +86,15 @@ public class ReefConstants {
     public static Pose2d JReefPose = new Pose2d(JReefRight[0], JReefRight[1], new Rotation2d(JReefRight[2]));
     public static Pose2d KReefPose = new Pose2d(KReefLeft[0], KReefLeft[1], new Rotation2d(KReefLeft[2]));
     public static Pose2d LReefPose = new Pose2d(LReefRight[0], LReefRight[1], new Rotation2d(LReefRight[2]));
-  }
+
+    //-------------------------------------------------------------------------
+
+    //------------------------- Station Math Time ------------------------------
+    //public static Pose2d StationLeftBlue = new Pose2d((CENTER_OF_THE_FIELD), null, null); //x
+    public static Pose2d StationRightBlue = new Pose2d(BReefRight[0], BReefRight[1], new Rotation2d(BReefRight[2])); //circl
+    public static Pose2d StationLeftRed = new Pose2d(CReefLeft[0], CReefLeft[1], new Rotation2d(CReefLeft[2])); //square
+    public static Pose2d StationRightRed = new Pose2d(DReefRight[0], DReefRight[1], new Rotation2d(DReefRight[2])); //triange
+    }
 
   //---------------- POST NUMBERS TO SMART DASHBOARD ----------------
   public static void displayReefMath() {
@@ -169,6 +180,8 @@ public class ReefConstants {
       new Pose2d(REEF_POSE_F.getX() + RED_TRANSFORMATION_X, REEF_POSE_F.getY(), REEF_POSE_F.getRotation())
     };
 
+    // Izquierdo Stationa y Derecho Stationa
+
     public static final double BLUE_CORAL_STATION_DEG = 306;
     public static final double RED_CORAL_STATION_DEG = 126;
 
@@ -182,6 +195,7 @@ public class ReefConstants {
     public static final Pose2d CORAL_STATION_RIGHT_RED_PATHFIND_POSE = new Pose2d(15.983, 6.7, new Rotation2d(Units.degreesToRadians(-RED_CORAL_STATION_DEG)));
     public static final Pose2d CORAL_STATION_RIGHT_RED_POSE = new Pose2d(16.186, 7.136, new Rotation2d(Units.degreesToRadians(-RED_CORAL_STATION_DEG)));
 
+    // Net y Processor 
     public static final Pose2d NET_RED_PATHFIND_POSE = new Pose2d(10.14, 1.861, new Rotation2d(0));
     public static final Pose2d NET_RED_POSE = new Pose2d(9.67, 1.891, new Rotation2d(0));
     public static final Pose2d NET_BLUE_PATHFIND_POSE = new Pose2d(7.3, 6.159, new Rotation2d(Math.PI));
@@ -209,5 +223,6 @@ public class ReefConstants {
     public static final Pose2d CLIMB_RED_CENTER_POSE =             new Pose2d(9.226, 2.001, new Rotation2d(Units.degreesToRadians(GENERAL_CLIMB_RED_DEG)));
     public static final Pose2d CLIMB_RED_NET_PATHFIND_POSE =       new Pose2d(10.468, 0.917, new Rotation2d(Units.degreesToRadians(GENERAL_CLIMB_RED_DEG)));
     public static final Pose2d CLIMB_RED_NET_POSE =                new Pose2d(9.226, 0.917, new Rotation2d(Units.degreesToRadians(GENERAL_CLIMB_RED_DEG)));
+
   }
 }

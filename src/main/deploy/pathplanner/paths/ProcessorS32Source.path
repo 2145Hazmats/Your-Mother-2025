@@ -3,16 +3,16 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.832209936166814,
-        "y": 2.9130197899939616
+        "x": 4.116990207996688,
+        "y": 2.7617339143006334
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.296618852459016,
-        "y": 2.6224385245901645
+        "x": 3.6679938103293357,
+        "y": 2.705847148691722
       },
       "isLocked": false,
-      "linkedName": "ProcessorScore2"
+      "linkedName": "ProcessorScore3"
     },
     {
       "anchor": {
@@ -20,8 +20,8 @@
         "y": 1.0160860655737713
       },
       "prevControl": {
-        "x": 1.7741803278688524,
-        "y": 1.4596311475409833
+        "x": 2.5734739417152293,
+        "y": 1.4987018864387793
       },
       "nextControl": null,
       "isLocked": false,
@@ -44,8 +44,8 @@
       }
     },
     {
-      "name": "22Source",
-      "waypointRelativePos": 0.7488320182724254,
+      "name": "start intaking",
+      "waypointRelativePos": 0.7696700507614211,
       "endWaypointRelativePos": null,
       "command": {
         "type": "named",

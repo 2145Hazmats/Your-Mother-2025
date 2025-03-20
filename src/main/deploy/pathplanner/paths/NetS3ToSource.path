@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.832209936166814,
-        "y": 2.9130197899939616
+        "x": 3.561,
+        "y": 5.011
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.296618852459016,
-        "y": 2.6224385245901645
+        "x": 3.234353257053865,
+        "y": 5.063559730304798
       },
       "isLocked": false,
-      "linkedName": "ProcessorScore2"
+      "linkedName": "NetS3"
     },
     {
       "anchor": {
-        "x": 1.2107581967213117,
-        "y": 1.0160860655737713
+        "x": 1.3,
+        "y": 7.105
       },
       "prevControl": {
-        "x": 1.7741803278688524,
-        "y": 1.4596311475409833
+        "x": 2.0388456257987637,
+        "y": 6.71338427776966
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "ProcessorSource"
+      "linkedName": "NetSource"
     }
   ],
   "rotationTargets": [],
@@ -44,8 +44,8 @@
       }
     },
     {
-      "name": "22Source",
-      "waypointRelativePos": 0.7488320182724254,
+      "name": "start intaking",
+      "waypointRelativePos": 0.713138483502538,
       "endWaypointRelativePos": null,
       "command": {
         "type": "named",
@@ -65,13 +65,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 54.0
+    "rotation": -54.0
   },
   "reversed": false,
-  "folder": "Processor Side",
+  "folder": "Net Side",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 59.99999999999999
+    "rotation": -59.99999999999999
   },
   "useDefaultConstraints": true
 }

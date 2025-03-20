@@ -33,13 +33,13 @@
   "pointTowardsZones": [],
   "eventMarkers": [
     {
-      "name": "FIRE",
-      "waypointRelativePos": 1.0,
+      "name": "prep shot",
+      "waypointRelativePos": 0.39817972715736094,
       "endWaypointRelativePos": null,
       "command": {
         "type": "named",
         "data": {
-          "name": "FireL4"
+          "name": "AutoL4"
         }
       }
     }

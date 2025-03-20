@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.832209936166814,
-        "y": 2.9130197899939616
+        "x": 6.9816849013506355,
+        "y": 5.472346315545551
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.296618852459016,
-        "y": 2.6224385245901645
+        "x": 6.03184421345339,
+        "y": 5.514805680614407
       },
       "isLocked": false,
-      "linkedName": "ProcessorScore2"
+      "linkedName": null
     },
     {
       "anchor": {
-        "x": 1.2107581967213117,
-        "y": 1.0160860655737713
+        "x": 5.145759862768981,
+        "y": 5.123563721009853
       },
       "prevControl": {
-        "x": 1.7741803278688524,
-        "y": 1.4596311475409833
+        "x": 5.552850575615406,
+        "y": 5.211761048878657
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "ProcessorSource"
+      "linkedName": "Net Preload"
     }
   ],
   "rotationTargets": [],
@@ -33,24 +33,19 @@
   "pointTowardsZones": [],
   "eventMarkers": [
     {
-      "name": "Put the arm down please",
+      "name": "SuckTillSensor",
       "waypointRelativePos": 0,
       "endWaypointRelativePos": null,
-      "command": {
-        "type": "named",
-        "data": {
-          "name": "Elevator2Home"
-        }
-      }
+      "command": null
     },
     {
-      "name": "22Source",
-      "waypointRelativePos": 0.7488320182724254,
+      "name": "Prep Play",
+      "waypointRelativePos": 0.29687500000000017,
       "endWaypointRelativePos": null,
       "command": {
         "type": "named",
         "data": {
-          "name": "SuckTillSensor"
+          "name": "AutoL4"
         }
       }
     }
@@ -65,13 +60,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 54.0
+    "rotation": -119.99999999999999
   },
   "reversed": false,
-  "folder": "Processor Side",
+  "folder": "Net Side",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 59.99999999999999
+    "rotation": -133.83928079503858
   },
   "useDefaultConstraints": true
 }

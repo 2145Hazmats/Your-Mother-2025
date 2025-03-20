@@ -34,12 +34,12 @@
   "eventMarkers": [
     {
       "name": "Score2",
-      "waypointRelativePos": 0.3312266403654485,
+      "waypointRelativePos": 0.26611080266497456,
       "endWaypointRelativePos": null,
       "command": {
         "type": "named",
         "data": {
-          "name": "FireL4"
+          "name": "AutoL4"
         }
       }
     }

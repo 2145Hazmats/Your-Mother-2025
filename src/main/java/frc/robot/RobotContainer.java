@@ -538,12 +538,6 @@ public class RobotContainer {
 
         //-------------------------------P2 Controls---------------------------------
         
-        // Elevator
-        
-        //P2controller.povDown().whileTrue(Commands.runOnce(() ->  m_indexing.elevatorIndexChooser(1)));
-        // P2controller.povLeft().whileTrue(Commands.runOnce(() ->  m_indexing.elevatorIndexChooser(2)));
-        // P2controller.povRight().whileTrue(Commands.runOnce(() ->  m_indexing.elevatorIndexChooser(3)));
-        // P2controller.povUp().whileTrue(Commands.runOnce(() ->  m_indexing.elevatorIndexChooser(4)));
 
          P2controller.povDown().whileTrue(Commands.either(Commands.run(() ->  m_indexing.elevatorIndexChooser(1)),
          m_ElevatorSubsystem.elevatorToL1(), m_indexing::isP2ManualModeFalse));
@@ -570,12 +564,6 @@ public class RobotContainer {
         //P2controller.rightTrigger().whileTrue(Commands.run(() -> m_ClimbSubsystemNeo.PutTheServoInTheRightSpotPlease(), m_ClimbSubsystemNeo).until(()->m_ClimbSubsystemNeo.ReadyToStickTheClimbOutIGuess()).andThen(Commands.waitSeconds(4)).andThen(()-> m_ClimbSubsystemNeo.climbForwardCommand()));//.andThen(() ->m_ClimbSubsystemNeo.climbForwardCommand()));
         P2controller.x().whileTrue(Commands.run(() ->m_ClimbSubsystemNeo.PutTheServoInTheRightSpotPlease(), m_ClimbSubsystemNeo));
         P2controller.rightTrigger().whileTrue(Commands.run(() ->m_ClimbSubsystemNeo.climbOutCommand(), m_ClimbSubsystemNeo));
-        // Climb using Servo
-        //P2controller.b().whileTrue(Commands.run(() -> m_ClimbSubsystemNeo.resetMotorPosition(), m_ClimbSubsystemNeo));
-        //P2controller.back().whileFalse(m_ClimbSubsystemNeo.climbLock());
-
-        //P2controller.back().whileTrue(m_ClimbSubsystemNeo.climbUnlock());
-
 
         // Send values to P1
         P2controller.a().whileTrue(Commands.runOnce(() -> m_indexing.updateP1Index()));
@@ -584,80 +572,30 @@ public class RobotContainer {
 
         P2controller.start().whileTrue(m_ElevatorSubsystem.disableElevator());
         P2controller.back().toggleOnTrue(Commands.startEnd(() -> m_indexing.setP2ManualModeYes(), () -> m_indexing.setP2ManualModeNo(), m_indexing));
-        
 
-        P2controller.y().whileTrue(m_ElevatorSubsystem.elevatorToHome());
-
-        //P2controller.b().whileTrue(m_ShooterBoxx.RunShooter(shooterBoxxContants.kSuckSpeed)).onFalse(m_ShooterBoxx.RunShooter(0));
-        //P2controller.b().whileTrue(m_ShooterBoxx.IntakeDefaultCommand()).onFalse(m_ShooterBoxx.StopShooterMotor());
-
-        // P2controller.b().whileTrue(
-        //         m_ShooterBoxx.BanditSetIntakeMotorCommand(Constants.shooterBoxxContants.kSuckSpeed).until(m_ShooterBoxx::BanditNoteSensorTriggered)
-        //       );
         P2controller.b().whileTrue(m_ShooterBoxx.WorksShootCommand());
-              //.until(m_ShooterBoxx.BanditNoteSensorTriggered());//BanditNoteSensorTriggered);//m_ShooterBoxx::BanditNoteSensorTriggered
 
-        //P2controller.back().whileTrue(m_ShooterBoxx.SpitTillSensor());
-
-        // 
-
-        //-------------------------------PS4 Controls EXPERIMENTAL--------------------
+        //P2controller.y().whileTrue(m_ElevatorSubsystem.elevatorToHome());
+        P2controller.y().whileTrue(Commands.either(Commands.run(() -> m_indexing.updateP1IndexAlgaeEdition() ),
+        m_ElevatorSubsystem.elevatorToHome(), m_indexing::isP2ManualModeFalse)); //NOT SURE HOW THIS CALLS DEALGIFY
         
-        //p5Controller.setRumble(RumbleType.kBothRumble, 1);
-
-        // -----------------------------Manual Stuff---------------------------------
-        
-        // Intake and shooting coral
-        //P3controller.y().whileTrue(m_ShooterBoxx.RunShooter(-.4));
+        //----------------------------------------------------------P3 Controls-------------------------------------------------------
+       
         P3controller.y().whileTrue(Commands.run(() ->m_ClimbSubsystemNeo.climbToSetpointPID(), m_ClimbSubsystemNeo));
         P3controller.b().whileTrue(Commands.run(() -> m_ClimbSubsystemNeo.climbToNailItPID(), m_ClimbSubsystemNeo));
-        //P3controller.b().whileTrue(m_ShooterBoxx.RunShooter(-.6));
-        //P3controller.a().whileTrue(m_ShooterBoxx.SuckTillSensor());
-        P3controller.x().whileTrue(m_ShooterBoxx.SpitTillSensorCommand());
-
-        
-        // Elevator
-        //P3controller.back().whileTrue(m_ElevatorSubsystem.elevatorJoystick(-.5)); //Not sure if this will work needs testing
-        // P3controller.povDown().whileTrue(m_ElevatorSubsystem.elevatorToL1());
-        // P3controller.povLeft().whileTrue(m_ElevatorSubsystem.elevatorToL2());
-        // P3controller.povRight().whileTrue(m_ElevatorSubsystem.elevatorToL3());
-        // P3controller.povUp().whileTrue(m_ElevatorSubsystem.elevatorToL4());
-        //P3controller.povDown().whileTrue(m_AlgaeSuperSystem.ClawGoesForAlgaeCommand());
 
         P3controller.a().whileTrue(new ScoreCoralAuton( m_ElevatorSubsystem, m_ShooterBoxx,  4).withTimeout(1.75));
-        //CLIMB
-        
-        //P3controller.rightTrigger
-        //().whileTrue(m_ClimbSubsystem.ClimbUp());
-        //P3controller.leftTrigger().whileTrue(m_ClimbSubsystem.ClimbToHome());
-        //P3controller.start().whileTrue(m_ClimbSubsystem.ClimbLockIn());
-
-        //P3controller.leftTrigger().whileTrue(m_ShooterBoxx.SuckTillSensor()).onFalse(m_ShooterBoxx.StopShooterMotor());
-        //P3controller.rightTrigger().whileTrue(m_ShooterBoxx.SpitTillSensor()).onFalse(m_ShooterBoxx.StopShooterMotor());
-        
+         
         //----------------------------------------------------------P4 Controls-------------------------------------------------------
     
         //Algae Controls
-        //P4controller.leftTrigger().whileTrue(m_AlgaeSubsystem.RegurgitateAlgaeCommand());
-        //P4controller.rightTrigger().whileTrue(m_AlgaeSubsystem.IntakeAlgaeCommmand());
-        // P4controller.a().whileTrue(
-        //     Commands.run(() -> m_AlgaeSuperSystem.ClawGoesForAlgaeOffReef(true), m_AlgaeSuperSystem)
-        //     .andThen(m_drivetrain.applyRequest(() ->
-        //         driveCentric.withVelocityX(-P1controller.getLeftY() * -Constants.DrivetrainConstants.SlowMoSpeed)
-        //         .withVelocityY(-P1controller.getLeftX()) 
-        //         .withRotationalRate(-P1controller.getRightX())
-        //     ))
-        //     .withTimeout(1)
-        //     .andThen(m_ElevatorSubsystem.elevatorToL1())
-        //     .andThen(() -> m_AlgaeSuperSystem.ClawPlaysNet())
-        // );
     
 
         P4controller.x().whileTrue(m_AlgaeSubsystem.MoveArmToPointCommand(AlgaeConstants.HomePosition));
         P4controller.a().whileTrue(m_AlgaeSubsystem.MoveArmToPointCommand(AlgaeConstants.FloorPosition));
         P4controller.b().whileTrue(m_AlgaeSubsystem.MoveArmToPointCommand(AlgaeConstants.GrabPosition));
         //P4controller.y().whileTrue(m_AlgaeSubsystem.MoveArmToPointCommand(AlgaeConstants.NetPosition));
-        
+
         P4controller.y().whileTrue(Commands.deadline(
             new AlgaeOff(m_drivetrain, m_ElevatorSubsystem, m_ShooterBoxx, m_AlgaeSubsystem),
             m_drivetrain.applyRequest(() ->
@@ -668,8 +606,7 @@ public class RobotContainer {
 
 
         P4controller.back().whileTrue(m_AlgaeSubsystem.resetAlgaePosition());
-        //P4controller.getRightY((Commands.run(()-> m_AlgaeSubsystem.algaeJoystick(MathUtil.applyDeadband(P4controller.getRightY(), 0.1))));)
-
+        
     //------------------------------------------P1 CONTROLS OFFICIAL FOR TROY-------------------------------------------
     
     // LOCK THE WHEELS

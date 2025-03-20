@@ -1,0 +1,117 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Processor Unicorn"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "FireL4"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "ProcessorPreload2Source"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "SuckTillElevatorSensor"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "ProcessorSource2Score2"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "SuckTillSensor"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "FireL4"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "ProcessorScore22Source"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "SuckTillElevatorSensor"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "ProcessorSource2Score3"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "SuckTillSensor"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "FireL4"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "ProcessorS32Source"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "SuckTillElevatorSensor"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Processor Phantom Path"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": false,
+  "folder": "Processor Side",
+  "choreoAuto": false
+}

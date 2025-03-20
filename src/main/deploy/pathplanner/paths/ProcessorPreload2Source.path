@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.771106557377049,
-        "y": 1.939139344262295
+        "x": 4.025457660222457,
+        "y": 2.076613810911017
       },
       "isLocked": false,
       "linkedName": "Processor Preload"
@@ -20,8 +20,8 @@
         "y": 1.0160860655737713
       },
       "prevControl": {
-        "x": 2.1098345768399547,
-        "y": 1.3277706878339497
+        "x": 2.167751506223517,
+        "y": 1.653278932733051
       },
       "nextControl": null,
       "isLocked": false,
@@ -33,7 +33,18 @@
   "pointTowardsZones": [],
   "eventMarkers": [
     {
-      "name": "2Source",
+      "name": "Put the arm down please",
+      "waypointRelativePos": 0,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "Elevator2Home"
+        }
+      }
+    },
+    {
+      "name": "suck",
       "waypointRelativePos": 0.7515832641196012,
       "endWaypointRelativePos": null,
       "command": {
