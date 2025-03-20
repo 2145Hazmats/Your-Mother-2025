@@ -656,7 +656,15 @@ public class RobotContainer {
         P4controller.x().whileTrue(m_AlgaeSubsystem.MoveArmToPointCommand(AlgaeConstants.HomePosition));
         P4controller.a().whileTrue(m_AlgaeSubsystem.MoveArmToPointCommand(AlgaeConstants.FloorPosition));
         P4controller.b().whileTrue(m_AlgaeSubsystem.MoveArmToPointCommand(AlgaeConstants.GrabPosition));
-        P4controller.y().whileTrue(m_AlgaeSubsystem.MoveArmToPointCommand(AlgaeConstants.NetPosition));
+        //P4controller.y().whileTrue(m_AlgaeSubsystem.MoveArmToPointCommand(AlgaeConstants.NetPosition));
+        
+        P4controller.y().whileTrue(Commands.deadline(
+            new AlgaeOff(m_drivetrain, m_ElevatorSubsystem, m_ShooterBoxx, m_AlgaeSubsystem),
+            m_drivetrain.applyRequest(() ->
+                drive.withVelocityX(m_drivetrain.PIDDriveToPointX(PoseConstants.BLUE_REEF_POSES[m_drivetrain.getPlayer1ReefIndex()].getX()) * MaxSpeed)
+                .withVelocityY(m_drivetrain.PIDDriveToPointY(PoseConstants.BLUE_REEF_POSES[m_drivetrain.getPlayer1ReefIndex()].getY()) * MaxSpeed)
+                .withRotationalRate(m_drivetrain.PIDDriveToPointDEG(PoseConstants.BLUE_REEF_POSES[m_drivetrain.getPlayer1ReefIndex()].getRotation().getDegrees()))
+            )));
 
 
         P4controller.back().whileTrue(m_AlgaeSubsystem.resetAlgaePosition());

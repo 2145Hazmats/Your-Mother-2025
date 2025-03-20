@@ -66,6 +66,7 @@ public class AlgaeSubsystem extends SubsystemBase {
 
   public void MoveArmToPointMethod(double position) {
     armMotor.setControl(m_request.withPosition(position));
+    
   } 
 
   // Manual Methods

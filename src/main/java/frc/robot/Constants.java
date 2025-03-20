@@ -98,6 +98,7 @@ public final class Constants {
     public static final double HomePosition = 0.0; //-.6
 
     public static final double SAFETY_LEVEL = L2Position;
+    //public static final double CANCEL_ALGI = 
     public static final double NEAR_HOME = HomePosition-0.5;
     public static final double NEARER_HOME = HomePosition-0.05;
     
