@@ -50,12 +50,11 @@ public class AlgaeSubsystem extends SubsystemBase {
   }
 
   public Command AlgaeDefaultCommand() {
-    return Commands.run(() -> {
+    return Commands.runOnce(() -> {
       //shooterMotor.set(0);
       armMotor.setControl(m_request.withPosition(AlgaeConstants.HomePosition));
-    });
+    }, this);
   }
-
   public boolean isAlgaeAtHome() {
     return MathUtil.isNear(AlgaeConstants.HomePosition, GetAlgaeArmPosition(), ErrorConstants.AlgaeError);
   }

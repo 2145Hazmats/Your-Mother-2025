@@ -162,7 +162,7 @@ public final class Constants {
    public static final double HomePosition = 0;
    public static final double FloorPosition = 10.7;
    public static final double GrabPosition = 7.3;
-   public static final double DealgifyPosition = 0;
+   public static final double DealgifyPosition = 8.5;
    public static final double ProcessorPosition = 8;
    public static final double NetPosition = 0;
   
