@@ -10,6 +10,7 @@ import frc.robot.ReefConstants.PoseConstants;
 import frc.robot.Constants.ErrorConstants;
 import frc.robot.Constants.elevatorConstants;
 import frc.robot.Constants;
+import frc.robot.subsystems.AlgaeSubsystem;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.ShooterBoxx;
@@ -21,6 +22,7 @@ public class AlgaeOff extends Command {
   private CommandSwerveDrivetrain theLegs;
   private ElevatorSubsystem theElephant;
   private ShooterBoxx theSnout;
+  private AlgaeSubsystem theBigStick;
 
   // Declare the variables for desired Drivetrain positions and elevator height
   double xGoal;
@@ -29,11 +31,15 @@ public class AlgaeOff extends Command {
 
   int level = 0;
 
+  boolean areWeHigh;
+  double heightToCancel;
+
   // Constructor
-  public AlgaeOff(CommandSwerveDrivetrain theFakeLegs, ElevatorSubsystem theFakeElephant, ShooterBoxx theFakeSnout) {
+  public AlgaeOff(CommandSwerveDrivetrain theFakeLegs, ElevatorSubsystem theFakeElephant, ShooterBoxx theFakeSnout, AlgaeSubsystem theFakeBigStick) {
     theLegs = theFakeLegs;
     theElephant = theFakeElephant;
     theSnout = theFakeSnout;
+    theBigStick = theFakeBigStick;
 
     //addRequirements(theFakeElephant, theFakeSnout); //why drivetrain not requirement
     addRequirements(theFakeElephant);
@@ -52,18 +58,30 @@ public class AlgaeOff extends Command {
       yGoal = PoseConstants.RED_REEF_POSES[theLegs.getPlayer1ReefIndex()].getY();
     }
     
-    // Retrives our desired level index
-    level = theElephant.getPlayer1LevelIndex();
     
-    // Moves elevator to desired height and sets elevator goal
-    if (level == 1) {elevatorGoal = elevatorConstants.L1Position;}
-    else if (level == 2) {elevatorGoal = elevatorConstants.L2Position;}
-    else if (level == 3) {elevatorGoal = elevatorConstants.L3Position;}
-    else if (level == 4) {elevatorGoal = elevatorConstants.L4Position;}
 
-    if ((theLegs.getPlayer1ReefIndex() % 2) == 0 && level == 4) {
-      // something cool happens here
+    // HIGH ALGAE
+    if (theLegs.getPlayer1ReefIndex() == 0 || theLegs.getPlayer1ReefIndex() == 4 || theLegs.getPlayer1ReefIndex() == 8) {
+      areWeHigh = true;
+     
     }
+    // LOW ALGAE
+    if (theLegs.getPlayer1ReefIndex() == 2 || theLegs.getPlayer1ReefIndex() == 6 || theLegs.getPlayer1ReefIndex() == 10) {
+      areWeHigh = false;
+      
+    }
+  
+
+    if (areWeHigh == true) {
+      heightToCancel = Constants.elevatorConstants.L4Position;
+      level = 4;
+      elevatorGoal = elevatorConstants.L4Position;
+    } 
+      else {
+        heightToCancel = Constants.elevatorConstants.L3Position;
+        level = 3;
+        elevatorGoal = elevatorConstants.L3Position;
+      }
   }
 
   // Every 20ms We have a PID (funny math) and we check if the height of the elevator and the postition of the robot 
@@ -75,19 +93,10 @@ public class AlgaeOff extends Command {
     double currentDriveY = theLegs.getPose2d().getY();
     double currentElevatorPosition = theElephant.getElevatorPosition();
 
-    boolean isElevatorSensorTrue = theSnout.getElevatorSensor();
-    //boolean isCoralSensorTrue = theSnout.getBoxxSensor();
 
-    SmartDashboard.putBoolean("elevator value", isElevatorSensorTrue);
-    //SmartDashboard.putBoolean("coral value", isCoralSensorTrue);
-
-    SmartDashboard.putNumber("ScoreCoral X", currentDriveX - xGoal);
-    SmartDashboard.putNumber("ScoreCoral Y", currentDriveY - yGoal);
-    SmartDashboard.putNumber("ScoreCoral Elevator", currentElevatorPosition - elevatorGoal);
-
-    if (theElephant.getElevatorPosition() < elevatorConstants.SAFETY_LEVEL && !theSnout.getEitherSensor()) {
-      theElephant.elevatorToLevel(Constants.elevatorConstants.HomePosition);
-    }
+    // if (theElephant.getElevatorPosition() < elevatorConstants.SAFETY_LEVEL && !theSnout.getEitherSensor()) {
+    //   theElephant.elevatorToLevel(Constants.elevatorConstants.HomePosition);
+    // }
     
     if (currentElevatorPosition > (elevatorGoal - ErrorConstants.ElevatorError)
         && currentElevatorPosition < (elevatorGoal + ErrorConstants.ElevatorError)
@@ -95,12 +104,13 @@ public class AlgaeOff extends Command {
         && currentDriveX < (xGoal + ErrorConstants.DriveTrainScoreError)
         && currentDriveY > (yGoal - ErrorConstants.DriveTrainScoreError)
         && currentDriveY < (yGoal + ErrorConstants.DriveTrainScoreError)) {
-      theSnout.fireNow = true;
+      //theSnout.fireNow = true;
+      theBigStick.MoveArmToPointMethod(Constants.AlgaeConstants.DealgifyPosition);
+
     } else if (currentDriveX > (xGoal - ErrorConstants.DriveTrainElevatorUpError)
         && currentDriveX < (xGoal + ErrorConstants.DriveTrainElevatorUpError)
         && currentDriveY > (yGoal - ErrorConstants.DriveTrainElevatorUpError)
         && currentDriveY < (yGoal + ErrorConstants.DriveTrainElevatorUpError)
-        && !isElevatorSensorTrue
         && theElephant.isElevatorHome()) {
       theElephant.elevatorToLevel(level);
     }
@@ -116,6 +126,6 @@ public class AlgaeOff extends Command {
   // Returns true when the command should end. Runs every 20ms
   @Override
   public boolean isFinished() {
-    return (theElephant.getElevatorPosition() > elevatorConstants.SAFETY_LEVEL && !theSnout.getEitherSensor());
+    return (theElephant.getElevatorPosition() > heightToCancel);
   }
 }
