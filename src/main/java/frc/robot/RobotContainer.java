@@ -8,6 +8,7 @@ import static edu.wpi.first.units.Units.*;
 
 import java.util.function.BooleanSupplier;
 
+import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
@@ -119,6 +120,9 @@ public class RobotContainer {
           //NamedCommands.registerCommand("AutoL4", new ScoreCoralAuton( m_ElevatorSubsystem, m_ShooterBoxx, 4)); //.withTimeout(2).finallyDo(() -> m_ElevatorSubsystem.elevatorToHome()));
           NamedCommands.registerCommand("AutoL4", new PutElevatorUp(m_ElevatorSubsystem, m_ShooterBoxx, 4));
           NamedCommands.registerCommand("FireL4", new FireCoralAuton(m_ElevatorSubsystem, m_ShooterBoxx, 4));
+
+          NamedCommands.registerCommand("CoastMode" , Commands.runOnce(() -> m_drivetrain.configNeutralMode(NeutralModeValue.Coast)));
+          NamedCommands.registerCommand("BrakeMode" , Commands.runOnce(() -> m_drivetrain.configNeutralMode(NeutralModeValue.Brake)));
           
           //NamedCommands.registerCommand("ReadyToLeaveStation", m_ShooterBoxx.ElevatorCoralSensorTriggered());
 
@@ -136,6 +140,10 @@ public class RobotContainer {
 
     public CommandSwerveDrivetrain getSwerveDrivetrain() { // for coasting out of auto
         return m_drivetrain;
+    }
+
+    public ShooterBoxx getShooterBoxx() { // for coasting out of auto
+        return m_ShooterBoxx;
     }
 
     private void configureBindings() {
@@ -494,12 +502,12 @@ public class RobotContainer {
         //     )
         // ));
 
-        // // SLOW MODE
-        // P1controller.rightTrigger().whileTrue(m_drivetrain.applyRequest(() ->
-        //         drive.withVelocityX(-P1controller.getLeftY() * MaxSpeed * Constants.DrivetrainConstants.SlowMoSpeed)
-        //         .withVelocityY(-P1controller.getLeftX() * MaxSpeed * Constants.DrivetrainConstants.SlowMoSpeed)
-        //         .withRotationalRate(-P1controller.getRightX() * MaxAngularRate * Constants.DrivetrainConstants.SlowMoSpeed)
-        // ));
+        // SLOW MODE
+        P1controller.rightTrigger().whileTrue(m_drivetrain.applyRequest(() ->
+                drive.withVelocityX(-P1controller.getLeftY() * MaxSpeed * Constants.DrivetrainConstants.SlowMoSpeed)
+                .withVelocityY(-P1controller.getLeftX() * MaxSpeed * Constants.DrivetrainConstants.SlowMoSpeed)
+                .withRotationalRate(-P1controller.getRightX() * MaxAngularRate * Constants.DrivetrainConstants.SlowMoSpeed)
+        ));
 
         // FACE LEFT CORAL STATION
         P1controller.x().whileTrue(m_drivetrain.applyRequest(() ->

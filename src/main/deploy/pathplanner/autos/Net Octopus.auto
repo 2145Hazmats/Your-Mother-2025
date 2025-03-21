@@ -7,7 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "angled Net Side Preload"
+            "pathName": "Net Side Preload"
           }
         },
         {
@@ -94,12 +94,6 @@
           "type": "path",
           "data": {
             "pathName": "NetS3ToSource"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "SuckTillElevatorSensor"
           }
         },
         {

@@ -34,7 +34,7 @@
   "eventMarkers": [
     {
       "name": "finish suckig",
-      "waypointRelativePos": 0.08592758565989848,
+      "waypointRelativePos": 0.0,
       "endWaypointRelativePos": null,
       "command": {
         "type": "named",

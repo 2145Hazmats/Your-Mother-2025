@@ -45,7 +45,7 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
-    //m_robotContainer.getSwerveDrivetrain().configNeutralMode(NeutralModeValue.Brake);
+    m_robotContainer.getSwerveDrivetrain().configNeutralMode(NeutralModeValue.Brake);
 
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
@@ -56,11 +56,14 @@ public class Robot extends TimedRobot {
   public void autonomousPeriodic() {}
 
   @Override
-  public void autonomousExit() {}
+  public void autonomousExit() {
+    //m_robotContainer.getSwerveDrivetrain().configNeutralMode(NeutralModeValue.Coast);
+  }
 
   @Override
   public void teleopInit() {
-    //m_robotContainer.getSwerveDrivetrain().configNeutralMode(NeutralModeValue.Brake);
+    m_robotContainer.getShooterBoxx().StopShooterMethod();
+    m_robotContainer.getSwerveDrivetrain().configNeutralMode(NeutralModeValue.Brake);
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }

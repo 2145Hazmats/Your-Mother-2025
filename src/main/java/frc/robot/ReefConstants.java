@@ -23,9 +23,9 @@ public class ReefConstants {
   private static double kRightOffset = 0.3912; //DO NOT CHANGE.3412
 
   // Calibration Stuff For Blue Alliance Only
-  private static boolean usePose2D = true;//4.021 // no 5
-  private static Pose2d playLeftPoseAB = new Pose2d(3.2075, 4.0342, new Rotation2d(0)); //4.057323
-  private static Pose2d playRightPoseAB = new Pose2d(3.2075, 3.70955, new Rotation2d(0));
+  private static boolean usePose2D = true;
+  private static Pose2d playLeftPoseAB = new Pose2d(3.2195, 3.9932, new Rotation2d(0)); //Kettering: 3.2075, 4.057323, Botcave: 3.2075, 4.0342
+  private static Pose2d playRightPoseAB = new Pose2d(3.2195, 3.6607, new Rotation2d(0)); //Kettering: 3.2075, 3.70955,
   private static Pose2d suckLeftStationPose = new Pose2d(0,0, new Rotation2d(0));
   
   public final class ReefMathConstants {
@@ -186,7 +186,7 @@ public class ReefConstants {
     public static final double RED_CORAL_STATION_DEG = 126;
 
     public static final Pose2d CORAL_STATION_LEFT_BLUE_PATHFIND_POSE = new Pose2d(1.6, 6.7, new Rotation2d(Units.degreesToRadians(BLUE_CORAL_STATION_DEG)));
-    public static final Pose2d CORAL_STATION_LEFT_BLUE_POSE = new Pose2d(1.394, 7.165, new Rotation2d(Units.degreesToRadians(BLUE_CORAL_STATION_DEG)));
+    public static final Pose2d CORAL_STATION_LEFT_BLUE_POSE = new Pose2d(1.078, 7.09, new Rotation2d(Units.degreesToRadians(BLUE_CORAL_STATION_DEG))); //1.082, 7.057 //Bot Cave: 1.394, 7.165
     public static final Pose2d CORAL_STATION_RIGHT_BLUE_PATHFIND_POSE = new Pose2d(1.641, 1.439, new Rotation2d(Units.degreesToRadians(-BLUE_CORAL_STATION_DEG)));
     public static final Pose2d CORAL_STATION_RIGHT_BLUE_POSE = new Pose2d(1.193, 1.019, new Rotation2d(Units.degreesToRadians(-BLUE_CORAL_STATION_DEG)));
 

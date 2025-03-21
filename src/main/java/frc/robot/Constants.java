@@ -32,7 +32,7 @@ public final class Constants {
     public static final double D_DEGREE = 0;
     public static final double PID_RAD = 4.2145;
 
-    public static final double PID_MAX = 0.15;
+    public static final double PID_MAX = 0.10; //0.15
     public static final double STATION_PID_MAX = 0.25;
 
     //Margin of Error for Scoring
@@ -94,7 +94,7 @@ public final class Constants {
     public static final double L1Position = -29; //-19 is old number
     public static final double L2Position = -29;
     public static final double L3Position = -50.5; //-49.1
-    public static final double L4Position = -50.5; //-81.15
+    public static final double L4Position = -81.15;
     public static final double HomePosition = 0.0; //-.6
 
     public static final double SAFETY_LEVEL = L2Position;
