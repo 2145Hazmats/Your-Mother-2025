@@ -8,20 +8,20 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.403999999997633,
-        "y": 7.17425000000528
+        "x": 1.5994126157407396,
+        "y": 6.721319082754629
       },
       "isLocked": false,
       "linkedName": "NetSource"
     },
     {
       "anchor": {
-        "x": 5.46,
-        "y": 5.57525
+        "x": 2.233676215277777,
+        "y": 5.727123119212963
       },
       "prevControl": {
-        "x": 4.59225,
-        "y": 5.94575
+        "x": 1.9782703993055546,
+        "y": 6.057007740162037
       },
       "nextControl": null,
       "isLocked": false,
@@ -34,7 +34,7 @@
   "eventMarkers": [
     {
       "name": "coast mode",
-      "waypointRelativePos": 0.0665012406947884,
+      "waypointRelativePos": 0.19910195182724252,
       "endWaypointRelativePos": null,
       "command": {
         "type": "named",
@@ -45,7 +45,7 @@
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 4.0,
+    "maxVelocity": 2.0,
     "maxAcceleration": 5.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
@@ -53,8 +53,8 @@
     "unlimited": false
   },
   "goalEndState": {
-    "velocity": 0,
-    "rotation": -35.131437446834546
+    "velocity": 2.0,
+    "rotation": -55.341709630772016
   },
   "reversed": false,
   "folder": "Net Side",

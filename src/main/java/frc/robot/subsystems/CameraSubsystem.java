@@ -153,15 +153,19 @@ public class CameraSubsystem extends SubsystemBase {
     // Try to update "latestRobotPose" with a new "EstimatedRobotPose" using a "PhotonPoseEstimator"
     // If "latestRobotPose" is updated, call addVisionPose2d() and pass the updated "latestRobotPose" as an argument
     try {
-      centralEstimatedRobotPose = centralPoseEstimator.update(centralResult).get();
-      updateEstimationStdDevs(centralPoseEstimator.update(centralResult), centralCamera.getAllUnreadResults().get(0).getTargets());
-      addVisionPose2d(centralEstimatedRobotPose.estimatedPose.toPose2d(), Utils.getCurrentTimeSeconds());
-      visionField.setRobotPose(centralEstimatedRobotPose.estimatedPose.toPose2d());
-      
-      SmartDashboard.putNumber("Central Vision X", centralEstimatedRobotPose.estimatedPose.toPose2d().getX());
-      SmartDashboard.putNumber("Central Vision Y", centralEstimatedRobotPose.estimatedPose.toPose2d().getY());
-      SmartDashboard.putNumber("Central Vision Rot", centralEstimatedRobotPose.estimatedPose.toPose2d().getRotation().getDegrees());
-      SmartDashboard.putBoolean("middleLatestRobotPose Update", true);
+      // Only accepts camera results if they see more than 1 april tag, or if it sees 1 april tag and the poseAmbiguity is low
+      // COMMENT OUT THE LINE BELOW THIS AND IT'S CLOSING BRACKETS IF THIS DOESN'T WORK
+      if ((centralResult.getTargets().size() == 1 && centralResult.getBestTarget().poseAmbiguity < 0.5) || centralResult.getTargets().size() > 1) {
+        centralEstimatedRobotPose = centralPoseEstimator.update(centralResult).get();
+        updateEstimationStdDevs(centralPoseEstimator.update(centralResult), centralCamera.getAllUnreadResults().get(0).getTargets());
+        addVisionPose2d(centralEstimatedRobotPose.estimatedPose.toPose2d(), Utils.getCurrentTimeSeconds());
+        visionField.setRobotPose(centralEstimatedRobotPose.estimatedPose.toPose2d());
+        
+        SmartDashboard.putNumber("Central Vision X", centralEstimatedRobotPose.estimatedPose.toPose2d().getX());
+        SmartDashboard.putNumber("Central Vision Y", centralEstimatedRobotPose.estimatedPose.toPose2d().getY());
+        SmartDashboard.putNumber("Central Vision Rot", centralEstimatedRobotPose.estimatedPose.toPose2d().getRotation().getDegrees());
+        SmartDashboard.putBoolean("middleLatestRobotPose Update", true);
+      }
     } catch (Exception e) {
       centralEstimatedRobotPose = null;
       SmartDashboard.putBoolean("middleLatestRobotPose Update", false);
@@ -169,15 +173,19 @@ public class CameraSubsystem extends SubsystemBase {
 
     // Same thing but for the left camera
     try {
-      leftEstimatedRobotPose = leftPoseEstimator.update(leftResult).get();
-      updateEstimationStdDevs(leftPoseEstimator.update(leftResult), leftCamera.getAllUnreadResults().get(0).getTargets());
-      addVisionPose2d(leftEstimatedRobotPose.estimatedPose.toPose2d(), Utils.getCurrentTimeSeconds());
-      visionField.setRobotPose(leftEstimatedRobotPose.estimatedPose.toPose2d());
+      // Only accepts camera results if they see more than 1 april tag, or if it sees 1 april tag and the poseAmbiguity is low
+      // COMMENT OUT THE LINE BELOW THIS AND IT'S CLOSING BRACKETS IF THIS DOESN'T WORK
+      if ((leftResult.getTargets().size() == 1 && leftResult.getBestTarget().poseAmbiguity < 0.5) || leftResult.getTargets().size() > 1) {
+        leftEstimatedRobotPose = leftPoseEstimator.update(leftResult).get();
+        updateEstimationStdDevs(leftPoseEstimator.update(leftResult), leftCamera.getAllUnreadResults().get(0).getTargets());
+        addVisionPose2d(leftEstimatedRobotPose.estimatedPose.toPose2d(), Utils.getCurrentTimeSeconds());
+        visionField.setRobotPose(leftEstimatedRobotPose.estimatedPose.toPose2d());
 
-      SmartDashboard.putNumber("Left Vision X", leftEstimatedRobotPose.estimatedPose.toPose2d().getX());
-      SmartDashboard.putNumber("Left Vision Y", leftEstimatedRobotPose.estimatedPose.toPose2d().getY());
-      SmartDashboard.putNumber("Left Vision Rot", leftEstimatedRobotPose.estimatedPose.toPose2d().getRotation().getDegrees());
-      SmartDashboard.putBoolean("leftLatestRobotPose Update", true);
+        SmartDashboard.putNumber("Left Vision X", leftEstimatedRobotPose.estimatedPose.toPose2d().getX());
+        SmartDashboard.putNumber("Left Vision Y", leftEstimatedRobotPose.estimatedPose.toPose2d().getY());
+        SmartDashboard.putNumber("Left Vision Rot", leftEstimatedRobotPose.estimatedPose.toPose2d().getRotation().getDegrees());
+        SmartDashboard.putBoolean("leftLatestRobotPose Update", true);
+      }
     } catch (Exception e) {
       leftEstimatedRobotPose = null;
       SmartDashboard.putBoolean("leftLatestRobotPose Update", false);

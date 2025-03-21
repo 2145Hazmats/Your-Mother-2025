@@ -7,9 +7,11 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.ReefConstants.PoseConstants;
+import frc.robot.Constants.AlgaeConstants;
 import frc.robot.Constants.ErrorConstants;
 import frc.robot.Constants.elevatorConstants;
 import frc.robot.Constants;
+import frc.robot.subsystems.AlgaeSubsystem;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.ShooterBoxx;
@@ -21,6 +23,7 @@ public class ScoreCoral extends Command {
   private CommandSwerveDrivetrain theLegs;
   private ElevatorSubsystem theElephant;
   private ShooterBoxx theSnout;
+  private AlgaeSubsystem theAlgae;
 
   // Declare the variables for desired Drivetrain positions and elevator height
   double xGoal;
@@ -29,14 +32,17 @@ public class ScoreCoral extends Command {
 
   int level = 0;
 
+  boolean algaeMode = false;
+
   // Constructor
-  public ScoreCoral(CommandSwerveDrivetrain theFakeLegs, ElevatorSubsystem theFakeElephant, ShooterBoxx theFakeSnout) {
+  public ScoreCoral(CommandSwerveDrivetrain theFakeLegs, ElevatorSubsystem theFakeElephant, ShooterBoxx theFakeSnout, AlgaeSubsystem theFakeAlgae) {
     theLegs = theFakeLegs;
     theElephant = theFakeElephant;
     theSnout = theFakeSnout;
+    theAlgae = theFakeAlgae;
 
     //addRequirements(theFakeElephant, theFakeSnout); //why drivetrain not requirement
-    addRequirements(theFakeElephant);
+    addRequirements(theFakeElephant, theFakeAlgae);
   }
 
   // Called when the command is initially scheduled.
@@ -62,7 +68,7 @@ public class ScoreCoral extends Command {
     else if (level == 4) {elevatorGoal = elevatorConstants.L4Position;}
 
     if ((theLegs.getPlayer1ReefIndex() % 2) == 0 && level == 4) {
-      // something cool happens one time
+      algaeMode = true;
     }
   }
 
@@ -85,20 +91,21 @@ public class ScoreCoral extends Command {
     SmartDashboard.putNumber("ScoreCoral Y", currentDriveY - yGoal);
     SmartDashboard.putNumber("ScoreCoral Elevator", currentElevatorPosition - elevatorGoal);
 
-    if ((theLegs.getPlayer1ReefIndex() % 2) == 0 && level == 4) { // && magicBoolean == true) {
-      // HIGH ALGAE
-      if (theLegs.getPlayer1ReefIndex() == 0 || theLegs.getPlayer1ReefIndex() == 4 || theLegs.getPlayer1ReefIndex() == 8) {
-      }
-      // LOW ALGAE
-      if (theLegs.getPlayer1ReefIndex() == 2 || theLegs.getPlayer1ReefIndex() == 6 || theLegs.getPlayer1ReefIndex() == 10) {
+    // if ((theLegs.getPlayer1ReefIndex() % 2) == 0 && level == 4) { // && magicBoolean == true) {
+    //   // HIGH ALGAE
+    //   if (theLegs.getPlayer1ReefIndex() == 0 || theLegs.getPlayer1ReefIndex() == 4 || theLegs.getPlayer1ReefIndex() == 8) {
+
+    //   }
+    //   // LOW ALGAE
+    //   if (theLegs.getPlayer1ReefIndex() == 2 || theLegs.getPlayer1ReefIndex() == 6 || theLegs.getPlayer1ReefIndex() == 10) {
         
-      }
-    }
+    //   }
+    // }
 
     if (theElephant.getElevatorPosition() < elevatorConstants.SAFETY_LEVEL && !theSnout.getEitherSensor()) {
       theElephant.elevatorToLevel(Constants.elevatorConstants.HomePosition);
     }
-    
+
     if (currentElevatorPosition > (elevatorGoal - ErrorConstants.ElevatorError)
         && currentElevatorPosition < (elevatorGoal + ErrorConstants.ElevatorError)
         && currentDriveX > (xGoal - ErrorConstants.DriveTrainScoreError)
@@ -106,9 +113,8 @@ public class ScoreCoral extends Command {
         && currentDriveY > (yGoal - ErrorConstants.DriveTrainScoreError)
         && currentDriveY < (yGoal + ErrorConstants.DriveTrainScoreError)) {
       theSnout.fireNow = true;
-      if ((theLegs.getPlayer1ReefIndex() % 2) == 0 && level == 4) {
-        // maybe... magicBoolean = true;
-        //theAlgae.goToPosition(AlgaeConstants.READY_TO_DEALGAEFY);
+      if (algaeMode) {
+        theAlgae.MoveArmToPointMethod(AlgaeConstants.DealgifyPosition);
       }
     } else if (currentDriveX > (xGoal - ErrorConstants.DriveTrainElevatorUpError)
         && currentDriveX < (xGoal + ErrorConstants.DriveTrainElevatorUpError)
@@ -124,12 +130,17 @@ public class ScoreCoral extends Command {
   @Override
   public void end(boolean interrupted) {
     theElephant.elevatorToLevel(Constants.elevatorConstants.HomePosition);
+    theAlgae.MoveArmToPointMethod(AlgaeConstants.HomePosition);
   }
 
   // Returns true when the sensor is untriggered and the elevator is up
   // Returns true when the command should end. Runs every 20ms
   @Override
   public boolean isFinished() {
-    return (theElephant.getElevatorPosition() > elevatorConstants.SAFETY_LEVEL && !theSnout.getEitherSensor());
+    if (algaeMode) {
+      return (theElephant.isElevatorHome() && !theSnout.getEitherSensor()); //(theElephant.isElevatorHome() && theAlgae.IsArmAwayFromHome() && !theSnout.getEitherSensor());
+    } else {
+      return (theElephant.getElevatorPosition() > elevatorConstants.SAFETY_LEVEL && !theSnout.getEitherSensor());
+    }
   }
 }

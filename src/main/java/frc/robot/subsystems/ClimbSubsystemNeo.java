@@ -38,7 +38,7 @@ public class ClimbSubsystemNeo extends SubsystemBase{
 
   public Command KeepClimbSafeDefaultCommand() {
     return Commands.run(() -> { if (true) { 
-      climbServo.set(Constants.ClimbContants.climbUnlockServoPosition);
+      climbServo.set(Constants.ClimbContants.climbLockServoPosition);
       climbMotorNeo.set(0);
     }}, this);
   }

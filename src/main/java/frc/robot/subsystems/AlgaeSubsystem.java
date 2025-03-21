@@ -14,6 +14,7 @@ import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -75,34 +76,14 @@ public class AlgaeSubsystem extends SubsystemBase {
     //shooterMotor.setControl(new DutyCycleOut(shooterspeed));
  }
 
- // KEEP ALGAE CLAW SAFE METHODS. DO LATER WHEN WE GET ALGAE CLAW!!!!
- //public Command keepAlgaeClawSafe() {
-     //return ;
- //}
+ public boolean isArmInDealgifyPosition() {
+  return (GetAlgaeArmPosition() > Constants.AlgaeConstants.DealgifyPosition - Constants.AlgaeConstants.ALGAE_ARM_ERROR && GetAlgaeArmPosition() < AlgaeConstants.DealgifyPosition + AlgaeConstants.ALGAE_ARM_ERROR);
+ }
 
-
-  // Algae Intake
-  // public Command IntakeAlgaeCommmand() {
-  //   return Commands.run(() -> shooterMotor.set(AlgaeConstants.intakeSpeed))
-  //                  .finallyDo(() -> shooterMotor.set(0));
-  // }
-  // public void IntakeAlgaeMethod() {
-  //   shooterMotor.set(AlgaeConstants.intakeSpeed);
-  // }
-
-  // Algae Outtake
-  // public Command RegurgitateAlgaeCommand() {
-  //   return Commands.run(() -> shooterMotor.set(AlgaeConstants.outtakeSpeed))
-  //                  .finallyDo(() -> shooterMotor.set(0));
-  // }
-
-  // public void RegurgitateAlgaeMethod() {
-  //   shooterMotor.set(AlgaeConstants.outtakeSpeed);
-  // }
-
-  // public void StopAlgaeShooterMethod() {
-  //   shooterMotor.set(0);
-  // }
+ public boolean IsArmAwayFromHome() {
+  return (GetAlgaeArmPosition() > AlgaeConstants.DistanceAwayFromHome);
+   
+ }
 
   public double GetAlgaeArmPosition() {
     return armMotor.getPosition().getValueAsDouble();

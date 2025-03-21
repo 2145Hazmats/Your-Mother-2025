@@ -151,10 +151,9 @@ public class RobotContainer {
         m_ElevatorSubsystem.setDefaultCommand(Commands.either(m_ElevatorSubsystem.defaultCommand(),Commands.run(()-> m_ElevatorSubsystem.elevatorJoystick(P2controller.getLeftY()), m_ElevatorSubsystem) , m_indexing::isP2ManualModeFalse)); //NEEDS TESTING
         //m_ElevatorSubsystem.setDefaultCommand(Commands.either(m_ElevatorSubsystem.elevatorToL1(),m_ElevatorSubsystem.defaultCommand() , m_indexing::isP2ManualModeFalse));
         m_ShooterBoxx.setDefaultCommand(Commands.either(m_ShooterBoxx.IntakeSolosDefaultCommand(), Commands.run(() -> m_ShooterBoxx.StopShooterMethod(), m_ShooterBoxx), m_indexing::isP2ManualModeFalse));
-        //m_ClimbSubsystemNeo.setDefaultCommand(m_ClimbSubsystemNeo.KeepClimbSafeDefaultCommand());
+        m_ClimbSubsystemNeo.setDefaultCommand(m_ClimbSubsystemNeo.KeepClimbSafeDefaultCommand());
         //m_AlgaeSubsystem.setDefaultCommand(Commands.run(() -> m_AlgaeSubsystem.algaeJoystick(P4controller.getRightY())));//(MathUtil.applyDeadband(P4controller.getRightY(), 0.1)), MathUtil.applyDeadband(P4controller.getLeftY(), 0.1)));
         m_AlgaeSubsystem.setDefaultCommand(m_AlgaeSubsystem.AlgaeDefaultCommand());
-        // Indexing LOL!!
         m_indexing.setDefaultCommand(m_indexing.SettingReefIndexBasedOnController(P2controller::getRightX, P2controller::getRightY));
 
         m_drivetrain.registerTelemetry(logger::telemeterize);
@@ -366,13 +365,22 @@ public class RobotContainer {
         ));
 
         // PATHFIND AND PID TO BLUE NET CAGE
-        P1controller.povLeft().and(m_drivetrain::isAllianceBlue).whileTrue(m_drivetrain.pathFindToBlueClimbNet().andThen(
-                m_drivetrain.applyRequest(() ->
-                    drive.withVelocityX(m_drivetrain.PIDDriveToPointX(PoseConstants.CLIMB_BLUE_NET_POSE.getX()) * MaxSpeed)
-                    .withVelocityY(m_drivetrain.PIDDriveToPointY(PoseConstants.CLIMB_BLUE_NET_POSE.getY()) * MaxSpeed)
-                    .withRotationalRate(m_drivetrain.PIDDriveToPointDEG(PoseConstants.CLIMB_BLUE_NET_POSE.getRotation().getDegrees()))
-                )  
-        ));
+        // P1controller.povLeft().and(m_drivetrain::isAllianceBlue).whileTrue(m_drivetrain.pathFindToBlueClimbNet().andThen(
+        //         m_drivetrain.applyRequest(() ->
+        //             drive.withVelocityX(m_drivetrain.PIDDriveToPointX(PoseConstants.CLIMB_BLUE_NET_POSE.getX()) * MaxSpeed)
+        //             .withVelocityY(m_drivetrain.PIDDriveToPointY(PoseConstants.CLIMB_BLUE_NET_POSE.getY()) * MaxSpeed)
+        //             .withRotationalRate(m_drivetrain.PIDDriveToPointDEG(PoseConstants.CLIMB_BLUE_NET_POSE.getRotation().getDegrees()))
+        //         )  
+        // ));
+        // Blue
+        P1controller.povLeft().and(m_drivetrain::isAllianceBlue).whileTrue(m_drivetrain.pathFindToBlueClimbNet());
+        P1controller.povRight().and(m_drivetrain::isAllianceBlue).whileTrue(m_drivetrain.pathFindToBlueClimbProcessor());
+        P1controller.povUp().and(m_drivetrain::isAllianceBlue).whileTrue(m_drivetrain.pathFindToBlueClimbCenter());
+
+        // Red
+        P1controller.povLeft().and(m_drivetrain::isAllianceRed).whileTrue(m_drivetrain.pathFindToRedClimbNet());
+        P1controller.povRight().and(m_drivetrain::isAllianceRed).whileTrue(m_drivetrain.pathFindToRedClimbProcessor());
+        P1controller.povUp().and(m_drivetrain::isAllianceRed).whileTrue(m_drivetrain.pathFindToRedClimbCenter());
 
         // // REEF SCORE RED
         // P1controller.leftTrigger().and(m_drivetrain::isAllianceRed).whileTrue(m_drivetrain.pathFindToAllTheReefsRed().andThen(
@@ -530,7 +538,7 @@ public class RobotContainer {
         //         .withRotationalRate(-m_drivetrain.angularSpeedToFaceReef() * m_ElevatorSubsystem.getElevatorSlowSpeed())
         // ));
 
-        // FACE NET
+        // FACE Climb
         P1controller.y().whileTrue(m_drivetrain.applyRequest(() ->
                 drive.withVelocityX(-P1controller.getLeftY() * MaxSpeed * m_ElevatorSubsystem.getElevatorSlowSpeed())
                 .withVelocityY(-P1controller.getLeftX() * MaxSpeed * m_ElevatorSubsystem.getElevatorSlowSpeed())

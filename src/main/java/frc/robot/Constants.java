@@ -166,7 +166,7 @@ public final class Constants {
    public static final double DealgifyPosition = 8.5;
    public static final double ProcessorPosition = 8;
    public static final double NetPosition = 0;
-  
+   public static final double DistanceAwayFromHome = 2;
    public static final Pose2d BLUE_NET_POSES = new Pose2d(0,0,new Rotation2d(0));
    public static final Pose2d RED_NET_POSES =  new Pose2d(0,0,new Rotation2d(0));
 

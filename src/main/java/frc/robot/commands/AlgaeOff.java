@@ -7,6 +7,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.ReefConstants.PoseConstants;
+import frc.robot.Constants.AlgaeConstants;
 import frc.robot.Constants.ErrorConstants;
 import frc.robot.Constants.elevatorConstants;
 import frc.robot.Constants;
@@ -33,7 +34,6 @@ public class AlgaeOff extends Command {
 
   boolean areWeHigh;
   //double heightToCancel;
-  boolean isArmOut;
 
   // Constructor
   public AlgaeOff(CommandSwerveDrivetrain theFakeLegs, ElevatorSubsystem theFakeElephant, ShooterBoxx theFakeSnout, AlgaeSubsystem theFakeBigStick) {
@@ -60,7 +60,7 @@ public class AlgaeOff extends Command {
       yGoal = PoseConstants.RED_REEF_POSES[theLegs.getPlayer1ReefIndex()].getY();
     }
     
-    isArmOut = false;
+    
     
 
     // HIGH ALGAE
@@ -113,7 +113,17 @@ public class AlgaeOff extends Command {
 
 
     // } else
-     if  (currentElevatorPosition > (elevatorGoal - ErrorConstants.ElevatorError)
+      if  (currentElevatorPosition > (elevatorGoal - ErrorConstants.ElevatorError)
+      && currentElevatorPosition < (elevatorGoal + ErrorConstants.ElevatorError)
+      && currentDriveX > (xGoal - ErrorConstants.DriveTrainScoreError)
+      && currentDriveX < (xGoal + ErrorConstants.DriveTrainScoreError)
+      && currentDriveY > (yGoal - ErrorConstants.DriveTrainScoreError)
+      && currentDriveY < (yGoal + ErrorConstants.DriveTrainScoreError)
+      && theBigStick.isArmInDealgifyPosition()) {
+        theElephant.elevatorToHomeMethod();
+      }
+
+     else if  (currentElevatorPosition > (elevatorGoal - ErrorConstants.ElevatorError)
         && currentElevatorPosition < (elevatorGoal + ErrorConstants.ElevatorError)
         && currentDriveX > (xGoal - ErrorConstants.DriveTrainScoreError)
         && currentDriveX < (xGoal + ErrorConstants.DriveTrainScoreError)
@@ -121,7 +131,7 @@ public class AlgaeOff extends Command {
         && currentDriveY < (yGoal + ErrorConstants.DriveTrainScoreError)) {
       //theSnout.fireNow = true;
       theBigStick.MoveArmToPointMethod(Constants.AlgaeConstants.DealgifyPosition);
-      isArmOut = true;
+      
 
 
     } else if (currentDriveX > (xGoal - ErrorConstants.DriveTrainElevatorUpError)
@@ -137,12 +147,14 @@ public class AlgaeOff extends Command {
   @Override
   public void end(boolean interrupted) {
     theElephant.elevatorToLevel(Constants.elevatorConstants.HomePosition);
+    theBigStick.MoveArmToPointMethod(AlgaeConstants.HomePosition);
   }
 
   // Returns true when the sensor is untriggered and the elevator is up
   // Returns true when the command should end. Runs every 20ms
   @Override
   public boolean isFinished() {
-    return (false); //(theElephant.isElevatorHome()) && (isArmOut) 
+    //return (false); 
+    return (theElephant.isElevatorHome() && theBigStick.IsArmAwayFromHome()); 
   }
 }
