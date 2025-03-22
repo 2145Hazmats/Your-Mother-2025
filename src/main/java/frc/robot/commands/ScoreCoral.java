@@ -67,6 +67,8 @@ public class ScoreCoral extends Command {
     else if (level == 3) {elevatorGoal = elevatorConstants.L3Position;}
     else if (level == 4) {elevatorGoal = elevatorConstants.L4Position;}
 
+    algaeMode = false;
+
     if ((theLegs.getPlayer1ReefIndex() % 2) == 0 && level == 4) {
       algaeMode = true;
     }
@@ -113,7 +115,7 @@ public class ScoreCoral extends Command {
         && currentDriveY > (yGoal - ErrorConstants.DriveTrainScoreError)
         && currentDriveY < (yGoal + ErrorConstants.DriveTrainScoreError)) {
       theSnout.fireNow = true;
-      if (algaeMode) {
+      if (algaeMode == true) {
         theAlgae.MoveArmToPointMethod(AlgaeConstants.DealgifyPosition);
       }
     } else if (currentDriveX > (xGoal - ErrorConstants.DriveTrainElevatorUpError)

@@ -91,11 +91,11 @@ public final class Constants {
     public static final double ElaphantD = 0.00;//0.001
 
     // Elevator Level Heights
-    public static final double L1Position = -29; //-19 is old number
-    public static final double L2Position = -29;
-    public static final double L3Position = -50.5; //-49.1
-    public static final double L4Position = -81.15;
-    public static final double HomePosition = 0.0; //-.6
+    public static final double L1Position = -29; //-29
+    public static final double L2Position = -29; //-29
+    public static final double L3Position = -50.5; //-50.5
+    public static final double L4Position = -81.15; //-81.15
+    public static final double HomePosition = 0.0;
 
     public static final double SAFETY_LEVEL = L2Position;
     //public static final double CANCEL_ALGI = 
@@ -129,8 +129,8 @@ public final class Constants {
     public static final double ClimbP = 0.05;
     public static final double ClimbI = 0;
     public static final double ClimbD = 0;
-    public static final double ClimbReadySetpoint = -4.1;
-    public static final double ClimbLockedInSetpoint = 0;
+    public static final double ClimbReadySetpoint = -3.176;
+    public static final double ClimbLockedInSetpoint = 1; //0 is too low... 2 almost works, but chain touches elevator
   }
   
   //Coral Scoring Constants 
@@ -163,7 +163,7 @@ public final class Constants {
    public static final double HomePosition = 0;
    public static final double FloorPosition = 10.7;
    public static final double GrabPosition = 7.3;
-   public static final double DealgifyPosition = 8.5;
+   public static final double DealgifyPosition = 9.5; //8.5
    public static final double ProcessorPosition = 8;
    public static final double NetPosition = 0;
    public static final double DistanceAwayFromHome = 2;

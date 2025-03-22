@@ -80,7 +80,7 @@ public class CameraSubsystem extends SubsystemBase {
   // The standard deviations of our vision estimated poses, which affect correction rate
   // (Fake values. Experiment and determine estimation noise on an actual robot.)
   // TODO : edit starting values
-  private final Matrix<N3, N1> kSingleTagStdDevs = VecBuilder.fill(5, 5, 10); //VecBuilder.fill(4, 4, 8);
+  private final Matrix<N3, N1> kSingleTagStdDevs = VecBuilder.fill(4, 4, 8); //VecBuilder.fill(5, 5, 10);
   private final Matrix<N3, N1> kMultiTagStdDevs = VecBuilder.fill(0.5, 0.5, 1);
 
   /* Constructor */
@@ -192,30 +192,34 @@ public class CameraSubsystem extends SubsystemBase {
     }
 
     // try {
-    //   backRightEstimatedRobotPose = backRightPoseEstimator.update(backRightResult).get();
-    //   updateEstimationStdDevs(backRightPoseEstimator.update(backRightResult), backRightCamera.getAllUnreadResults().get(0).getTargets());
-    //   addVisionPose2d(backRightEstimatedRobotPose.estimatedPose.toPose2d(), Utils.getCurrentTimeSeconds());
-    //   visionField.setRobotPose(backRightEstimatedRobotPose.estimatedPose.toPose2d());
-      
-    //   SmartDashboard.putNumber("BackRight Vision X", backRightEstimatedRobotPose.estimatedPose.toPose2d().getX());
-    //   SmartDashboard.putNumber("BackRight Vision Y", backRightEstimatedRobotPose.estimatedPose.toPose2d().getY());
-    //   SmartDashboard.putNumber("BackRight Vision Rot", backRightEstimatedRobotPose.estimatedPose.toPose2d().getRotation().getDegrees());
-    //   SmartDashboard.putBoolean("BackRightLatestRobotPose Update", true);
+    //   if ((backRightResult.getTargets().size() == 1 && backRightResult.getBestTarget().poseAmbiguity < 0.5) || backRightResult.getTargets().size() > 1) {
+    //     backRightEstimatedRobotPose = backRightPoseEstimator.update(backRightResult).get();
+    //     updateEstimationStdDevs(backRightPoseEstimator.update(backRightResult), backRightCamera.getAllUnreadResults().get(0).getTargets());
+    //     addVisionPose2d(backRightEstimatedRobotPose.estimatedPose.toPose2d(), Utils.getCurrentTimeSeconds());
+    //     visionField.setRobotPose(backRightEstimatedRobotPose.estimatedPose.toPose2d());
+        
+    //     SmartDashboard.putNumber("BackRight Vision X", backRightEstimatedRobotPose.estimatedPose.toPose2d().getX());
+    //     SmartDashboard.putNumber("BackRight Vision Y", backRightEstimatedRobotPose.estimatedPose.toPose2d().getY());
+    //     SmartDashboard.putNumber("BackRight Vision Rot", backRightEstimatedRobotPose.estimatedPose.toPose2d().getRotation().getDegrees());
+    //     SmartDashboard.putBoolean("BackRightLatestRobotPose Update", true);
+    //   }
     // } catch (Exception e) {
     //   backRightEstimatedRobotPose = null;
     //   SmartDashboard.putBoolean("BackRightLatestRobotPose Update", false);
     // }
 
     // try {
-    //   backLeftEstimatedRobotPose = backLeftPoseEstimator.update(backLeftResult).get();
-    //   updateEstimationStdDevs(backLeftPoseEstimator.update(backLeftResult), backLeftCamera.getAllUnreadResults().get(0).getTargets());
-    //   addVisionPose2d(backLeftEstimatedRobotPose.estimatedPose.toPose2d(), Utils.getCurrentTimeSeconds());
-    //   visionField.setRobotPose(backLeftEstimatedRobotPose.estimatedPose.toPose2d());
-      
-    //   SmartDashboard.putNumber("BackLeft Vision X", backLeftEstimatedRobotPose.estimatedPose.toPose2d().getX());
-    //   SmartDashboard.putNumber("BackLeft Vision Y", backLeftEstimatedRobotPose.estimatedPose.toPose2d().getY());
-    //   SmartDashboard.putNumber("BackLeft Vision Rot", backLeftEstimatedRobotPose.estimatedPose.toPose2d().getRotation().getDegrees());
-    //   SmartDashboard.putBoolean("BackLeftLatestRobotPose Update", true);
+    //   if ((backLeftResult.getTargets().size() == 1 && backLeftResult.getBestTarget().poseAmbiguity < 0.5) || backLeftResult.getTargets().size() > 1) {
+    //     backLeftEstimatedRobotPose = backLeftPoseEstimator.update(backLeftResult).get();
+    //     updateEstimationStdDevs(backLeftPoseEstimator.update(backLeftResult), backLeftCamera.getAllUnreadResults().get(0).getTargets());
+    //     addVisionPose2d(backLeftEstimatedRobotPose.estimatedPose.toPose2d(), Utils.getCurrentTimeSeconds());
+    //     visionField.setRobotPose(backLeftEstimatedRobotPose.estimatedPose.toPose2d());
+        
+    //     SmartDashboard.putNumber("BackLeft Vision X", backLeftEstimatedRobotPose.estimatedPose.toPose2d().getX());
+    //     SmartDashboard.putNumber("BackLeft Vision Y", backLeftEstimatedRobotPose.estimatedPose.toPose2d().getY());
+    //     SmartDashboard.putNumber("BackLeft Vision Rot", backLeftEstimatedRobotPose.estimatedPose.toPose2d().getRotation().getDegrees());
+    //     SmartDashboard.putBoolean("BackLeftLatestRobotPose Update", true);
+    //   }
     // } catch (Exception e) {
     //   backLeftEstimatedRobotPose = null;
     //   SmartDashboard.putBoolean("BackLeftLatestRobotPose Update", false);

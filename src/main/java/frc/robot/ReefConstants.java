@@ -24,8 +24,8 @@ public class ReefConstants {
 
   // Calibration Stuff For Blue Alliance Only
   private static boolean usePose2D = true;
-  private static Pose2d playLeftPoseAB = new Pose2d(3.2195, 3.9932, new Rotation2d(0)); //Kettering: 3.2075, 4.057323, Botcave: 3.2075, 4.0342
-  private static Pose2d playRightPoseAB = new Pose2d(3.2195, 3.6607, new Rotation2d(0)); //Kettering: 3.2075, 3.70955,
+  private static Pose2d playLeftPoseAB = new Pose2d(3.206, 4.046, new Rotation2d(0)); //Troy: 3.205, 4.035 Kettering Week1: 3.2075, 4.057323, Botcave: 3.2075, 4.0342
+  private static Pose2d playRightPoseAB = new Pose2d(3.206, 3.6975, new Rotation2d(0)); //Troy: 3.205, 3.6855 Kettering Week1: 3.2075, 3.70955,
   private static Pose2d suckLeftStationPose = new Pose2d(0,0, new Rotation2d(0));
   
   public final class ReefMathConstants {

@@ -267,7 +267,7 @@ public class RobotContainer {
             //m_indexing.updateP1IndexInRepeatingCommand(),
             m_drivetrain.pathFindToAllTheReefsBlue().andThen(
             Commands.deadline(
-                new ScoreCoralOLD(m_drivetrain, m_ElevatorSubsystem, m_ShooterBoxx),
+                new ScoreCoral(m_drivetrain, m_ElevatorSubsystem, m_ShooterBoxx, m_AlgaeSubsystem),
                 m_drivetrain.applyRequest(() ->
                     drive.withVelocityX(m_drivetrain.PIDDriveToPointX(PoseConstants.BLUE_REEF_POSES[m_drivetrain.getPlayer1ReefIndex()].getX()) * MaxSpeed)
                     .withVelocityY(m_drivetrain.PIDDriveToPointY(PoseConstants.BLUE_REEF_POSES[m_drivetrain.getPlayer1ReefIndex()].getY()) * MaxSpeed)
@@ -288,7 +288,7 @@ public class RobotContainer {
             //m_indexing.updateP1IndexInRepeatingCommand(),
             m_drivetrain.pathFindToAllTheReefsBlue().andThen(
             Commands.deadline(
-                new ScoreCoralOLD(m_drivetrain, m_ElevatorSubsystem, m_ShooterBoxx),
+                new ScoreCoral(m_drivetrain, m_ElevatorSubsystem, m_ShooterBoxx, m_AlgaeSubsystem),
                 m_drivetrain.applyRequest(() ->
                     drive.withVelocityX(m_drivetrain.PIDDriveToPointX(PoseConstants.BLUE_REEF_POSES[m_drivetrain.getPlayer1ReefIndex()].getX()) * MaxSpeed)
                     .withVelocityY(m_drivetrain.PIDDriveToPointY(PoseConstants.BLUE_REEF_POSES[m_drivetrain.getPlayer1ReefIndex()].getY()) * MaxSpeed)
@@ -309,7 +309,7 @@ public class RobotContainer {
             //m_indexing.updateP1IndexInRepeatingCommand(),
             m_drivetrain.pathFindToAllTheReefsRed().andThen(
             Commands.deadline(
-                new ScoreCoralOLD(m_drivetrain, m_ElevatorSubsystem, m_ShooterBoxx),
+                new ScoreCoral(m_drivetrain, m_ElevatorSubsystem, m_ShooterBoxx, m_AlgaeSubsystem),
                 m_drivetrain.applyRequest(() ->
                     drive.withVelocityX(m_drivetrain.PIDDriveToPointX(PoseConstants.RED_REEF_POSES[m_drivetrain.getPlayer1ReefIndex()].getX()) * MaxSpeed)
                     .withVelocityY(m_drivetrain.PIDDriveToPointY(PoseConstants.RED_REEF_POSES[m_drivetrain.getPlayer1ReefIndex()].getY()) * MaxSpeed)
@@ -330,7 +330,7 @@ public class RobotContainer {
             //m_indexing.updateP1IndexInRepeatingCommand(),
             m_drivetrain.pathFindToAllTheReefsRed().andThen(
             Commands.deadline(
-                new ScoreCoralOLD(m_drivetrain, m_ElevatorSubsystem, m_ShooterBoxx),
+                new ScoreCoral(m_drivetrain, m_ElevatorSubsystem, m_ShooterBoxx, m_AlgaeSubsystem),
                 m_drivetrain.applyRequest(() ->
                     drive.withVelocityX(m_drivetrain.PIDDriveToPointX(PoseConstants.RED_REEF_POSES[m_drivetrain.getPlayer1ReefIndex()].getX()) * MaxSpeed)
                     .withVelocityY(m_drivetrain.PIDDriveToPointY(PoseConstants.RED_REEF_POSES[m_drivetrain.getPlayer1ReefIndex()].getY()) * MaxSpeed)
@@ -381,6 +381,30 @@ public class RobotContainer {
         P1controller.povLeft().and(m_drivetrain::isAllianceRed).whileTrue(m_drivetrain.pathFindToRedClimbNet());
         P1controller.povRight().and(m_drivetrain::isAllianceRed).whileTrue(m_drivetrain.pathFindToRedClimbProcessor());
         P1controller.povUp().and(m_drivetrain::isAllianceRed).whileTrue(m_drivetrain.pathFindToRedClimbCenter());
+
+        // RED
+        P1controller.povDown().and(m_drivetrain::isAllianceRed).whileTrue(m_drivetrain.pathFindToAllTheReefsRed().andThen(
+            Commands.deadline(
+                new AlgaeOff(m_drivetrain, m_ElevatorSubsystem, m_ShooterBoxx, m_AlgaeSubsystem),
+                m_drivetrain.applyRequest(() ->
+                    drive.withVelocityX(m_drivetrain.PIDDriveToPointX(PoseConstants.RED_REEF_POSES[m_drivetrain.getPlayer1ReefIndex()].getX()) * MaxSpeed)
+                    .withVelocityY(m_drivetrain.PIDDriveToPointY(PoseConstants.RED_REEF_POSES[m_drivetrain.getPlayer1ReefIndex()].getY()) * MaxSpeed)
+                    .withRotationalRate(m_drivetrain.PIDDriveToPointDEG(PoseConstants.RED_REEF_POSES[m_drivetrain.getPlayer1ReefIndex()].getRotation().getDegrees()))
+                )
+            )
+        ));
+
+        // BLUE
+        P1controller.povDown().and(m_drivetrain::isAllianceBlue).whileTrue(m_drivetrain.pathFindToAllTheReefsBlue().andThen(
+            Commands.deadline(
+                new AlgaeOff(m_drivetrain, m_ElevatorSubsystem, m_ShooterBoxx, m_AlgaeSubsystem), 
+                m_drivetrain.applyRequest(() ->
+                    drive.withVelocityX(m_drivetrain.PIDDriveToPointX(PoseConstants.BLUE_REEF_POSES[m_drivetrain.getPlayer1ReefIndex()].getX()) * MaxSpeed)
+                    .withVelocityY(m_drivetrain.PIDDriveToPointY(PoseConstants.BLUE_REEF_POSES[m_drivetrain.getPlayer1ReefIndex()].getY()) * MaxSpeed)
+                    .withRotationalRate(m_drivetrain.PIDDriveToPointDEG(PoseConstants.BLUE_REEF_POSES[m_drivetrain.getPlayer1ReefIndex()].getRotation().getDegrees()))
+                )
+            )
+        ));
 
         // // REEF SCORE RED
         // P1controller.leftTrigger().and(m_drivetrain::isAllianceRed).whileTrue(m_drivetrain.pathFindToAllTheReefsRed().andThen(
@@ -579,7 +603,11 @@ public class RobotContainer {
         P2controller.leftTrigger().whileTrue(Commands.run(() ->m_ClimbSubsystemNeo.climbInCommand(), m_ClimbSubsystemNeo));
         //P2controller.rightTrigger().whileTrue(Commands.run(() -> m_ClimbSubsystemNeo.PutTheServoInTheRightSpotPlease(), m_ClimbSubsystemNeo).until(()->m_ClimbSubsystemNeo.ReadyToStickTheClimbOutIGuess()).andThen(Commands.waitSeconds(4)).andThen(()-> m_ClimbSubsystemNeo.climbForwardCommand()));//.andThen(() ->m_ClimbSubsystemNeo.climbForwardCommand()));
         P2controller.x().whileTrue(Commands.run(() ->m_ClimbSubsystemNeo.PutTheServoInTheRightSpotPlease(), m_ClimbSubsystemNeo));
-        P2controller.rightTrigger().whileTrue(Commands.run(() ->m_ClimbSubsystemNeo.climbOutCommand(), m_ClimbSubsystemNeo));
+        P2controller.rightTrigger().whileTrue(
+            Commands.run(() ->m_ClimbSubsystemNeo.climbOutCommandpart1(), m_ClimbSubsystemNeo)
+            .withTimeout(0.5).andThen(Commands.run(() ->m_ClimbSubsystemNeo.climbToSetpointPID(), m_ClimbSubsystemNeo))
+        );
+
 
         // Send values to P1
         P2controller.a().whileTrue(Commands.runOnce(() -> m_indexing.updateP1Index()));
@@ -597,10 +625,22 @@ public class RobotContainer {
         
         //----------------------------------------------------------P3 Controls-------------------------------------------------------
        
-        P3controller.y().whileTrue(Commands.run(() ->m_ClimbSubsystemNeo.climbToSetpointPID(), m_ClimbSubsystemNeo));
+        P3controller.y().whileTrue(
+            Commands.run(() ->m_ClimbSubsystemNeo.climbOutCommandpart1(), m_ClimbSubsystemNeo)
+            .withTimeout(0.5).andThen(Commands.run(() ->m_ClimbSubsystemNeo.climbToSetpointPID(), m_ClimbSubsystemNeo))
+        );
         P3controller.b().whileTrue(Commands.run(() -> m_ClimbSubsystemNeo.climbToNailItPID(), m_ClimbSubsystemNeo));
 
         P3controller.a().whileTrue(new ScoreCoralAuton( m_ElevatorSubsystem, m_ShooterBoxx,  4).withTimeout(1.75));
+
+        P3controller.leftTrigger().whileTrue(Commands.run(() ->m_ClimbSubsystemNeo.climbInCommand(), m_ClimbSubsystemNeo));
+        P3controller.rightTrigger().whileTrue(
+            Commands.run(() ->m_ClimbSubsystemNeo.climbOutCommandpart1(), m_ClimbSubsystemNeo)
+            .withTimeout(0.5).andThen(Commands.run(() ->m_ClimbSubsystemNeo.climbOutCommandpart2(), m_ClimbSubsystemNeo))
+        );
+
+        P3controller.back().whileTrue(Commands.runOnce(() -> m_ClimbSubsystemNeo.resetMotorPosition()));
+
          
         //----------------------------------------------------------P4 Controls-------------------------------------------------------
     
