@@ -97,12 +97,6 @@
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "SuckTillElevatorSensor"
-          }
-        },
-        {
           "type": "path",
           "data": {
             "pathName": "Processor Phantom Path"

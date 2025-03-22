@@ -20,8 +20,8 @@
         "y": 2.908576431259845
       },
       "prevControl": {
-        "x": 6.007519254817682,
-        "y": 2.636155778357323
+        "x": 5.610245901639344,
+        "y": 2.1788934426229516
       },
       "nextControl": null,
       "isLocked": false,
@@ -29,7 +29,21 @@
     }
   ],
   "rotationTargets": [],
-  "constraintZones": [],
+  "constraintZones": [
+    {
+      "name": "Chill and line up",
+      "minWaypointRelativePos": 0.7481431465226243,
+      "maxWaypointRelativePos": 1.0,
+      "constraints": {
+        "maxVelocity": 0.8,
+        "maxAcceleration": 5.0,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0,
+        "nominalVoltage": 12.0,
+        "unlimited": false
+      }
+    }
+  ],
   "pointTowardsZones": [],
   "eventMarkers": [
     {

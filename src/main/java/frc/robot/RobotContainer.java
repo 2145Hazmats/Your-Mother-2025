@@ -132,7 +132,8 @@ public class RobotContainer {
 
          
          stationChooser = new SendableChooser<>();
-         stationChooser.addOption("LeftStation", true);
+         stationChooser.setDefaultOption("LeftStation", true);
+         //stationChooser.addOption("LeftStation", true);
          stationChooser.addOption("RightStation", false);
          SmartDashboard.putData("Station Chooser", stationChooser);
 
@@ -190,18 +191,6 @@ public class RobotContainer {
         // rightBaby.onTrue(Commands.runOnce(() -> m_indexing.poseIndexSwitch(false)));
 
         // P5controller.getRawAxis(3);
-        
-
-
-
-
-
-
-
-
-
-
-
         // Manual Controls
         // P2controller.povDown().whileTrue(Commands.either(Commands.runOnce(() ->  m_indexing.elevatorIndexChooser(1)),
         //  m_ElevatorSubsystem.elevatorToL1(), m_indexing::isP1ManualModeFalse));
