@@ -91,10 +91,10 @@ public final class Constants {
     public static final double ElaphantD = 0.00;//0.001
 
     // Elevator Level Heights
-    public static final double L1Position = -29; //-29
-    public static final double L2Position = -29; //-29
-    public static final double L3Position = -50.5; //-50.5
-    public static final double L4Position = -81.15; //-81.15
+    public static final double L1Position = -28.2 ; //-29
+    public static final double L2Position = -28.2; //-29
+    public static final double L3Position = -48.7; //-50.5
+    public static final double L4Position = -81.28; //-81.15
     public static final double HomePosition = 0.0;
 
     public static final double SAFETY_LEVEL = L2Position;
