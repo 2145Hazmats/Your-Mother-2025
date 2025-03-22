@@ -153,7 +153,7 @@ public class RobotContainer {
         //m_ElevatorSubsystem.setDefaultCommand(Commands.either(m_ElevatorSubsystem.elevatorToL1(),m_ElevatorSubsystem.defaultCommand() , m_indexing::isP2ManualModeFalse));
         m_ShooterBoxx.setDefaultCommand(Commands.either(m_ShooterBoxx.IntakeSolosDefaultCommand(), Commands.run(() -> m_ShooterBoxx.StopShooterMethod(), m_ShooterBoxx), m_indexing::isP2ManualModeFalse));
         m_ClimbSubsystemNeo.setDefaultCommand(m_ClimbSubsystemNeo.KeepClimbSafeDefaultCommand());
-        //m_AlgaeSubsystem.setDefaultCommand(Commands.run(() -> m_AlgaeSubsystem.algaeJoystick(P4controller.getRightY())));//(MathUtil.applyDeadband(P4controller.getRightY(), 0.1)), MathUtil.applyDeadband(P4controller.getLeftY(), 0.1)));
+        //m_AlgaeSubsystem.setDefaultCommand(Commands.run(() -> m_AlgaeSubsystem.algaeJoystick(P4controller.getRightY()), m_AlgaeSubsystem));//(MathUtil.applyDeadband(P4controller.getRightY(), 0.1)), MathUtil.applyDeadband(P4controller.getLeftY(), 0.1)));
         m_AlgaeSubsystem.setDefaultCommand(m_AlgaeSubsystem.AlgaeDefaultCommand());
         m_indexing.setDefaultCommand(m_indexing.SettingReefIndexBasedOnController(P2controller::getRightX, P2controller::getRightY));
 
@@ -335,23 +335,25 @@ public class RobotContainer {
             )
         );
         
-        // GO TO REEF RED NO ARM
-        P1controller.a().and(m_drivetrain::isAllianceRed).whileTrue(m_drivetrain.pathFindToAllTheReefsRed().andThen(
-                m_drivetrain.applyRequest(() ->
-                    drive.withVelocityX(m_drivetrain.PIDDriveToPointX(PoseConstants.RED_REEF_POSES[m_drivetrain.getPlayer1ReefIndex()].getX()) * MaxSpeed)
-                    .withVelocityY(m_drivetrain.PIDDriveToPointY(PoseConstants.RED_REEF_POSES[m_drivetrain.getPlayer1ReefIndex()].getY()) * MaxSpeed)
-                    .withRotationalRate(m_drivetrain.PIDDriveToPointDEG(PoseConstants.RED_REEF_POSES[m_drivetrain.getPlayer1ReefIndex()].getRotation().getDegrees()))
-            )
-        ));
+        // // GO TO REEF RED NO ARM
+        // P1controller.a().and(m_drivetrain::isAllianceRed).whileTrue(m_drivetrain.pathFindToAllTheReefsRed().andThen(
+        //         m_drivetrain.applyRequest(() ->
+        //             drive.withVelocityX(m_drivetrain.PIDDriveToPointX(PoseConstants.RED_REEF_POSES[m_drivetrain.getPlayer1ReefIndex()].getX()) * MaxSpeed)
+        //             .withVelocityY(m_drivetrain.PIDDriveToPointY(PoseConstants.RED_REEF_POSES[m_drivetrain.getPlayer1ReefIndex()].getY()) * MaxSpeed)
+        //             .withRotationalRate(m_drivetrain.PIDDriveToPointDEG(PoseConstants.RED_REEF_POSES[m_drivetrain.getPlayer1ReefIndex()].getRotation().getDegrees()))
+        //     )
+        // ));
 
-        // GO TO REEF BLUE NO ARM
-        P1controller.a().and(m_drivetrain::isAllianceBlue).whileTrue(m_drivetrain.pathFindToAllTheReefsBlue().andThen(
-                m_drivetrain.applyRequest(() ->
-                    drive.withVelocityX(m_drivetrain.PIDDriveToPointX(PoseConstants.BLUE_REEF_POSES[m_drivetrain.getPlayer1ReefIndex()].getX()) * MaxSpeed)
-                    .withVelocityY(m_drivetrain.PIDDriveToPointY(PoseConstants.BLUE_REEF_POSES[m_drivetrain.getPlayer1ReefIndex()].getY()) * MaxSpeed)
-                    .withRotationalRate(m_drivetrain.PIDDriveToPointDEG(PoseConstants.BLUE_REEF_POSES[m_drivetrain.getPlayer1ReefIndex()].getRotation().getDegrees()))
-            )
-        ));
+        // // GO TO REEF BLUE NO ARM
+        // P1controller.a().and(m_drivetrain::isAllianceBlue).whileTrue(m_drivetrain.pathFindToAllTheReefsBlue().andThen(
+        //         m_drivetrain.applyRequest(() ->
+        //             drive.withVelocityX(m_drivetrain.PIDDriveToPointX(PoseConstants.BLUE_REEF_POSES[m_drivetrain.getPlayer1ReefIndex()].getX()) * MaxSpeed)
+        //             .withVelocityY(m_drivetrain.PIDDriveToPointY(PoseConstants.BLUE_REEF_POSES[m_drivetrain.getPlayer1ReefIndex()].getY()) * MaxSpeed)
+        //             .withRotationalRate(m_drivetrain.PIDDriveToPointDEG(PoseConstants.BLUE_REEF_POSES[m_drivetrain.getPlayer1ReefIndex()].getRotation().getDegrees()))
+        //     )
+        // ));
+
+        //P1controller.a().whileTrue()
 
         // PATHFIND AND PID TO BLUE NET CAGE
         // P1controller.povLeft().and(m_drivetrain::isAllianceBlue).whileTrue(m_drivetrain.pathFindToBlueClimbNet().andThen(
@@ -558,12 +560,12 @@ public class RobotContainer {
                 .withRotationalRate(-m_drivetrain.angularSpeedToFaceNet() * m_ElevatorSubsystem.getElevatorSlowSpeed())
         ));
 
-        // CENTRIC MODE
-        // P1controller.leftTrigger().whileTrue(m_drivetrain.applyRequest(() ->
-        //  driveCentric.withVelocityX(-P1controller.getLeftY() * Constants.DrivetrainConstants.SlowMoSpeed) // Drive forward with negative Y (forward)
-        //      .withVelocityY(-P1controller.getLeftX() * Constants.DrivetrainConstants.SlowMoSpeed) // Drive left with negative X (left)
-        //      .withRotationalRate(-P1controller.getRightX() * Constants.DrivetrainConstants.SlowMoSpeed) // Faces the Reef
-        //  ));
+        //CENTRIC MODE
+        P1controller.a().whileTrue(m_drivetrain.applyRequest(() ->
+        driveCentric.withVelocityX(P1controller.getLeftY() * Constants.DrivetrainConstants.SlowMoSpeed) // Drive forward with negative Y (forward)
+             .withVelocityY(P1controller.getLeftX() * Constants.DrivetrainConstants.SlowMoSpeed) // Drive left with negative X (left)
+             .withRotationalRate(-P1controller.getRightX() * Constants.DrivetrainConstants.SlowMoSpeed) // Faces the Reef
+        ));
 
         //-------------------------------P2 Controls---------------------------------
         
@@ -589,9 +591,9 @@ public class RobotContainer {
 
         // Climb using Neo
 
-        P2controller.leftTrigger().whileTrue(Commands.run(() ->m_ClimbSubsystemNeo.climbInCommand(), m_ClimbSubsystemNeo));
+        P2controller.leftTrigger().whileTrue(Commands.run(() ->m_ClimbSubsystemNeo.goodClimbInCommand(), m_ClimbSubsystemNeo));
         //P2controller.rightTrigger().whileTrue(Commands.run(() -> m_ClimbSubsystemNeo.PutTheServoInTheRightSpotPlease(), m_ClimbSubsystemNeo).until(()->m_ClimbSubsystemNeo.ReadyToStickTheClimbOutIGuess()).andThen(Commands.waitSeconds(4)).andThen(()-> m_ClimbSubsystemNeo.climbForwardCommand()));//.andThen(() ->m_ClimbSubsystemNeo.climbForwardCommand()));
-        P2controller.x().whileTrue(Commands.run(() ->m_ClimbSubsystemNeo.PutTheServoInTheRightSpotPlease(), m_ClimbSubsystemNeo));
+        //P2controller.x().whileTrue(Commands.run(() ->m_ClimbSubsystemNeo.PutTheServoInTheRightSpotPlease(), m_ClimbSubsystemNeo));
         P2controller.rightTrigger().whileTrue(
             Commands.run(() ->m_ClimbSubsystemNeo.climbOutCommandpart1(), m_ClimbSubsystemNeo)
             .withTimeout(0.5).andThen(Commands.run(() ->m_ClimbSubsystemNeo.climbToSetpointPID(), m_ClimbSubsystemNeo))
@@ -611,6 +613,9 @@ public class RobotContainer {
         //P2controller.y().whileTrue(m_ElevatorSubsystem.elevatorToHome());
         P2controller.y().whileTrue(Commands.either(Commands.run(() -> m_indexing.updateP1IndexAlgaeEdition() ),
         m_ElevatorSubsystem.elevatorToHome(), m_indexing::isP2ManualModeFalse)); //NOT SURE HOW THIS CALLS DEALGIFY
+        
+        // Algae stufs
+        P2controller.x().whileTrue(m_AlgaeSubsystem.MoveArmToUnJam());
         
         //----------------------------------------------------------P3 Controls-------------------------------------------------------
        
@@ -651,6 +656,8 @@ public class RobotContainer {
 
 
         P4controller.back().whileTrue(m_AlgaeSubsystem.resetAlgaePosition());
+
+        P4controller.povDown().whileTrue(Commands.run(() -> m_AlgaeSubsystem.algaeJoystick(P4controller.getRightY()), m_AlgaeSubsystem));
         
     //------------------------------------------P1 CONTROLS OFFICIAL FOR TROY-------------------------------------------
     

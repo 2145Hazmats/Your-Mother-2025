@@ -19,7 +19,7 @@ public final class Constants {
     public static final double MAX_ROTATIONS_PER_SECOND = 0.75;
     
     // Controller Nerf
-    public static final double SlowMoSpeed = 0.25;
+    public static final double SlowMoSpeed = 0.4;
 
     // PID  Drive to pose Constants
     public static final double P_X = 2.85; //2.95
@@ -46,8 +46,8 @@ public final class Constants {
     public static final PIDConstants ROTATIONAL_PID = new PIDConstants(5, 0, 0);
     
     // PathPlanner Pathfinding Constants
-    public static final double MAX_VELOCITY_MPS = 4.48; //5.450 //2.450 //3
-    public static final double MAX_ACCELERATION_MPS = 7; // 5 3.6 //3
+    public static final double MAX_VELOCITY_MPS = 3; //5.450 //2.450 //3
+    public static final double MAX_ACCELERATION_MPS = 4; // 5 3.6 //3
     public static final double MAX_ANGULAR_VELOCITY_RAD = Units.degreesToRadians(90); //360
     public static final double MAX_ANGULAR_ACCELERATION_RAD = Units.degreesToRadians(400); //862
     public static final double NOMINAL_VOLTAGE_VOLTS = 11.5;
@@ -94,7 +94,7 @@ public final class Constants {
     public static final double L1Position = -28.2 ; //-29
     public static final double L2Position = -28.2; //-29
     public static final double L3Position = -48.7; //-50.5
-    public static final double L4Position = -81.28; //-81.15
+    public static final double L4Position = -82; //-81.15
     public static final double HomePosition = 0.0;
 
     public static final double SAFETY_LEVEL = L2Position;
@@ -129,15 +129,15 @@ public final class Constants {
     public static final double ClimbP = 0.05;
     public static final double ClimbI = 0;
     public static final double ClimbD = 0;
-    public static final double ClimbReadySetpoint = -3.176;
+    public static final double ClimbReadySetpoint = -4.1; //-3.176
     public static final double ClimbLockedInSetpoint = 1; //0 is too low... 2 almost works, but chain touches elevator
   }
   
   //Coral Scoring Constants 
   public static class ErrorConstants {
-    public static final double ElevatorError = 0.75;
+    public static final double ElevatorError = 1; //.75
     public static final double DriveTrainElevatorUpError = Units.inchesToMeters(24);
-    public static final double DriveTrainScoreError = Units.inchesToMeters(1);
+    public static final double DriveTrainScoreError = Units.inchesToMeters(1.2);//1
     public static final double DriveTrainDegreesError = 8;
     public static final double AlgaeError = 2;
   }
@@ -158,13 +158,13 @@ public final class Constants {
    public static final double armP = 0.5;
    public static final double intakeSpeed = 0.5;
    public static final double outtakeSpeed = -0.5;
-   public static final double armspeed = 0.3;
+   public static final double armspeed = 0.6;
 
    public static final double HomePosition = 0;
    public static final double FloorPosition = 10.7;
    public static final double GrabPosition = 7.3;
    public static final double DealgifyPosition = 9.5; //8.5
-   public static final double ProcessorPosition = 8;
+   public static final double ProcessorPosition = 16;
    public static final double NetPosition = 0;
    public static final double DistanceAwayFromHome = 2;
    public static final Pose2d BLUE_NET_POSES = new Pose2d(0,0,new Rotation2d(0));

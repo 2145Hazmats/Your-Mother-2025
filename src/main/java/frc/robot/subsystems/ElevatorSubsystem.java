@@ -64,6 +64,7 @@ public class ElevatorSubsystem extends SubsystemBase{
       //config.Slot0 = new Slot0Configs().withKP(Constants.elevatorConstants.ElaphantP).withKI(Constants.elevatorConstants.ElaphantI).withKD(Constants.elevatorConstants.ElaphantD);
       config.MotorOutput.Inverted = InvertedValue.Clockwise_Positive; // WE DONT KNOW IF THIS IS RIGHT :)
      // config.MotorOutput.withInverted(InvertedValue.Clockwise_Positive); //SWSP IF NEEDED why twice?
+     config.CurrentLimits.StatorCurrentLimit = 60;
     
       //-------------------------------------------
       motorLeader.getConfigurator().apply(config);

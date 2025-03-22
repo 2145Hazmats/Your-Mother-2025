@@ -97,6 +97,12 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "SuckTillElevatorSensor"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "Net Phantom Path"

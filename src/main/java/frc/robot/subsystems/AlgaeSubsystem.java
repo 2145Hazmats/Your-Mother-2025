@@ -46,6 +46,8 @@ public class AlgaeSubsystem extends SubsystemBase {
     config.MotorOutput.NeutralMode = NeutralModeValue.Brake;
     config.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
     armMotor.setPosition(0);
+
+    config.CurrentLimits.StatorCurrentLimit = 30;
      
     armMotor.getConfigurator().apply(config);
   }
@@ -69,6 +71,10 @@ public class AlgaeSubsystem extends SubsystemBase {
     armMotor.setControl(m_request.withPosition(position));
     
   } 
+  
+  public Command MoveArmToUnJam() {
+    return Commands.run(() -> MoveArmToPointMethod(AlgaeConstants.ProcessorPosition), this).withTimeout(2);
+  }
 
   // Manual Methods
   public void algaeJoystick(double joystick) { 

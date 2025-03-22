@@ -1,0 +1,91 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 7.648155737704917,
+        "y": 5.223770491803278
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 6.980522163811916,
+        "y": 5.641537722340845
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 5.165610111174911,
+        "y": 5.1490233763338
+      },
+      "prevControl": {
+        "x": 5.670184426229508,
+        "y": 5.715266393442623
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "Net Preload"
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [
+    {
+      "name": "the safe",
+      "minWaypointRelativePos": 0.8021607022282286,
+      "maxWaypointRelativePos": 1.0,
+      "constraints": {
+        "maxVelocity": 1.0,
+        "maxAcceleration": 5.0,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0,
+        "nominalVoltage": 12.0,
+        "unlimited": false
+      }
+    }
+  ],
+  "pointTowardsZones": [],
+  "eventMarkers": [
+    {
+      "name": "SuckGaming",
+      "waypointRelativePos": 0,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "SuckTillSensor"
+        }
+      }
+    },
+    {
+      "name": "Prep Play",
+      "waypointRelativePos": 0.0999324780553725,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "AutoL4"
+        }
+      }
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 4.48,
+    "maxAcceleration": 5.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": -119.99999999999999
+  },
+  "reversed": false,
+  "folder": "Net Side",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": -169.99202019855875
+  },
+  "useDefaultConstraints": true
+}

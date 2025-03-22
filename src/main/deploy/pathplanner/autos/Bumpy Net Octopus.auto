@@ -7,7 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Processor Unicorn"
+            "pathName": "Bumpy Net Side Preload"
           }
         },
         {
@@ -19,7 +19,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "ProcessorPreload2Source"
+            "pathName": "PreloadToSource"
           }
         },
         {
@@ -35,7 +35,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "ProcessorSource2Score2"
+                  "pathName": "NetSourceToS2"
                 }
               },
               {
@@ -56,7 +56,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "ProcessorScore22Source"
+            "pathName": "S2 station net"
           }
         },
         {
@@ -72,7 +72,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "ProcessorSource2Score3"
+                  "pathName": "Station to S3"
                 }
               },
               {
@@ -93,7 +93,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "ProcessorS32Source"
+            "pathName": "NetS3ToSource"
           }
         },
         {
@@ -105,13 +105,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Processor Phantom Path"
+            "pathName": "Net Phantom Path"
           }
         }
       ]
     }
   },
   "resetOdom": false,
-  "folder": "Processor Side",
+  "folder": "Net Side",
   "choreoAuto": false
 }

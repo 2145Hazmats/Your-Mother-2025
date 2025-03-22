@@ -60,6 +60,15 @@ public class ClimbSubsystemNeo extends SubsystemBase{
     climbMotorNeo.set(Constants.ClimbContants.climbForwardSpeed);
   } 
 
+  public void goodClimbInCommand() {//.05
+    if (climbMotorNeo.getEncoder().getPosition() <0 ) {
+    climbServo.set(Constants.ClimbContants.climbLockServoPosition);
+    climbMotorNeo.set(Constants.ClimbContants.climbForwardSpeed);}
+    else {
+      climbMotorNeo.set(0);
+    }
+  } 
+
   public void climbOutCommandpart1() {
     climbServo.set(Constants.ClimbContants.climbUnlockServoPosition);
   }
