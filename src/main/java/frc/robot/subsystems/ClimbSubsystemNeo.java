@@ -61,7 +61,7 @@ public class ClimbSubsystemNeo extends SubsystemBase{
   } 
 
   public void goodClimbInCommand() {//.05
-    if (climbMotorNeo.getEncoder().getPosition() > 1) {
+    if (climbMotorNeo.getEncoder().getPosition() > 1.4) {// 1.45
       climbMotorNeo.set(0);
     }
     else {//1.8457
