@@ -3,16 +3,32 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.8216941874455816,
-        "y": 5.15514163525758
+        "x": 7.131604325143914,
+        "y": 5.604877351459704
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.466927843188368,
-        "y": 5.276071543822491
+        "x": 6.882153526528934,
+        "y": 5.624904963652893
       },
       "isLocked": false,
-      "linkedName": "NetS2"
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 4.873590564272284,
+        "y": 5.313237185475482
+      },
+      "prevControl": {
+        "x": 5.370718790032174,
+        "y": 5.075312943218673
+      },
+      "nextControl": {
+        "x": 4.16841816149374,
+        "y": 5.650730815685355
+      },
+      "isLocked": false,
+      "linkedName": "NetPreloadRightPole"
     },
     {
       "anchor": {
@@ -20,23 +36,28 @@
         "y": 7.123542948212857
       },
       "prevControl": {
-        "x": 2.29484484483765,
-        "y": 6.4540535484743105
+        "x": 2.3713382118638062,
+        "y": 6.789926308078447
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": "NetSource"
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 1.0,
+      "rotationDegrees": -119.99999999999999
+    }
+  ],
   "constraintZones": [
     {
       "name": "Constraints Zone",
-      "minWaypointRelativePos": 0,
-      "maxWaypointRelativePos": 0.1998649561107353,
+      "minWaypointRelativePos": 0.7656390260323158,
+      "maxWaypointRelativePos": 1.0845910008976658,
       "constraints": {
-        "maxVelocity": 4.48,
-        "maxAcceleration": 3.0,
+        "maxVelocity": 1.0,
+        "maxAcceleration": 7.5,
         "maxAngularVelocity": 540.0,
         "maxAngularAcceleration": 720.0,
         "nominalVoltage": 12.0,
@@ -45,33 +66,10 @@
     }
   ],
   "pointTowardsZones": [],
-  "eventMarkers": [
-    {
-      "name": "Puts elevator down ",
-      "waypointRelativePos": 0.0,
-      "endWaypointRelativePos": null,
-      "command": {
-        "type": "named",
-        "data": {
-          "name": "Elevator2Home"
-        }
-      }
-    },
-    {
-      "name": "SuckCoral2",
-      "waypointRelativePos": 0.7535449020931759,
-      "endWaypointRelativePos": null,
-      "command": {
-        "type": "named",
-        "data": {
-          "name": "SuckTillSensor"
-        }
-      }
-    }
-  ],
+  "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 4.48,
-    "maxAcceleration": 5.0,
+    "maxAcceleration": 7.5,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,
@@ -85,7 +83,7 @@
   "folder": "Net Side",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -59.99999999999999
+    "rotation": 178.9705503132362
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }

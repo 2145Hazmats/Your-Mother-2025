@@ -115,7 +115,8 @@ public class RobotContainer {
           NamedCommands.registerCommand("SuckTillSensor", m_ShooterBoxx.SuckTillCoralSensorAutoCommand()); //OG Command Depricating soon
           NamedCommands.registerCommand("ShootTillSensor", m_ShooterBoxx.SpitTillSensorCommand());
           NamedCommands.registerCommand("SpitOnFloor", Commands.run(() -> m_ShooterBoxx.RunShooter(shooterBoxxContants.kSpitSpeed), m_ShooterBoxx).withTimeout(2));
-
+          NamedCommands.registerCommand("ShootAsFastAsPossible", Commands.run(() -> m_ShooterBoxx.RunShooter(shooterBoxxContants.kAsFastAsPossibleSped), m_ShooterBoxx).finallyDo(() -> m_ShooterBoxx.RunShooter(0)));
+          //NamedCommands.registerCommand("StopCoralFromBeingBad", Commands.run(() -> m_ShooterBoxx.RunShooter(0), m_ShooterBoxx));
 
           //NamedCommands.registerCommand("AutoL4", new ScoreCoralAuton( m_ElevatorSubsystem, m_ShooterBoxx, 4)); //.withTimeout(2).finallyDo(() -> m_ElevatorSubsystem.elevatorToHome()));
           NamedCommands.registerCommand("AutoL4", new PutElevatorUp(m_ElevatorSubsystem, m_ShooterBoxx, 4));
@@ -123,6 +124,7 @@ public class RobotContainer {
 
           NamedCommands.registerCommand("CoastMode" , Commands.runOnce(() -> m_drivetrain.configNeutralMode(NeutralModeValue.Coast)));
           NamedCommands.registerCommand("BrakeMode" , Commands.runOnce(() -> m_drivetrain.configNeutralMode(NeutralModeValue.Brake)));
+          
           
           //NamedCommands.registerCommand("ReadyToLeaveStation", m_ShooterBoxx.ElevatorCoralSensorTriggered());
 
@@ -151,12 +153,12 @@ public class RobotContainer {
         // Default Commands :)
         m_ElevatorSubsystem.setDefaultCommand(Commands.either(m_ElevatorSubsystem.defaultCommand(),Commands.run(()-> m_ElevatorSubsystem.elevatorJoystick(P2controller.getLeftY()), m_ElevatorSubsystem) , m_indexing::isP2ManualModeFalse)); //NEEDS TESTING
         //m_ElevatorSubsystem.setDefaultCommand(Commands.either(m_ElevatorSubsystem.elevatorToL1(),m_ElevatorSubsystem.defaultCommand() , m_indexing::isP2ManualModeFalse));
-        m_ShooterBoxx.setDefaultCommand(Commands.either(m_ShooterBoxx.IntakeSolosDefaultCommand(), Commands.run(() -> m_ShooterBoxx.StopShooterMethod(), m_ShooterBoxx), m_indexing::isP2ManualModeFalse));
+        //m_ShooterBoxx.setDefaultCommand(Commands.either(m_ShooterBoxx.IntakeSolosDefaultCommand(), Commands.run(() -> m_ShooterBoxx.StopShooterMethod(), m_ShooterBoxx), m_indexing::isP2ManualModeFalse));
         m_ClimbSubsystemNeo.setDefaultCommand(m_ClimbSubsystemNeo.KeepClimbSafeDefaultCommand());
         //m_AlgaeSubsystem.setDefaultCommand(Commands.run(() -> m_AlgaeSubsystem.algaeJoystick(P4controller.getRightY()), m_AlgaeSubsystem));//(MathUtil.applyDeadband(P4controller.getRightY(), 0.1)), MathUtil.applyDeadband(P4controller.getLeftY(), 0.1)));
         m_AlgaeSubsystem.setDefaultCommand(m_AlgaeSubsystem.AlgaeDefaultCommand());
         m_indexing.setDefaultCommand(m_indexing.SettingReefIndexBasedOnController(P2controller::getRightX, P2controller::getRightY));
-
+        m_ShooterBoxx.setDefaultCommand(m_ShooterBoxx.RunShooterJoyStick(P2controller.getRightX()));
         m_drivetrain.registerTelemetry(logger::telemeterize);
 
         m_drivetrain.setDefaultCommand(
@@ -262,6 +264,14 @@ public class RobotContainer {
                     .withVelocityY(m_drivetrain.PIDDriveToPointY(PoseConstants.BLUE_REEF_POSES[m_drivetrain.getPlayer1ReefIndex()].getY()) * MaxSpeed)
                     .withRotationalRate(m_drivetrain.PIDDriveToPointDEG(PoseConstants.BLUE_REEF_POSES[m_drivetrain.getPlayer1ReefIndex()].getRotation().getDegrees()))
                 ))
+                
+                .andThen((m_drivetrain.applyRequest(() ->
+                driveCentric.withVelocityX(P1controller.getLeftY() * Constants.DrivetrainConstants.SlowMoSpeed) // Drive forward with negative Y (forward)
+                     .withVelocityY(P1controller.getLeftX() * Constants.DrivetrainConstants.SlowMoSpeed) // Drive left with negative X (left)
+                     .withRotationalRate(-P1controller.getRightX() * Constants.DrivetrainConstants.SlowMoSpeed) // Faces the Reef
+                ).withTimeout(5).until(m_AlgaeSubsystem::isAlgaeAtHome)))
+                    
+                //.and then(Commands. deadline ) (check if stick is out if so then back up) just use robot centric back up for withTimeout
                 .andThen( m_drivetrain.pathFindToLeftBlueCoralStation().andThen(
                         m_drivetrain.applyRequest(() ->
                             drive.withVelocityX(m_drivetrain.PIDDriveToPointX(PoseConstants.CORAL_STATION_LEFT_BLUE_POSE.getX()) * MaxSpeed)

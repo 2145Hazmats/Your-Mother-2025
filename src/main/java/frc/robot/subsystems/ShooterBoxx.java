@@ -13,6 +13,7 @@ import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -54,7 +55,7 @@ shooterConfig.closedLoop
   shooterMotor.configure(shooterConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
   }
 
-public Command IntakeSolosDefaultCommand() {
+public Command IntakeSolosDefaultCommand() { //yhhyitry commenting thus
   return Commands.run(() -> {
     if (BoxxCoralSensorUntriggered() && ElevatorCoralSensorUntriggered()) {
       fireNow = false;
@@ -75,6 +76,9 @@ public void RunShooter(double CustomSpeed) {
   shooterMotor.set(-CustomSpeed);
 }
 
+public Command RunShooterJoyStick(double Joy) {
+  return Commands.run(() -> shooterMotor.set(Joy));
+}
 public Command WorksShootCommand() {
   return Commands.run(() -> shooterMotor.set(-.5), this);
 };

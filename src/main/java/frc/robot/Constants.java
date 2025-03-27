@@ -111,10 +111,12 @@ public final class Constants {
     public static final double kShooterMotorNominalVoltageConstant = 10.5;
     public static final int kBoxxCoralSensorChannel = 0;
     public static final int kElevatorCoralSensorChannel = 2;
-    public static final double kSpitSpeed = -0.45;
+    public static final double kSpitSpeed = -0.6; // -0.45
     public static final double kSuckSpeed = -0.85;
     public static final double kFinalSpeed = -0.4;
+    public static final double kAsFastAsPossibleSped = 5;
   }
+
 
   public static class ClimbContants {
     public static final int ClimbMotorId = 33;
