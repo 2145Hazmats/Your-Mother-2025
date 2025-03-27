@@ -94,13 +94,21 @@ public final class Constants {
     public static final double L1Position = -28.2 ; //-29
     public static final double L2Position = -28.2; //-29
     public static final double L3Position = -48.7; //-50.5
-    public static final double L4Position = -82; //-81.15
+    public static final double L4Position = -48.7; //-82;
     public static final double HomePosition = 0.0;
+    public static final double DealgifyPositionLow = 0.0; // TODO have to find
+    public static final double DealgifyPositionHigh = 0.0; // TODO have to find
+
+
 
     public static final double SAFETY_LEVEL = L2Position;
     //public static final double CANCEL_ALGI = 
     public static final double NEAR_HOME = HomePosition-0.5;
     public static final double NEARER_HOME = HomePosition-0.05;
+    public static final double NEAR_ALGAE_LOW = DealgifyPositionLow-0.5; // TODO test this
+    public static final double NEAR_ALGAE_HIGH = DealgifyPositionHigh-0.5; // TODO test this
+
+
     
     public static final double ElevatorJoystickSpeedNerf = 0.4;
   }

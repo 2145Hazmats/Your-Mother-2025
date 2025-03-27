@@ -37,7 +37,7 @@ public class CameraSubsystem extends SubsystemBase {
   private PhotonPipelineResult centralResult = null;
   private PhotonTrackedTarget centralTarget = null;
   private PhotonPoseEstimator centralPoseEstimator = new PhotonPoseEstimator(
-    AprilTagFieldLayout.loadField(AprilTagFields.k2025Reefscape),
+    AprilTagFieldLayout.loadField(AprilTagFields.k2025ReefscapeWelded),
     PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR,
     PhotonVisionConstants.ROBOT_TO_CENTRAL_CAMERA
   );
@@ -48,33 +48,33 @@ public class CameraSubsystem extends SubsystemBase {
   private PhotonPipelineResult leftResult = null;
   private PhotonTrackedTarget leftTarget = null;
   private PhotonPoseEstimator leftPoseEstimator = new PhotonPoseEstimator(
-    AprilTagFieldLayout.loadField(AprilTagFields.k2025Reefscape),
+    AprilTagFieldLayout.loadField(AprilTagFields.k2025ReefscapeWelded),
     PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR,
     PhotonVisionConstants.ROBOT_TO_LEFT_CAMERA
   );
   private EstimatedRobotPose leftEstimatedRobotPose = null;
 
   // Back Left Camera
-  // private final PhotonCamera backLeftCamera = new PhotonCamera("BackLeft_Arducam_OV9281");
-  // private PhotonPipelineResult backLeftResult = null;
-  // private PhotonTrackedTarget backLeftTarget = null;
-  // private PhotonPoseEstimator backLeftPoseEstimator = new PhotonPoseEstimator(
-  //   AprilTagFieldLayout.loadField(AprilTagFields.k2025Reefscape),
-  //   PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR,
-  //   PhotonVisionConstants.ROBOT_TO_BACK_LEFT_CAMERA
-  // );
-  // private EstimatedRobotPose backLeftEstimatedRobotPose = null;
+  private final PhotonCamera backLeftCamera = new PhotonCamera("BackLeft_Arducam_OV9281");
+  private PhotonPipelineResult backLeftResult = null;
+  private PhotonTrackedTarget backLeftTarget = null;
+  private PhotonPoseEstimator backLeftPoseEstimator = new PhotonPoseEstimator(
+    AprilTagFieldLayout.loadField(AprilTagFields.k2025ReefscapeWelded),
+    PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR,
+    PhotonVisionConstants.ROBOT_TO_BACK_LEFT_CAMERA
+  );
+  private EstimatedRobotPose backLeftEstimatedRobotPose = null;
 
   // Back Right Camera
-  // private final PhotonCamera backRightCamera = new PhotonCamera("BackRight_Arducam_OV9281");
-  // private PhotonPipelineResult backRightResult = null;
-  // private PhotonTrackedTarget backRightTarget = null;
-  // private PhotonPoseEstimator backRightPoseEstimator = new PhotonPoseEstimator(
-  //   AprilTagFieldLayout.loadField(AprilTagFields.k2025Reefscape),
-  //   PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR,
-  //   PhotonVisionConstants.ROBOT_TO_BACK_RIGHT_CAMERA
-  // );
-  // private EstimatedRobotPose backRightEstimatedRobotPose = null;
+  private final PhotonCamera backRightCamera = new PhotonCamera("BackRight_Arducam_OV9281");
+  private PhotonPipelineResult backRightResult = null;
+  private PhotonTrackedTarget backRightTarget = null;
+  private PhotonPoseEstimator backRightPoseEstimator = new PhotonPoseEstimator(
+    AprilTagFieldLayout.loadField(AprilTagFields.k2025ReefscapeWelded),
+    PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR,
+    PhotonVisionConstants.ROBOT_TO_BACK_RIGHT_CAMERA
+  );
+  private EstimatedRobotPose backRightEstimatedRobotPose = null;
   
   private Matrix<N3, N1> curStdDevs;
   // The standard deviations of our vision estimated poses, which affect correction rate
@@ -146,8 +146,8 @@ public class CameraSubsystem extends SubsystemBase {
     // Get camera results
     centralResult = centralCamera.getLatestResult();
     leftResult = leftCamera.getLatestResult();
-    // backLeftResult = backLeftCamera.getLatestResult();
-    // backRightResult = backRightCamera.getLatestResult(); //NEEDS CHANGING BEFORE WE RETIRE FOR MICHALS SAFTEY NEXT YEAR
+    backLeftResult = backLeftCamera.getLatestResult();
+    backRightResult = backRightCamera.getLatestResult(); //NEEDS CHANGING BEFORE WE RETIRE FOR MICHALS SAFTEY NEXT YEAR
 
     // Central Camera
     // Try to update "latestRobotPose" with a new "EstimatedRobotPose" using a "PhotonPoseEstimator"
@@ -191,45 +191,45 @@ public class CameraSubsystem extends SubsystemBase {
       SmartDashboard.putBoolean("leftLatestRobotPose Update", false);
     }
 
-    // try {
-    //   if ((backRightResult.getTargets().size() == 1 && backRightResult.getBestTarget().poseAmbiguity < 0.5) || backRightResult.getTargets().size() > 1) {
-    //     backRightEstimatedRobotPose = backRightPoseEstimator.update(backRightResult).get();
-    //     updateEstimationStdDevs(backRightPoseEstimator.update(backRightResult), backRightCamera.getAllUnreadResults().get(0).getTargets());
-    //     addVisionPose2d(backRightEstimatedRobotPose.estimatedPose.toPose2d(), Utils.getCurrentTimeSeconds());
-    //     visionField.setRobotPose(backRightEstimatedRobotPose.estimatedPose.toPose2d());
+    try {
+      if ((backRightResult.getTargets().size() == 1 && backRightResult.getBestTarget().poseAmbiguity < 0.5) || backRightResult.getTargets().size() > 1) {
+        backRightEstimatedRobotPose = backRightPoseEstimator.update(backRightResult).get();
+        updateEstimationStdDevs(backRightPoseEstimator.update(backRightResult), backRightCamera.getAllUnreadResults().get(0).getTargets());
+        addVisionPose2d(backRightEstimatedRobotPose.estimatedPose.toPose2d(), Utils.getCurrentTimeSeconds());
+        visionField.setRobotPose(backRightEstimatedRobotPose.estimatedPose.toPose2d());
         
-    //     SmartDashboard.putNumber("BackRight Vision X", backRightEstimatedRobotPose.estimatedPose.toPose2d().getX());
-    //     SmartDashboard.putNumber("BackRight Vision Y", backRightEstimatedRobotPose.estimatedPose.toPose2d().getY());
-    //     SmartDashboard.putNumber("BackRight Vision Rot", backRightEstimatedRobotPose.estimatedPose.toPose2d().getRotation().getDegrees());
-    //     SmartDashboard.putBoolean("BackRightLatestRobotPose Update", true);
-    //   }
-    // } catch (Exception e) {
-    //   backRightEstimatedRobotPose = null;
-    //   SmartDashboard.putBoolean("BackRightLatestRobotPose Update", false);
-    // }
+        SmartDashboard.putNumber("BackRight Vision X", backRightEstimatedRobotPose.estimatedPose.toPose2d().getX());
+        SmartDashboard.putNumber("BackRight Vision Y", backRightEstimatedRobotPose.estimatedPose.toPose2d().getY());
+        SmartDashboard.putNumber("BackRight Vision Rot", backRightEstimatedRobotPose.estimatedPose.toPose2d().getRotation().getDegrees());
+        SmartDashboard.putBoolean("BackRightLatestRobotPose Update", true);
+      }
+    } catch (Exception e) {
+      backRightEstimatedRobotPose = null;
+      SmartDashboard.putBoolean("BackRightLatestRobotPose Update", false);
+    }
 
-    // try {
-    //   if ((backLeftResult.getTargets().size() == 1 && backLeftResult.getBestTarget().poseAmbiguity < 0.5) || backLeftResult.getTargets().size() > 1) {
-    //     backLeftEstimatedRobotPose = backLeftPoseEstimator.update(backLeftResult).get();
-    //     updateEstimationStdDevs(backLeftPoseEstimator.update(backLeftResult), backLeftCamera.getAllUnreadResults().get(0).getTargets());
-    //     addVisionPose2d(backLeftEstimatedRobotPose.estimatedPose.toPose2d(), Utils.getCurrentTimeSeconds());
-    //     visionField.setRobotPose(backLeftEstimatedRobotPose.estimatedPose.toPose2d());
+    try {
+      if ((backLeftResult.getTargets().size() == 1 && backLeftResult.getBestTarget().poseAmbiguity < 0.5) || backLeftResult.getTargets().size() > 1) {
+        backLeftEstimatedRobotPose = backLeftPoseEstimator.update(backLeftResult).get();
+        updateEstimationStdDevs(backLeftPoseEstimator.update(backLeftResult), backLeftCamera.getAllUnreadResults().get(0).getTargets());
+        addVisionPose2d(backLeftEstimatedRobotPose.estimatedPose.toPose2d(), Utils.getCurrentTimeSeconds());
+        visionField.setRobotPose(backLeftEstimatedRobotPose.estimatedPose.toPose2d());
         
-    //     SmartDashboard.putNumber("BackLeft Vision X", backLeftEstimatedRobotPose.estimatedPose.toPose2d().getX());
-    //     SmartDashboard.putNumber("BackLeft Vision Y", backLeftEstimatedRobotPose.estimatedPose.toPose2d().getY());
-    //     SmartDashboard.putNumber("BackLeft Vision Rot", backLeftEstimatedRobotPose.estimatedPose.toPose2d().getRotation().getDegrees());
-    //     SmartDashboard.putBoolean("BackLeftLatestRobotPose Update", true);
-    //   }
-    // } catch (Exception e) {
-    //   backLeftEstimatedRobotPose = null;
-    //   SmartDashboard.putBoolean("BackLeftLatestRobotPose Update", false);
-    // }
+        SmartDashboard.putNumber("BackLeft Vision X", backLeftEstimatedRobotPose.estimatedPose.toPose2d().getX());
+        SmartDashboard.putNumber("BackLeft Vision Y", backLeftEstimatedRobotPose.estimatedPose.toPose2d().getY());
+        SmartDashboard.putNumber("BackLeft Vision Rot", backLeftEstimatedRobotPose.estimatedPose.toPose2d().getRotation().getDegrees());
+        SmartDashboard.putBoolean("BackLeftLatestRobotPose Update", true);
+      }
+    } catch (Exception e) {
+      backLeftEstimatedRobotPose = null;
+      SmartDashboard.putBoolean("BackLeftLatestRobotPose Update", false);
+    }
 
     //Updates smartdashboard
     SmartDashboard.putBoolean("CameraMidTrue", centralCamera.getLatestResult().hasTargets());
     SmartDashboard.putBoolean("CameraLeftTrue", leftCamera.getLatestResult().hasTargets());
-    // SmartDashboard.putBoolean("CameraBackLeftTrue", backLeftCamera.getLatestResult().hasTargets());
-    // SmartDashboard.putBoolean("CameraBackRightTrue", backRightCamera.getLatestResult().hasTargets());
+    SmartDashboard.putBoolean("CameraBackLeftTrue", backLeftCamera.getLatestResult().hasTargets());
+    SmartDashboard.putBoolean("CameraBackRightTrue", backRightCamera.getLatestResult().hasTargets());
 
     SmartDashboard.putNumber("charizardsSkateboard X", charizardsSkateboard.getState().Pose.getX());
     SmartDashboard.putNumber("charizardsSkateboard Y", charizardsSkateboard.getState().Pose.getY());

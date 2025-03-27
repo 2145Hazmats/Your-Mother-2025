@@ -164,6 +164,13 @@ public class ElevatorSubsystem extends SubsystemBase{
       }},this);
     }
 
+    public void elevatorToDealgifyPositionHigh() {
+      motorLeader.setControl(m_request.withPosition(elevatorConstants.DealgifyPositionHigh));
+    }
+
+    public void elevatorToDealgifyPositionLow() {
+      motorLeader.setControl(m_request.withPosition(elevatorConstants.DealgifyPositionLow));
+    }
 
     public void elevatorJoystick(double joystick) { 
        motorLeader.setControl(new DutyCycleOut(joystick*Constants.elevatorConstants.ElevatorJoystickSpeedNerf));
@@ -189,6 +196,15 @@ public class ElevatorSubsystem extends SubsystemBase{
     public boolean isElevatorEvenCloserToHome() {
       return (motorLeader.getPosition().getValueAsDouble() >= elevatorConstants.NEARER_HOME);
     }
+
+    public boolean isElevatorInDealgifyPositionLow() {
+      return (motorLeader.getPosition().getValueAsDouble() >= elevatorConstants.NEAR_ALGAE_LOW);
+    }
+
+    public boolean isElevatorInDealgifyPositionHigh() {
+      return (motorLeader.getPosition().getValueAsDouble() >= elevatorConstants.NEAR_ALGAE_HIGH);
+    }
+
 
     // public Command setElevatorPID() {
     //   return Commands.runOnce(() -> {

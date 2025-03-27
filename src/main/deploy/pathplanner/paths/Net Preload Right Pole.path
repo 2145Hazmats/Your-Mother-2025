@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.882153526528934,
-        "y": 5.624904963652893
+        "x": 6.784824576473757,
+        "y": 5.604568793674968
       },
       "isLocked": false,
       "linkedName": null
@@ -20,41 +20,20 @@
         "y": 5.313237185475482
       },
       "prevControl": {
-        "x": 5.370718790032174,
-        "y": 5.075312943218673
-      },
-      "nextControl": {
-        "x": 4.16841816149374,
-        "y": 5.650730815685355
-      },
-      "isLocked": false,
-      "linkedName": "NetPreloadRightPole"
-    },
-    {
-      "anchor": {
-        "x": 1.322709098413388,
-        "y": 7.123542948212857
-      },
-      "prevControl": {
-        "x": 2.3713382118638062,
-        "y": 6.789926308078447
+        "x": 5.11875,
+        "y": 5.619364754098362
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "NetSource"
+      "linkedName": "NetPreloadRightPole"
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 1.0,
-      "rotationDegrees": -119.99999999999999
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [
     {
       "name": "Constraints Zone",
       "minWaypointRelativePos": 0.7656390260323158,
-      "maxWaypointRelativePos": 1.0845910008976658,
+      "maxWaypointRelativePos": 1,
       "constraints": {
         "maxVelocity": 1.0,
         "maxAcceleration": 7.5,
@@ -66,7 +45,30 @@
     }
   ],
   "pointTowardsZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "SuckGaming",
+      "waypointRelativePos": 0.0,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "SuckTillSensor"
+        }
+      }
+    },
+    {
+      "name": "Prep Play",
+      "waypointRelativePos": 0.0972316002700876,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "AutoL4"
+        }
+      }
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 4.48,
     "maxAcceleration": 7.5,
@@ -77,7 +79,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -54.0
+    "rotation": -119.99999999999999
   },
   "reversed": false,
   "folder": "Net Side",

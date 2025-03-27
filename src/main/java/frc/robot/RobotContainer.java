@@ -37,6 +37,7 @@ import frc.robot.commands.ScoreCoral;
 // import frc.robot.autos.NetSideAuto;
 // import frc.robot.autos.ProcessorSideAuto;
 import frc.robot.commands.ScoreCoralOLD;
+import frc.robot.commands.removeAlgaeAuton;
 import frc.robot.commands.ScoreCoralAuton;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.AlgaeSubsystem;
@@ -109,6 +110,10 @@ public class RobotContainer {
           NamedCommands.registerCommand("Elevator2L3", m_ElevatorSubsystem.elevatorToL3().withTimeout(.15));
           NamedCommands.registerCommand("Elevator2L4", m_ElevatorSubsystem.elevatorToL3().withTimeout(.15));
         
+          NamedCommands.registerCommand("Algae2Home", m_AlgaeSubsystem.MoveArmToPointCommand(AlgaeConstants.HomePosition));
+          NamedCommands.registerCommand("Algae2GrabPosition", m_AlgaeSubsystem.MoveArmToPointCommand(AlgaeConstants.GrabPosition));
+          NamedCommands.registerCommand("AlgaeClear", m_AlgaeSubsystem.MoveArmToPointCommand(AlgaeConstants.ProcessorPosition));
+
           //NamedCommands.registerCommand("SuckTillCoralSensor", m_ShooterBoxx.SuckTillCoralSensorAuto());
           NamedCommands.registerCommand("SuckTillElevatorSensor", m_ShooterBoxx.SuckTillElevatorSensorAuto());
 
@@ -122,6 +127,11 @@ public class RobotContainer {
           NamedCommands.registerCommand("AutoL4", new PutElevatorUp(m_ElevatorSubsystem, m_ShooterBoxx, 4));
           NamedCommands.registerCommand("FireL4", new FireCoralAuton(m_ElevatorSubsystem, m_ShooterBoxx, 4));
 
+          
+          NamedCommands.registerCommand("ScrapeScoreHigh", new removeAlgaeAuton(m_ElevatorSubsystem, m_ShooterBoxx, m_AlgaeSubsystem, 4, true));
+          NamedCommands.registerCommand("ScrapeScoreLow", new removeAlgaeAuton(m_ElevatorSubsystem, m_ShooterBoxx, m_AlgaeSubsystem, 4, false));
+          
+          
           NamedCommands.registerCommand("CoastMode" , Commands.runOnce(() -> m_drivetrain.configNeutralMode(NeutralModeValue.Coast)));
           NamedCommands.registerCommand("BrakeMode" , Commands.runOnce(() -> m_drivetrain.configNeutralMode(NeutralModeValue.Brake)));
           
@@ -155,8 +165,8 @@ public class RobotContainer {
         //m_ElevatorSubsystem.setDefaultCommand(Commands.either(m_ElevatorSubsystem.elevatorToL1(),m_ElevatorSubsystem.defaultCommand() , m_indexing::isP2ManualModeFalse));
         //m_ShooterBoxx.setDefaultCommand(Commands.either(m_ShooterBoxx.IntakeSolosDefaultCommand(), Commands.run(() -> m_ShooterBoxx.StopShooterMethod(), m_ShooterBoxx), m_indexing::isP2ManualModeFalse));
         m_ClimbSubsystemNeo.setDefaultCommand(m_ClimbSubsystemNeo.KeepClimbSafeDefaultCommand());
-        //m_AlgaeSubsystem.setDefaultCommand(Commands.run(() -> m_AlgaeSubsystem.algaeJoystick(P4controller.getRightY()), m_AlgaeSubsystem));//(MathUtil.applyDeadband(P4controller.getRightY(), 0.1)), MathUtil.applyDeadband(P4controller.getLeftY(), 0.1)));
-        m_AlgaeSubsystem.setDefaultCommand(m_AlgaeSubsystem.AlgaeDefaultCommand());
+        m_AlgaeSubsystem.setDefaultCommand(Commands.run(() -> m_AlgaeSubsystem.algaeJoystick(P2controller.getRightY()), m_AlgaeSubsystem));//(MathUtil.applyDeadband(P4controller.getRightY(), 0.1)), MathUtil.applyDeadband(P4controller.getLeftY(), 0.1)));
+        //m_AlgaeSubsystem.setDefaultCommand(m_AlgaeSubsystem.AlgaeDefaultCommand());
         m_indexing.setDefaultCommand(m_indexing.SettingReefIndexBasedOnController(P2controller::getRightX, P2controller::getRightY));
         m_ShooterBoxx.setDefaultCommand(m_ShooterBoxx.RunShooterJoyStick(P2controller.getRightX()));
         m_drivetrain.registerTelemetry(logger::telemeterize);

@@ -3,16 +3,16 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.8216941874455816,
-        "y": 5.15514163525758
+        "x": 4.873590564272284,
+        "y": 5.313237185475482
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.466927843188368,
-        "y": 5.276071543822491
+        "x": 4.231659836065574,
+        "y": 6.050922131147542
       },
       "isLocked": false,
-      "linkedName": "NetS2"
+      "linkedName": "NetPreloadRightPole"
     },
     {
       "anchor": {
@@ -20,8 +20,8 @@
         "y": 7.123542948212857
       },
       "prevControl": {
-        "x": 2.29484484483765,
-        "y": 6.4540535484743105
+        "x": 2.462464534566411,
+        "y": 5.807717081666889
       },
       "nextControl": null,
       "isLocked": false,
@@ -29,25 +29,11 @@
     }
   ],
   "rotationTargets": [],
-  "constraintZones": [
-    {
-      "name": "Constraints Zone",
-      "minWaypointRelativePos": 0,
-      "maxWaypointRelativePos": 0.1998649561107353,
-      "constraints": {
-        "maxVelocity": 4.48,
-        "maxAcceleration": 3.0,
-        "maxAngularVelocity": 540.0,
-        "maxAngularAcceleration": 720.0,
-        "nominalVoltage": 12.0,
-        "unlimited": false
-      }
-    }
-  ],
+  "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [
     {
-      "name": "Puts elevator down ",
+      "name": "Elevator2Home",
       "waypointRelativePos": 0.0,
       "endWaypointRelativePos": null,
       "command": {
@@ -58,19 +44,8 @@
       }
     },
     {
-      "name": "Algae2Home",
-      "waypointRelativePos": 0.49696151249158194,
-      "endWaypointRelativePos": null,
-      "command": {
-        "type": "named",
-        "data": {
-          "name": "Algae2Home"
-        }
-      }
-    },
-    {
-      "name": "SuckCoral2",
-      "waypointRelativePos": 0.7535449020931759,
+      "name": "SuckTillSensor",
+      "waypointRelativePos": 0.7454422687373402,
       "endWaypointRelativePos": null,
       "command": {
         "type": "named",
@@ -96,7 +71,7 @@
   "folder": "Net Side",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -59.99999999999999
+    "rotation": -119.99999999999999
   },
   "useDefaultConstraints": true
 }
