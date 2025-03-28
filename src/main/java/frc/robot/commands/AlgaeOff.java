@@ -66,12 +66,11 @@ public class AlgaeOff extends Command {
     // HIGH ALGAE
     if (theLegs.getPlayer1ReefIndex() == 0 || theLegs.getPlayer1ReefIndex() == 4 || theLegs.getPlayer1ReefIndex() == 8) {
       areWeHigh = true;
-     
     }
+    
     // LOW ALGAE
     if (theLegs.getPlayer1ReefIndex() == 2 || theLegs.getPlayer1ReefIndex() == 6 || theLegs.getPlayer1ReefIndex() == 10) {
       areWeHigh = false;
-      
     }
   
 

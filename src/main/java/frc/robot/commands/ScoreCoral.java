@@ -33,6 +33,7 @@ public class ScoreCoral extends Command {
   int level = 0;
 
   boolean algaeMode = false;
+  boolean areWeHigh;
 
   // Constructor
   public ScoreCoral(CommandSwerveDrivetrain theFakeLegs, ElevatorSubsystem theFakeElephant, ShooterBoxx theFakeSnout, AlgaeSubsystem theFakeAlgae) {
@@ -71,6 +72,16 @@ public class ScoreCoral extends Command {
 
     if ((theLegs.getPlayer1ReefIndex() % 2) == 0 && level == 4) {
       algaeMode = true;
+    }
+
+    // HIGH ALGAE
+    if (theLegs.getPlayer1ReefIndex() == 0 || theLegs.getPlayer1ReefIndex() == 4 || theLegs.getPlayer1ReefIndex() == 8) {
+      areWeHigh = true;
+    }
+    
+    // LOW ALGAE
+    if (theLegs.getPlayer1ReefIndex() == 2 || theLegs.getPlayer1ReefIndex() == 6 || theLegs.getPlayer1ReefIndex() == 10) {
+      areWeHigh = false;
     }
   }
 
@@ -132,15 +143,17 @@ public class ScoreCoral extends Command {
   @Override
   public void end(boolean interrupted) {
     theElephant.elevatorToLevel(Constants.elevatorConstants.HomePosition);
-    theAlgae.MoveArmToPointMethod(AlgaeConstants.HomePosition);
+    //theAlgae.MoveArmToPointMethod(AlgaeConstants.HomePosition);
   }
 
   // Returns true when the sensor is untriggered and the elevator is up
   // Returns true when the command should end. Runs every 20ms
   @Override
   public boolean isFinished() {
-    if (algaeMode) {
-      return (theElephant.isElevatorHome() && !theSnout.getEitherSensor()); //(theElephant.isElevatorHome() && theAlgae.IsArmAwayFromHome() && !theSnout.getEitherSensor());
+    if (algaeMode && areWeHigh) {
+      return (theElephant.isElevatorInDealgifyPositionHigh() && !theSnout.getEitherSensor()); //(theElephant.isElevatorHome() && theAlgae.IsArmAwayFromHome() && !theSnout.getEitherSensor());
+    } else if (algaeMode && (areWeHigh == false)) {
+      return (theElephant.isElevatorInDealgifyPositionLow() && !theSnout.getEitherSensor());
     } else {
       return (theElephant.getElevatorPosition() > elevatorConstants.SAFETY_LEVEL && !theSnout.getEitherSensor());
     }

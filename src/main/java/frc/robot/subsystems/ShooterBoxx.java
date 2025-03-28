@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems;
 
+import java.util.function.DoubleSupplier;
+
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.ClosedLoopConfig.FeedbackSensor;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
@@ -55,7 +57,7 @@ shooterConfig.closedLoop
   shooterMotor.configure(shooterConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
   }
 
-public Command IntakeSolosDefaultCommand() { //yhhyitry commenting thus
+public Command IntakeSolosDefaultCommand() { // this fires our coral after auton
   return Commands.run(() -> {
     if (BoxxCoralSensorUntriggered() && ElevatorCoralSensorUntriggered()) {
       fireNow = false;
@@ -141,6 +143,10 @@ public void ShootCoralMethod() {
 public void StopShooterMethod() {
   //shooterMotor.set(0);
   shooterMotor.stopMotor();
+}
+
+public Command StopShooterCommand() {
+  return Commands.runOnce(() -> shooterMotor.stopMotor());
 }
 
 public boolean StopCoralIntake() {

@@ -5,16 +5,9 @@
     "data": {
       "commands": [
         {
-          "type": "parallel",
+          "type": "path",
           "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "Net Preload Right Pole"
-                }
-              }
-            ]
+            "pathName": "Net Preload Right Pole"
           }
         },
         {
@@ -33,6 +26,12 @@
           "type": "named",
           "data": {
             "name": "SuckTillElevatorSensor"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "StopShooter"
           }
         },
         {
@@ -73,6 +72,12 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "StopShooter"
+          }
+        },
+        {
           "type": "parallel",
           "data": {
             "commands": [
@@ -80,6 +85,12 @@
                 "type": "path",
                 "data": {
                   "pathName": "NetSourceToS2"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "SuckTillSensor"
                 }
               }
             ]
@@ -104,22 +115,15 @@
           }
         },
         {
-          "type": "parallel",
+          "type": "named",
           "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "Net Phantom Path"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "SuckTillSensor"
-                }
-              }
-            ]
+            "name": "StopShooter"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Net Phantom Path"
           }
         }
       ]

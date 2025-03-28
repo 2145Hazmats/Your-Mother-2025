@@ -72,10 +72,10 @@ public class removeAlgaeAuton extends Command {
         theElephant.elevatorToDealgifyPositionHigh();
       } else {
         theElephant.elevatorToDealgifyPositionLow();
-      }     
+      }
     } else if (currentElevatorPosition > (elevatorGoal - ErrorConstants.ElevatorError)
      && currentElevatorPosition < (elevatorGoal + ErrorConstants.ElevatorError)) {
-      theSnout.ShootCoralMethod(); // Runs shooter if drivetrain and elevator positions are within their bounds of error
+      theSnout.ShootCoralMethod();
       theAlgae.MoveArmToPointMethod(AlgaeConstants.DealgifyPosition); // Moves algae arm in position
     }
   }

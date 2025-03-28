@@ -38,6 +38,9 @@ public final class Constants {
     //Margin of Error for Scoring
     public static final double MarginOfErrorXY = Units.inchesToMeters(1); // 2 inch
     public static final double MarginOfErrorDeg = 2.5; //5 degree error : Its doubled cuz math
+
+    public static final double ESCAPE_SPEED = -0.5;
+    public static final double ESCAPE_TIME = 5;
   }
 
   public static class PathPlannerConstants {
@@ -96,8 +99,12 @@ public final class Constants {
     public static final double L3Position = -48.7; //-50.5
     public static final double L4Position = -48.7; //-82;
     public static final double HomePosition = 0.0;
-    public static final double DealgifyPositionLow = 0.0; // TODO have to find
-    public static final double DealgifyPositionHigh = 0.0; // TODO have to find
+
+    public static final double AlgaeOffGetReadyLow = (-82 + -48.7)/2;
+    public static final double AlgaeOffGetReadyHigh = (L3Position+L2Position)/2;
+
+    public static final double DealgifyPositionLow = L2Position;
+    public static final double DealgifyPositionHigh = L3Position;
 
 
 
@@ -163,7 +170,7 @@ public final class Constants {
 
   //Algae Constants
   public static class AlgaeConstants {
-   public static final int shooterMotorID = 26; 
+   public static final int spitterMotorID = 48; 
    public static final int armMotorID = 27;
    public static final double armP = 0.5;
    public static final double intakeSpeed = 0.5;
