@@ -172,6 +172,10 @@ public class ElevatorSubsystem extends SubsystemBase{
       motorLeader.setControl(m_request.withPosition(elevatorConstants.DealgifyPositionLow));
     }
 
+    public void elevatorToPosition(double pos) {
+      motorLeader.setControl(m_request.withPosition(pos));
+    }
+
     public void elevatorJoystick(double joystick) { 
        motorLeader.setControl(new DutyCycleOut(joystick*Constants.elevatorConstants.ElevatorJoystickSpeedNerf));
     }
@@ -205,6 +209,13 @@ public class ElevatorSubsystem extends SubsystemBase{
       return (motorLeader.getPosition().getValueAsDouble() >= elevatorConstants.NEAR_ALGAE_HIGH);
     }
 
+    public boolean shouldElevatorDealgifyEndLow() {
+      return (motorLeader.getPosition().getValueAsDouble() >= elevatorConstants.ALGAE_OFF_LOW_END);
+    }
+
+    public boolean shouldElevatorDealgifyEndHigh() {
+      return (motorLeader.getPosition().getValueAsDouble() >= elevatorConstants.ALGAE_OFF_HIGH_END);
+    }
 
     // public Command setElevatorPID() {
     //   return Commands.runOnce(() -> {

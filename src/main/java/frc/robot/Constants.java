@@ -100,11 +100,13 @@ public final class Constants {
     public static final double L4Position = -48.7; //-82;
     public static final double HomePosition = 0.0;
 
-    public static final double AlgaeOffGetReadyLow = (-82 + -48.7)/2;
-    public static final double AlgaeOffGetReadyHigh = (L3Position+L2Position)/2;
+    //public static final double AlgaeOffGetReadyLow = (-82 + -48.7)/2;
+    //public static final double AlgaeOffGetReadyHigh = (L3Position+L2Position)/2;
 
-    public static final double DealgifyPositionLow = L2Position;
-    public static final double DealgifyPositionHigh = L3Position;
+    public static final double DealgifyPositionLow = -25.8;
+    public static final double DealgifyPositionHigh = -48.6;
+    public static final double ALGAE_OFF_LOW_END = DealgifyPositionLow + 5;
+    public static final double ALGAE_OFF_HIGH_END = DealgifyPositionHigh + 5;
 
 
 
@@ -172,7 +174,7 @@ public final class Constants {
   public static class AlgaeConstants {
    public static final int spitterMotorID = 48; 
    public static final int armMotorID = 27;
-   public static final double armP = 0.5;
+   public static final double armP = 0.8; //0.5
    public static final double intakeSpeed = 0.5;
    public static final double outtakeSpeed = -0.5;
    public static final double armspeed = 0.6;

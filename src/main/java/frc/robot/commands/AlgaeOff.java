@@ -4,6 +4,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.ReefConstants.PoseConstants;
@@ -59,9 +60,6 @@ public class AlgaeOff extends Command {
       xGoal = PoseConstants.RED_REEF_POSES[theLegs.getPlayer1ReefIndex()].getX();
       yGoal = PoseConstants.RED_REEF_POSES[theLegs.getPlayer1ReefIndex()].getY();
     }
-    
-    
-    
 
     // HIGH ALGAE
     if (theLegs.getPlayer1ReefIndex() == 0 || theLegs.getPlayer1ReefIndex() == 4 || theLegs.getPlayer1ReefIndex() == 8) {
@@ -72,18 +70,14 @@ public class AlgaeOff extends Command {
     if (theLegs.getPlayer1ReefIndex() == 2 || theLegs.getPlayer1ReefIndex() == 6 || theLegs.getPlayer1ReefIndex() == 10) {
       areWeHigh = false;
     }
-  
 
     if (areWeHigh == true) {
-      //heightToCancel = Constants.elevatorConstants.L4Position;
       level = 4;
-      elevatorGoal = elevatorConstants.L4Position;
-    } 
-      else {
-        //heightToCancel = Constants.elevatorConstants.L3Position;
-        level = 3;
-        elevatorGoal = elevatorConstants.L3Position;
-      }
+      elevatorGoal = elevatorConstants.DealgifyPositionHigh;
+    } else {
+      level = 3;
+      elevatorGoal = elevatorConstants.DealgifyPositionLow;
+    }
   }
 
   // Every 20ms We have a PID (funny math) and we check if the height of the elevator and the postition of the robot 
@@ -94,22 +88,6 @@ public class AlgaeOff extends Command {
     double currentDriveX = theLegs.getPose2d().getX();
     double currentDriveY = theLegs.getPose2d().getY();
     double currentElevatorPosition = theElephant.getElevatorPosition();
-
-
-    // if (theElephant.getElevatorPosition() < elevatorConstants.SAFETY_LEVEL && !theSnout.getEitherSensor()) {
-    //   theElephant.elevatorToLevel(Constants.elevatorConstants.HomePosition);
-    // }
-    // if  (currentElevatorPosition > (elevatorGoal - ErrorConstants.ElevatorError)
-    //     && currentElevatorPosition < (elevatorGoal + ErrorConstants.ElevatorError)
-    //     && currentDriveX > (xGoal - ErrorConstants.DriveTrainScoreError)
-    //     && currentDriveX < (xGoal + ErrorConstants.DriveTrainScoreError)
-    //     && currentDriveY > (yGoal - ErrorConstants.DriveTrainScoreError)
-    //     && currentDriveY < (yGoal + ErrorConstants.DriveTrainScoreError)
-    //     && isArmOut ==true) {
-    //   //theSnout.fireNow = true;
-    //   theBigStick.MoveArmToPointMethod(Constants.AlgaeConstants.DealgifyPosition);
-    //   theElephant.elevatorToLevel(0);
-
 
     // } else
       if  (currentElevatorPosition > (elevatorGoal - ErrorConstants.ElevatorError)
@@ -130,17 +108,16 @@ public class AlgaeOff extends Command {
         && currentDriveY < (yGoal + ErrorConstants.DriveTrainScoreError)) {
       //theSnout.fireNow = true;
       theBigStick.MoveArmToPointMethod(Constants.AlgaeConstants.DealgifyPosition);
-      
-
 
     } else if (currentDriveX > (xGoal - ErrorConstants.DriveTrainElevatorUpError)
         && currentDriveX < (xGoal + ErrorConstants.DriveTrainElevatorUpError)
         && currentDriveY > (yGoal - ErrorConstants.DriveTrainElevatorUpError)
         && currentDriveY < (yGoal + ErrorConstants.DriveTrainElevatorUpError)
         && theElephant.isElevatorHome()) {
-      theElephant.elevatorToLevel(level);
+      //theElephant.elevatorToLevel(level);
+      theElephant.elevatorToPosition(elevatorGoal);
     } 
-        }
+  }
 
   // Sends elevator to its default position after the command ends.
   @Override
@@ -153,7 +130,11 @@ public class AlgaeOff extends Command {
   // Returns true when the command should end. Runs every 20ms
   @Override
   public boolean isFinished() {
-    //return (false); 
-    return (theElephant.isElevatorHome() && theBigStick.IsArmAwayFromHome()); 
+    //return (theElephant.isElevatorHome() && theBigStick.IsArmAwayFromHome());
+    if (areWeHigh) {
+      return (theElephant.shouldElevatorDealgifyEndHigh() && theBigStick.IsArmAwayFromHome());
+    } else {
+      return (theElephant.shouldElevatorDealgifyEndLow() && theBigStick.IsArmAwayFromHome());
+    }
   }
 }
