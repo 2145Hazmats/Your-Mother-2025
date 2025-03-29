@@ -34,7 +34,7 @@
   "eventMarkers": [
     {
       "name": "coast mode",
-      "waypointRelativePos": 0.19910195182724252,
+      "waypointRelativePos": 0.14584740040513275,
       "endWaypointRelativePos": null,
       "command": {
         "type": "named",
@@ -45,7 +45,7 @@
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 2.0,
+    "maxVelocity": 1.5,
     "maxAcceleration": 5.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,

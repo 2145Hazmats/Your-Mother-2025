@@ -29,12 +29,6 @@
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "StopShooter"
-          }
-        },
-        {
           "type": "parallel",
           "data": {
             "commands": [
@@ -69,12 +63,6 @@
           "type": "named",
           "data": {
             "name": "SuckTillElevatorSensor"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "StopShooter"
           }
         },
         {
@@ -115,15 +103,22 @@
           }
         },
         {
-          "type": "named",
+          "type": "parallel",
           "data": {
-            "name": "StopShooter"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Net Phantom Path"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Net Phantom Path"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "SuckTillSensor"
+                }
+              }
+            ]
           }
         }
       ]

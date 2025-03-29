@@ -67,13 +67,14 @@ public class removeAlgaeAuton extends Command {
     
     
     // Checks to see if Elevator and Drivetrain are in the correct position before playing the coral
-    if (theSnout.BoxxCoralSensorUntriggered()) {
-      if (high) {
-        theElephant.elevatorToDealgifyPositionHigh();
-      } else {
-        theElephant.elevatorToDealgifyPositionLow();
-      }
-    } else if (currentElevatorPosition > (elevatorGoal - ErrorConstants.ElevatorError)
+    // if (theSnout.BoxxCoralSensorUntriggered()) {
+    //   if (high) {
+    //     theElephant.elevatorToDealgifyPositionHigh();
+    //   } else {
+    //     theElephant.elevatorToDealgifyPositionLow();
+    //   }
+    // } else
+    if (currentElevatorPosition > (elevatorGoal - ErrorConstants.ElevatorError)
      && currentElevatorPosition < (elevatorGoal + ErrorConstants.ElevatorError)) {
       theSnout.ShootCoralMethod();
       theAlgae.MoveArmToPointMethod(AlgaeConstants.DealgifyPosition); // Moves algae arm in position
@@ -94,11 +95,9 @@ public class removeAlgaeAuton extends Command {
   public boolean isFinished() {
     // THIS ENDS THE COMMAND IF THE SENSOR IS UNTRIGGERED
   if (high) {
-    theSnout.StopShooterMethod();
     return (theSnout.BoxxCoralSensorUntriggered() && theElephant.isElevatorInDealgifyPositionHigh() && theAlgae.isArmInDealgifyPosition());
   }
   else {
-    theSnout.StopShooterMethod();
     return (theSnout.BoxxCoralSensorUntriggered() && theElephant.isElevatorInDealgifyPositionLow() && theAlgae.isArmInDealgifyPosition());
   }
 

@@ -6,37 +6,26 @@ package frc.robot;
 
 import static edu.wpi.first.units.Units.*;
 
-import java.util.function.BooleanSupplier;
-
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
-import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.AlgaeConstants;
 import frc.robot.Constants.DrivetrainConstants;
 import frc.robot.Constants.shooterBoxxContants;
-import frc.robot.Constants.ControllerConstants.EVERYTHING_ENUM;
 import frc.robot.ReefConstants.PoseConstants;
 import frc.robot.commands.AlgaeOff;
 import frc.robot.commands.FireCoralAuton;
 import frc.robot.commands.PutElevatorUp;
 import frc.robot.commands.ScoreCoral;
-//import frc.robot.autos.AwesomestAutoBlue;
-// import frc.robot.autos.AwesomeAuton;
-// import frc.robot.autos.NetSideAuto;
-// import frc.robot.autos.ProcessorSideAuto;
-import frc.robot.commands.ScoreCoralOLD;
 import frc.robot.commands.removeAlgaeAuton;
 import frc.robot.commands.ScoreCoralAuton;
 import frc.robot.generated.TunerConstants;
@@ -133,7 +122,12 @@ public class RobotContainer {
           NamedCommands.registerCommand("ScrapeScoreLow", new removeAlgaeAuton(m_ElevatorSubsystem, m_ShooterBoxx, m_AlgaeSubsystem, 4, false));
           
 
-          NamedCommands.registerCommand("CoastMode" , Commands.runOnce(() -> m_drivetrain.configNeutralMode(NeutralModeValue.Coast)));
+          //NamedCommands.registerCommand("CoastMode" , Commands.runOnce(() -> m_drivetrain.configNeutralMode(NeutralModeValue.Coast)));
+          NamedCommands.registerCommand("CoastMode" , Commands.runOnce(() -> {
+            m_ShooterBoxx.RunShooter(0);
+            m_drivetrain.configNeutralMode(NeutralModeValue.Coast);
+            m_ShooterBoxx.RunShooter(0);
+          }));
           NamedCommands.registerCommand("BrakeMode" , Commands.runOnce(() -> m_drivetrain.configNeutralMode(NeutralModeValue.Brake)));
           
           
