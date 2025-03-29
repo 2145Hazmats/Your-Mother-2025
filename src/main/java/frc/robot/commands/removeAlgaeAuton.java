@@ -63,18 +63,17 @@ public class removeAlgaeAuton extends Command {
     double currentElevatorPosition = theElephant.getElevatorPosition();
 
     
-    theElephant.elevatorToLevel(levelIndex);
+    //theElephant.elevatorToLevel(levelIndex);
     
     
     // Checks to see if Elevator and Drivetrain are in the correct position before playing the coral
-    // if (theSnout.BoxxCoralSensorUntriggered()) {
-    //   if (high) {
-    //     theElephant.elevatorToDealgifyPositionHigh();
-    //   } else {
-    //     theElephant.elevatorToDealgifyPositionLow();
-    //   }
-    // } else
-    if (currentElevatorPosition > (elevatorGoal - ErrorConstants.ElevatorError)
+    if (theSnout.BoxxCoralSensorUntriggered()) {
+      if (high) {
+        theElephant.elevatorToDealgifyPositionHigh();
+      } else {
+        theElephant.elevatorToDealgifyPositionLow();
+      }
+    } else if (currentElevatorPosition > (elevatorGoal - ErrorConstants.ElevatorError)
      && currentElevatorPosition < (elevatorGoal + ErrorConstants.ElevatorError)) {
       theSnout.ShootCoralMethod();
       theAlgae.MoveArmToPointMethod(AlgaeConstants.DealgifyPosition); // Moves algae arm in position

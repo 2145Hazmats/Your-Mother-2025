@@ -22,8 +22,6 @@ public class ReefConstants {
   private static double kLeftOffset = -0.02; // more negative = closer to right side .0185
   private static double kRightOffset = 0.3912; //DO NOT CHANGE.3412
 
-
-
   // LeftBlueStationPose = (1.078, 7.09) // top left || blue left
 
   // CENTER_OF_THE_FIELD = (8.775, 4.025)
@@ -58,6 +56,22 @@ public class ReefConstants {
     public static double newLeftOffset = usePose2D ? playLeftPoseAB.getY() - ABReefCenter[1] : kLeftOffset;
     public static double newRightOffset = usePose2D ? ABReefCenter[1] - playRightPoseAB.getY() : kRightOffset;
 
+    //---------------- NEW Calculate 6 Left Offset PATHFIND Poses Around Reef -----------
+    public static double[] PATHFINDAReefLeft = new double[]{ABReefCenter[0] - newLeftOffset * Math.sin(Units.degreesToRadians(0)), ABReefCenter[1] + newLeftOffset * Math.cos(Units.degreesToRadians(0)), 0};
+    public static double[] PATHFINDCReefLeft = new double[]{CDReefCenter[0] - newLeftOffset * Math.sin(Units.degreesToRadians(60)), CDReefCenter[1] + newLeftOffset * Math.cos(Units.degreesToRadians(60)), Math.PI*1/3};
+    public static double[] PATHFINDEReefLeft = new double[]{EFReefCenter[0] - newLeftOffset * Math.sin(Units.degreesToRadians(120)), EFReefCenter[1] + newLeftOffset * Math.cos(Units.degreesToRadians(120)), Math.PI*2/3};
+    public static double[] PATHFINDGReefLeft = new double[]{GHReefCenter[0] - newLeftOffset * Math.sin(Units.degreesToRadians(180)), GHReefCenter[1] + newLeftOffset * Math.cos(Units.degreesToRadians(180)), Math.PI};
+    public static double[] PATHFINDIReefLeft = new double[]{IJReefCenter[0] - newLeftOffset * Math.sin(Units.degreesToRadians(240)), IJReefCenter[1] + newLeftOffset * Math.cos(Units.degreesToRadians(240)), Math.PI*4/3};
+    public static double[] PATHFINDKReefLeft = new double[]{KLReefCenter[0] - newLeftOffset * Math.sin(Units.degreesToRadians(300)), KLReefCenter[1] + newLeftOffset * Math.cos(Units.degreesToRadians(300)), Math.PI*5/3};
+  
+    //---------------- NEW Calculate 6 Right Offset PATHFIND Poses Around Reef -----------
+    public static double[] PATHFINDBReefRight = new double[]{ABReefCenter[0] + newRightOffset * Math.sin(Units.degreesToRadians(0)), ABReefCenter[1] - newRightOffset * Math.cos(Units.degreesToRadians(0)), 0};
+    public static double[] PATHFINDDReefRight = new double[]{CDReefCenter[0] + newRightOffset * Math.sin(Units.degreesToRadians(60)), CDReefCenter[1] - newRightOffset * Math.cos(Units.degreesToRadians(60)), Math.PI*1/3};
+    public static double[] PATHFINDFReefRight = new double[]{EFReefCenter[0] + newRightOffset * Math.sin(Units.degreesToRadians(120)), EFReefCenter[1] - newRightOffset * Math.cos(Units.degreesToRadians(120)), Math.PI*2/3};
+    public static double[] PATHFINDHReefRight = new double[]{GHReefCenter[0] + newRightOffset * Math.sin(Units.degreesToRadians(180)), GHReefCenter[1] - newRightOffset * Math.cos(Units.degreesToRadians(180)), Math.PI};
+    public static double[] PATHFINDJReefRight = new double[]{IJReefCenter[0] + newRightOffset * Math.sin(Units.degreesToRadians(240)), IJReefCenter[1] - newRightOffset * Math.cos(Units.degreesToRadians(240)), Math.PI*4/3};
+    public static double[] PATHFINDLReefRight = new double[]{KLReefCenter[0] + newRightOffset * Math.sin(Units.degreesToRadians(300)), KLReefCenter[1] - newRightOffset * Math.cos(Units.degreesToRadians(300)), Math.PI*5/3};
+
     //---------------- Calculate 6 Playing Poses Around Reef ---------------
     private static double[] ABReefPlaying = new double[]{reefCenter[0] + (reefRadius + playingDistanceOffset) * Math.cos(Units.degreesToRadians(180)), reefCenter[1] + (reefRadius + playingDistanceOffset) * Math.sin(Units.degreesToRadians(180)), 0};
     private static double[] CDReefPlaying = new double[]{reefCenter[0] + (reefRadius + playingDistanceOffset) * Math.cos(Units.degreesToRadians(240)), reefCenter[1] + (reefRadius + playingDistanceOffset) * Math.sin(Units.degreesToRadians(240)), Math.PI*1/3};
@@ -89,6 +103,20 @@ public class ReefConstants {
     public static Pose2d GHReefPose = new Pose2d(GHReefCenter[0], GHReefCenter[1], new Rotation2d(GHReefCenter[2]));
     public static Pose2d IJReefPose = new Pose2d(IJReefCenter[0], IJReefCenter[1], new Rotation2d(IJReefCenter[2]));
     public static Pose2d KLReefPose = new Pose2d(KLReefCenter[0], KLReefCenter[1], new Rotation2d(KLReefCenter[2]));
+
+    //---------------- NEW Converted 12 PATHFIND Poses Around Reef ---------------
+    public static Pose2d PATHFINDAReefPose = new Pose2d(PATHFINDAReefLeft[0], PATHFINDAReefLeft[1], new Rotation2d(PATHFINDAReefLeft[2]));
+    public static Pose2d PATHFINDBReefPose = new Pose2d(PATHFINDBReefRight[0], PATHFINDBReefRight[1], new Rotation2d(PATHFINDBReefRight[2]));
+    public static Pose2d PATHFINDCReefPose = new Pose2d(PATHFINDCReefLeft[0], PATHFINDCReefLeft[1], new Rotation2d(PATHFINDCReefLeft[2]));
+    public static Pose2d PATHFINDDReefPose = new Pose2d(PATHFINDDReefRight[0], PATHFINDDReefRight[1], new Rotation2d(PATHFINDDReefRight[2]));
+    public static Pose2d PATHFINDEReefPose = new Pose2d(PATHFINDEReefLeft[0], PATHFINDEReefLeft[1], new Rotation2d(PATHFINDEReefLeft[2]));
+    public static Pose2d PATHFINDFReefPose = new Pose2d(PATHFINDFReefRight[0], PATHFINDFReefRight[1], new Rotation2d(PATHFINDFReefRight[2]));
+    public static Pose2d PATHFINDGReefPose = new Pose2d(PATHFINDGReefLeft[0], PATHFINDGReefLeft[1], new Rotation2d(PATHFINDGReefLeft[2]));
+    public static Pose2d PATHFINDHReefPose = new Pose2d(PATHFINDHReefRight[0], PATHFINDHReefRight[1], new Rotation2d(PATHFINDHReefRight[2]));
+    public static Pose2d PATHFINDIReefPose = new Pose2d(PATHFINDIReefLeft[0], PATHFINDIReefLeft[1], new Rotation2d(PATHFINDIReefLeft[2]));
+    public static Pose2d PATHFINDJReefPose = new Pose2d(PATHFINDJReefRight[0], PATHFINDJReefRight[1], new Rotation2d(PATHFINDJReefRight[2]));
+    public static Pose2d PATHFINDKReefPose = new Pose2d(PATHFINDKReefLeft[0], PATHFINDKReefLeft[1], new Rotation2d(PATHFINDKReefLeft[2]));
+    public static Pose2d PATHFINDLReefPose = new Pose2d(PATHFINDLReefRight[0], PATHFINDLReefRight[1], new Rotation2d(PATHFINDLReefRight[2]));
 
     //---------------- Converted 12 Blue Poses Around Reef ------------------
     public static Pose2d AReefPose = new Pose2d(AReefLeft[0], AReefLeft[1], new Rotation2d(AReefLeft[2]));
@@ -153,6 +181,28 @@ public class ReefConstants {
       REEF_SIDE_POSE_GH, REEF_SIDE_POSE_IJ, REEF_SIDE_POSE_KL
     };
 
+    // NEW NEW NEW
+    public static final Pose2d PATHFIND_REEF_POSE_A = ReefMathConstants.PATHFINDAReefPose;
+    public static final Pose2d PATHFIND_REEF_POSE_B = ReefMathConstants.PATHFINDBReefPose;
+    public static final Pose2d PATHFIND_REEF_POSE_C = ReefMathConstants.PATHFINDCReefPose;
+    public static final Pose2d PATHFIND_REEF_POSE_D = ReefMathConstants.PATHFINDDReefPose;
+    public static final Pose2d PATHFIND_REEF_POSE_E = ReefMathConstants.PATHFINDEReefPose;
+    public static final Pose2d PATHFIND_REEF_POSE_F = ReefMathConstants.PATHFINDFReefPose;
+    public static final Pose2d PATHFIND_REEF_POSE_G = ReefMathConstants.PATHFINDGReefPose;
+    public static final Pose2d PATHFIND_REEF_POSE_H = ReefMathConstants.PATHFINDHReefPose;
+    public static final Pose2d PATHFIND_REEF_POSE_I = ReefMathConstants.PATHFINDIReefPose;
+    public static final Pose2d PATHFIND_REEF_POSE_J = ReefMathConstants.PATHFINDJReefPose;
+    public static final Pose2d PATHFIND_REEF_POSE_K = ReefMathConstants.PATHFINDKReefPose;
+    public static final Pose2d PATHFIND_REEF_POSE_L = ReefMathConstants.PATHFINDLReefPose;
+
+    // NEW NEW NEW
+    public static final Pose2d[] PATHFIND_BLUE_REEF_POSES = {
+      PATHFIND_REEF_POSE_A, PATHFIND_REEF_POSE_B, PATHFIND_REEF_POSE_C,
+      PATHFIND_REEF_POSE_D, PATHFIND_REEF_POSE_E, PATHFIND_REEF_POSE_F,
+      PATHFIND_REEF_POSE_G, PATHFIND_REEF_POSE_H, PATHFIND_REEF_POSE_I,
+      PATHFIND_REEF_POSE_J, PATHFIND_REEF_POSE_K, PATHFIND_REEF_POSE_L
+    };
+
     public static final double RED_TRANSFORMATION_X = 8.5695756472;
 
     public static final Pose2d[] RED_REEF_SIDE_POSES = {
@@ -162,6 +212,22 @@ public class ReefConstants {
       new Pose2d(REEF_SIDE_POSE_AB.getX() + RED_TRANSFORMATION_X, REEF_SIDE_POSE_AB.getY(), REEF_SIDE_POSE_AB.getRotation()),
       new Pose2d(REEF_SIDE_POSE_CD.getX() + RED_TRANSFORMATION_X, REEF_SIDE_POSE_CD.getY(), REEF_SIDE_POSE_CD.getRotation()),
       new Pose2d(REEF_SIDE_POSE_EF.getX() + RED_TRANSFORMATION_X, REEF_SIDE_POSE_EF.getY(), REEF_SIDE_POSE_EF.getRotation())
+    };
+
+    // NEW NEW NEW
+    public static final Pose2d[] PATHFIND_RED_REEF_POSES = {
+      new Pose2d(PATHFIND_REEF_POSE_A.getX() + RED_TRANSFORMATION_X, PATHFIND_REEF_POSE_A.getY(), PATHFIND_REEF_POSE_A.getRotation()),
+      new Pose2d(PATHFIND_REEF_POSE_B.getX() + RED_TRANSFORMATION_X, PATHFIND_REEF_POSE_B.getY(), PATHFIND_REEF_POSE_B.getRotation()),
+      new Pose2d(PATHFIND_REEF_POSE_C.getX() + RED_TRANSFORMATION_X, PATHFIND_REEF_POSE_C.getY(), PATHFIND_REEF_POSE_C.getRotation()),
+      new Pose2d(PATHFIND_REEF_POSE_D.getX() + RED_TRANSFORMATION_X, PATHFIND_REEF_POSE_D.getY(), PATHFIND_REEF_POSE_D.getRotation()),
+      new Pose2d(PATHFIND_REEF_POSE_E.getX() + RED_TRANSFORMATION_X, PATHFIND_REEF_POSE_E.getY(), PATHFIND_REEF_POSE_E.getRotation()),
+      new Pose2d(PATHFIND_REEF_POSE_F.getX() + RED_TRANSFORMATION_X, PATHFIND_REEF_POSE_F.getY(), PATHFIND_REEF_POSE_F.getRotation()),
+      new Pose2d(PATHFIND_REEF_POSE_G.getX() + RED_TRANSFORMATION_X, PATHFIND_REEF_POSE_G.getY(), PATHFIND_REEF_POSE_G.getRotation()),
+      new Pose2d(PATHFIND_REEF_POSE_H.getX() + RED_TRANSFORMATION_X, PATHFIND_REEF_POSE_H.getY(), PATHFIND_REEF_POSE_H.getRotation()),
+      new Pose2d(PATHFIND_REEF_POSE_I.getX() + RED_TRANSFORMATION_X, PATHFIND_REEF_POSE_I.getY(), PATHFIND_REEF_POSE_I.getRotation()),
+      new Pose2d(PATHFIND_REEF_POSE_J.getX() + RED_TRANSFORMATION_X, PATHFIND_REEF_POSE_J.getY(), PATHFIND_REEF_POSE_J.getRotation()),
+      new Pose2d(PATHFIND_REEF_POSE_K.getX() + RED_TRANSFORMATION_X, PATHFIND_REEF_POSE_K.getY(), PATHFIND_REEF_POSE_K.getRotation()),
+      new Pose2d(PATHFIND_REEF_POSE_L.getX() + RED_TRANSFORMATION_X, PATHFIND_REEF_POSE_L.getY(), PATHFIND_REEF_POSE_L.getRotation()),
     };
 
     public static final Pose2d REEF_POSE_A = ReefMathConstants.AReefPose;

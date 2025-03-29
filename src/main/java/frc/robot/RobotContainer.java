@@ -261,7 +261,7 @@ public class RobotContainer {
         // SCORE BLUE LEFT CORAL STATION
         P1controller.leftTrigger().and(m_drivetrain::isAllianceBlue).and(() -> stationChooser.getSelected()).whileTrue(Commands.repeatingSequence(
             //m_indexing.updateP1IndexInRepeatingCommand(),
-            m_drivetrain.pathFindToAllTheReefsBlue().andThen(
+            m_drivetrain.pathFindToAllTheReefsBlue2().andThen(
             Commands.deadline(
                 new ScoreCoral(m_drivetrain, m_ElevatorSubsystem, m_ShooterBoxx, m_AlgaeSubsystem),
                 m_drivetrain.applyRequest(() ->
@@ -269,11 +269,12 @@ public class RobotContainer {
                     .withVelocityY(m_drivetrain.PIDDriveToPointY(PoseConstants.BLUE_REEF_POSES[m_drivetrain.getPlayer1ReefIndex()].getY()) * MaxSpeed)
                     .withRotationalRate(m_drivetrain.PIDDriveToPointDEG(PoseConstants.BLUE_REEF_POSES[m_drivetrain.getPlayer1ReefIndex()].getRotation().getDegrees()))
                 ))
-                // keep stick out
-                .andThen(Commands.parallel(
-                    Commands.run(() -> m_AlgaeSubsystem.MoveArmToPointMethod(AlgaeConstants.DealgifyPosition)),
-                    Commands.run(() -> m_drivetrain.applyRequest(() -> driveCentric.withVelocityX(DrivetrainConstants.ESCAPE_SPEED).withVelocityY(0).withRotationalRate(0))
-                )).withTimeout(DrivetrainConstants.ESCAPE_TIME).until(m_AlgaeSubsystem::isAlgaeAtHome)) //this instantly ends the backing up
+                
+                // // keep stick out
+                // .andThen(Commands.parallel(
+                //     Commands.run(() -> m_AlgaeSubsystem.MoveArmToPointMethod(AlgaeConstants.DealgifyPosition)),
+                //     Commands.run(() -> m_drivetrain.applyRequest(() -> driveCentric.withVelocityX(DrivetrainConstants.ESCAPE_SPEED).withVelocityY(0).withRotationalRate(0))
+                // )).withTimeout(DrivetrainConstants.ESCAPE_TIME).until(m_AlgaeSubsystem::isAlgaeAtHome)) //this instantly ends the backing up
                     
                 //.and then(Commands. deadline ) (check if stick is out if so then back up) just use robot centric back up for withTimeout
                 .andThen( m_drivetrain.pathFindToLeftBlueCoralStation().andThen(
@@ -289,7 +290,7 @@ public class RobotContainer {
         // SCORE BLUE RIGHT CORAL STATION
         P1controller.leftTrigger().and(m_drivetrain::isAllianceBlue).and(() -> !stationChooser.getSelected()).whileTrue(Commands.repeatingSequence(
             //m_indexing.updateP1IndexInRepeatingCommand(),
-            m_drivetrain.pathFindToAllTheReefsBlue().andThen(
+            m_drivetrain.pathFindToAllTheReefsBlue2().andThen(
             Commands.deadline(
                 new ScoreCoral(m_drivetrain, m_ElevatorSubsystem, m_ShooterBoxx, m_AlgaeSubsystem),
                 m_drivetrain.applyRequest(() ->
@@ -298,11 +299,11 @@ public class RobotContainer {
                     .withRotationalRate(m_drivetrain.PIDDriveToPointDEG(PoseConstants.BLUE_REEF_POSES[m_drivetrain.getPlayer1ReefIndex()].getRotation().getDegrees()))
                 ))
 
-                // keep stick out
-                .andThen(Commands.parallel(
-                    Commands.run(() -> m_AlgaeSubsystem.MoveArmToPointMethod(AlgaeConstants.DealgifyPosition)),
-                    Commands.run(() -> m_drivetrain.applyRequest(() -> driveCentric.withVelocityX(DrivetrainConstants.ESCAPE_SPEED).withVelocityY(0).withRotationalRate(0))
-                )).withTimeout(DrivetrainConstants.ESCAPE_TIME).until(m_AlgaeSubsystem::isAlgaeAtHome)) //this instantly ends the backing up
+                // // keep stick out
+                // .andThen(Commands.parallel(
+                //     Commands.run(() -> m_AlgaeSubsystem.MoveArmToPointMethod(AlgaeConstants.DealgifyPosition)),
+                //     Commands.run(() -> m_drivetrain.applyRequest(() -> driveCentric.withVelocityX(DrivetrainConstants.ESCAPE_SPEED).withVelocityY(0).withRotationalRate(0))
+                // )).withTimeout(DrivetrainConstants.ESCAPE_TIME).until(m_AlgaeSubsystem::isAlgaeAtHome)) //this instantly ends the backing up
                     
                 .andThen( m_drivetrain.pathFindToRightBlueCoralStation().andThen(
                         m_drivetrain.applyRequest(() ->
@@ -317,7 +318,7 @@ public class RobotContainer {
         // SCORE RED LEFT CORAL STATION
         P1controller.leftTrigger().and(m_drivetrain::isAllianceRed).and(() -> stationChooser.getSelected()).whileTrue(Commands.repeatingSequence(
             //m_indexing.updateP1IndexInRepeatingCommand(),
-            m_drivetrain.pathFindToAllTheReefsRed().andThen(
+            m_drivetrain.pathFindToAllTheReefsRed2().andThen(
             Commands.deadline(
                 new ScoreCoral(m_drivetrain, m_ElevatorSubsystem, m_ShooterBoxx, m_AlgaeSubsystem),
                 m_drivetrain.applyRequest(() ->
@@ -326,11 +327,11 @@ public class RobotContainer {
                     .withRotationalRate(m_drivetrain.PIDDriveToPointDEG(PoseConstants.RED_REEF_POSES[m_drivetrain.getPlayer1ReefIndex()].getRotation().getDegrees()))
                 ))
 
-                // keep stick out
-                .andThen(Commands.parallel(
-                    Commands.run(() -> m_AlgaeSubsystem.MoveArmToPointMethod(AlgaeConstants.DealgifyPosition)),
-                    Commands.run(() -> m_drivetrain.applyRequest(() -> driveCentric.withVelocityX(DrivetrainConstants.ESCAPE_SPEED).withVelocityY(0).withRotationalRate(0))
-                )).withTimeout(DrivetrainConstants.ESCAPE_TIME).until(m_AlgaeSubsystem::isAlgaeAtHome)) //this instantly ends the backing up
+                // // keep stick out
+                // .andThen(Commands.parallel(
+                //     Commands.run(() -> m_AlgaeSubsystem.MoveArmToPointMethod(AlgaeConstants.DealgifyPosition)),
+                //     Commands.run(() -> m_drivetrain.applyRequest(() -> driveCentric.withVelocityX(DrivetrainConstants.ESCAPE_SPEED).withVelocityY(0).withRotationalRate(0))
+                // )).withTimeout(DrivetrainConstants.ESCAPE_TIME).until(m_AlgaeSubsystem::isAlgaeAtHome)) //this instantly ends the backing up
                     
                 .andThen( m_drivetrain.pathFindToLeftRedCoralStation().andThen(
                         m_drivetrain.applyRequest(() ->
@@ -345,7 +346,7 @@ public class RobotContainer {
         // SCORE RED RIGHT CORAL STATION
         P1controller.leftTrigger().and(m_drivetrain::isAllianceRed).and(() -> !stationChooser.getSelected()).whileTrue(Commands.repeatingSequence(
             //m_indexing.updateP1IndexInRepeatingCommand(),
-            m_drivetrain.pathFindToAllTheReefsRed().andThen(
+            m_drivetrain.pathFindToAllTheReefsRed2().andThen(
             Commands.deadline(
                 new ScoreCoral(m_drivetrain, m_ElevatorSubsystem, m_ShooterBoxx, m_AlgaeSubsystem),
                 m_drivetrain.applyRequest(() ->
@@ -354,11 +355,11 @@ public class RobotContainer {
                     .withRotationalRate(m_drivetrain.PIDDriveToPointDEG(PoseConstants.RED_REEF_POSES[m_drivetrain.getPlayer1ReefIndex()].getRotation().getDegrees()))
                 ))
 
-                // keep stick out
-                .andThen(Commands.parallel(
-                    Commands.run(() -> m_AlgaeSubsystem.MoveArmToPointMethod(AlgaeConstants.DealgifyPosition)),
-                    Commands.run(() -> m_drivetrain.applyRequest(() -> driveCentric.withVelocityX(DrivetrainConstants.ESCAPE_SPEED).withVelocityY(0).withRotationalRate(0))
-                )).withTimeout(DrivetrainConstants.ESCAPE_TIME).until(m_AlgaeSubsystem::isAlgaeAtHome)) //this instantly ends the backing up
+                // // keep stick out
+                // .andThen(Commands.parallel(
+                //     Commands.run(() -> m_AlgaeSubsystem.MoveArmToPointMethod(AlgaeConstants.DealgifyPosition)),
+                //     Commands.run(() -> m_drivetrain.applyRequest(() -> driveCentric.withVelocityX(DrivetrainConstants.ESCAPE_SPEED).withVelocityY(0).withRotationalRate(0))
+                // )).withTimeout(DrivetrainConstants.ESCAPE_TIME).until(m_AlgaeSubsystem::isAlgaeAtHome)) //this instantly ends the backing up
                     
                 .andThen( m_drivetrain.pathFindToRightRedCoralStation().andThen(
                         m_drivetrain.applyRequest(() ->
@@ -410,7 +411,7 @@ public class RobotContainer {
         // P1controller.povUp().and(m_drivetrain::isAllianceRed).whileTrue(m_drivetrain.pathFindToRedClimbCenter());
 
         // RED
-        P1controller.povDown().and(m_drivetrain::isAllianceRed).whileTrue(m_drivetrain.pathFindToAllTheReefsRed().andThen(
+        P1controller.povDown().and(m_drivetrain::isAllianceRed).whileTrue(m_drivetrain.pathFindToAllTheReefsRed2().andThen(
             Commands.deadline(
                 new AlgaeOff(m_drivetrain, m_ElevatorSubsystem, m_ShooterBoxx, m_AlgaeSubsystem),
                 m_drivetrain.applyRequest(() ->
@@ -430,7 +431,7 @@ public class RobotContainer {
         ));
 
         // BLUE
-        P1controller.povDown().and(m_drivetrain::isAllianceBlue).whileTrue(m_drivetrain.pathFindToAllTheReefsBlue().andThen(
+        P1controller.povDown().and(m_drivetrain::isAllianceBlue).whileTrue(m_drivetrain.pathFindToAllTheReefsBlue2().andThen(
             Commands.deadline(
                 new AlgaeOff(m_drivetrain, m_ElevatorSubsystem, m_ShooterBoxx, m_AlgaeSubsystem), 
                 m_drivetrain.applyRequest(() ->

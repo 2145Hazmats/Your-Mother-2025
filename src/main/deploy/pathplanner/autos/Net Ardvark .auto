@@ -87,7 +87,7 @@
         {
           "type": "named",
           "data": {
-            "name": "ScrapeScoreHigh"
+            "name": "ScrapeScoreLow"
           }
         },
         {
