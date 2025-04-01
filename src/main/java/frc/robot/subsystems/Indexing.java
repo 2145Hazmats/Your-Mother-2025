@@ -31,6 +31,9 @@ public class Indexing extends SubsystemBase {
     m_ElevatorSubsystem = elevator;
     m_drivetrain = drive;
   }
+  public void firstTeleopPieceChoice(int yourChoice) {
+  m_drivetrain.setP1Index(yourChoice); 
+  m_drivetrain.setP2Index(yourChoice);}
 
   public void elevatorIndexChooser(int level) {
     m_ElevatorSubsystem.P2LevelIndexChoose(level);

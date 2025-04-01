@@ -43,6 +43,7 @@ public class RobotContainer {
 
     private final SendableChooser<Command> autoChooser;
     private final SendableChooser<Boolean> stationChooser;
+    public final SendableChooser<Integer> firstTeleopScoreChooser;
 
     public final double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
     private final double MaxAngularRate = RotationsPerSecond.of(DrivetrainConstants.MAX_ROTATIONS_PER_SECOND).in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
@@ -144,6 +145,20 @@ public class RobotContainer {
          stationChooser.addOption("RightStation", false);
          SmartDashboard.putData("Station Chooser", stationChooser);
 
+         firstTeleopScoreChooser = new SendableChooser<>();
+         firstTeleopScoreChooser.setDefaultOption("0", 0);
+         firstTeleopScoreChooser.addOption("1", 1);
+         firstTeleopScoreChooser.addOption("2", 2);
+         firstTeleopScoreChooser.addOption("3", 3);
+         firstTeleopScoreChooser.addOption("4", 4);
+         firstTeleopScoreChooser.addOption("5", 5);
+         firstTeleopScoreChooser.addOption("6", 6);
+         firstTeleopScoreChooser.addOption("7", 7);
+         firstTeleopScoreChooser.addOption("8", 8);
+         firstTeleopScoreChooser.addOption("9", 9);
+         firstTeleopScoreChooser.addOption("10", 10);
+         firstTeleopScoreChooser.addOption("11", 11);
+         SmartDashboard.putData("FirstScore Chooser", firstTeleopScoreChooser);
     }
 
     public CommandSwerveDrivetrain getSwerveDrivetrain() { // for coasting out of auto
@@ -153,6 +168,11 @@ public class RobotContainer {
     public ShooterBoxx getShooterBoxx() { // for coasting out of auto
         return m_ShooterBoxx;
     }
+
+    public void setFirstSpot() {
+        m_indexing.firstTeleopPieceChoice(firstTeleopScoreChooser.getSelected());
+    }
+
 
     private void configureBindings() {
         // Default Commands :)
@@ -226,7 +246,7 @@ public class RobotContainer {
                     .withVelocityY(m_drivetrain.PIDDriveToPointY(PoseConstants.CORAL_STATION_LEFT_RED_POSE.getY()) * MaxSpeed)
                     .withRotationalRate(m_drivetrain.PIDDriveToPointDEG(PoseConstants.CORAL_STATION_LEFT_RED_POSE.getRotation().getDegrees()))
                  )
-                
+           
             )
         ));
         

@@ -64,6 +64,7 @@ public class Robot extends TimedRobot {
   public void teleopInit() {
     //m_robotContainer.getShooterBoxx().StopShooterMethod();
     m_robotContainer.getSwerveDrivetrain().configNeutralMode(NeutralModeValue.Brake);
+    m_robotContainer.setFirstSpot(); //Experimental stuff
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }

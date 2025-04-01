@@ -32,8 +32,8 @@ public class ElevatorSubsystem extends SubsystemBase{
 
     final MotionMagicVoltage m_request = new MotionMagicVoltage(0);
 
-    private int player1LevelIndex = 1;
-    private int player2LevelIndex = 1;
+    private int player1LevelIndex = 4;
+    private int player2LevelIndex = 4;
 
     private AlgaeSubsystem algae;
 
