@@ -16,6 +16,7 @@ import org.photonvision.targeting.PhotonTrackedTarget;
 import com.ctre.phoenix6.Utils;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -31,6 +32,9 @@ public class CameraSubsystem extends SubsystemBase {
 
   private final Field2d visionField = new Field2d();
   private final Field2d generalField = new Field2d();
+//These 2 doubles are for deleting outliers when the cameras go funky on us
+  private final double RadiusOfToleranceSquare = .25; //meters
+
   
   // Central Camera
   private final PhotonCamera centralCamera = new PhotonCamera("Middle_Arducam_OV9281");
@@ -131,15 +135,37 @@ public class CameraSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("aVP2d pose2d Rot", pose2d.getRotation().getDegrees());
     SmartDashboard.putNumber("aVP2d timestampSeconds", timestampSeconds);
     // Sets trust value for vision measurements
+    // charizardsSkateboard.setVisionMeasurementStdDevs(curStdDevs);
+    // charizardsSkateboard.addVisionMeasurement(pose2d, timestampSeconds);
     charizardsSkateboard.setVisionMeasurementStdDevs(curStdDevs);
-    charizardsSkateboard.addVisionMeasurement(pose2d, timestampSeconds);
-  }
+
+    double xUpperLimitOfTrustBox = charizardsSkateboard.getState().Pose.getX() + RadiusOfToleranceSquare;
+    double xLowerLimitOfTrustBox = charizardsSkateboard.getState().Pose.getX() - RadiusOfToleranceSquare;
+
+    double yUpperLimitOfTrustBox = charizardsSkateboard.getState().Pose.getY() + RadiusOfToleranceSquare;
+    double yLowerLimitOfTrustBox = charizardsSkateboard.getState().Pose.getY() - RadiusOfToleranceSquare;
+    
+
+  //  SmartDashboard.putNumber("charizardsSkateboard X", charizardsSkateboard.getState().Pose.getX());
+  //  SmartDashboard.putNumber("charizardsSkateboard Y", charizardsSkateboard.getState().Pose.getY());
+  //  SmartDashboard.putNumber("charizardsSkateboard Rot", charizardsSkateboard.getState().Pose.getRotation().getDegrees());
+
+    if (MathUtil.isNear(0, charizardsSkateboard.getState().Speeds.vxMetersPerSecond, 0.1) && MathUtil.isNear(0, charizardsSkateboard.getState().Speeds.vyMetersPerSecond, 0.1)) {
+//are we moving,, if so then add trust box  
+  charizardsSkateboard.addVisionMeasurement(pose2d, timestampSeconds);
+    
+
+   }
+  else if(pose2d.getX() >= xLowerLimitOfTrustBox && pose2d.getX() <= xUpperLimitOfTrustBox && pose2d.getY() >= yLowerLimitOfTrustBox && pose2d.getY() <= yUpperLimitOfTrustBox) {
+    charizardsSkateboard.addVisionMeasurement(pose2d, timestampSeconds);}}
   
   // Returns Pose Values
   public Pose2d getPose2d() { return charizardsSkateboard.getState().Pose; }
   public double getPoseX() { return charizardsSkateboard.getState().Pose.getX(); }
   public double getPoseY() { return charizardsSkateboard.getState().Pose.getY(); }
   public double getPoseRot() { return charizardsSkateboard.getState().Pose.getRotation().getDegrees(); }
+
+
 
   @Override
   public void periodic() {
@@ -238,5 +264,7 @@ public class CameraSubsystem extends SubsystemBase {
     SmartDashboard.putData("VisionField", visionField);
     SmartDashboard.putData("GeneralField", generalField);
     generalField.setRobotPose(charizardsSkateboard.getState().Pose);
+
+    //SmartDashboard.putBoolean("weShmoovin", MathUtil.isNear(0, charizardsSkateboard.getState().Speeds.vxMetersPerSecond, 0.1) && MathUtil.isNear(0, charizardsSkateboard.getState().Speeds.vyMetersPerSecond, 0.1));
   }
 }
