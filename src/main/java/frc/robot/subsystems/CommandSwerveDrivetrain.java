@@ -19,6 +19,7 @@ import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 import com.pathplanner.lib.path.PathConstraints;
 import com.pathplanner.lib.path.PathPlannerPath;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -53,8 +54,8 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     private int player1ReefIndex = 0;
     private int player2ReefIndex = 0;
 
-    private final PIDController pidControllerX = new PIDController(DrivetrainConstants.P_X, DrivetrainConstants.I_X, DrivetrainConstants.D_X);
-    private final PIDController pidControllerY = new PIDController(DrivetrainConstants.P_Y, DrivetrainConstants.I_Y, DrivetrainConstants.D_Y);
+    //private final ProfiledPIDController pidControllerX = new ProfiledPIDController(DrivetrainConstants.P_X, DrivetrainConstants.I_X, DrivetrainConstants.D_X, new Constraints(DrivetrainConstants.PROFILED_PID_MAX_VELOCITY, DrivetrainConstants.PROFILED_PID_MAX_ACCELERATION));
+    //private final ProfiledPIDController pidControllerY = new ProfiledPIDController(DrivetrainConstants.P_X, DrivetrainConstants.I_X, DrivetrainConstants.D_X, new Constraints(DrivetrainConstants.PROFILED_PID_MAX_VELOCITY, DrivetrainConstants.PROFILED_PID_MAX_ACCELERATION));
     private final PIDController pidControllerDeg = new PIDController(DrivetrainConstants.P_DEGREE, 0, DrivetrainConstants.D_DEGREE);
     
     private final PIDController StationpidControllerX = new PIDController(DrivetrainConstants.P_X, DrivetrainConstants.I_X, DrivetrainConstants.D_X);
@@ -324,24 +325,27 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
 
     // return speed for the X Direction to get to desired Pose
     public double PIDDriveToPointX(double DesiredPoseX) {
-        SmartDashboard.putNumber("GOTO PID POSE X", DesiredPoseX);
-        double SpeedsForPose = pidControllerX.calculate(getPose2d().getX(), DesiredPoseX);
-        SpeedsForPose = Math.min(Math.max(SpeedsForPose, -DrivetrainConstants.PID_MAX), DrivetrainConstants.PID_MAX);
+        //pidControllerX.reset(getPose2d().getX());
+        //double SpeedsForPose = pidControllerX.calculate(getPose2d().getX(), DesiredPoseX);
+        double SpeedsForPose = ((DesiredPoseX - getPose2d().getX()) * DrivetrainConstants.FAKE_PID_P) + (DrivetrainConstants.FAKE_PID_FEED_FORWARD * Math.signum(DesiredPoseX - getPose2d().getX()));
         if (isAllianceRed()) {
             return -SpeedsForPose;
         }
         return SpeedsForPose; 
     }
+
     // return speed for the Y Direction to get to desired Pose
     public double PIDDriveToPointY(double DesiredPoseY) {
-        SmartDashboard.putNumber("GOTO PID POSE Y", DesiredPoseY);
-        double SpeedsForPose = pidControllerY.calculate(getPose2d().getY(), DesiredPoseY);
-        SpeedsForPose = Math.min(Math.max(SpeedsForPose, -DrivetrainConstants.PID_MAX), DrivetrainConstants.PID_MAX);
+        //pidControllerY.reset(getPose2d().getY());
+        //double SpeedsForPose = pidControllerY.calculate(getPose2d().getY(), DesiredPoseY);
+        double SpeedsForPose = ((DesiredPoseY - getPose2d().getY()) * DrivetrainConstants.FAKE_PID_P) + (DrivetrainConstants.FAKE_PID_FEED_FORWARD * Math.signum(DesiredPoseY - getPose2d().getY()));
+        //SpeedsForPose = MathUtil.clamp(SpeedsForPose, -DrivetrainConstants.FAKE_PID_MAX_SPEED, DrivetrainConstants.FAKE_PID_MAX_SPEED);
         if (isAllianceRed()) {
             return -SpeedsForPose;
         }
         return SpeedsForPose;
     }
+
     // return angular speed to rotate to desired Degrees
     public double PIDDriveToPointDEG(double DesiredPoseDeg) {
         SmartDashboard.putNumber("GOTO PID POSE DEG", DesiredPoseDeg);
@@ -457,10 +461,10 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     }
 
     public boolean isPoseCloseEnoughToSetpointBlue() {
-        if (getPose2d().getX() < PoseConstants.BLUE_REEF_POSES[player1ReefIndex].getX()+Constants.DrivetrainConstants.MarginOfErrorXY 
-            && getPose2d().getX() > PoseConstants.BLUE_REEF_POSES[player1ReefIndex].getX()-Constants.DrivetrainConstants.MarginOfErrorXY 
-            && getPose2d().getY() < PoseConstants.BLUE_REEF_POSES[player1ReefIndex].getY()+Constants.DrivetrainConstants.MarginOfErrorXY 
-            && getPose2d().getY() > PoseConstants.BLUE_REEF_POSES[player1ReefIndex].getY()-Constants.DrivetrainConstants.MarginOfErrorXY 
+        if (getPose2d().getX() < PoseConstants.BLUE_REEF_POSES[player1ReefIndex].getX()+Constants.ErrorConstants.DriveTrainScoreError
+            && getPose2d().getX() > PoseConstants.BLUE_REEF_POSES[player1ReefIndex].getX()-Constants.ErrorConstants.DriveTrainScoreError
+            && getPose2d().getY() < PoseConstants.BLUE_REEF_POSES[player1ReefIndex].getY()+Constants.ErrorConstants.DriveTrainScoreError
+            && getPose2d().getY() > PoseConstants.BLUE_REEF_POSES[player1ReefIndex].getY()-Constants.ErrorConstants.DriveTrainScoreError
             && getPose2d().getRotation().getDegrees() < PoseConstants.BLUE_REEF_POSES[player1ReefIndex].getRotation().getDegrees()+Constants.DrivetrainConstants.MarginOfErrorDeg 
             && getPose2d().getRotation().getDegrees() > PoseConstants.BLUE_REEF_POSES[player1ReefIndex].getRotation().getDegrees()-Constants.DrivetrainConstants.MarginOfErrorDeg)
             {
@@ -473,10 +477,10 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     }
 
     public boolean isPoseCloseEnoughToSetpointRed() {
-        if (getPose2d().getX() < PoseConstants.RED_REEF_POSES[player1ReefIndex].getX()+Constants.DrivetrainConstants.MarginOfErrorXY
-            && getPose2d().getX() > PoseConstants.RED_REEF_POSES[player1ReefIndex].getX()-Constants.DrivetrainConstants.MarginOfErrorXY
-            && getPose2d().getY() < PoseConstants.RED_REEF_POSES[player1ReefIndex].getY()+Constants.DrivetrainConstants.MarginOfErrorXY 
-            && getPose2d().getY() >PoseConstants.RED_REEF_POSES[player1ReefIndex].getY()-Constants.DrivetrainConstants.MarginOfErrorXY 
+        if (getPose2d().getX() < PoseConstants.RED_REEF_POSES[player1ReefIndex].getX()+Constants.ErrorConstants.DriveTrainScoreError
+            && getPose2d().getX() > PoseConstants.RED_REEF_POSES[player1ReefIndex].getX()-Constants.ErrorConstants.DriveTrainScoreError
+            && getPose2d().getY() < PoseConstants.RED_REEF_POSES[player1ReefIndex].getY()+Constants.ErrorConstants.DriveTrainScoreError
+            && getPose2d().getY() >PoseConstants.RED_REEF_POSES[player1ReefIndex].getY()-Constants.ErrorConstants.DriveTrainScoreError
             && getPose2d().getRotation().getDegrees() < PoseConstants.RED_REEF_POSES[player1ReefIndex].getRotation().getDegrees()+Constants.DrivetrainConstants.MarginOfErrorDeg 
             && getPose2d().getRotation().getDegrees() > PoseConstants.RED_REEF_POSES[player1ReefIndex].getRotation().getDegrees()-Constants.DrivetrainConstants.MarginOfErrorDeg)
             {

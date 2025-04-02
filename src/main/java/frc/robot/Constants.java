@@ -22,21 +22,28 @@ public final class Constants {
     public static final double SlowMoSpeed = 0.4;
 
     // PID  Drive to pose Constants
-    public static final double P_X = 2.85; //2.95
-    public static final double P_Y = 2.85; //2.95
+    public static final double P_X = 2; //2.95
+    public static final double P_Y = 2; //2.95
     public static final double I_X = 0;
     public static final double I_Y = 0;
     public static final double D_X = 0.027;
     public static final double D_Y = 0.027;
-    public static final double P_DEGREE = 0.125; //0.1
+    public static final double P_DEGREE = 0.115; //0.125
     public static final double D_DEGREE = 0;
     public static final double PID_RAD = 4.2145;
 
-    public static final double PID_MAX = 0.10; //0.15
+    //public static final double FAKE_PID_MAX_SPEED = 0.30; //0.1
     public static final double STATION_PID_MAX = 0.25;
 
+    public static final double FAKE_PID_P = 0.50; //0.40
+    public static final double FAKE_PID_FEED_FORWARD = 0.026; //0.0255
+
+    //public static final double PROFILED_PID_MAX_VELOCITY = 0.25;
+    //public static final double PROFILED_PID_MAX_ACCELERATION = 0.25;
+
+
     //Margin of Error for Scoring
-    public static final double MarginOfErrorXY = Units.inchesToMeters(1); // 2 inch
+    //public static final double MarginOfErrorXY = Units.inchesToMeters(1); // 2 inch
     public static final double MarginOfErrorDeg = 2.5; //5 degree error : Its doubled cuz math
 
     public static final double ESCAPE_SPEED = -0.5;
@@ -91,7 +98,7 @@ public final class Constants {
     // public static final double PIDL2 = 0;
     // public static final double PIDL3 = 0;
     // public static final double PIDL4 = 0;
-    public static final double ElaphantP = 1; //0.015
+    public static final double ElaphantP = 2; //1
     public static final double ElaphantI = 0;
     public static final double ElaphantD = 0.00;//0.001
 
@@ -156,7 +163,7 @@ public final class Constants {
   
   //Coral Scoring Constants 
   public static class ErrorConstants {
-    public static final double ElevatorError = 1; //.75
+    public static final double ElevatorError = 1; //the elevator is around +- 0.1
     public static final double DriveTrainElevatorUpError = Units.inchesToMeters(24);
     public static final double DriveTrainScoreError = Units.inchesToMeters(1.2);//1
     public static final double DriveTrainDegreesError = 8;

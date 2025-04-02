@@ -143,7 +143,7 @@ public class ScoreCoral extends Command {
   @Override
   public void end(boolean interrupted) {
     theElephant.elevatorToLevel(Constants.elevatorConstants.HomePosition);
-    //theAlgae.MoveArmToPointMethod(AlgaeConstants.HomePosition);
+    theAlgae.MoveArmToPointMethod(AlgaeConstants.HomePosition);
   }
 
   // Returns true when the sensor is untriggered and the elevator is up

@@ -56,8 +56,8 @@ public class ElevatorSubsystem extends SubsystemBase{
       slot0Congfigs.GravityType = GravityTypeValue.Elevator_Static;
       // set Motion Magic settings
       MotionMagicConfigs motionMagicConfigs = config.MotionMagic;
-      motionMagicConfigs.MotionMagicCruiseVelocity = 125; // Target cruise velocity of 80 rps 
-      motionMagicConfigs.MotionMagicAcceleration = 200; // Target acceleration of 160 rps/s (0.5 seconds)
+      motionMagicConfigs.MotionMagicCruiseVelocity = 250; // Target cruise velocity of 80 rps  125
+      motionMagicConfigs.MotionMagicAcceleration = 400; // Target acceleration of 160 rps/s (0.5 seconds) 200
       //motionMagicConfigs.MotionMagicJerk = 800; // Target jerk of 1600 rps/s/s (0.1 seconds)
 
       config.MotorOutput.NeutralMode = NeutralModeValue.Brake;

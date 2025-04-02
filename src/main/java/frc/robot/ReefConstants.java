@@ -17,8 +17,8 @@ public class ReefConstants {
   public static final Pose2d CENTER_OF_THE_FIELD = new Pose2d(8.775, 4.025, new Rotation2d(0));
 
   // CONSTANTS YOU CAN EDIT
-  private static double centerDistanceOffset = 1;
-  private static double playingDistanceOffset = 0.43; //0.52
+  private static double centerDistanceOffset = 1; //1.3 testing
+  private static double playingDistanceOffset = 0.43; //0.7 testing
   private static double kLeftOffset = -0.02; // more negative = closer to right side .0185
   private static double kRightOffset = 0.3912; //DO NOT CHANGE.3412
 

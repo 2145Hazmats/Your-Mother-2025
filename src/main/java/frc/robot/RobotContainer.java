@@ -381,7 +381,7 @@ public class RobotContainer {
                 //     Commands.run(() -> m_drivetrain.applyRequest(() -> driveCentric.withVelocityX(DrivetrainConstants.ESCAPE_SPEED).withVelocityY(0).withRotationalRate(0))
                 // )).withTimeout(DrivetrainConstants.ESCAPE_TIME).until(m_AlgaeSubsystem::isAlgaeAtHome)) //this instantly ends the backing up
                     
-                .andThen( m_drivetrain.pathFindToRightRedCoralStation().andThen(
+                .andThen(m_drivetrain.pathFindToRightRedCoralStation().andThen(
                         m_drivetrain.applyRequest(() ->
                             drive.withVelocityX(m_drivetrain.PIDDriveToPointX(PoseConstants.CORAL_STATION_RIGHT_RED_POSE.getX()) * MaxSpeed)
                             .withVelocityY(m_drivetrain.PIDDriveToPointY(PoseConstants.CORAL_STATION_RIGHT_RED_POSE.getY()) * MaxSpeed)

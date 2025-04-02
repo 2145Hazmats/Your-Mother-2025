@@ -33,7 +33,7 @@ public class CameraSubsystem extends SubsystemBase {
   private final Field2d visionField = new Field2d();
   private final Field2d generalField = new Field2d();
 //These 2 doubles are for deleting outliers when the cameras go funky on us
-  private final double RadiusOfToleranceSquare = .25; //meters
+  private final double RadiusOfToleranceSquare = 0.5; //meters
 
   
   // Central Camera
