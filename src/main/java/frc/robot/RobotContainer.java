@@ -175,14 +175,14 @@ public class RobotContainer {
 
 
     private void configureBindings() {
-        // Default Commands :)
-        m_ElevatorSubsystem.setDefaultCommand(Commands.either(m_ElevatorSubsystem.defaultCommand(),Commands.run(()-> m_ElevatorSubsystem.elevatorJoystick(P2controller.getLeftY()), m_ElevatorSubsystem) , m_indexing::isP2ManualModeFalse)); //NEEDS TESTING
-        //m_ElevatorSubsystem.setDefaultCommand(Commands.either(m_ElevatorSubsystem.elevatorToL1(),m_ElevatorSubsystem.defaultCommand() , m_indexing::isP2ManualModeFalse));
+          // Default Commands :)
+        //m_ElevatorSubsystem.setDefaultCommand(Commands.either(m_ElevatorSubsystem.defaultCommand(),Commands.run(()-> m_ElevatorSubsystem.elevatorJoystick(P2controller.getLeftY()), m_ElevatorSubsystem) , m_indexing::isP2ManualModeFalse)); //NEEDS TESTING
+          //m_ElevatorSubsystem.setDefaultCommand(Commands.either(m_ElevatorSubsystem.elevatorToL1(),m_ElevatorSubsystem.defaultCommand() , m_indexing::isP2ManualModeFalse));
         m_ShooterBoxx.setDefaultCommand(Commands.either(m_ShooterBoxx.IntakeSolosDefaultCommand(), Commands.run(() -> m_ShooterBoxx.StopShooterMethod(), m_ShooterBoxx), m_indexing::isP2ManualModeFalse));
         m_ClimbSubsystemNeo.setDefaultCommand(m_ClimbSubsystemNeo.KeepClimbSafeDefaultCommand());
-        //m_AlgaeSubsystem.setDefaultCommand(Commands.run(() -> m_AlgaeSubsystem.algaeJoystick(P2controller.getRightY()), m_AlgaeSubsystem));//(MathUtil.applyDeadband(P4controller.getRightY(), 0.1)), MathUtil.applyDeadband(P4controller.getLeftY(), 0.1)));
-        m_AlgaeSubsystem.setDefaultCommand(m_AlgaeSubsystem.AlgaeDefaultCommand());
-        m_indexing.setDefaultCommand(m_indexing.SettingReefIndexBasedOnController(P2controller::getRightX, P2controller::getRightY));
+         //m_AlgaeSubsystem.setDefaultCommand(Commands.run(() -> m_AlgaeSubsystem.algaeJoystick(P2controller.getRightY()), m_AlgaeSubsystem));//(MathUtil.applyDeadband(P4controller.getRightY(), 0.1)), MathUtil.applyDeadband(P4controller.getLeftY(), 0.1)));
+        //m_AlgaeSubsystem.setDefaultCommand(m_AlgaeSubsystem.AlgaeDefaultCommand());
+          m_indexing.setDefaultCommand(m_indexing.SettingReefIndexBasedOnController(P2controller::getRightX, P2controller::getRightY));
         //m_ShooterBoxx.setDefaultCommand(Commands.run(() -> m_ShooterBoxx.RunShooter(P2controller.getRightX())));
         m_drivetrain.registerTelemetry(logger::telemeterize);
 
@@ -635,7 +635,31 @@ public class RobotContainer {
         //----------------------------------------------------------P4 Controls-------------------------------------------------------
     
         //Algae Controls
-        // P4controller.x().whileTrue(m_AlgaeSubsystem.MoveArmToPointCommand(AlgaeConstants.HomePosition));
+        P4controller.x().whileTrue( //intake off ground
+            Commands.deadline(
+                Commands.startEnd(() -> m_AlgaeSubsystem.MoveArmToPointMethodWithSpinner(AlgaeConstants.FloorPosition, AlgaeConstants.intakeSpeed),()-> m_AlgaeSubsystem.stopSpinner(), m_AlgaeSubsystem).until(m_AlgaeSubsystem::AlgaeSensorTriggered),
+                Commands.run(() -> m_ElevatorSubsystem.elevatorToPosition(Constants.elevatorConstants.GROUND_INTAKE_HEIGHT), m_ElevatorSubsystem)
+            ) );
+
+        P4controller.a().whileTrue( //score L1
+        Commands.run(() -> m_ElevatorSubsystem.elevatorToPosition(Constants.elevatorConstants.L1GROUND_INTAKE_HEIGHT), m_ElevatorSubsystem).withTimeout(1)
+                
+                .andThen(Commands.startEnd(() -> m_AlgaeSubsystem.MoveArmToPointMethodWithSpinner(AlgaeConstants.ScoreL1Position, AlgaeConstants.outtakeSpeed),()-> m_AlgaeSubsystem.stopSpinner(), m_AlgaeSubsystem))
+                   );
+
+            // P4controller.x().whileTrue( //manuel intake off ground
+            
+            //     Commands.run(() -> m_AlgaeSubsystem.MoveArmToPointMethodWithSpinner(AlgaeConstants.FloorPosition, AlgaeConstants.intakeSpeed), m_AlgaeSubsystem)  );//.until(m_AlgaeSubsystem::AlgaeSensorTriggered));
+        P4controller.b().whileTrue(m_AlgaeSubsystem.SpitCoralOnDirtyFloor());
+        P4controller.y().whileTrue(m_AlgaeSubsystem.SuckCoralOffDirtyFloor());
+
+        P4controller.povDown().whileTrue(Commands.run(() -> m_AlgaeSubsystem.algaeJoystick(P4controller.getRightY()), m_AlgaeSubsystem).alongWith(Commands.run(()-> m_ElevatorSubsystem.elevatorJoystick(P4controller.getLeftY()), m_ElevatorSubsystem)));
+        P4controller.povUp().whileTrue(m_AlgaeSubsystem.AlgaeDefaultCommand());
+        //m_AlgaeSubsystem.setDefaultCommand(Commands.run(() -> m_AlgaeSubsystem.algaeJoystick(P2controller.getRightY()), m_AlgaeSubsystem));//(MathUtil.applyDeadband(P4controller.getRightY(), 0.1)), MathUtil.applyDeadband(P4controller.getLeftY(), 0.1)));
+        //m_AlgaeSubsystem.setDefaultCommand(m_AlgaeSubsystem.AlgaeDefaultCommand());
+        
+            
+
         // P4controller.a().whileTrue(m_AlgaeSubsystem.MoveArmToPointCommand(AlgaeConstants.FloorPosition));
         // P4controller.b().whileTrue(m_AlgaeSubsystem.MoveArmToPointCommand(AlgaeConstants.GrabPosition));
         // P4controller.y().whileTrue(m_AlgaeSubsystem.MoveArmToPointCommand(AlgaeConstants.NetPosition));
@@ -653,13 +677,15 @@ public class RobotContainer {
 
         //P4controller.povDown().whileTrue(Commands.run(() -> m_AlgaeSubsystem.algaeJoystick(P4controller.getRightY()), m_AlgaeSubsystem));
 
-        P4controller.a().onTrue(Commands.runOnce(() -> m_drivetrain.startLogging()));
-        P4controller.y().onTrue(Commands.runOnce(() -> m_drivetrain.stopLogging()));
+        //---------------------------__FEED FORWARD STUFF------------------------
 
-        P4controller.povUp().whileTrue(m_drivetrain.sysIdDynamic(Direction.kForward));
-        P4controller.povDown().whileTrue(m_drivetrain.sysIdDynamic(Direction.kReverse));
-        P4controller.povRight().whileTrue(m_drivetrain.sysIdQuasistatic(Direction.kForward));
-        P4controller.povLeft().whileTrue(m_drivetrain.sysIdQuasistatic(Direction.kReverse));
+        // P4controller.a().onTrue(Commands.runOnce(() -> m_drivetrain.startLogging()));
+        // P4controller.y().onTrue(Commands.runOnce(() -> m_drivetrain.stopLogging()));
+
+        // P4controller.povUp().whileTrue(m_drivetrain.sysIdDynamic(Direction.kForward));
+        // P4controller.povDown().whileTrue(m_drivetrain.sysIdDynamic(Direction.kReverse));
+        // P4controller.povRight().whileTrue(m_drivetrain.sysIdQuasistatic(Direction.kForward));
+        // P4controller.povLeft().whileTrue(m_drivetrain.sysIdQuasistatic(Direction.kReverse));
         
     //------------------------------------------P1 CONTROLS OFFICIAL FOR TROY-------------------------------------------
     
