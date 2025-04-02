@@ -77,6 +77,10 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         pidFaceRad.enableContinuousInput(-Math.PI, Math.PI);
     }
 
+    public void startLogging() {
+        SignalLogger.start();
+    }
+
     public void stopLogging() {
         SignalLogger.stop();
     }
@@ -669,30 +673,16 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         )
     );
 
-    /**
-     * Runs the SysId Quasistatic test in the given direction for the routine
-     * specified by {@link #m_sysIdRoutineToApply}.
-     *
-     * @param direction Direction of the SysId Quasistatic test
-     * @return Command to run
-     */
     public Command sysIdQuasistatic(SysIdRoutine.Direction direction) {
         return m_sysIdRoutineToApply.quasistatic(direction);
     }
 
-    /**
-     * Runs the SysId Dynamic test in the given direction for the routine
-     * specified by {@link #m_sysIdRoutineToApply}.
-     *
-     * @param direction Direction of the SysId Dynamic test
-     * @return Command to run
-     */
     public Command sysIdDynamic(SysIdRoutine.Direction direction) {
         return m_sysIdRoutineToApply.dynamic(direction);
     }
 
     /* The SysId routine to test */
-    private SysIdRoutine m_sysIdRoutineToApply = m_sysIdRoutineSteer;
+    private SysIdRoutine m_sysIdRoutineToApply = m_sysIdRoutineTranslation;
 
     /* =============== SIMULATION METHODS =============== */
     /* =============== SIMULATION METHODS =============== */

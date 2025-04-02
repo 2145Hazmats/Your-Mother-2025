@@ -181,7 +181,7 @@ public class CameraSubsystem extends SubsystemBase {
     try {
       // Only accepts camera results if they see more than 1 april tag, or if it sees 1 april tag and the poseAmbiguity is low
       // COMMENT OUT THE LINE BELOW THIS AND IT'S CLOSING BRACKETS IF THIS DOESN'T WORK
-      if ((centralResult.getTargets().size() == 1 && centralResult.getBestTarget().poseAmbiguity < 0.5) || centralResult.getTargets().size() > 1) {
+      if ((centralResult.getTargets().size() == 1 && centralResult.getBestTarget().poseAmbiguity < PhotonVisionConstants.AMBIGUITY_RATIO_CUTOFF) || centralResult.getTargets().size() > 1) {
         centralEstimatedRobotPose = centralPoseEstimator.update(centralResult).get();
         updateEstimationStdDevs(centralPoseEstimator.update(centralResult), centralCamera.getAllUnreadResults().get(0).getTargets());
         addVisionPose2d(centralEstimatedRobotPose.estimatedPose.toPose2d(), Utils.getCurrentTimeSeconds());
@@ -201,7 +201,7 @@ public class CameraSubsystem extends SubsystemBase {
     try {
       // Only accepts camera results if they see more than 1 april tag, or if it sees 1 april tag and the poseAmbiguity is low
       // COMMENT OUT THE LINE BELOW THIS AND IT'S CLOSING BRACKETS IF THIS DOESN'T WORK
-      if ((leftResult.getTargets().size() == 1 && leftResult.getBestTarget().poseAmbiguity < 0.5) || leftResult.getTargets().size() > 1) {
+      if ((leftResult.getTargets().size() == 1 && leftResult.getBestTarget().poseAmbiguity < PhotonVisionConstants.AMBIGUITY_RATIO_CUTOFF) || leftResult.getTargets().size() > 1) {
         leftEstimatedRobotPose = leftPoseEstimator.update(leftResult).get();
         updateEstimationStdDevs(leftPoseEstimator.update(leftResult), leftCamera.getAllUnreadResults().get(0).getTargets());
         addVisionPose2d(leftEstimatedRobotPose.estimatedPose.toPose2d(), Utils.getCurrentTimeSeconds());
@@ -218,7 +218,7 @@ public class CameraSubsystem extends SubsystemBase {
     }
 
     try {
-      if ((backRightResult.getTargets().size() == 1 && backRightResult.getBestTarget().poseAmbiguity < 0.5) || backRightResult.getTargets().size() > 1) {
+      if ((backRightResult.getTargets().size() == 1 && backRightResult.getBestTarget().poseAmbiguity < PhotonVisionConstants.AMBIGUITY_RATIO_CUTOFF) || backRightResult.getTargets().size() > 1) {
         backRightEstimatedRobotPose = backRightPoseEstimator.update(backRightResult).get();
         updateEstimationStdDevs(backRightPoseEstimator.update(backRightResult), backRightCamera.getAllUnreadResults().get(0).getTargets());
         addVisionPose2d(backRightEstimatedRobotPose.estimatedPose.toPose2d(), Utils.getCurrentTimeSeconds());
@@ -235,7 +235,7 @@ public class CameraSubsystem extends SubsystemBase {
     }
 
     try {
-      if ((backLeftResult.getTargets().size() == 1 && backLeftResult.getBestTarget().poseAmbiguity < 0.5) || backLeftResult.getTargets().size() > 1) {
+      if ((backLeftResult.getTargets().size() == 1 && backLeftResult.getBestTarget().poseAmbiguity < PhotonVisionConstants.AMBIGUITY_RATIO_CUTOFF) || backLeftResult.getTargets().size() > 1) {
         backLeftEstimatedRobotPose = backLeftPoseEstimator.update(backLeftResult).get();
         updateEstimationStdDevs(backLeftPoseEstimator.update(backLeftResult), backLeftCamera.getAllUnreadResults().get(0).getTargets());
         addVisionPose2d(backLeftEstimatedRobotPose.estimatedPose.toPose2d(), Utils.getCurrentTimeSeconds());

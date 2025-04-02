@@ -76,6 +76,8 @@ public final class Constants {
         
     public static final Transform3d ROBOT_TO_BACK_RIGHT_CAMERA =
         new Transform3d(Units.inchesToMeters(-12.85706), Units.inchesToMeters(-7.99237), 0, new Rotation3d(0, Units.degreesToRadians(-30), Units.degreesToRadians(210)));
+
+    public static final double AMBIGUITY_RATIO_CUTOFF = 0.2;
   }
     
   // Elevator Constants

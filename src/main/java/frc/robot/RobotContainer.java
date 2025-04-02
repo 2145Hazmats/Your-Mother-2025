@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.Constants.AlgaeConstants;
 import frc.robot.Constants.DrivetrainConstants;
 import frc.robot.Constants.shooterBoxxContants;
@@ -75,7 +76,6 @@ public class RobotContainer {
     
     private final XboxController P5controller = new XboxController(4);
     private final XboxController P6controller = new XboxController(5);
-
 
     // We need to initialize an object of the camera subsystem, we don't have to use it
     private final CommandSwerveDrivetrain m_drivetrain = TunerConstants.createDrivetrain();
@@ -469,84 +469,10 @@ public class RobotContainer {
             .until(m_AlgaeSubsystem::isAlgaeAtHome)
             ))
         ));
-
-        // // REEF SCORE RED
-        // P1controller.leftTrigger().and(m_drivetrain::isAllianceRed).whileTrue(m_drivetrain.pathFindToAllTheReefsRed().andThen(
-        //     Commands.deadline(
-        //         new ScoreCoral(m_drivetrain, m_ElevatorSubsystem, m_ShooterBoxx),
-        //         m_drivetrain.applyRequest(() ->
-        //             drive.withVelocityX(m_drivetrain.PIDDriveToPointX(PoseConstants.RED_REEF_POSES[m_drivetrain.getPlayer1ReefIndex()].getX()) * MaxSpeed)
-        //             .withVelocityY(m_drivetrain.PIDDriveToPointY(PoseConstants.RED_REEF_POSES[m_drivetrain.getPlayer1ReefIndex()].getY()) * MaxSpeed)
-        //             .withRotationalRate(m_drivetrain.PIDDriveToPointDEG(PoseConstants.RED_REEF_POSES[m_drivetrain.getPlayer1ReefIndex()].getRotation().getDegrees()))
-        //         )
-        //     )
-        // ));
-
-        // P1controller.leftTrigger().whileTrue(Commands.startEnd(() -> m_indexing.pathFindingInProgress = true, () -> {m_indexing.pathFindingInProgress = false; m_indexing.updateP1Index();}));
-
-        //  P3controller.leftTrigger().whileTrue(Commands.repeatingSequence(
-            
-        //     Commands.either((m_drivetrain.pathFindToAllTheReefsBlue().andThen(//.onlyIf(() -> m_ShooterBoxx.getEitherSensor()).andThen(
-        //     Commands.deadline(
-        //         new ScoreCoral(m_drivetrain, m_ElevatorSubsystem, m_ShooterBoxx),
-        //         m_drivetrain.applyRequest(() ->
-        //             drive.withVelocityX(m_drivetrain.PIDDriveToPointX(PoseConstants.BLUE_REEF_POSES[m_drivetrain.getPlayer1ReefIndex()].getX()) * MaxSpeed)
-        //             .withVelocityY(m_drivetrain.PIDDriveToPointY(PoseConstants.BLUE_REEF_POSES[m_drivetrain.getPlayer1ReefIndex()].getY()) * MaxSpeed)
-        //             .withRotationalRate(m_drivetrain.PIDDriveToPointDEG(PoseConstants.BLUE_REEF_POSES[m_drivetrain.getPlayer1ReefIndex()].getRotation().getDegrees()))
-        //         )
-        //     )
-        // )), m_drivetrain.pathFindToAllTheReefsRed().andThen(
-        //     Commands.deadline(
-        //         new ScoreCoral(m_drivetrain, m_ElevatorSubsystem, m_ShooterBoxx),
-        //         m_drivetrain.applyRequest(() ->
-        //             drive.withVelocityX(m_drivetrain.PIDDriveToPointX(PoseConstants.RED_REEF_POSES[m_drivetrain.getPlayer1ReefIndex()].getX()) * MaxSpeed)
-        //             .withVelocityY(m_drivetrain.PIDDriveToPointY(PoseConstants.RED_REEF_POSES[m_drivetrain.getPlayer1ReefIndex()].getY()) * MaxSpeed)
-        //             .withRotationalRate(m_drivetrain.PIDDriveToPointDEG(PoseConstants.RED_REEF_POSES[m_drivetrain.getPlayer1ReefIndex()].getRotation().getDegrees()))
-        //         )
-        //     )
-        // ), () -> m_drivetrain.isAllianceBlue()))
-
-        // // .andThen(Commands.either(Commands.either(m_drivetrain.pathFindToLeftBlueCoralStation(),  m_drivetrain.pathFindToRightBlueCoralStation(), () -> stationChooser.getSelected()),
-        // //  Commands.either( m_drivetrain.pathFindToLeftRedCoralStation(),  m_drivetrain.pathFindToRightRedCoralStation(), () -> stationChooser.getSelected()), 
-        //  m_drivetrain::isAllianceBlue)
-        //  )
-         
-        //  .andThen(Commands.either(Commands.either(Commands.parallel(
-        //     m_drivetrain.applyRequest(() ->
-        //         drive.withVelocityX(m_drivetrain.PIDDriveToPointX(PoseConstants.CORAL_STATION_LEFT_BLUE_POSE.getX()) * MaxSpeed)
-        //         .withVelocityY(m_drivetrain.PIDDriveToPointY(PoseConstants.CORAL_STATION_LEFT_BLUE_POSE.getY()) * MaxSpeed)
-        //         .withRotationalRate(m_drivetrain.PIDDriveToPointDEG(PoseConstants.CORAL_STATION_LEFT_BLUE_POSE.getRotation().getDegrees()))
-        //      )
-            
-        // ),  Commands.parallel(
-        //     m_drivetrain.applyRequest(() ->
-        //         drive.withVelocityX(m_drivetrain.PIDDriveToPointX(PoseConstants.CORAL_STATION_RIGHT_BLUE_POSE.getX()) * MaxSpeed)
-        //         .withVelocityY(m_drivetrain.PIDDriveToPointY(PoseConstants.CORAL_STATION_RIGHT_BLUE_POSE.getY()) * MaxSpeed)
-        //         .withRotationalRate(m_drivetrain.PIDDriveToPointDEG(PoseConstants.CORAL_STATION_RIGHT_BLUE_POSE.getRotation().getDegrees()))
-        //      )
-             
-        // ), () -> stationChooser.getSelected()),
-        //  Commands.either(  Commands.parallel(
-        //     m_drivetrain.applyRequest(() ->
-        //         drive.withVelocityX(m_drivetrain.PIDDriveToPointX(PoseConstants.CORAL_STATION_LEFT_RED_POSE.getX()) * MaxSpeed)
-        //         .withVelocityY(m_drivetrain.PIDDriveToPointY(PoseConstants.CORAL_STATION_LEFT_RED_POSE.getY()) * MaxSpeed)
-        //         .withRotationalRate(m_drivetrain.PIDDriveToPointDEG(PoseConstants.CORAL_STATION_LEFT_RED_POSE.getRotation().getDegrees()))
-        //      )
-            
-        // ),  Commands.parallel(
-        //     m_drivetrain.applyRequest(() ->
-        //         drive.withVelocityX(m_drivetrain.PIDDriveToPointX(PoseConstants.CORAL_STATION_RIGHT_RED_POSE.getX()) * MaxSpeed)
-        //         .withVelocityY(m_drivetrain.PIDDriveToPointY(PoseConstants.CORAL_STATION_RIGHT_RED_POSE.getY()) * MaxSpeed)
-        //         .withRotationalRate(m_drivetrain.PIDDriveToPointDEG(PoseConstants.CORAL_STATION_RIGHT_RED_POSE.getRotation().getDegrees()))
-        //      )
              
         // ), () -> stationChooser.getSelected()), 
         //  m_drivetrain::isAllianceBlue)
         //  )
-         
-         
-         
-         
          
          
          //);
@@ -654,11 +580,8 @@ public class RobotContainer {
 
          P2controller.povUp().whileTrue(Commands.either(Commands.run(() ->  m_indexing.elevatorIndexChooser(4)),
          m_ElevatorSubsystem.elevatorToL4(), m_indexing::isP2ManualModeFalse));
-
-
-                
+    
         // Reef Index
-
         P2controller.leftBumper().onTrue(Commands.runOnce(() -> m_indexing.poseIndexSwitch(false)));
         P2controller.rightBumper().onTrue(Commands.runOnce(() -> m_indexing.poseIndexSwitch(true)));
 
@@ -712,25 +635,31 @@ public class RobotContainer {
         //----------------------------------------------------------P4 Controls-------------------------------------------------------
     
         //Algae Controls
-    
+        // P4controller.x().whileTrue(m_AlgaeSubsystem.MoveArmToPointCommand(AlgaeConstants.HomePosition));
+        // P4controller.a().whileTrue(m_AlgaeSubsystem.MoveArmToPointCommand(AlgaeConstants.FloorPosition));
+        // P4controller.b().whileTrue(m_AlgaeSubsystem.MoveArmToPointCommand(AlgaeConstants.GrabPosition));
+        // P4controller.y().whileTrue(m_AlgaeSubsystem.MoveArmToPointCommand(AlgaeConstants.NetPosition));
 
-        P4controller.x().whileTrue(m_AlgaeSubsystem.MoveArmToPointCommand(AlgaeConstants.HomePosition));
-        P4controller.a().whileTrue(m_AlgaeSubsystem.MoveArmToPointCommand(AlgaeConstants.FloorPosition));
-        P4controller.b().whileTrue(m_AlgaeSubsystem.MoveArmToPointCommand(AlgaeConstants.GrabPosition));
-        //P4controller.y().whileTrue(m_AlgaeSubsystem.MoveArmToPointCommand(AlgaeConstants.NetPosition));
+        // P4controller.y().whileTrue(Commands.deadline(
+        //     new AlgaeOff(m_drivetrain, m_ElevatorSubsystem, m_ShooterBoxx, m_AlgaeSubsystem),
+        //     m_drivetrain.applyRequest(() ->
+        //         drive.withVelocityX(m_drivetrain.PIDDriveToPointX(PoseConstants.BLUE_REEF_POSES[m_drivetrain.getPlayer1ReefIndex()].getX()) * MaxSpeed)
+        //         .withVelocityY(m_drivetrain.PIDDriveToPointY(PoseConstants.BLUE_REEF_POSES[m_drivetrain.getPlayer1ReefIndex()].getY()) * MaxSpeed)
+        //         .withRotationalRate(m_drivetrain.PIDDriveToPointDEG(PoseConstants.BLUE_REEF_POSES[m_drivetrain.getPlayer1ReefIndex()].getRotation().getDegrees()))
+        //     )
+        // ));
 
-        P4controller.y().whileTrue(Commands.deadline(
-            new AlgaeOff(m_drivetrain, m_ElevatorSubsystem, m_ShooterBoxx, m_AlgaeSubsystem),
-            m_drivetrain.applyRequest(() ->
-                drive.withVelocityX(m_drivetrain.PIDDriveToPointX(PoseConstants.BLUE_REEF_POSES[m_drivetrain.getPlayer1ReefIndex()].getX()) * MaxSpeed)
-                .withVelocityY(m_drivetrain.PIDDriveToPointY(PoseConstants.BLUE_REEF_POSES[m_drivetrain.getPlayer1ReefIndex()].getY()) * MaxSpeed)
-                .withRotationalRate(m_drivetrain.PIDDriveToPointDEG(PoseConstants.BLUE_REEF_POSES[m_drivetrain.getPlayer1ReefIndex()].getRotation().getDegrees()))
-            )));
+        //P4controller.back().whileTrue(m_AlgaeSubsystem.resetAlgaePosition());
 
+        //P4controller.povDown().whileTrue(Commands.run(() -> m_AlgaeSubsystem.algaeJoystick(P4controller.getRightY()), m_AlgaeSubsystem));
 
-        P4controller.back().whileTrue(m_AlgaeSubsystem.resetAlgaePosition());
+        P4controller.a().onTrue(Commands.runOnce(() -> m_drivetrain.startLogging()));
+        P4controller.y().onTrue(Commands.runOnce(() -> m_drivetrain.stopLogging()));
 
-        P4controller.povDown().whileTrue(Commands.run(() -> m_AlgaeSubsystem.algaeJoystick(P4controller.getRightY()), m_AlgaeSubsystem));
+        P4controller.povUp().whileTrue(m_drivetrain.sysIdDynamic(Direction.kForward));
+        P4controller.povDown().whileTrue(m_drivetrain.sysIdDynamic(Direction.kReverse));
+        P4controller.povRight().whileTrue(m_drivetrain.sysIdQuasistatic(Direction.kForward));
+        P4controller.povLeft().whileTrue(m_drivetrain.sysIdQuasistatic(Direction.kReverse));
         
     //------------------------------------------P1 CONTROLS OFFICIAL FOR TROY-------------------------------------------
     
@@ -902,6 +831,7 @@ public class RobotContainer {
         // Send values to P1
 
         // P2controller.a().whileTrue(Commands.runOnce(() -> m_indexing.updateP1Index()));
+
 
     }
 
