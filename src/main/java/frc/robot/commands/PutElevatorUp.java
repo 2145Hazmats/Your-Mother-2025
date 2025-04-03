@@ -72,7 +72,6 @@ public class PutElevatorUp extends Command {
     
     if (currentElevatorPosition > (elevatorGoal - ErrorConstants.ElevatorError)
         && currentElevatorPosition < (elevatorGoal + ErrorConstants.ElevatorError)) {
-      //theSnout.fireNow = true;
     } else if (
         !isElevatorSensorTrue
         && theElephant.isElevatorHome()) {

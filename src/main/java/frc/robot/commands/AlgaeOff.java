@@ -106,7 +106,6 @@ public class AlgaeOff extends Command {
         && currentDriveX < (xGoal + ErrorConstants.DriveTrainScoreError)
         && currentDriveY > (yGoal - ErrorConstants.DriveTrainScoreError)
         && currentDriveY < (yGoal + ErrorConstants.DriveTrainScoreError)) {
-      //theSnout.fireNow = true;
       theBigStick.MoveArmToPointMethod(Constants.AlgaeConstants.DealgifyPosition);
 
     } else if (currentDriveX > (xGoal - ErrorConstants.DriveTrainElevatorUpError)

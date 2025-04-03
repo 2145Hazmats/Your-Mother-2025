@@ -187,7 +187,7 @@ public final class Constants {
    public static final double outtakeSpeed = -0.5;
    public static final double armspeed = 0.6;
 
-   public static final double HomePosition = 0;
+   public static final double HomePosition = 3;
    public static final double FloorPosition = 23.7285;
    public static final double ScoreL1Position = 26.437;
    public static final double GrabPosition = 7.3;

@@ -16,12 +16,12 @@
     },
     {
       "anchor": {
-        "x": 4.845,
-        "y": 5.32
+        "x": 4.885,
+        "y": 5.265
       },
       "prevControl": {
-        "x": 5.10958640244077,
-        "y": 6.008397726205697
+        "x": 5.46639344262295,
+        "y": 6.179774590163934
       },
       "nextControl": null,
       "isLocked": false,
@@ -65,6 +65,17 @@
         "type": "named",
         "data": {
           "name": "AutoL4"
+        }
+      }
+    },
+    {
+      "name": "Algae2Home",
+      "waypointRelativePos": 0.2,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "Algae2Home"
         }
       }
     }
