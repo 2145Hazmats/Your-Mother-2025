@@ -642,11 +642,13 @@ public class RobotContainer {
             ) );
 
         P4controller.a().whileTrue( //score L1
-        Commands.run(() -> m_ElevatorSubsystem.elevatorToPosition(Constants.elevatorConstants.L1GROUND_INTAKE_HEIGHT), m_ElevatorSubsystem).withTimeout(1)
-                
-                .andThen(Commands.startEnd(() -> m_AlgaeSubsystem.MoveArmToPointMethodWithSpinner(AlgaeConstants.ScoreL1Position, AlgaeConstants.outtakeSpeed),()-> m_AlgaeSubsystem.stopSpinner(), m_AlgaeSubsystem))
-                   );
-
+        Commands.parallel(
+            Commands.run(() -> m_ElevatorSubsystem.elevatorToPosition(Constants.elevatorConstants.L1GROUND_INTAKE_HEIGHT), m_ElevatorSubsystem), 
+        
+            Commands.startEnd(() -> m_AlgaeSubsystem.MoveArmToPointMethodWithSpinner(AlgaeConstants.ScoreL1Position, 0),()-> m_AlgaeSubsystem.MoveArmToPointMethodWithSpinner(AlgaeConstants.ScoreL1Position, 0), m_AlgaeSubsystem)));
+                //(() -> m_AlgaeSubsystem.MoveArmToPointMethodWithSpinner(AlgaeConstants.ScoreL1Position, 0), m_AlgaeSubsystem));
+        
+        P4controller.povLeft().whileTrue(Commands.run(() -> m_AlgaeSubsystem.MoveArmToPointMethodWithSpinner(AlgaeConstants.ScoreL1Position,Constants.AlgaeConstants.outtakeSpeed)));
             // P4controller.x().whileTrue( //manuel intake off ground
             
             //     Commands.run(() -> m_AlgaeSubsystem.MoveArmToPointMethodWithSpinner(AlgaeConstants.FloorPosition, AlgaeConstants.intakeSpeed), m_AlgaeSubsystem)  );//.until(m_AlgaeSubsystem::AlgaeSensorTriggered));
