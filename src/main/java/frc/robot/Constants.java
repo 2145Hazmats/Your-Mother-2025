@@ -98,10 +98,10 @@ public final class Constants {
     public static final double ElaphantD = 0.00;//0.001
 
     // Elevator Level Heights
-    public static final double L1Position = -28.2 ; //-29
-    public static final double L2Position = -28.2; //-29
-    public static final double L3Position = -48.7; //-50.5
-    public static final double L4Position = -48.7; //-82;
+    public static final double L1Position = -28.2 ; //-28.2
+    public static final double L2Position = -30.5; //-28.2
+    public static final double L3Position = -49.29; //-48.7
+    public static final double L4Position = -82; //-82;
     public static final double HomePosition = 0.0;
 
     //public static final double AlgaeOffGetReadyLow = (-82 + -48.7)/2;
@@ -186,7 +186,7 @@ public final class Constants {
    public static final double outtakeSpeed = -0.5;
    public static final double armspeed = 0.6;
 
-   public static final double HomePosition = 3;
+   public static final double HomePosition = 1;
    public static final double FloorPosition = 23.7285;
    public static final double ScoreL1Position = 26.437;
    public static final double GrabPosition = 7.3;

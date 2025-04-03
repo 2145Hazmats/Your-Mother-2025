@@ -604,14 +604,24 @@ public class RobotContainer {
         P2controller.start().whileTrue(m_ElevatorSubsystem.disableElevator());
         P2controller.back().toggleOnTrue(Commands.startEnd(() -> m_indexing.setP2ManualModeYes(), () -> m_indexing.setP2ManualModeNo(), m_indexing));
 
-        P2controller.b().whileTrue(m_ShooterBoxx.WorksShootCommand());
+        P2controller.b().whileTrue(Commands.parallel(m_ShooterBoxx.WorksShootCommand(), m_AlgaeSubsystem.SpitCoralOnDirtyFloor()));
 
         //P2controller.y().whileTrue(m_ElevatorSubsystem.elevatorToHome());
         P2controller.y().whileTrue(Commands.either(Commands.run(() -> m_indexing.updateP1IndexAlgaeEdition()),
         m_ElevatorSubsystem.elevatorToHome(), m_indexing::isP2ManualModeFalse)); //NOT SURE HOW THIS CALLS DEALGIFY
         
         // Algae stufs
-        P2controller.x().whileTrue(m_AlgaeSubsystem.MoveArmToUnJam());
+        P2controller.x().whileTrue(Commands.either(
+        Commands.parallel(
+            Commands.run(() -> m_ElevatorSubsystem.elevatorToPosition(Constants.elevatorConstants.L1GROUND_INTAKE_HEIGHT), m_ElevatorSubsystem), 
+            Commands.startEnd(() -> m_AlgaeSubsystem.MoveArmToPointMethodWithSpinner(AlgaeConstants.ScoreL1Position, 0),()-> m_AlgaeSubsystem.MoveArmToPointMethodWithSpinner(AlgaeConstants.ScoreL1Position, 0), m_AlgaeSubsystem)), 
+
+        Commands.deadline(
+            Commands.startEnd(() -> m_AlgaeSubsystem.MoveArmToPointMethodWithSpinner(AlgaeConstants.FloorPosition, AlgaeConstants.intakeSpeed),()-> m_AlgaeSubsystem.stopSpinner(), m_AlgaeSubsystem).until(m_AlgaeSubsystem::AlgaeSensorTriggered),
+            Commands.run(() -> m_ElevatorSubsystem.elevatorToPosition(Constants.elevatorConstants.GROUND_INTAKE_HEIGHT), m_ElevatorSubsystem)
+        ), m_AlgaeSubsystem::AlgaeSensorTriggered));
+
+      
         
         //----------------------------------------------------------P3 Controls-------------------------------------------------------
        
