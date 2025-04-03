@@ -12,13 +12,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class ReefConstants {
   // Field Constants
   private static double[] reefCenter = {4.488, 4.025};
-  private static double reefRadius = Units.inchesToMeters(32.75);
+  private static double reefRadius = Units.inchesToMeters(32.75); //0.83185 meters
 
   public static final Pose2d CENTER_OF_THE_FIELD = new Pose2d(8.775, 4.025, new Rotation2d(0));
 
   // CONSTANTS YOU CAN EDIT
-  private static double centerDistanceOffset = 1; //1.3 testing
-  private static double playingDistanceOffset = 0.43; //0.7 testing
+  private static double centerDistanceOffset = 1; //Testing: 1.3
+  private static double playingDistanceOffset = 0.42; //Troy: 0.43, Testing: 0.7
   private static double kLeftOffset = -0.02; // more negative = closer to right side .0185
   private static double kRightOffset = 0.3912; //DO NOT CHANGE.3412
 
@@ -35,11 +35,12 @@ public class ReefConstants {
 
   // Calibration Stuff For Blue Alliance Only
   private static boolean usePose2D = true;
-  private static Pose2d playLeftPoseAB = new Pose2d(3.21, 4.01, new Rotation2d(0)); //Troy: 3.205, 4.035 Kettering Week1: 3.2075, 4.057323, Botcave: 3.2075, 4.0342
-  private static Pose2d playRightPoseAB = new Pose2d(3.21, 3.692, new Rotation2d(0)); //Troy: 3.205, 3.6855 Kettering Week1: 3.2075, 3.70955,
-
-  // private static Pose2d playLeftPoseAB = new Pose2d(3.206, 4.046, new Rotation2d(0)); //Troy: 3.205, 4.035 Kettering Week1: 3.2075, 4.057323, Botcave: 3.2075, 4.0342
-  // private static Pose2d playRightPoseAB = new Pose2d(3.206, 3.6975, new Rotation2d(0)); //Troy: 3.205, 3.6855 Kettering Week1: 3.2075, 3.70955,
+  // During Troy Value: 3.21, 4.01 Troy: 3.205, 4.035 Kettering Week1: 3.2075, 4.057323, Botcave: 3.2075, 4.0342
+  // PathPlanner: 4.015
+  private static Pose2d playLeftPoseAB = new Pose2d(3.21, 4.01, new Rotation2d(0));
+  // During Troy Value: 3.21, 3.692 Troy: 3.205, 3.6855 Kettering Week1: 3.2075, 3.70955
+  // PathPlanner: 3.685
+  private static Pose2d playRightPoseAB = new Pose2d(3.21, 3.692, new Rotation2d(0));
  
   //private static Pose2d LeftBlueStationPose = new Pose2d(1.078, 7.09, new Rotation2d(0)); 
   

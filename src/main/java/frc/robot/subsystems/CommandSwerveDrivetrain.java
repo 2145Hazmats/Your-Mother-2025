@@ -461,35 +461,17 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     }
 
     public boolean isPoseCloseEnoughToSetpointBlue() {
-        if (getPose2d().getX() < PoseConstants.BLUE_REEF_POSES[player1ReefIndex].getX()+Constants.ErrorConstants.DriveTrainScoreError
-            && getPose2d().getX() > PoseConstants.BLUE_REEF_POSES[player1ReefIndex].getX()-Constants.ErrorConstants.DriveTrainScoreError
-            && getPose2d().getY() < PoseConstants.BLUE_REEF_POSES[player1ReefIndex].getY()+Constants.ErrorConstants.DriveTrainScoreError
-            && getPose2d().getY() > PoseConstants.BLUE_REEF_POSES[player1ReefIndex].getY()-Constants.ErrorConstants.DriveTrainScoreError
-            && getPose2d().getRotation().getDegrees() < PoseConstants.BLUE_REEF_POSES[player1ReefIndex].getRotation().getDegrees()+Constants.DrivetrainConstants.MarginOfErrorDeg 
-            && getPose2d().getRotation().getDegrees() > PoseConstants.BLUE_REEF_POSES[player1ReefIndex].getRotation().getDegrees()-Constants.DrivetrainConstants.MarginOfErrorDeg)
-            {
-
-            return true;
-        } else {
-
-            return false;
-        }
+        return (getPose2d().getX() < PoseConstants.BLUE_REEF_POSES[player1ReefIndex].getX()+Constants.ErrorConstants.DriveTrainScoreError
+                && getPose2d().getX() > PoseConstants.BLUE_REEF_POSES[player1ReefIndex].getX()-Constants.ErrorConstants.DriveTrainScoreError
+                && getPose2d().getY() < PoseConstants.BLUE_REEF_POSES[player1ReefIndex].getY()+Constants.ErrorConstants.DriveTrainScoreError
+                && getPose2d().getY() > PoseConstants.BLUE_REEF_POSES[player1ReefIndex].getY()-Constants.ErrorConstants.DriveTrainScoreError);
     }
 
     public boolean isPoseCloseEnoughToSetpointRed() {
-        if (getPose2d().getX() < PoseConstants.RED_REEF_POSES[player1ReefIndex].getX()+Constants.ErrorConstants.DriveTrainScoreError
+        return (getPose2d().getX() < PoseConstants.RED_REEF_POSES[player1ReefIndex].getX()+Constants.ErrorConstants.DriveTrainScoreError
             && getPose2d().getX() > PoseConstants.RED_REEF_POSES[player1ReefIndex].getX()-Constants.ErrorConstants.DriveTrainScoreError
             && getPose2d().getY() < PoseConstants.RED_REEF_POSES[player1ReefIndex].getY()+Constants.ErrorConstants.DriveTrainScoreError
-            && getPose2d().getY() >PoseConstants.RED_REEF_POSES[player1ReefIndex].getY()-Constants.ErrorConstants.DriveTrainScoreError
-            && getPose2d().getRotation().getDegrees() < PoseConstants.RED_REEF_POSES[player1ReefIndex].getRotation().getDegrees()+Constants.DrivetrainConstants.MarginOfErrorDeg 
-            && getPose2d().getRotation().getDegrees() > PoseConstants.RED_REEF_POSES[player1ReefIndex].getRotation().getDegrees()-Constants.DrivetrainConstants.MarginOfErrorDeg)
-            {
-
-            return true;
-        } else {
-
-            return false;
-        }
+            && getPose2d().getY() >PoseConstants.RED_REEF_POSES[player1ReefIndex].getY()-Constants.ErrorConstants.DriveTrainScoreError);
     }
 
     // Returns true if the alliance is blue

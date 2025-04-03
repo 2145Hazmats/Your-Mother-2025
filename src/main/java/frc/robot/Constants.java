@@ -28,25 +28,20 @@ public final class Constants {
     public static final double I_Y = 0;
     public static final double D_X = 0.027;
     public static final double D_Y = 0.027;
-    public static final double P_DEGREE = 0.115; //0.125
+    public static final double P_DEGREE = 0.2; //0.125
     public static final double D_DEGREE = 0;
     public static final double PID_RAD = 4.2145;
 
     //public static final double FAKE_PID_MAX_SPEED = 0.30; //0.1
     public static final double STATION_PID_MAX = 0.25;
 
-    public static final double FAKE_PID_P = 0.50; //0.40
-    public static final double FAKE_PID_FEED_FORWARD = 0.026; //0.0255
+    public static final double FAKE_PID_P = 0.70; //Faster: 70, Good: 0.50
+    public static final double FAKE_PID_FEED_FORWARD = 0.019; //Faster: 0.02, Good: 0.025
 
     //public static final double PROFILED_PID_MAX_VELOCITY = 0.25;
     //public static final double PROFILED_PID_MAX_ACCELERATION = 0.25;
 
-
-    //Margin of Error for Scoring
-    //public static final double MarginOfErrorXY = Units.inchesToMeters(1); // 2 inch
-    public static final double MarginOfErrorDeg = 2.5; //5 degree error : Its doubled cuz math
-
-    public static final double ESCAPE_SPEED = -0.5;
+    public static final double ESCAPE_SPEED = -0.75;
     public static final double ESCAPE_TIME = 5;
   }
 
@@ -56,10 +51,10 @@ public final class Constants {
     public static final PIDConstants ROTATIONAL_PID = new PIDConstants(5, 0, 0);
     
     // PathPlanner Pathfinding Constants
-    public static final double MAX_VELOCITY_MPS = 3; //5.450 //2.450 //3
-    public static final double MAX_ACCELERATION_MPS = 4; // 5 3.6 //3
-    public static final double MAX_ANGULAR_VELOCITY_RAD = Units.degreesToRadians(90); //360
-    public static final double MAX_ANGULAR_ACCELERATION_RAD = Units.degreesToRadians(400); //862
+    public static final double MAX_VELOCITY_MPS = 4.3; //3
+    public static final double MAX_ACCELERATION_MPS = 6; //4
+    public static final double MAX_ANGULAR_VELOCITY_RAD = Units.degreesToRadians(90); //Units.degreesToRadians(90)
+    public static final double MAX_ANGULAR_ACCELERATION_RAD = Units.degreesToRadians(400); //Units.degreesToRadians(400)
     public static final double NOMINAL_VOLTAGE_VOLTS = 11.5;
 
     public static final double PATHFIND_END_SPEED_MPS = 0.1;
@@ -112,8 +107,8 @@ public final class Constants {
     //public static final double AlgaeOffGetReadyLow = (-82 + -48.7)/2;
     //public static final double AlgaeOffGetReadyHigh = (L3Position+L2Position)/2;
 
-    public static final double DealgifyPositionLow = -25.8;
-    public static final double DealgifyPositionHigh = -48.6;
+    public static final double DealgifyPositionLow = -28.8; //-25.8
+    public static final double DealgifyPositionHigh = -51.6; //-48.6
     public static final double ALGAE_OFF_LOW_END = DealgifyPositionLow + 5;
     public static final double ALGAE_OFF_HIGH_END = DealgifyPositionHigh + 5;
 
@@ -168,7 +163,7 @@ public final class Constants {
   public static class ErrorConstants {
     public static final double ElevatorError = 1; //the elevator is around +- 0.1
     public static final double DriveTrainElevatorUpError = Units.inchesToMeters(24);
-    public static final double DriveTrainScoreError = Units.inchesToMeters(1.2);//1
+    public static final double DriveTrainScoreError = Units.inchesToMeters(1.25); //Used to be: 1.2
     public static final double DriveTrainDegreesError = 8;
     public static final double AlgaeError = 2;
   }
@@ -196,7 +191,7 @@ public final class Constants {
    public static final double FloorPosition = 20;
    public static final double ScoreL1Position = 15;
    public static final double GrabPosition = 7.3;
-   public static final double DealgifyPosition = 9.5; //8.5
+   public static final double DealgifyPosition = 11; //9.5
    public static final double ProcessorPosition = 16;
    public static final double NetPosition = 0;
    public static final double DistanceAwayFromHome = 2;
