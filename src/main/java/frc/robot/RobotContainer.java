@@ -607,7 +607,7 @@ public class RobotContainer {
         P2controller.b().whileTrue(m_ShooterBoxx.WorksShootCommand());
 
         //P2controller.y().whileTrue(m_ElevatorSubsystem.elevatorToHome());
-        P2controller.y().whileTrue(Commands.either(Commands.run(() -> m_indexing.updateP1IndexAlgaeEdition() ),
+        P2controller.y().whileTrue(Commands.either(Commands.run(() -> m_indexing.updateP1IndexAlgaeEdition()),
         m_ElevatorSubsystem.elevatorToHome(), m_indexing::isP2ManualModeFalse)); //NOT SURE HOW THIS CALLS DEALGIFY
         
         // Algae stufs
