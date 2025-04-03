@@ -12,6 +12,7 @@ import com.ctre.phoenix6.signals.GravityTypeValue;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -57,7 +58,7 @@ public class ElevatorSubsystem extends SubsystemBase{
       // set Motion Magic settings
       MotionMagicConfigs motionMagicConfigs = config.MotionMagic;
       motionMagicConfigs.MotionMagicCruiseVelocity = 250; // Target cruise velocity of 80 rps  125
-      motionMagicConfigs.MotionMagicAcceleration = 100; // Target acceleration of 160 rps/s (0.5 seconds) 200
+      motionMagicConfigs.MotionMagicAcceleration = 200; // Target acceleration of 160 rps/s (0.5 seconds) 200
       //motionMagicConfigs.MotionMagicJerk = 800; // Target jerk of 1600 rps/s/s (0.1 seconds)
 
       config.MotorOutput.NeutralMode = NeutralModeValue.Brake;
@@ -321,6 +322,14 @@ public class ElevatorSubsystem extends SubsystemBase{
 
       SmartDashboard.putNumber("getPlayer1LevelIndex", getPlayer1LevelIndex());
       SmartDashboard.putNumber("getPlayer2LevelIndex", player2LevelIndex);
+
+      // if (
+      //     MathUtil.isNear(0, motorLeader.getVelocity(), 0.1)
+      //     && (motorLeader.getPosition().getValueAsDouble() <= (elevatorConstants.HomePosition-5))
+      //     && isElevatorTyingToGoToHome()) {
+      //   SmartDashboard.putBoolean();
+      //   elevator chain/belt skipped
+      // }
     }
 
 }

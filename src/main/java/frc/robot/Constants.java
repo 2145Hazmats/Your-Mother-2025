@@ -161,10 +161,9 @@ public final class Constants {
   
   //Coral Scoring Constants 
   public static class ErrorConstants {
-    public static final double ElevatorError = 1; //the elevator is around +- 0.1
+    public static final double ElevatorError = 1; //the elevator is around +- 0.15
     public static final double DriveTrainElevatorUpError = Units.inchesToMeters(24);
-    public static final double DriveTrainScoreError = Units.inchesToMeters(1.25); //Used to be: 1.2
-    public static final double DriveTrainDegreesError = 8;
+    public static final double DriveTrainScoreError = Units.inchesToMeters(1.4); //Used to be: 1.25
     public static final double AlgaeError = 2;
   }
 

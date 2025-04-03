@@ -233,17 +233,17 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     public Command pathFindToAllTheReefsRed2() {
         return AutoBuilder.pathfindToPose(
         PoseConstants.PATHFIND_RED_REEF_POSES[0], pathFindingConstraints, 0).onlyIf(() -> player1ReefIndex == 0)
-        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.PATHFIND_RED_REEF_POSES[0], pathFindingConstraints, PathPlannerConstants.PATHFIND_END_SPEED_MPS).onlyIf(() -> player1ReefIndex == 1))
-        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.PATHFIND_RED_REEF_POSES[1], pathFindingConstraints, PathPlannerConstants.PATHFIND_END_SPEED_MPS).onlyIf(() -> player1ReefIndex == 2))
-        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.PATHFIND_RED_REEF_POSES[1], pathFindingConstraints, PathPlannerConstants.PATHFIND_END_SPEED_MPS).onlyIf(() -> player1ReefIndex == 3))
-        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.PATHFIND_RED_REEF_POSES[2], pathFindingConstraints, PathPlannerConstants.PATHFIND_END_SPEED_MPS).onlyIf(() -> player1ReefIndex == 4))
-        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.PATHFIND_RED_REEF_POSES[2], pathFindingConstraints, PathPlannerConstants.PATHFIND_END_SPEED_MPS).onlyIf(() -> player1ReefIndex == 5))
-        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.PATHFIND_RED_REEF_POSES[3], pathFindingConstraints, PathPlannerConstants.PATHFIND_END_SPEED_MPS).onlyIf(() -> player1ReefIndex == 6))
-        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.PATHFIND_RED_REEF_POSES[3], pathFindingConstraints, PathPlannerConstants.PATHFIND_END_SPEED_MPS).onlyIf(() -> player1ReefIndex == 7))
-        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.PATHFIND_RED_REEF_POSES[4], pathFindingConstraints, PathPlannerConstants.PATHFIND_END_SPEED_MPS).onlyIf(() -> player1ReefIndex == 8))
-        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.PATHFIND_RED_REEF_POSES[4], pathFindingConstraints, PathPlannerConstants.PATHFIND_END_SPEED_MPS).onlyIf(() -> player1ReefIndex == 9))
-        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.PATHFIND_RED_REEF_POSES[5], pathFindingConstraints, PathPlannerConstants.PATHFIND_END_SPEED_MPS).onlyIf(() -> player1ReefIndex == 10))
-        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.PATHFIND_RED_REEF_POSES[5], pathFindingConstraints, PathPlannerConstants.PATHFIND_END_SPEED_MPS).onlyIf(() -> player1ReefIndex == 11));
+        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.PATHFIND_RED_REEF_POSES[1], pathFindingConstraints, PathPlannerConstants.PATHFIND_END_SPEED_MPS).onlyIf(() -> player1ReefIndex == 1))
+        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.PATHFIND_RED_REEF_POSES[2], pathFindingConstraints, PathPlannerConstants.PATHFIND_END_SPEED_MPS).onlyIf(() -> player1ReefIndex == 2))
+        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.PATHFIND_RED_REEF_POSES[3], pathFindingConstraints, PathPlannerConstants.PATHFIND_END_SPEED_MPS).onlyIf(() -> player1ReefIndex == 3))
+        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.PATHFIND_RED_REEF_POSES[4], pathFindingConstraints, PathPlannerConstants.PATHFIND_END_SPEED_MPS).onlyIf(() -> player1ReefIndex == 4))
+        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.PATHFIND_RED_REEF_POSES[5], pathFindingConstraints, PathPlannerConstants.PATHFIND_END_SPEED_MPS).onlyIf(() -> player1ReefIndex == 5))
+        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.PATHFIND_RED_REEF_POSES[6], pathFindingConstraints, PathPlannerConstants.PATHFIND_END_SPEED_MPS).onlyIf(() -> player1ReefIndex == 6))
+        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.PATHFIND_RED_REEF_POSES[7], pathFindingConstraints, PathPlannerConstants.PATHFIND_END_SPEED_MPS).onlyIf(() -> player1ReefIndex == 7))
+        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.PATHFIND_RED_REEF_POSES[8], pathFindingConstraints, PathPlannerConstants.PATHFIND_END_SPEED_MPS).onlyIf(() -> player1ReefIndex == 8))
+        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.PATHFIND_RED_REEF_POSES[9], pathFindingConstraints, PathPlannerConstants.PATHFIND_END_SPEED_MPS).onlyIf(() -> player1ReefIndex == 9))
+        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.PATHFIND_RED_REEF_POSES[10], pathFindingConstraints, PathPlannerConstants.PATHFIND_END_SPEED_MPS).onlyIf(() -> player1ReefIndex == 10))
+        .beforeStarting(AutoBuilder.pathfindToPose(PoseConstants.PATHFIND_RED_REEF_POSES[11], pathFindingConstraints, PathPlannerConstants.PATHFIND_END_SPEED_MPS).onlyIf(() -> player1ReefIndex == 11));
     }
 
     // Goes to a certain point instead of all of them

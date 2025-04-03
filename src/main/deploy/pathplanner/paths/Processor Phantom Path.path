@@ -16,12 +16,12 @@
     },
     {
       "anchor": {
-        "x": 2.4215163934426225,
-        "y": 2.970081967213115
+        "x": 1.6543032786885246,
+        "y": 1.5435450819672132
       },
       "prevControl": {
-        "x": 2.157786885245901,
-        "y": 2.6464139344262287
+        "x": 1.3905737704918029,
+        "y": 1.219877049180327
       },
       "nextControl": null,
       "isLocked": false,
@@ -33,13 +33,13 @@
   "pointTowardsZones": [],
   "eventMarkers": [
     {
-      "name": "finish suckig",
-      "waypointRelativePos": 0.0,
+      "name": "coasting",
+      "waypointRelativePos": 0,
       "endWaypointRelativePos": null,
       "command": {
         "type": "named",
         "data": {
-          "name": "SuckTillSensor"
+          "name": "CoastMode"
         }
       }
     }

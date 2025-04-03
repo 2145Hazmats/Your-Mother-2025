@@ -176,14 +176,14 @@ public class RobotContainer {
 
     private void configureBindings() {
           // Default Commands :)
-        //m_ElevatorSubsystem.setDefaultCommand(Commands.either(m_ElevatorSubsystem.defaultCommand(),Commands.run(()-> m_ElevatorSubsystem.elevatorJoystick(P2controller.getLeftY()), m_ElevatorSubsystem) , m_indexing::isP2ManualModeFalse)); //NEEDS TESTING
+        m_ElevatorSubsystem.setDefaultCommand(Commands.either(m_ElevatorSubsystem.defaultCommand(),Commands.run(()-> m_ElevatorSubsystem.elevatorJoystick(P2controller.getLeftY()), m_ElevatorSubsystem) , m_indexing::isP2ManualModeFalse)); //NEEDS TESTING
           //m_ElevatorSubsystem.setDefaultCommand(Commands.either(m_ElevatorSubsystem.elevatorToL1(),m_ElevatorSubsystem.defaultCommand() , m_indexing::isP2ManualModeFalse));
         m_ShooterBoxx.setDefaultCommand(Commands.either(m_ShooterBoxx.IntakeSolosDefaultCommand(), Commands.run(() -> m_ShooterBoxx.StopShooterMethod(), m_ShooterBoxx), m_indexing::isP2ManualModeFalse));
         m_ClimbSubsystemNeo.setDefaultCommand(m_ClimbSubsystemNeo.KeepClimbSafeDefaultCommand());
          //m_AlgaeSubsystem.setDefaultCommand(Commands.run(() -> m_AlgaeSubsystem.algaeJoystick(P2controller.getRightY()), m_AlgaeSubsystem));//(MathUtil.applyDeadband(P4controller.getRightY(), 0.1)), MathUtil.applyDeadband(P4controller.getLeftY(), 0.1)));
-        //m_AlgaeSubsystem.setDefaultCommand(m_AlgaeSubsystem.AlgaeDefaultCommand());
+        m_AlgaeSubsystem.setDefaultCommand(m_AlgaeSubsystem.AlgaeDefaultCommand());
           m_indexing.setDefaultCommand(m_indexing.SettingReefIndexBasedOnController(P2controller::getRightX, P2controller::getRightY));
-        //m_ShooterBoxx.setDefaultCommand(Commands.run(() -> m_ShooterBoxx.RunShooter(P2controller.getRightX())));
+         //m_ShooterBoxx.setDefaultCommand(Commands.run(() -> m_ShooterBoxx.RunShooter(P2controller.getRightX())));
         m_drivetrain.registerTelemetry(logger::telemeterize);
 
         m_drivetrain.setDefaultCommand(
