@@ -107,7 +107,7 @@ public final class Constants {
     //public static final double AlgaeOffGetReadyLow = (-82 + -48.7)/2;
     //public static final double AlgaeOffGetReadyHigh = (L3Position+L2Position)/2;
 
-    public static final double DealgifyPositionLow = -28.8; //-25.8
+    public static final double DealgifyPositionLow = -19.8; //-25.8 28.8 22.00
     public static final double DealgifyPositionHigh = -51.6; //-48.6
     public static final double ALGAE_OFF_LOW_END = DealgifyPositionLow + 5;
     public static final double ALGAE_OFF_HIGH_END = DealgifyPositionHigh + 5;
@@ -155,7 +155,7 @@ public final class Constants {
     public static final double ClimbP = 0.05;
     public static final double ClimbI = 0;
     public static final double ClimbD = 0;
-    public static final double ClimbReadySetpoint = -4.1; //-3.176
+    public static final double ClimbReadySetpoint = -4.1; //-4.1
     public static final double ClimbLockedInSetpoint = 1; //0 is too low... 2 almost works, but chain touches elevator
   }
   

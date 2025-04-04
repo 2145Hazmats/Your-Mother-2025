@@ -285,15 +285,15 @@ public class ReefConstants {
     public static final Pose2d CORAL_STATION_LEFT_BLUE_POSE = new Pose2d(1.364, 7.150, new Rotation2d(Units.degreesToRadians(BLUE_CORAL_STATION_DEG))); //1.082, 7.057 //Bot Cave: 1.394, 7.165 //    public static final Pose2d CORAL_STATION_LEFT_BLUE_POSE = new Pose2d(1.163, 7.142, new Rotation2d(Units.degreesToRadians(BLUE_CORAL_STATION_DEG))); //1.082, 7.057 //Bot Cave: 1.394, 7.165
 
     public static final Pose2d CORAL_STATION_RIGHT_BLUE_PATHFIND_POSE = new Pose2d(1.641, 1.439, new Rotation2d(Units.degreesToRadians(-BLUE_CORAL_STATION_DEG)));
-    public static final Pose2d CORAL_STATION_RIGHT_BLUE_POSE = new Pose2d(1.844, 0.875, new Rotation2d(Units.degreesToRadians(-BLUE_CORAL_STATION_DEG))); //    public static final Pose2d CORAL_STATION_RIGHT_BLUE_POSE = new Pose2d(0.965, 0.991, new Rotation2d(Units.degreesToRadians(-BLUE_CORAL_STATION_DEG)));
+    public static final Pose2d CORAL_STATION_RIGHT_BLUE_POSE = new Pose2d(1.549, 0.735, new Rotation2d(Units.degreesToRadians(-BLUE_CORAL_STATION_DEG))); //    public static final Pose2d CORAL_STATION_RIGHT_BLUE_POSE = new Pose2d(0.965, 0.991, new Rotation2d(Units.degreesToRadians(-BLUE_CORAL_STATION_DEG)));
 
     
     
     public static final Pose2d CORAL_STATION_LEFT_RED_PATHFIND_POSE = new Pose2d(15.896, 0.660, new Rotation2d(Units.degreesToRadians(RED_CORAL_STATION_DEG)));
-    public static final Pose2d CORAL_STATION_LEFT_RED_POSE = new Pose2d(15.894, 0.720, new Rotation2d(Units.degreesToRadians(RED_CORAL_STATION_DEG))); //    public static final Pose2d CORAL_STATION_LEFT_RED_POSE = new Pose2d(16.435, 0.920, new Rotation2d(Units.degreesToRadians(RED_CORAL_STATION_DEG)));
+    public static final Pose2d CORAL_STATION_LEFT_RED_POSE = new Pose2d(15.994, 0.720, new Rotation2d(Units.degreesToRadians(RED_CORAL_STATION_DEG))); //    public static final Pose2d CORAL_STATION_LEFT_RED_POSE = new Pose2d(16.435, 0.920, new Rotation2d(Units.degreesToRadians(RED_CORAL_STATION_DEG)));
 
     public static final Pose2d CORAL_STATION_RIGHT_RED_PATHFIND_POSE = new Pose2d(15.983, 6.7, new Rotation2d(Units.degreesToRadians(-RED_CORAL_STATION_DEG)));
-    public static final Pose2d CORAL_STATION_RIGHT_RED_POSE = new Pose2d(15.729, 7.161, new Rotation2d(Units.degreesToRadians(-RED_CORAL_STATION_DEG))); //    public static final Pose2d CORAL_STATION_RIGHT_RED_POSE = new Pose2d(16.387, 7.142, new Rotation2d(Units.degreesToRadians(-RED_CORAL_STATION_DEG)));
+    public static final Pose2d CORAL_STATION_RIGHT_RED_POSE = new Pose2d(15.879, 7.311, new Rotation2d(Units.degreesToRadians(-RED_CORAL_STATION_DEG))); //    public static final Pose2d CORAL_STATION_RIGHT_RED_POSE = new Pose2d(16.387, 7.142, new Rotation2d(Units.degreesToRadians(-RED_CORAL_STATION_DEG)));
 
     // Net y Processor 
     public static final Pose2d NET_RED_PATHFIND_POSE = new Pose2d(10.14, 1.861, new Rotation2d(0));
