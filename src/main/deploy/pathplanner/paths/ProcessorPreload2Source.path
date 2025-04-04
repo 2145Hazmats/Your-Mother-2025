@@ -44,6 +44,17 @@
       }
     },
     {
+      "name": "algi back",
+      "waypointRelativePos": 0.10803511141120485,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "Algae2Home"
+        }
+      }
+    },
+    {
       "name": "suck",
       "waypointRelativePos": 0.7515832641196012,
       "endWaypointRelativePos": null,

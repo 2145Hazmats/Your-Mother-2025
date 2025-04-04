@@ -58,7 +58,7 @@ public final class Constants {
     public static final double NOMINAL_VOLTAGE_VOLTS = 11.5;
 
     public static final double PATHFIND_END_SPEED_MPS = 0.1;
-    public static final double PATHFIND_END_SPEED_MPS_STATION = 1.5;
+    public static final double PATHFIND_END_SPEED_MPS_STATION = .5;
 
   }
 
@@ -113,7 +113,7 @@ public final class Constants {
     public static final double ALGAE_OFF_HIGH_END = DealgifyPositionHigh + 5;
 
     public static final double GROUND_INTAKE_HEIGHT = 0;
-    public static final double L1GROUND_INTAKE_HEIGHT = -34.2;
+    public static final double L1GROUND_INTAKE_HEIGHT = -40.2; //34
 
 
 
@@ -183,7 +183,7 @@ public final class Constants {
    public static final int AlgiSensorID = 1; //others are 0 and 2
    public static final double armP = 0.8; //0.5
    public static final double intakeSpeed = 0.5;
-   public static final double outtakeSpeed = -0.5;
+   public static final double outtakeSpeed = -0.1;
    public static final double armspeed = 0.6;
 
    public static final double HomePosition = 1;

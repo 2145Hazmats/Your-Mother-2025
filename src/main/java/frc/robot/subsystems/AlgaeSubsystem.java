@@ -34,12 +34,12 @@ import frc.robot.Constants.ErrorConstants;
 public class AlgaeSubsystem extends SubsystemBase {
   /** Creates a new AlgaeSubsystem. */
 
-  public DigitalInput AlgiCoralSensor = new DigitalInput(AlgaeConstants.AlgiSensorID);
+  // public DigitalInput AlgiCoralSensor = new DigitalInput(AlgaeConstants.AlgiSensorID);
   //private TalonFX shooterMotor = new TalonFX(AlgaeConstants.shooterMotorID);
   private TalonFX armMotor = new TalonFX(AlgaeConstants.armMotorID);
 
-  private SparkMax spitterMotor = new SparkMax(AlgaeConstants.spitterMotorID, MotorType.kBrushless); //dont know this yet
-  private SparkMaxConfig spitterConfig = new SparkMaxConfig();
+  // private SparkMax spitterMotor = new SparkMax(AlgaeConstants.spitterMotorID, MotorType.kBrushless); //dont know this yet
+  // private SparkMaxConfig spitterConfig = new SparkMaxConfig();
 
 
   private TalonFXConfiguration config = new TalonFXConfiguration();
@@ -49,19 +49,19 @@ public class AlgaeSubsystem extends SubsystemBase {
 
   public AlgaeSubsystem() {
 
-    spitterConfig
-    .inverted(false)
-    .idleMode(IdleMode.kBrake)
-    .smartCurrentLimit(40)
-    //Enable voltage compensation
-    .voltageCompensation(Constants.shooterBoxxContants.kShooterMotorNominalVoltageConstant);
-spitterConfig.encoder
-    .positionConversionFactor(1)
-    .velocityConversionFactor(1);
-spitterConfig.closedLoop
-    .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
-    .pid(1.0, 0.0, 0.0);
-  spitterMotor.configure(spitterConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
+//     spitterConfig
+//     .inverted(false)
+//     .idleMode(IdleMode.kBrake)
+//     .smartCurrentLimit(40)
+//     //Enable voltage compensation
+//     .voltageCompensation(Constants.shooterBoxxContants.kShooterMotorNominalVoltageConstant);
+// spitterConfig.encoder
+//     .positionConversionFactor(1)
+//     .velocityConversionFactor(1);
+// spitterConfig.closedLoop
+//     .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
+//     .pid(1.0, 0.0, 0.0);
+//   spitterMotor.configure(spitterConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
 
 
 
@@ -86,7 +86,7 @@ spitterConfig.closedLoop
     return Commands.runOnce(() -> {
       //shooterMotor.set(0);
       armMotor.setControl(m_request.withPosition(AlgaeConstants.HomePosition));
-      spitterMotor.set(0);
+      //spitterMotor.set(0);
     }, this);
   }
   public boolean isAlgaeAtHome() {
@@ -98,10 +98,10 @@ spitterConfig.closedLoop
     return Commands.run(() -> armMotor.setControl(m_request.withPosition(position)), this);
   } 
 
-  public void MoveArmToPointMethodWithSpinner(double position, double speed) {
-     armMotor.setControl(m_request.withPosition(position));
-     spitterMotor.set(speed);
-  } 
+  // public void MoveArmToPointMethodWithSpinner(double position, double speed) {
+  //    armMotor.setControl(m_request.withPosition(position));
+  //    spitterMotor.set(speed);
+  // } 
 
   public void MoveArmToPointMethod(double position) {
     armMotor.setControl(m_request.withPosition(position));
@@ -135,30 +135,31 @@ spitterConfig.closedLoop
     return Commands.runOnce(() -> armMotor.setPosition(0), this);
   }
 
-  public boolean AlgaeSensorTriggered() {
-    return !AlgiCoralSensor.get();
-  }
+  // public boolean AlgaeSensorTriggered() {
+  //   return !AlgiCoralSensor.get();
+  // }
 
-  public boolean AlgaeSensorUntriggered() {
-    return AlgiCoralSensor.get();
-  }
+  // public boolean AlgaeSensorUntriggered() {
+  //   return AlgiCoralSensor.get();
+  // }
 
-  public Command SuckCoralOffDirtyFloor() {
-    return Commands.startEnd(() -> spitterMotor.set(Constants.AlgaeConstants.intakeSpeed), () -> spitterMotor.set(0), this);
-  }
+  // public Command SuckCoralOffDirtyFloor() {
+  //   return Commands.startEnd(() -> spitterMotor.set(Constants.AlgaeConstants.intakeSpeed), () -> spitterMotor.set(0), this);
+  // }
 
-  public Command SpitCoralOnDirtyFloor() {
-    return Commands.startEnd(() -> spitterMotor.set(Constants.AlgaeConstants.outtakeSpeed), () -> spitterMotor.set(0), this);
-  }
+  // public Command SpitCoralOnDirtyFloor() {
+  //   return Commands.startEnd(() -> spitterMotor.set(Constants.AlgaeConstants.outtakeSpeed), () -> spitterMotor.set(0), this);
+  // }
 
-  public void stopSpinner() {
-    spitterMotor.set(0);
-  }
+  // public void stopSpinner() {
+  //   spitterMotor.set(0);
+  // }
 
   @Override
   public void periodic() {
     SmartDashboard.putNumber("Algae Arm Positon", armMotor.getPosition().getValueAsDouble());
     SmartDashboard.putNumber("Algae Arm Speed", armMotor.getVelocity().getValueAsDouble());
     //SmartDashboard.putNumber("Algae Shooter Speed", shooterMotor.getVelocity().getValueAsDouble()); 
-    SmartDashboard.putBoolean("Algi Coral Sensor", AlgaeSensorTriggered());  }
+    // SmartDashboard.putBoolean("Algi Coral Sensor", AlgaeSensorTriggered());  
+}
 }

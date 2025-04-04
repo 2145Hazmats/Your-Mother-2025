@@ -53,6 +53,17 @@
       "command": null
     },
     {
+      "name": "get the stick out of the elvator",
+      "waypointRelativePos": 0.14854827819040728,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "Algae2Home"
+        }
+      }
+    },
+    {
       "name": "AutoL4",
       "waypointRelativePos": 0.37430599619289323,
       "endWaypointRelativePos": null,

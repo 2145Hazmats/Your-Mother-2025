@@ -13,7 +13,7 @@
         {
           "type": "named",
           "data": {
-            "name": "ScrapeScoreHigh"
+            "name": "FireL4"
           }
         },
         {
@@ -87,7 +87,7 @@
         {
           "type": "named",
           "data": {
-            "name": "ScrapeScoreLow"
+            "name": "FireL4"
           }
         },
         {

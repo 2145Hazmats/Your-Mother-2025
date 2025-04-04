@@ -44,6 +44,17 @@
       }
     },
     {
+      "name": "stick in",
+      "waypointRelativePos": 0.20256583389601154,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "Algae2Home"
+        }
+      }
+    },
+    {
       "name": "22Source",
       "waypointRelativePos": 0.7488320182724254,
       "endWaypointRelativePos": null,
