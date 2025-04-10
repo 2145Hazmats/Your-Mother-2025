@@ -32,7 +32,7 @@
   "constraintZones": [
     {
       "name": "Constraints Zone",
-      "minWaypointRelativePos": 0.45843908629441604,
+      "minWaypointRelativePos": 0.7706862541528241,
       "maxWaypointRelativePos": 1.0,
       "constraints": {
         "maxVelocity": 4.48,
@@ -45,7 +45,19 @@
     }
   ],
   "pointTowardsZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "prep paly",
+      "waypointRelativePos": 0.3103716777408644,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "AutoL4"
+        }
+      }
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 4.48,
     "maxAcceleration": 5.0,

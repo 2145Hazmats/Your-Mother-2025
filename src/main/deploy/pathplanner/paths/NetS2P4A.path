@@ -3,39 +3,39 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.098217904547235,
-        "y": 6.193806536962598
+        "x": 1.322709098413388,
+        "y": 7.123542948212857
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.765982332252787,
-        "y": 6.208101799559394
+        "x": 3.567423321759258,
+        "y": 6.412514467592592
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "NetSource"
     },
     {
       "anchor": {
-        "x": 4.885,
-        "y": 5.265
+        "x": 5.155,
+        "y": 5.155
       },
       "prevControl": {
-        "x": 5.501499421612292,
-        "y": 6.087950759308146
+        "x": 4.757337239583332,
+        "y": 5.696842447916667
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "NetPreloadRightPole"
+      "linkedName": "Net Preload"
     }
   ],
   "rotationTargets": [],
   "constraintZones": [
     {
       "name": "Constraints Zone",
-      "minWaypointRelativePos": 0.8701982973421938,
-      "maxWaypointRelativePos": 1,
+      "minWaypointRelativePos": 0.7545421511627917,
+      "maxWaypointRelativePos": 1.0,
       "constraints": {
-        "maxVelocity": 4.4,
+        "maxVelocity": 4.48,
         "maxAcceleration": 2.0,
         "maxAngularVelocity": 540.0,
         "maxAngularAcceleration": 720.0,
@@ -47,19 +47,8 @@
   "pointTowardsZones": [],
   "eventMarkers": [
     {
-      "name": "SuckGaming",
-      "waypointRelativePos": 0.0,
-      "endWaypointRelativePos": null,
-      "command": {
-        "type": "named",
-        "data": {
-          "name": "SuckTillSensor"
-        }
-      }
-    },
-    {
-      "name": "Prep Play",
-      "waypointRelativePos": 0.0972316002700876,
+      "name": "prep play",
+      "waypointRelativePos": 0.13739358388704317,
       "endWaypointRelativePos": null,
       "command": {
         "type": "named",
@@ -67,24 +56,13 @@
           "name": "AutoL4"
         }
       }
-    },
-    {
-      "name": "Algae2Home",
-      "waypointRelativePos": 0.2,
-      "endWaypointRelativePos": null,
-      "command": {
-        "type": "named",
-        "data": {
-          "name": "Algae2Home"
-        }
-      }
     }
   ],
   "globalConstraints": {
     "maxVelocity": 4.48,
-    "maxAcceleration": 7.5,
+    "maxAcceleration": 5.0,
     "maxAngularVelocity": 540.0,
-    "maxAngularAcceleration": 720.0,
+    "maxAngularAcceleration": 1000.0,
     "nominalVoltage": 12.0,
     "unlimited": false
   },
@@ -96,7 +74,7 @@
   "folder": "Net Side",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 178.9705503132362
+    "rotation": -54.0
   },
-  "useDefaultConstraints": false
+  "useDefaultConstraints": true
 }
