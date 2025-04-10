@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.213353257053865,
-        "y": 5.0525597303047975
+        "x": 3.2165464505138517,
+        "y": 5.070326574748745
       },
       "isLocked": false,
       "linkedName": "NetS3"
@@ -20,8 +20,8 @@
         "y": 7.123542948212857
       },
       "prevControl": {
-        "x": 2.0615547242121526,
-        "y": 6.731927225982517
+        "x": 2.034069695689275,
+        "y": 6.713302213549078
       },
       "nextControl": null,
       "isLocked": false,
@@ -48,7 +48,7 @@
     "maxVelocity": 4.48,
     "maxAcceleration": 5.0,
     "maxAngularVelocity": 540.0,
-    "maxAngularAcceleration": 720.0,
+    "maxAngularAcceleration": 1000.0,
     "nominalVoltage": 12.0,
     "unlimited": false
   },

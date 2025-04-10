@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.16,
-        "y": 4.015
+        "x": 1.322709098413388,
+        "y": 7.123542948212857
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.41,
-        "y": 4.015
+        "x": 2.8291186668553117,
+        "y": 6.329688637263091
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "NetSource"
     },
     {
       "anchor": {
-        "x": 3.16,
-        "y": 3.685
+        "x": 3.192811020854507,
+        "y": 4.012195888294216
       },
       "prevControl": {
-        "x": 2.91,
-        "y": 3.685
+        "x": 2.8958163643761865,
+        "y": 4.514269947371435
       },
       "nextControl": null,
       "isLocked": false,
@@ -29,7 +29,21 @@
     }
   ],
   "rotationTargets": [],
-  "constraintZones": [],
+  "constraintZones": [
+    {
+      "name": "Constraints Zone",
+      "minWaypointRelativePos": 0.45843908629441604,
+      "maxWaypointRelativePos": 1.0,
+      "constraints": {
+        "maxVelocity": 4.48,
+        "maxAcceleration": 2.0,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0,
+        "nominalVoltage": 12.0,
+        "unlimited": false
+      }
+    }
+  ],
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
@@ -45,10 +59,10 @@
     "rotation": 0.0
   },
   "reversed": false,
-  "folder": null,
+  "folder": "Net Side",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": -54.0
   },
   "useDefaultConstraints": true
 }
