@@ -101,7 +101,7 @@ public final class Constants {
     public static final double L1Position = -28.2 ; //-28.2
     public static final double L2Position = -30.5; //-28.2
     public static final double L3Position = -49.29; //-48.7
-    public static final double L4Position = -82; //-82;
+    public static final double L4Position = -49.29; //-82;
     public static final double HomePosition = 0.0;
 
     //public static final double AlgaeOffGetReadyLow = (-82 + -48.7)/2;
@@ -144,7 +144,7 @@ public final class Constants {
 
   public static class ClimbContants {
     public static final int ClimbMotorId = 33;
-    public static final double climbForwardSpeed = 1;
+    public static final double climbForwardSpeed = .75; //1 .5
     public static final double ClimbBackwardSpeed = -.6;
     public static final int ClimbStop = 0;
     public static final int ClimbServoStop = 0;
@@ -155,7 +155,7 @@ public final class Constants {
     public static final double ClimbP = 0.05;
     public static final double ClimbI = 0;
     public static final double ClimbD = 0;
-    public static final double ClimbReadySetpoint = -4.1; //-4.1
+    public static final double ClimbReadySetpoint = -4.18; //-4.1 4.2
     public static final double ClimbLockedInSetpoint = 1; //0 is too low... 2 almost works, but chain touches elevator
   }
   
