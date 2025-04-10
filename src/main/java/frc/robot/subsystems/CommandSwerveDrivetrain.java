@@ -479,9 +479,42 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         return DriverStation.getAlliance().orElse(Alliance.Red) == Alliance.Blue;
     }
 
-    public Pose2d getPose2d() {
+    public Pose2d getPose2d() { //THIS IS THE GOOD ONE FROM STATES
         return this.getState().Pose;
     }
+
+    // public Pose2d getPose2d() { //doesn't currently reset pose just gives methods an illusion
+    //     if (this.getState().Pose.getX() > 17.55 && this.getState().Pose.getY() <0) { //bottom right 
+    //         return new Pose2d(17.55,0,this.getState().Pose.getRotation());//this.getState().Pose;
+    //     }
+    //     else if (this.getState().Pose.getX() > 17.55 && this.getState().Pose.getY() >8.05) { // top right
+    //         return new Pose2d(17.55,8.05,this.getState().Pose.getRotation());
+    //     }
+    //     else if (this.getState().Pose.getX() < 0 && this.getState().Pose.getY() <0) { //bottom left
+    //         return new Pose2d(0,0,this.getState().Pose.getRotation());
+    //     } 
+    //     else if (this.getState().Pose.getX() < 0 && this.getState().Pose.getY() >8.05) { //top left
+    //         return new Pose2d(0,8.05,this.getState().Pose.getRotation());
+    //     }
+    //     else if (this.getState().Pose.getX() < 0) {//left jungle
+    //         return new Pose2d(0,this.getState().Pose.getY(),this.getState().Pose.getRotation());
+    //     }
+    //     else if (this.getState().Pose.getX() > 17.55){ //right jungle
+
+    //         return new Pose2d(17.55,this.getState().Pose.getY(),this.getState().Pose.getRotation());
+    //     }
+    //     else if (this.getState().Pose.getY() > 8.05) { //top jungle
+
+    //         return new Pose2d(this.getState().Pose.getX(),8.05,this.getState().Pose.getRotation());
+    //     } else if (this.getState().Pose.getY() <0) { //bottom jungle
+
+    //         return new Pose2d(this.getState().Pose.getX(),0,this.getState().Pose.getRotation());
+    //     }
+
+    //     else {
+    //         return this.getState().Pose;
+    //     }
+    // }
 
     public int getPlayer1ReefIndex() {
         return this.player1ReefIndex;

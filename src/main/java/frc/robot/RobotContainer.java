@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.Constants.AlgaeConstants;
 import frc.robot.Constants.DrivetrainConstants;
@@ -75,7 +76,12 @@ public class RobotContainer {
     private final CommandXboxController P4controller = new CommandXboxController(3);
     
     private final XboxController P5controller = new XboxController(4);
+    private final CommandXboxController P5commandController = new CommandXboxController(4);
     private final XboxController P6controller = new XboxController(5);
+    private final CommandXboxController P6commandController = new CommandXboxController(5);
+
+    //P5controller.getRawAxis(Constants.ControllerConstants.LeftX) THIS IS HOW YOU ACCSESS THE STICKS!!!
+
 
     // We need to initialize an object of the camera subsystem, we don't have to use it
     private final CommandSwerveDrivetrain m_drivetrain = TunerConstants.createDrivetrain();
@@ -176,21 +182,42 @@ public class RobotContainer {
 
     private void configureBindings() {
           // Default Commands :)
-        m_ElevatorSubsystem.setDefaultCommand(Commands.either(m_ElevatorSubsystem.defaultCommand(),Commands.run(()-> m_ElevatorSubsystem.elevatorJoystick(P2controller.getLeftY()), m_ElevatorSubsystem) , m_indexing::isP2ManualModeFalse)); //NEEDS TESTING
+        //--------OLD CONTROLLER DEFAULTS
+
+        // m_ElevatorSubsystem.setDefaultCommand(Commands.either(m_ElevatorSubsystem.defaultCommand(),Commands.run(()-> m_ElevatorSubsystem.elevatorJoystick(P2controller.getLeftY()), m_ElevatorSubsystem) , m_indexing::isP2ManualModeFalse)); //NEEDS TESTING
+        //   //m_ElevatorSubsystem.setDefaultCommand(Commands.either(m_ElevatorSubsystem.elevatorToL1(),m_ElevatorSubsystem.defaultCommand() , m_indexing::isP2ManualModeFalse));
+        // m_ShooterBoxx.setDefaultCommand(Commands.either(m_ShooterBoxx.IntakeSolosDefaultCommand(), Commands.run(() -> m_ShooterBoxx.StopShooterMethod(), m_ShooterBoxx), m_indexing::isP2ManualModeFalse));
+        // m_ClimbSubsystemNeo.setDefaultCommand(m_ClimbSubsystemNeo.KeepClimbSafeDefaultCommand());
+        //  //m_AlgaeSubsystem.setDefaultCommand(Commands.run(() -> m_AlgaeSubsystem.algaeJoystick(P2controller.getRightY()), m_AlgaeSubsystem));//(MathUtil.applyDeadband(P4controller.getRightY(), 0.1)), MathUtil.applyDeadband(P4controller.getLeftY(), 0.1)));
+        // m_AlgaeSubsystem.setDefaultCommand(m_AlgaeSubsystem.AlgaeDefaultCommand());
+        //   m_indexing.setDefaultCommand(m_indexing.SettingReefIndexBasedOnController(P2controller::getRightX, P2controller::getRightY));
+        //  //m_ShooterBoxx.setDefaultCommand(Commands.run(() -> m_ShooterBoxx.RunShooter(P2controller.getRightX())));
+        // m_drivetrain.registerTelemetry(logger::telemeterize);
+
+        // m_drivetrain.setDefaultCommand(
+        //     m_drivetrain.applyRequest(() ->
+        //         drive.withVelocityX(-P1controller.getLeftY() * MaxSpeed * m_ElevatorSubsystem.getElevatorSlowSpeed()) // Drive forward with negative Y (forward)
+        //             .withVelocityY(-P1controller.getLeftX() * MaxSpeed * m_ElevatorSubsystem.getElevatorSlowSpeed()) // Drive left with negative X (left)
+        //             .withRotationalRate(-P1controller.getRightX() * MaxAngularRate * m_ElevatorSubsystem.getElevatorSlowSpeed()*1.3) // Drive counterclockwise with negative X (left)
+        //     )
+        // );
+        // --- NEW CONTROLLERS DEFAULTS-----------------
+
+        m_ElevatorSubsystem.setDefaultCommand(Commands.either(m_ElevatorSubsystem.defaultCommand(),Commands.run(()-> m_ElevatorSubsystem.elevatorJoystick(P6controller.getRawAxis(Constants.ControllerConstants.LeftY)), m_ElevatorSubsystem) , m_indexing::isP2ManualModeFalse)); //NEEDS TESTING
           //m_ElevatorSubsystem.setDefaultCommand(Commands.either(m_ElevatorSubsystem.elevatorToL1(),m_ElevatorSubsystem.defaultCommand() , m_indexing::isP2ManualModeFalse));
         m_ShooterBoxx.setDefaultCommand(Commands.either(m_ShooterBoxx.IntakeSolosDefaultCommand(), Commands.run(() -> m_ShooterBoxx.StopShooterMethod(), m_ShooterBoxx), m_indexing::isP2ManualModeFalse));
         m_ClimbSubsystemNeo.setDefaultCommand(m_ClimbSubsystemNeo.KeepClimbSafeDefaultCommand());
          //m_AlgaeSubsystem.setDefaultCommand(Commands.run(() -> m_AlgaeSubsystem.algaeJoystick(P2controller.getRightY()), m_AlgaeSubsystem));//(MathUtil.applyDeadband(P4controller.getRightY(), 0.1)), MathUtil.applyDeadband(P4controller.getLeftY(), 0.1)));
         m_AlgaeSubsystem.setDefaultCommand(m_AlgaeSubsystem.AlgaeDefaultCommand());
-          m_indexing.setDefaultCommand(m_indexing.SettingReefIndexBasedOnController(P2controller::getRightX, P2controller::getRightY));
+          m_indexing.setDefaultCommand(m_indexing.SettingReefIndexBasedOnController(() -> P6controller.getRawAxis(Constants.ControllerConstants.RightX), () -> P6controller.getRawAxis(Constants.ControllerConstants.RightY)));
          //m_ShooterBoxx.setDefaultCommand(Commands.run(() -> m_ShooterBoxx.RunShooter(P2controller.getRightX())));
         m_drivetrain.registerTelemetry(logger::telemeterize);
 
         m_drivetrain.setDefaultCommand(
             m_drivetrain.applyRequest(() ->
-                drive.withVelocityX(-P1controller.getLeftY() * MaxSpeed * m_ElevatorSubsystem.getElevatorSlowSpeed()) // Drive forward with negative Y (forward)
-                    .withVelocityY(-P1controller.getLeftX() * MaxSpeed * m_ElevatorSubsystem.getElevatorSlowSpeed()) // Drive left with negative X (left)
-                    .withRotationalRate(-P1controller.getRightX() * MaxAngularRate * m_ElevatorSubsystem.getElevatorSlowSpeed()*1.3) // Drive counterclockwise with negative X (left)
+                drive.withVelocityX(-P5controller.getRawAxis(Constants.ControllerConstants.LeftY) * MaxSpeed * m_ElevatorSubsystem.getElevatorSlowSpeed()) // Drive forward with negative Y (forward)
+                    .withVelocityY(-P5controller.getRawAxis(Constants.ControllerConstants.LeftX) * MaxSpeed * m_ElevatorSubsystem.getElevatorSlowSpeed()) // Drive left with negative X (left)
+                    .withRotationalRate(-P5controller.getRawAxis(Constants.ControllerConstants.RightX) * MaxAngularRate * m_ElevatorSubsystem.getElevatorSlowSpeed()*1.3) // Drive counterclockwise with negative X (left)
             )
         );
 
@@ -898,6 +925,353 @@ public class RobotContainer {
         // P2controller.a().whileTrue(Commands.runOnce(() -> m_indexing.updateP1Index()));
 
 
+
+        //-------------------MICHALS MOMENT HAS COME -----------------------
+
+        //----------------------P1 Conrtorl
+       
+        
+        final Trigger R1 = new Trigger(() -> P5controller.getRawButton(8));
+        final Trigger R2 = new Trigger(() -> P5controller.getRawButton(10));
+        final Trigger R3 = new Trigger(() -> P5controller.getRawButton(6));
+
+        final Trigger L1 = new Trigger(() -> P5controller.getRawButton(7));
+        final Trigger L2 = new Trigger(() -> P5controller.getRawButton(9));
+        final Trigger L3 = new Trigger(() -> P5controller.getRawButton(3));
+
+        final Trigger P5X = new Trigger(() -> P5controller.getRawButton(4));
+
+        // RIGHT SOURCE BLUE
+        R1.and(m_drivetrain::isAllianceBlue).whileTrue(
+            m_drivetrain.pathFindToRightBlueCoralStation().andThen(
+            Commands.parallel(
+                m_drivetrain.applyRequest(() ->
+                    drive.withVelocityX(m_drivetrain.PIDDriveToPointX(PoseConstants.CORAL_STATION_RIGHT_BLUE_POSE.getX()) * MaxSpeed)
+                    .withVelocityY(m_drivetrain.PIDDriveToPointY(PoseConstants.CORAL_STATION_RIGHT_BLUE_POSE.getY()) * MaxSpeed)
+                    .withRotationalRate(m_drivetrain.PIDDriveToPointDEG(PoseConstants.CORAL_STATION_RIGHT_BLUE_POSE.getRotation().getDegrees()))
+                 )
+                 
+            )
+        ));
+
+        // RIGHT SOURCE RED
+        R1.and(m_drivetrain::isAllianceRed).whileTrue(
+            m_drivetrain.pathFindToRightRedCoralStation().andThen(
+             Commands.parallel(
+                m_drivetrain.applyRequest(() ->
+                    drive.withVelocityX(m_drivetrain.PIDDriveToPointX(PoseConstants.CORAL_STATION_RIGHT_RED_POSE.getX()) * MaxSpeed)
+                    .withVelocityY(m_drivetrain.PIDDriveToPointY(PoseConstants.CORAL_STATION_RIGHT_RED_POSE.getY()) * MaxSpeed)
+                    .withRotationalRate(m_drivetrain.PIDDriveToPointDEG(PoseConstants.CORAL_STATION_RIGHT_RED_POSE.getRotation().getDegrees()))
+                 )
+                 
+            )
+        ));
+
+         // SLOW MODE
+         R2.whileTrue(m_drivetrain.applyRequest(() ->
+         drive.withVelocityX(-P5controller.getRawAxis(Constants.ControllerConstants.LeftY) * MaxSpeed * Constants.DrivetrainConstants.SlowMoSpeed)
+         .withVelocityY(-P5controller.getRawAxis(Constants.ControllerConstants.LeftX) * MaxSpeed * Constants.DrivetrainConstants.SlowMoSpeed)
+         .withRotationalRate(-P5controller.getRawAxis(Constants.ControllerConstants.RightX) * MaxAngularRate * Constants.DrivetrainConstants.SlowMoSpeed)
+ ));
+ L2.and(m_drivetrain::isAllianceBlue).and(() -> stationChooser.getSelected()).whileTrue(Commands.repeatingSequence(
+            //m_indexing.updateP1IndexInRepeatingCommand(),
+            m_drivetrain.pathFindToAllTheReefsBlue2().andThen(
+            Commands.deadline(
+                new ScoreCoral(m_drivetrain, m_ElevatorSubsystem, m_ShooterBoxx, m_AlgaeSubsystem),
+                m_drivetrain.applyRequest(() ->
+                    drive.withVelocityX(m_drivetrain.PIDDriveToPointX(PoseConstants.BLUE_REEF_POSES[m_drivetrain.getPlayer1ReefIndex()].getX()) * MaxSpeed)
+                    .withVelocityY(m_drivetrain.PIDDriveToPointY(PoseConstants.BLUE_REEF_POSES[m_drivetrain.getPlayer1ReefIndex()].getY()) * MaxSpeed)
+                    .withRotationalRate(m_drivetrain.PIDDriveToPointDEG(PoseConstants.BLUE_REEF_POSES[m_drivetrain.getPlayer1ReefIndex()].getRotation().getDegrees()))
+                ))
+                
+                // // keep stick out
+                // .andThen(Commands.parallel(
+                //     Commands.run(() -> m_AlgaeSubsystem.MoveArmToPointMethod(AlgaeConstants.DealgifyPosition)),
+                //     Commands.run(() -> m_drivetrain.applyRequest(() -> driveCentric.withVelocityX(DrivetrainConstants.ESCAPE_SPEED).withVelocityY(0).withRotationalRate(0))
+                // )).withTimeout(DrivetrainConstants.ESCAPE_TIME).until(m_AlgaeSubsystem::isAlgaeAtHome)) //this instantly ends the backing up
+                    
+                //.and then(Commands. deadline ) (check if stick is out if so then back up) just use robot centric back up for withTimeout
+                .andThen( m_drivetrain.pathFindToLeftBlueCoralStation().andThen(
+                        m_drivetrain.applyRequest(() ->
+                            drive.withVelocityX(m_drivetrain.PIDDriveToPointX(PoseConstants.CORAL_STATION_LEFT_BLUE_POSE.getX()) * MaxSpeed)
+                            .withVelocityY(m_drivetrain.PIDDriveToPointY(PoseConstants.CORAL_STATION_LEFT_BLUE_POSE.getY()) * MaxSpeed)
+                            .withRotationalRate(m_drivetrain.PIDDriveToPointDEG(PoseConstants.CORAL_STATION_LEFT_BLUE_POSE.getRotation().getDegrees()))
+                         ).until(m_ShooterBoxx::ElevatorCoralSensorTriggered)
+                )))
+            )
+        );
+
+        // SCORE BLUE RIGHT CORAL STATION
+        L2.and(m_drivetrain::isAllianceBlue).and(() -> !stationChooser.getSelected()).whileTrue(Commands.repeatingSequence(
+            //m_indexing.updateP1IndexInRepeatingCommand(),
+            m_drivetrain.pathFindToAllTheReefsBlue2().andThen(
+            Commands.deadline(
+                new ScoreCoral(m_drivetrain, m_ElevatorSubsystem, m_ShooterBoxx, m_AlgaeSubsystem),
+                m_drivetrain.applyRequest(() ->
+                    drive.withVelocityX(m_drivetrain.PIDDriveToPointX(PoseConstants.BLUE_REEF_POSES[m_drivetrain.getPlayer1ReefIndex()].getX()) * MaxSpeed)
+                    .withVelocityY(m_drivetrain.PIDDriveToPointY(PoseConstants.BLUE_REEF_POSES[m_drivetrain.getPlayer1ReefIndex()].getY()) * MaxSpeed)
+                    .withRotationalRate(m_drivetrain.PIDDriveToPointDEG(PoseConstants.BLUE_REEF_POSES[m_drivetrain.getPlayer1ReefIndex()].getRotation().getDegrees()))
+                ))
+
+                // // keep stick out
+                // .andThen(Commands.parallel(
+                //     Commands.run(() -> m_AlgaeSubsystem.MoveArmToPointMethod(AlgaeConstants.DealgifyPosition)),
+                //     Commands.run(() -> m_drivetrain.applyRequest(() -> driveCentric.withVelocityX(DrivetrainConstants.ESCAPE_SPEED).withVelocityY(0).withRotationalRate(0))
+                // )).withTimeout(DrivetrainConstants.ESCAPE_TIME).until(m_AlgaeSubsystem::isAlgaeAtHome)) //this instantly ends the backing up
+                    
+                .andThen( m_drivetrain.pathFindToRightBlueCoralStation().andThen(
+                        m_drivetrain.applyRequest(() ->
+                            drive.withVelocityX(m_drivetrain.PIDDriveToPointX(PoseConstants.CORAL_STATION_RIGHT_BLUE_POSE.getX()) * MaxSpeed)
+                            .withVelocityY(m_drivetrain.PIDDriveToPointY(PoseConstants.CORAL_STATION_RIGHT_BLUE_POSE.getY()) * MaxSpeed)
+                            .withRotationalRate(m_drivetrain.PIDDriveToPointDEG(PoseConstants.CORAL_STATION_RIGHT_BLUE_POSE.getRotation().getDegrees()))
+                         ).until(m_ShooterBoxx::ElevatorCoralSensorTriggered)
+                )))
+            )
+        );
+
+        // SCORE RED LEFT CORAL STATION
+        L2.and(m_drivetrain::isAllianceRed).and(() -> stationChooser.getSelected()).whileTrue(Commands.repeatingSequence(
+            //m_indexing.updateP1IndexInRepeatingCommand(),
+            m_drivetrain.pathFindToAllTheReefsRed2().andThen(
+            Commands.deadline(
+                new ScoreCoral(m_drivetrain, m_ElevatorSubsystem, m_ShooterBoxx, m_AlgaeSubsystem),
+                m_drivetrain.applyRequest(() ->
+                    drive.withVelocityX(m_drivetrain.PIDDriveToPointX(PoseConstants.RED_REEF_POSES[m_drivetrain.getPlayer1ReefIndex()].getX()) * MaxSpeed)
+                    .withVelocityY(m_drivetrain.PIDDriveToPointY(PoseConstants.RED_REEF_POSES[m_drivetrain.getPlayer1ReefIndex()].getY()) * MaxSpeed)
+                    .withRotationalRate(m_drivetrain.PIDDriveToPointDEG(PoseConstants.RED_REEF_POSES[m_drivetrain.getPlayer1ReefIndex()].getRotation().getDegrees()))
+                ))
+
+                // // keep stick out
+                // .andThen(Commands.parallel(
+                //     Commands.run(() -> m_AlgaeSubsystem.MoveArmToPointMethod(AlgaeConstants.DealgifyPosition)),
+                //     Commands.run(() -> m_drivetrain.applyRequest(() -> driveCentric.withVelocityX(DrivetrainConstants.ESCAPE_SPEED).withVelocityY(0).withRotationalRate(0))
+                // )).withTimeout(DrivetrainConstants.ESCAPE_TIME).until(m_AlgaeSubsystem::isAlgaeAtHome)) //this instantly ends the backing up
+                    
+                .andThen( m_drivetrain.pathFindToLeftRedCoralStation().andThen(
+                        m_drivetrain.applyRequest(() ->
+                            drive.withVelocityX(m_drivetrain.PIDDriveToPointX(PoseConstants.CORAL_STATION_LEFT_RED_POSE.getX()) * MaxSpeed)
+                            .withVelocityY(m_drivetrain.PIDDriveToPointY(PoseConstants.CORAL_STATION_LEFT_RED_POSE.getY()) * MaxSpeed)
+                            .withRotationalRate(m_drivetrain.PIDDriveToPointDEG(PoseConstants.CORAL_STATION_LEFT_RED_POSE.getRotation().getDegrees()))
+                         ).until(m_ShooterBoxx::ElevatorCoralSensorTriggered)
+                )))
+            )
+        );
+
+        // SCORE RED RIGHT CORAL STATION
+        L2.and(m_drivetrain::isAllianceRed).and(() -> !stationChooser.getSelected()).whileTrue(Commands.repeatingSequence(
+            //m_indexing.updateP1IndexInRepeatingCommand(),
+            m_drivetrain.pathFindToAllTheReefsRed2().andThen(
+            Commands.deadline(
+                new ScoreCoral(m_drivetrain, m_ElevatorSubsystem, m_ShooterBoxx, m_AlgaeSubsystem),
+                m_drivetrain.applyRequest(() ->
+                    drive.withVelocityX(m_drivetrain.PIDDriveToPointX(PoseConstants.RED_REEF_POSES[m_drivetrain.getPlayer1ReefIndex()].getX()) * MaxSpeed)
+                    .withVelocityY(m_drivetrain.PIDDriveToPointY(PoseConstants.RED_REEF_POSES[m_drivetrain.getPlayer1ReefIndex()].getY()) * MaxSpeed)
+                    .withRotationalRate(m_drivetrain.PIDDriveToPointDEG(PoseConstants.RED_REEF_POSES[m_drivetrain.getPlayer1ReefIndex()].getRotation().getDegrees()))
+                ))
+
+                // // keep stick out
+                // .andThen(Commands.parallel(
+                //     Commands.run(() -> m_AlgaeSubsystem.MoveArmToPointMethod(AlgaeConstants.DealgifyPosition)),
+                //     Commands.run(() -> m_drivetrain.applyRequest(() -> driveCentric.withVelocityX(DrivetrainConstants.ESCAPE_SPEED).withVelocityY(0).withRotationalRate(0))
+                // )).withTimeout(DrivetrainConstants.ESCAPE_TIME).until(m_AlgaeSubsystem::isAlgaeAtHome)) //this instantly ends the backing up
+                    
+                .andThen(m_drivetrain.pathFindToRightRedCoralStation().andThen(
+                        m_drivetrain.applyRequest(() ->
+                            drive.withVelocityX(m_drivetrain.PIDDriveToPointX(PoseConstants.CORAL_STATION_RIGHT_RED_POSE.getX()) * MaxSpeed)
+                            .withVelocityY(m_drivetrain.PIDDriveToPointY(PoseConstants.CORAL_STATION_RIGHT_RED_POSE.getY()) * MaxSpeed)
+                            .withRotationalRate(m_drivetrain.PIDDriveToPointDEG(PoseConstants.CORAL_STATION_RIGHT_RED_POSE.getRotation().getDegrees()))
+                         ).until(m_ShooterBoxx::ElevatorCoralSensorTriggered)
+                )))
+            )
+        );
+        // LEFT SOURCE BLUE
+        L1.and(m_drivetrain::isAllianceBlue).whileTrue(
+            m_drivetrain.pathFindToLeftBlueCoralStation().andThen(
+            Commands.parallel(
+                m_drivetrain.applyRequest(() ->
+                    drive.withVelocityX(m_drivetrain.PIDDriveToPointX(PoseConstants.CORAL_STATION_LEFT_BLUE_POSE.getX()) * MaxSpeed)
+                    .withVelocityY(m_drivetrain.PIDDriveToPointY(PoseConstants.CORAL_STATION_LEFT_BLUE_POSE.getY()) * MaxSpeed)
+                    .withRotationalRate(m_drivetrain.PIDDriveToPointDEG(PoseConstants.CORAL_STATION_LEFT_BLUE_POSE.getRotation().getDegrees()))
+                 )
+                
+            )
+        ));
+
+        // LEFT SOURCE RED
+        L1.and(m_drivetrain::isAllianceRed).whileTrue(
+            m_drivetrain.pathFindToLeftRedCoralStation().andThen(
+            Commands.parallel(
+                m_drivetrain.applyRequest(() ->
+                    drive.withVelocityX(m_drivetrain.PIDDriveToPointX(PoseConstants.CORAL_STATION_LEFT_RED_POSE.getX()) * MaxSpeed)
+                    .withVelocityY(m_drivetrain.PIDDriveToPointY(PoseConstants.CORAL_STATION_LEFT_RED_POSE.getY()) * MaxSpeed)
+                    .withRotationalRate(m_drivetrain.PIDDriveToPointDEG(PoseConstants.CORAL_STATION_LEFT_RED_POSE.getRotation().getDegrees()))
+                 )
+           
+            )
+        ));
+
+        // RED
+        P5commandController.povDown().and(m_drivetrain::isAllianceRed).whileTrue(m_drivetrain.pathFindToAllTheReefsRed2().andThen(
+            Commands.deadline(
+                new AlgaeOff(m_drivetrain, m_ElevatorSubsystem, m_ShooterBoxx, m_AlgaeSubsystem),
+                m_drivetrain.applyRequest(() ->
+                    drive.withVelocityX(m_drivetrain.PIDDriveToPointX(PoseConstants.RED_REEF_POSES[m_drivetrain.getPlayer1ReefIndex()].getX()) * MaxSpeed)
+                    .withVelocityY(m_drivetrain.PIDDriveToPointY(PoseConstants.RED_REEF_POSES[m_drivetrain.getPlayer1ReefIndex()].getY()) * MaxSpeed)
+                    .withRotationalRate(m_drivetrain.PIDDriveToPointDEG(PoseConstants.RED_REEF_POSES[m_drivetrain.getPlayer1ReefIndex()].getRotation().getDegrees()))
+                )
+            )
+            .andThen((m_drivetrain.applyRequest(() ->
+                driveCentric.withVelocityX(DrivetrainConstants.ESCAPE_SPEED)
+                .withVelocityY(0)
+                .withRotationalRate(0)
+            )
+            .withTimeout(DrivetrainConstants.ESCAPE_TIME)
+            .until(m_AlgaeSubsystem::isAlgaeAtHome)
+            ))
+        ));
+
+        // BLUE
+        P5commandController.povDown().and(m_drivetrain::isAllianceBlue).whileTrue(m_drivetrain.pathFindToAllTheReefsBlue2().andThen(
+            Commands.deadline(
+                new AlgaeOff(m_drivetrain, m_ElevatorSubsystem, m_ShooterBoxx, m_AlgaeSubsystem), 
+                m_drivetrain.applyRequest(() ->
+                    drive.withVelocityX(m_drivetrain.PIDDriveToPointX(PoseConstants.BLUE_REEF_POSES[m_drivetrain.getPlayer1ReefIndex()].getX()) * MaxSpeed)
+                    .withVelocityY(m_drivetrain.PIDDriveToPointY(PoseConstants.BLUE_REEF_POSES[m_drivetrain.getPlayer1ReefIndex()].getY()) * MaxSpeed)
+                    .withRotationalRate(m_drivetrain.PIDDriveToPointDEG(PoseConstants.BLUE_REEF_POSES[m_drivetrain.getPlayer1ReefIndex()].getRotation().getDegrees()))
+                )
+            )
+            .andThen((m_drivetrain.applyRequest(() ->
+                driveCentric.withVelocityX(DrivetrainConstants.ESCAPE_SPEED)
+                .withVelocityY(0)
+                .withRotationalRate(0)
+            )
+            .withTimeout(DrivetrainConstants.ESCAPE_TIME)
+            .until(m_AlgaeSubsystem::isAlgaeAtHome)
+            ))
+        ));
+    
+
+        // FACE LEFT CORAL STATION
+        P5X.whileTrue(m_drivetrain.applyRequest(() ->
+                drive.withVelocityX(-P5controller.getRawAxis(Constants.ControllerConstants.LeftY) * MaxSpeed * m_ElevatorSubsystem.getElevatorSlowSpeed())
+                .withVelocityY(-P5controller.getRawAxis(Constants.ControllerConstants.LeftX) * MaxSpeed * m_ElevatorSubsystem.getElevatorSlowSpeed())
+                .withRotationalRate(-m_drivetrain.angularSpeedToFaceLeftCoralStation() * m_ElevatorSubsystem.getElevatorSlowSpeed())
+        ));
+
+        // FACE RIGHT CORAL STATION
+        P5commandController.b().whileTrue(m_drivetrain.applyRequest(() ->
+                drive.withVelocityX(-P5controller.getRawAxis(Constants.ControllerConstants.LeftY) * MaxSpeed * m_ElevatorSubsystem.getElevatorSlowSpeed())
+                .withVelocityY(-P5controller.getRawAxis(Constants.ControllerConstants.LeftX) * MaxSpeed * m_ElevatorSubsystem.getElevatorSlowSpeed())
+                .withRotationalRate(-m_drivetrain.angularSpeedToFaceRightCoralStation() * m_ElevatorSubsystem.getElevatorSlowSpeed())
+        ));
+
+        //CENTRIC MODE
+        P5commandController.a().whileTrue(m_drivetrain.applyRequest(() ->
+        driveCentric.withVelocityX(P5controller.getRawAxis(Constants.ControllerConstants.LeftY) * Constants.DrivetrainConstants.SlowMoSpeed) // Drive forward with negative Y (forward)
+             .withVelocityY(P5controller.getRawAxis(Constants.ControllerConstants.LeftX) * Constants.DrivetrainConstants.SlowMoSpeed) // Drive left with negative X (left)
+             .withRotationalRate(-P5controller.getRawAxis(Constants.ControllerConstants.RightX) * Constants.DrivetrainConstants.SlowMoSpeed) // Faces the Reef
+        ));
+
+        // ----------------------------------------------------P2 ------------------------------------------
+
+        final Trigger P2R1 = new Trigger(() -> P6controller.getRawButton(8));
+        final Trigger P2R2 = new Trigger(() -> P6controller.getRawButton(10));
+        final Trigger P2R3 = new Trigger(() -> P6controller.getRawButton(6));
+
+        final Trigger P2L1 = new Trigger(() -> P6controller.getRawButton(7));
+        final Trigger P2L2 = new Trigger(() -> P6controller.getRawButton(9));
+        final Trigger P2L3 = new Trigger(() -> P6controller.getRawButton(3));
+
+        final Trigger P6X = new Trigger(() -> P6controller.getRawButton(4));
+        final Trigger P6minus = new Trigger(() -> P6controller.getRawButton(11));
+        final Trigger P6plus = new Trigger(() -> P6controller.getRawButton(12));
+
+        // Index
+        P2L1.onTrue(Commands.runOnce(() -> m_indexing.poseIndexSwitch(false)));
+        P2R1.onTrue(Commands.runOnce(() -> m_indexing.poseIndexSwitch(true)));
+        
+        // Climb Neo
+        P2L2.whileTrue(Commands.run(() ->m_ClimbSubsystemNeo.goodClimbInCommand(), m_ClimbSubsystemNeo));
+        //P2controller.rightTrigger().whileTrue(Commands.run(() -> m_ClimbSubsystemNeo.PutTheServoInTheRightSpotPlease(), m_ClimbSubsystemNeo).until(()->m_ClimbSubsystemNeo.ReadyToStickTheClimbOutIGuess()).andThen(Commands.waitSeconds(4)).andThen(()-> m_ClimbSubsystemNeo.climbForwardCommand()));//.andThen(() ->m_ClimbSubsystemNeo.climbForwardCommand()));
+        //P2controller.x().whileTrue(Commands.run(() ->m_ClimbSubsystemNeo.PutTheServoInTheRightSpotPlease(), m_ClimbSubsystemNeo));
+        P2R2.whileTrue(
+            Commands.run(() ->m_ClimbSubsystemNeo.climbOutCommandpart1(), m_ClimbSubsystemNeo)
+            .withTimeout(0.5).andThen(Commands.run(() ->m_ClimbSubsystemNeo.climbToSetpointPID(), m_ClimbSubsystemNeo))
+        );
+
+        P6commandController.povDown().whileTrue(Commands.either(Commands.run(() ->  m_indexing.elevatorIndexChooser(1)),
+         m_ElevatorSubsystem.elevatorToL1(), m_indexing::isP2ManualModeFalse));
+
+        P6commandController.povLeft().whileTrue(Commands.either(Commands.run(() ->  m_indexing.elevatorIndexChooser(2)),
+         m_ElevatorSubsystem.elevatorToL2(), m_indexing::isP2ManualModeFalse));
+
+         P6commandController.povRight().whileTrue(Commands.either(Commands.run(() ->  m_indexing.elevatorIndexChooser(3)),
+         m_ElevatorSubsystem.elevatorToL3(), m_indexing::isP2ManualModeFalse));
+
+         P6commandController.povUp().whileTrue(Commands.either(Commands.run(() ->  m_indexing.elevatorIndexChooser(4)),
+         m_ElevatorSubsystem.elevatorToL4(), m_indexing::isP2ManualModeFalse));
+
+        // Send values to P1
+        P6commandController.a().whileTrue(Commands.runOnce(() -> m_indexing.updateP1Index()));
+
+        // Stop Elevator
+        P6plus.whileTrue(m_ElevatorSubsystem.disableElevator());
+        P6minus.toggleOnTrue(Commands.startEnd(() -> m_indexing.setP2ManualModeYes(), () -> m_indexing.setP2ManualModeNo(), m_indexing));
+
+        P6commandController.b().whileTrue(m_ShooterBoxx.WorksShootCommand());
+
+
+        //P2controller.y().whileTrue(m_ElevatorSubsystem.elevatorToHome());
+        P6commandController.y().whileTrue(Commands.either(Commands.run(() -> m_indexing.updateP1IndexAlgaeEdition()),
+        m_ElevatorSubsystem.elevatorToHome(), m_indexing::isP2ManualModeFalse)); //NOT SURE HOW THIS CALLS DEALGIFY
+        P6X.whileTrue(m_AlgaeSubsystem.MoveArmToUnJam());
+        
+
+
+
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     }
 
     public Command getAutonomousCommand() {

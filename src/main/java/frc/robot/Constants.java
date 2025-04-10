@@ -174,6 +174,11 @@ public final class Constants {
 
   public static class ControllerConstants {
     public static enum EVERYTHING_ENUM {SCORE, LEFT_SOURCE, RIGHT_SOURCE, NET, PROCESSOR, CLIMB};
+
+    public static final int LeftX = 0;
+    public static final int LeftY = 1;
+    public static final int RightX = 3;
+    public static final int RightY = 4;
   }
 
   //Algae Constants
