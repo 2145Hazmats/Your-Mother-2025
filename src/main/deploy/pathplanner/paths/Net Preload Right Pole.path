@@ -78,6 +78,17 @@
           "name": "Algae2Home"
         }
       }
+    },
+    {
+      "name": "start firing",
+      "waypointRelativePos": 0.9453072248480688,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "FireL4"
+        }
+      }
     }
   ],
   "globalConstraints": {

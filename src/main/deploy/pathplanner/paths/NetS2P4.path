@@ -16,12 +16,12 @@
     },
     {
       "anchor": {
-        "x": 3.192811020854507,
-        "y": 4.012195888294216
+        "x": 3.17,
+        "y": 4.132889344262295
       },
       "prevControl": {
-        "x": 2.8958163643761865,
-        "y": 4.514269947371435
+        "x": 2.8730053435216796,
+        "y": 4.634963403339514
       },
       "nextControl": null,
       "isLocked": false,
@@ -54,6 +54,17 @@
         "type": "named",
         "data": {
           "name": "AutoL4"
+        }
+      }
+    },
+    {
+      "name": "fire early",
+      "waypointRelativePos": 0.9615124915597558,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "FireL4"
         }
       }
     }

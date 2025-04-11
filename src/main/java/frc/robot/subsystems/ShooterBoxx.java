@@ -206,6 +206,9 @@ public boolean ElevatorCoralSensorTriggered() {
     SmartDashboard.putBoolean("Elevator Coral Sensor", ElevatorCoralSensorTriggered());
     SmartDashboard.putBoolean("Boxx Coral Sensor", BoxxCoralSensorTriggered());
     SmartDashboard.putBoolean("EitherSensorTrue", getEitherSensor());
+
+    SmartDashboard.putNumber("Shooter Motor Speed", shooterMotor.get());
+
     isElevatorSensorTrue = !ElevatorCoralSensor.get();
     isBoxxSensorTrue = !BoxxCoralSensor.get();
   }

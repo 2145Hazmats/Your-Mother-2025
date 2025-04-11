@@ -84,8 +84,8 @@ public class CameraSubsystem extends SubsystemBase {
   // The standard deviations of our vision estimated poses, which affect correction rate
   // (Fake values. Experiment and determine estimation noise on an actual robot.)
   // TODO : edit starting values
-  private final Matrix<N3, N1> kSingleTagStdDevs = VecBuilder.fill(2, 2, 8); //VecBuilder.fill(4, 4, 8);
-  private final Matrix<N3, N1> kMultiTagStdDevs = VecBuilder.fill(0.5, 0.5, 1);
+  private final Matrix<N3, N1> kSingleTagStdDevs = VecBuilder.fill(1.5, 1.5, 6); //VecBuilder.fill(4, 4, 8); (2 , 2 , 8)
+  private final Matrix<N3, N1> kMultiTagStdDevs = VecBuilder.fill(0.3, 0.3, .75); //0.5,0.5,1
 
   /* Constructor */
   public CameraSubsystem(CommandSwerveDrivetrain drivetrain) {

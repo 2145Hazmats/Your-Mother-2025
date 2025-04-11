@@ -1,0 +1,62 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Rush E Score Preload"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "FireL4"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "RushEPreload2Station"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "SuckTillElevatorSensor"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "SuckTillSensor"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "RushEStation2S2"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "FireL4"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": false,
+  "folder": "Centre",
+  "choreoAuto": false
+}

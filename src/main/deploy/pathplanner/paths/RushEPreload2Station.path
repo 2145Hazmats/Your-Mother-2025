@@ -3,68 +3,54 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.322709098413388,
-        "y": 7.123542948212857
+        "x": 3.1560034188533184,
+        "y": 4.094994510592237
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.6343894262822403,
-        "y": 6.847825735098103
+        "x": 2.19087949846033,
+        "y": 4.790864129075552
       },
       "isLocked": false,
-      "linkedName": "NetSource"
+      "linkedName": "RushEPreload"
     },
     {
       "anchor": {
-        "x": 3.54,
-        "y": 4.99
+        "x": 0.671311475409836,
+        "y": 6.65030737704918
       },
       "prevControl": {
-        "x": 3.207653184143748,
-        "y": 5.6744580209399516
+        "x": 0.959016393441732,
+        "y": 6.1228483606578745
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "NetS3"
+      "linkedName": "RushEStation"
     }
   ],
   "rotationTargets": [],
-  "constraintZones": [
-    {
-      "name": "Constraints Zone",
-      "minWaypointRelativePos": 0.8495509759136218,
-      "maxWaypointRelativePos": 1.0,
-      "constraints": {
-        "maxVelocity": 4.4,
-        "maxAcceleration": 4.0,
-        "maxAngularVelocity": 540.0,
-        "maxAngularAcceleration": 720.0,
-        "nominalVoltage": 12.0,
-        "unlimited": false
-      }
-    }
-  ],
+  "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [
     {
-      "name": "Prep play 3",
-      "waypointRelativePos": 0.2,
+      "name": "Put the arm down please",
+      "waypointRelativePos": 0,
       "endWaypointRelativePos": null,
       "command": {
         "type": "named",
         "data": {
-          "name": "AutoL4"
+          "name": "Elevator2Home"
         }
       }
     },
     {
-      "name": "fire early",
-      "waypointRelativePos": 0.9047940580688755,
+      "name": "suck",
+      "waypointRelativePos": 0.7913571910870996,
       "endWaypointRelativePos": null,
       "command": {
         "type": "named",
         "data": {
-          "name": "FireL4"
+          "name": "SuckTillSensor"
         }
       }
     }
@@ -79,13 +65,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -59.99999999999999
+    "rotation": -54.0
   },
   "reversed": false,
-  "folder": "Net Side",
+  "folder": "Centre",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -54.0
+    "rotation": 0.0
   },
   "useDefaultConstraints": true
 }

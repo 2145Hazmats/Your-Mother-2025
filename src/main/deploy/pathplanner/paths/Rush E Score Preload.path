@@ -1,0 +1,87 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 7.0967213114754095,
+        "y": 7.213729508196722
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 6.305532786881568,
+        "y": 7.093852459011336
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 1.9300204917996016,
+        "y": 6.602356557371991
+      },
+      "prevControl": {
+        "x": 2.421516393438946,
+        "y": 7.129815573765434
+      },
+      "nextControl": {
+        "x": 1.4434410384231924,
+        "y": 6.0801737293582825
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 3.1560034188533184,
+        "y": 4.094994510592237
+      },
+      "prevControl": {
+        "x": 1.532248879518797,
+        "y": 5.103766515500738
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "RushEPreload"
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.9680170575692955,
+      "rotationDegrees": -32.108844613787056
+    }
+  ],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [
+    {
+      "name": "prep play",
+      "waypointRelativePos": 1.7987846049965845,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "AutoL4"
+        }
+      }
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 4.48,
+    "maxAcceleration": 6.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 1000.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 0.0
+  },
+  "reversed": false,
+  "folder": "Centre",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": 180.0
+  },
+  "useDefaultConstraints": false
+}

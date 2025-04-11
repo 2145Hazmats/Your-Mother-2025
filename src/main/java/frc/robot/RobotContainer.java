@@ -1183,6 +1183,7 @@ public class RobotContainer {
         final Trigger P2L3 = new Trigger(() -> P6controller.getRawButton(3));
 
         final Trigger P6X = new Trigger(() -> P6controller.getRawButton(4));
+        final Trigger P6Y = new Trigger(() -> P6controller.getRawButton(5));
         final Trigger P6minus = new Trigger(() -> P6controller.getRawButton(11));
         final Trigger P6plus = new Trigger(() -> P6controller.getRawButton(12));
 
@@ -1222,7 +1223,7 @@ public class RobotContainer {
 
 
         //P2controller.y().whileTrue(m_ElevatorSubsystem.elevatorToHome());
-        P6commandController.y().whileTrue(Commands.either(Commands.run(() -> m_indexing.updateP1IndexAlgaeEdition()),
+        P6Y.whileTrue(Commands.either(Commands.run(() -> m_indexing.updateP1IndexAlgaeEdition()),
         m_ElevatorSubsystem.elevatorToHome(), m_indexing::isP2ManualModeFalse)); //NOT SURE HOW THIS CALLS DEALGIFY
         P6X.whileTrue(m_AlgaeSubsystem.MoveArmToUnJam());
         

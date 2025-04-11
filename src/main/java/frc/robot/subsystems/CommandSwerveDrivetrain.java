@@ -50,6 +50,8 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     private boolean m_hasAppliedOperatorPerspective = false;
 
     private PathConstraints pathFindingConstraints;
+   // private PathConstraints pathFindingStationConstraints;
+
 
     private int player1ReefIndex = 0;
     private int player2ReefIndex = 0;

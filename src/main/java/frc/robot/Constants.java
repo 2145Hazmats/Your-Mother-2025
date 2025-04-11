@@ -52,13 +52,13 @@ public final class Constants {
     
     // PathPlanner Pathfinding Constants
     public static final double MAX_VELOCITY_MPS = 4.3; //3
-    public static final double MAX_ACCELERATION_MPS = 6; //4
+    public static final double MAX_ACCELERATION_MPS = 5; //4
     public static final double MAX_ANGULAR_VELOCITY_RAD = Units.degreesToRadians(90); //Units.degreesToRadians(90)
     public static final double MAX_ANGULAR_ACCELERATION_RAD = Units.degreesToRadians(400); //Units.degreesToRadians(400)
     public static final double NOMINAL_VOLTAGE_VOLTS = 11.5;
 
     public static final double PATHFIND_END_SPEED_MPS = 0.1;
-    public static final double PATHFIND_END_SPEED_MPS_STATION = .5;
+    public static final double PATHFIND_END_SPEED_MPS_STATION = 1;//.5
 
   }
 
@@ -136,7 +136,7 @@ public final class Constants {
     public static final int kBoxxCoralSensorChannel = 0;
     public static final int kElevatorCoralSensorChannel = 2;
     public static final double kSpitSpeed = -0.6; // -0.45
-    public static final double kSuckSpeed = -0.85;
+    public static final double kSuckSpeed = -0.85;//-0.85
     public static final double kFinalSpeed = -0.4;
     public static final double kAsFastAsPossibleSped = 5;
   }

@@ -56,6 +56,17 @@
           "name": "AutoL4"
         }
       }
+    },
+    {
+      "name": "fire early",
+      "waypointRelativePos": 0.8966914247130353,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "FireL4"
+        }
+      }
     }
   ],
   "globalConstraints": {

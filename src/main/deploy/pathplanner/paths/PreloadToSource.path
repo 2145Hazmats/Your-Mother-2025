@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.155,
-        "y": 5.155
+        "x": 5.086553463989616,
+        "y": 5.19992346368952
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.721483922494264,
-        "y": 6.158758763614331
+        "x": 3.65303738648388,
+        "y": 6.20368222730385
       },
       "isLocked": false,
       "linkedName": "Net Preload"
