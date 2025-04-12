@@ -32,6 +32,7 @@ import frc.robot.commands.removeAlgaeAuton;
 import frc.robot.commands.ScoreCoralAuton;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.AlgaeSubsystem;
+import frc.robot.subsystems.CANdleSubsystem;
 //import frc.robot.subsystems.AlgaeSuperSystem;
 import frc.robot.subsystems.CameraSubsystem;
 //import frc.robot.subsystems.ChirpMusic;
@@ -40,6 +41,7 @@ import frc.robot.subsystems.CommandSwerveDrivetrain; //
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.Indexing;
 import frc.robot.subsystems.ShooterBoxx;
+import frc.robot.subsystems.CANdleSubsystem.AnimationTypes;
 
 public class RobotContainer {
 
@@ -93,7 +95,9 @@ public class RobotContainer {
     private ShooterBoxx m_ShooterBoxx = new ShooterBoxx(m_ElevatorSubsystem);
     //private AlgaeSuperSystem m_AlgaeSuperSystem = new AlgaeSuperSystem(m_ElevatorSubsystem, m_AlgaeSubsystem, m_ShooterBoxx);
     private Indexing m_indexing = new Indexing(m_ElevatorSubsystem, m_drivetrain);
-    // private CANdleSubsystem m_CANdle = new CANdleSubsystem(2);
+    
+    // *4/11 NEW CODE* INSTANTIATE CANdleSubsystem
+    private CANdleSubsystem m_CANdle = new CANdleSubsystem(m_drivetrain);
 
     public RobotContainer() {
         configureBindings();
@@ -695,6 +699,11 @@ public class RobotContainer {
 
         P3controller.back().whileTrue(Commands.runOnce(() -> m_ClimbSubsystemNeo.resetMotorPosition()));
 
+        // *4/11 NEW CODE* LED CONTROLS
+        // P3controller.povRight().onTrue(Commands.runOnce(() -> CANdleSubsystem.changeAnimation(AnimationTypes.ColorFlow)));
+        // P3controller.povLeft().onTrue(Commands.runOnce(() -> CANdleSubsystem.setColors()));
+        // P3controller.povUp().onTrue(Commands.runOnce(() -> m_CANdle.incrementAnimation()));
+        // P3controller.povDown().onTrue(Commands.runOnce(() -> m_CANdle.decrementAnimation()));
          
         //----------------------------------------------------------P4 Controls-------------------------------------------------------
     

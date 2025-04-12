@@ -13,6 +13,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.subsystems.CANdleSubsystem;
+import frc.robot.subsystems.CANdleSubsystem.AnimationTypes;
 
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
@@ -23,7 +25,6 @@ public class Robot extends TimedRobot {
     m_robotContainer = new RobotContainer();
     CameraServer.startAutomaticCapture();
     DriverStation.silenceJoystickConnectionWarning(true);
-  
   }
 
   @Override
@@ -50,6 +51,8 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
     }
+
+    //CANdleSubsystem.changeAnimation(AnimationTypes.ColorFlow);
   }
 
   @Override
@@ -58,6 +61,7 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousExit() {
     //m_robotContainer.getSwerveDrivetrain().configNeutralMode(NeutralModeValue.Coast);
+    //CANdleSubsystem.setColors();
   }
 
   @Override

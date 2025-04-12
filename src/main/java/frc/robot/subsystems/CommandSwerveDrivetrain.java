@@ -626,6 +626,28 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     //     configureAutoBuilder();
     // }
 
+    // Coral Station: 4.45 meters from reef
+    // Far Climb: 5.35 meters from reef
+    public double getDistanceFromReef() {
+        double blueReefPoseX = 4.479;
+        double blueReefPoseY = 4.025;
+        double redReefPoseX = 13.069;
+        double redReefPoseY = 4.025;
+
+        if (isAllianceBlue()) {
+            return (Math.sqrt(
+                Math.pow(blueReefPoseX - getPose2d().getX(), 2) +
+                Math.pow(blueReefPoseY - getPose2d().getY(), 2)
+            ));
+        } else if (isAllianceRed()) {
+            return (Math.sqrt(
+                Math.pow(redReefPoseX - getPose2d().getX(), 2) +
+                Math.pow(redReefPoseY - getPose2d().getY(), 2)
+            ));
+        }
+        return 0;
+    };
+
     /* =============== SYSTEM ID METHODS =============== */
     /* =============== SYSTEM ID METHODS =============== */
     /* =============== SYSTEM ID METHODS =============== */

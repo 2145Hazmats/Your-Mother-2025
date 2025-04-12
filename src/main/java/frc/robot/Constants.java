@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import com.ctre.phoenix.led.CANdle.LEDStripType;
 import com.pathplanner.lib.config.PIDConstants;
 
 import edu.wpi.first.math.geometry.Pose2d;
@@ -101,7 +102,7 @@ public final class Constants {
     public static final double L1Position = -28.2 ; //-28.2
     public static final double L2Position = -30.5; //-28.2
     public static final double L3Position = -49.29; //-48.7
-    public static final double L4Position = -49.29; //-82;
+    public static final double L4Position = -82; //-82;
     public static final double HomePosition = 0.0;
 
     //public static final double AlgaeOffGetReadyLow = (-82 + -48.7)/2;
@@ -204,9 +205,15 @@ public final class Constants {
 
    public static final double ALGAE_ARM_ERROR = 2;
   }
+
   public static class LEDConstants {
-  public static final int CANdleID = 89;
-    
+    public static final int CANdleID = 37;
+    public static final int LED_COUNT = 30;
+
+    public static final LEDStripType LED_STRIP_TYPE = LEDStripType.RGB;
+    public static final double LED_BRIGHTNESS = 1;
+
+    public static final double REEF_COLOR_BRIGHTNESS = 7;
   }
   
 }
