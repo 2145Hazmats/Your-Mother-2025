@@ -16,12 +16,12 @@
     },
     {
       "anchor": {
-        "x": 5.141590543636234,
-        "y": 2.879487662671744
+        "x": 5.1129022418219625,
+        "y": 2.853824594431635
       },
       "prevControl": {
-        "x": 5.641803616449711,
-        "y": 2.14980467403485
+        "x": 5.61311531463544,
+        "y": 2.1241416057947413
       },
       "nextControl": null,
       "isLocked": false,
@@ -50,7 +50,12 @@
       "name": "SuckTillSensor",
       "waypointRelativePos": 0,
       "endWaypointRelativePos": null,
-      "command": null
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "SuckTillSensor"
+        }
+      }
     },
     {
       "name": "get the stick out of the elvator",
@@ -65,12 +70,23 @@
     },
     {
       "name": "AutoL4",
-      "waypointRelativePos": 0.37430599619289323,
+      "waypointRelativePos": 0.21607022282241578,
       "endWaypointRelativePos": null,
       "command": {
         "type": "named",
         "data": {
           "name": "AutoL4"
+        }
+      }
+    },
+    {
+      "name": "start firing",
+      "waypointRelativePos": 0.9534098582039157,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "FireL4"
         }
       }
     }

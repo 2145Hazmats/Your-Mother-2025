@@ -16,12 +16,12 @@
     },
     {
       "anchor": {
-        "x": 1.322709098413388,
-        "y": 7.123542948212857
+        "x": 1.3825606766039047,
+        "y": 7.1213004694316195
       },
       "prevControl": {
-        "x": 2.034069695689275,
-        "y": 6.713302213549078
+        "x": 2.0939212738797917,
+        "y": 6.71105973476784
       },
       "nextControl": null,
       "isLocked": false,
@@ -40,6 +40,17 @@
         "type": "named",
         "data": {
           "name": "Elevator2Home"
+        }
+      }
+    },
+    {
+      "name": "SuckGaming",
+      "waypointRelativePos": 0.8210668467251852,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "SuckTillSensor"
         }
       }
     }

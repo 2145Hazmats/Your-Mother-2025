@@ -32,24 +32,11 @@
   "constraintZones": [
     {
       "name": "tow mater slowfd",
-      "minWaypointRelativePos": 0.7913571910871045,
+      "minWaypointRelativePos": 0.8264686022957499,
       "maxWaypointRelativePos": 1.0,
       "constraints": {
         "maxVelocity": 1.0,
         "maxAcceleration": 5.0,
-        "maxAngularVelocity": 540.0,
-        "maxAngularAcceleration": 720.0,
-        "nominalVoltage": 12.0,
-        "unlimited": false
-      }
-    },
-    {
-      "name": "chill",
-      "minWaypointRelativePos": 0,
-      "maxWaypointRelativePos": 0.12153950033761168,
-      "constraints": {
-        "maxVelocity": 4.48,
-        "maxAcceleration": 2.0,
         "maxAngularVelocity": 540.0,
         "maxAngularAcceleration": 720.0,
         "nominalVoltage": 12.0,
@@ -60,13 +47,24 @@
   "pointTowardsZones": [],
   "eventMarkers": [
     {
-      "name": "Score2",
+      "name": "prep play",
       "waypointRelativePos": 0.26611080266497456,
       "endWaypointRelativePos": null,
       "command": {
         "type": "named",
         "data": {
           "name": "AutoL4"
+        }
+      }
+    },
+    {
+      "name": "fire early",
+      "waypointRelativePos": 0.8993923024983121,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "FireL4"
         }
       }
     }

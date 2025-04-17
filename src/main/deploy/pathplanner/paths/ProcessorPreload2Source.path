@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.141590543636234,
-        "y": 2.879487662671744
+        "x": 5.1129022418219625,
+        "y": 2.853824594431635
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.057015375032825,
-        "y": 2.0475250423229157
+        "x": 4.028327073218554,
+        "y": 2.0218619740828068
       },
       "isLocked": false,
       "linkedName": "Processor Preload"
@@ -40,17 +40,6 @@
         "type": "named",
         "data": {
           "name": "Elevator2Home"
-        }
-      }
-    },
-    {
-      "name": "algi back",
-      "waypointRelativePos": 0.10803511141120485,
-      "endWaypointRelativePos": null,
-      "command": {
-        "type": "named",
-        "data": {
-          "name": "Algae2Home"
         }
       }
     },

@@ -16,12 +16,12 @@
     },
     {
       "anchor": {
-        "x": 1.322709098413388,
-        "y": 7.123542948212857
+        "x": 1.3825606766039047,
+        "y": 7.1213004694316195
       },
       "prevControl": {
-        "x": 2.29484484483765,
-        "y": 6.4540535484743105
+        "x": 2.354696423028167,
+        "y": 6.451811069693073
       },
       "nextControl": null,
       "isLocked": false,
@@ -40,17 +40,6 @@
         "type": "named",
         "data": {
           "name": "Elevator2Home"
-        }
-      }
-    },
-    {
-      "name": "Algae2Home",
-      "waypointRelativePos": 0.49696151249158194,
-      "endWaypointRelativePos": null,
-      "command": {
-        "type": "named",
-        "data": {
-          "name": "Algae2Home"
         }
       }
     },

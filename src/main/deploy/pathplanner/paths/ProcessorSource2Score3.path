@@ -32,24 +32,11 @@
   "constraintZones": [
     {
       "name": "tow mater lol",
-      "minWaypointRelativePos": 0.8048615800135095,
+      "minWaypointRelativePos": 0.8534773801485439,
       "maxWaypointRelativePos": 1.0,
       "constraints": {
         "maxVelocity": 1.0,
         "maxAcceleration": 5.0,
-        "maxAngularVelocity": 540.0,
-        "maxAngularAcceleration": 720.0,
-        "nominalVoltage": 12.0,
-        "unlimited": false
-      }
-    },
-    {
-      "name": "chill",
-      "minWaypointRelativePos": 0,
-      "maxWaypointRelativePos": 0.25118163403105753,
-      "constraints": {
-        "maxVelocity": 4.48,
-        "maxAcceleration": 3.0,
         "maxAngularVelocity": 540.0,
         "maxAngularAcceleration": 720.0,
         "nominalVoltage": 12.0,
@@ -61,12 +48,23 @@
   "eventMarkers": [
     {
       "name": "prep shot",
-      "waypointRelativePos": 0.39817972715736094,
+      "waypointRelativePos": 0.2700877785280269,
       "endWaypointRelativePos": null,
       "command": {
         "type": "named",
         "data": {
           "name": "AutoL4"
+        }
+      }
+    },
+    {
+      "name": "fire early",
+      "waypointRelativePos": 0.9047940580688755,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "FireL4"
         }
       }
     }

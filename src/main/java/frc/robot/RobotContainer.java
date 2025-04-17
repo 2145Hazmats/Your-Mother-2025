@@ -32,7 +32,7 @@ import frc.robot.commands.removeAlgaeAuton;
 import frc.robot.commands.ScoreCoralAuton;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.AlgaeSubsystem;
-import frc.robot.subsystems.CANdleSubsystem;
+//import frc.robot.subsystems.CANdleSubsystem;
 //import frc.robot.subsystems.AlgaeSuperSystem;
 import frc.robot.subsystems.CameraSubsystem;
 //import frc.robot.subsystems.ChirpMusic;
@@ -41,7 +41,7 @@ import frc.robot.subsystems.CommandSwerveDrivetrain; //
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.Indexing;
 import frc.robot.subsystems.ShooterBoxx;
-import frc.robot.subsystems.CANdleSubsystem.AnimationTypes;
+//import frc.robot.subsystems.CANdleSubsystem.AnimationTypes;
 
 public class RobotContainer {
 
@@ -97,7 +97,7 @@ public class RobotContainer {
     private Indexing m_indexing = new Indexing(m_ElevatorSubsystem, m_drivetrain);
     
     // *4/11 NEW CODE* INSTANTIATE CANdleSubsystem
-    private CANdleSubsystem m_CANdle = new CANdleSubsystem(m_drivetrain);
+    //private CANdleSubsystem m_CANdle = new CANdleSubsystem(m_drivetrain);
 
     public RobotContainer() {
         configureBindings();

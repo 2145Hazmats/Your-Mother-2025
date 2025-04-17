@@ -3,40 +3,40 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.3825606766039047,
-        "y": 7.1213004694316195
+        "x": 6.988831967213113,
+        "y": 2.3706967213114765
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.6351449421700888,
-        "y": 6.773648052910835
+        "x": 5.719189185447926,
+        "y": 2.8296281164343684
       },
       "isLocked": false,
-      "linkedName": "NetSource"
+      "linkedName": null
     },
     {
       "anchor": {
-        "x": 3.8073435205357846,
-        "y": 5.149173596307366
+        "x": 5.4464512103838185,
+        "y": 3.052673439509649
       },
       "prevControl": {
-        "x": 3.6052784472621653,
-        "y": 5.6520993663075405
+        "x": 5.754098360655737,
+        "y": 2.586475409836065
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "NetS2"
+      "linkedName": "Pros4PStart"
     }
   ],
   "rotationTargets": [],
   "constraintZones": [
     {
-      "name": "Constraints Zone",
-      "minWaypointRelativePos": 0.8732999377076411,
+      "name": "Chill and line up",
+      "minWaypointRelativePos": 0.9020931802835856,
       "maxWaypointRelativePos": 1.0,
       "constraints": {
-        "maxVelocity": 4.4,
-        "maxAcceleration": 2.0,
+        "maxVelocity": 0.8,
+        "maxAcceleration": 5.0,
         "maxAngularVelocity": 540.0,
         "maxAngularAcceleration": 720.0,
         "nominalVoltage": 12.0,
@@ -47,8 +47,30 @@
   "pointTowardsZones": [],
   "eventMarkers": [
     {
-      "name": "Prep play 2",
-      "waypointRelativePos": 0.2,
+      "name": "SuckTillSensor",
+      "waypointRelativePos": 0,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "SuckTillSensor"
+        }
+      }
+    },
+    {
+      "name": "get the stick out of the elvator",
+      "waypointRelativePos": 0.14854827819040728,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "Algae2Home"
+        }
+      }
+    },
+    {
+      "name": "AutoL4",
+      "waypointRelativePos": 0.21607022282241578,
       "endWaypointRelativePos": null,
       "command": {
         "type": "named",
@@ -58,8 +80,8 @@
       }
     },
     {
-      "name": "fire early",
-      "waypointRelativePos": 0.8966914247130353,
+      "name": "start firing",
+      "waypointRelativePos": 0.9534098582039157,
       "endWaypointRelativePos": null,
       "command": {
         "type": "named",
@@ -79,13 +101,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -59.99999999999999
+    "rotation": 119.99999999999999
   },
   "reversed": false,
-  "folder": "Net Side",
+  "folder": "Processor Side",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -54.0
+    "rotation": 141.38950906498684
   },
   "useDefaultConstraints": true
 }
