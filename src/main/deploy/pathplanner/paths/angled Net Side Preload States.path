@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.2765039482343625,
-        "y": 1.0899551294880474
+        "x": 6.9816849013506355,
+        "y": 5.472346315545551
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.6601105056114116,
-        "y": 1.6653649655536198
+        "x": 6.03184421345339,
+        "y": 5.514805680614407
       },
       "isLocked": false,
-      "linkedName": "ProcessorSource"
+      "linkedName": null
     },
     {
       "anchor": {
-        "x": 1.6543032786885246,
-        "y": 1.5435450819672132
+        "x": 5.086553463989616,
+        "y": 5.19992346368952
       },
       "prevControl": {
-        "x": 1.3905737704918029,
-        "y": 1.219877049180327
+        "x": 5.566543601220635,
+        "y": 5.924609742679667
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Net Preload"
     }
   ],
   "rotationTargets": [],
@@ -33,19 +33,25 @@
   "pointTowardsZones": [],
   "eventMarkers": [
     {
-      "name": "coasting",
+      "name": "SuckTillSensor",
       "waypointRelativePos": 0,
+      "endWaypointRelativePos": null,
+      "command": null
+    },
+    {
+      "name": "Prep Play",
+      "waypointRelativePos": 0.29687500000000017,
       "endWaypointRelativePos": null,
       "command": {
         "type": "named",
         "data": {
-          "name": "CoastMode"
+          "name": "AutoL4"
         }
       }
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 2.0,
+    "maxVelocity": 4.48,
     "maxAcceleration": 5.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
@@ -53,14 +59,14 @@
     "unlimited": false
   },
   "goalEndState": {
-    "velocity": 2.0,
-    "rotation": 44.0928737935077
+    "velocity": 0,
+    "rotation": -119.99999999999999
   },
   "reversed": false,
-  "folder": "Processor Side",
+  "folder": "Net Side",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 54.0
+    "rotation": -150.0
   },
-  "useDefaultConstraints": false
+  "useDefaultConstraints": true
 }

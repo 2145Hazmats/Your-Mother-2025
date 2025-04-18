@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.3825606766039047,
-        "y": 7.1213004694316195
+        "x": 1.5027456868429732,
+        "y": 7.116763738127109
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.8889702450458286,
-        "y": 6.3274461584818535
+        "x": 3.009155255284897,
+        "y": 6.322909427177343
       },
       "isLocked": false,
       "linkedName": "NetSource"
@@ -32,7 +32,7 @@
   "constraintZones": [
     {
       "name": "Constraints Zone",
-      "minWaypointRelativePos": 0.7706862541528241,
+      "minWaypointRelativePos": 0.7427413909520593,
       "maxWaypointRelativePos": 1.0,
       "constraints": {
         "maxVelocity": 4.48,

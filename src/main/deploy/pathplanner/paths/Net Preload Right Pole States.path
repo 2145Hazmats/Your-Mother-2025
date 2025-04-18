@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.098217904547235,
-        "y": 6.193806536962598
+        "x": 7.131604325143914,
+        "y": 5.604877351459704
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.765982332252787,
-        "y": 6.208101799559394
+        "x": 6.784824576473757,
+        "y": 5.604568793674968
       },
       "isLocked": false,
       "linkedName": null
@@ -20,8 +20,8 @@
         "y": 5.327042463582443
       },
       "prevControl": {
-        "x": 5.494783064899053,
-        "y": 6.14999322289059
+        "x": 5.4596770859097115,
+        "y": 6.241817053746377
       },
       "nextControl": null,
       "isLocked": false,
@@ -32,11 +32,11 @@
   "constraintZones": [
     {
       "name": "Constraints Zone",
-      "minWaypointRelativePos": 0.8993923024983089,
+      "minWaypointRelativePos": 0.7994598244429421,
       "maxWaypointRelativePos": 1,
       "constraints": {
-        "maxVelocity": 0.8,
-        "maxAcceleration": 4.0,
+        "maxVelocity": 1.0,
+        "maxAcceleration": 5.0,
         "maxAngularVelocity": 540.0,
         "maxAngularAcceleration": 720.0,
         "nominalVoltage": 12.0,
@@ -76,17 +76,6 @@
         "type": "named",
         "data": {
           "name": "Algae2Home"
-        }
-      }
-    },
-    {
-      "name": "start firing",
-      "waypointRelativePos": 0.9453072248480688,
-      "endWaypointRelativePos": null,
-      "command": {
-        "type": "named",
-        "data": {
-          "name": "FireL4"
         }
       }
     }

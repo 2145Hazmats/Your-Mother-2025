@@ -52,6 +52,8 @@ public class Robot extends TimedRobot {
       m_autonomousCommand.schedule();
     }
 
+    m_robotContainer.SetupCamerasForColor();
+
     //CANdleSubsystem.changeAnimation(AnimationTypes.ColorFlow);
   }
 
@@ -69,6 +71,8 @@ public class Robot extends TimedRobot {
     //m_robotContainer.getShooterBoxx().StopShooterMethod();
     m_robotContainer.getSwerveDrivetrain().configNeutralMode(NeutralModeValue.Brake);
     m_robotContainer.setFirstSpot(); //Experimental stuff
+    m_robotContainer.SetupCamerasForColor();
+
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }

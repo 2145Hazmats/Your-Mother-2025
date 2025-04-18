@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.2765039482343625,
-        "y": 1.0899551294880474
+        "x": 0.7355301595856868,
+        "y": 6.5974114485251105
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.6601105056114116,
-        "y": 1.6653649655536198
+        "x": 1.4547924546673465,
+        "y": 6.189829481317841
       },
       "isLocked": false,
-      "linkedName": "ProcessorSource"
+      "linkedName": "RushEStation"
     },
     {
       "anchor": {
-        "x": 1.6543032786885246,
-        "y": 1.5435450819672132
+        "x": 3.1560034188533184,
+        "y": 4.094994510592237
       },
       "prevControl": {
-        "x": 1.3905737704918029,
-        "y": 1.219877049180327
+        "x": 1.6504532188855932,
+        "y": 4.229982082487961
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "RushEPreload"
     }
   ],
   "rotationTargets": [],
@@ -33,34 +33,34 @@
   "pointTowardsZones": [],
   "eventMarkers": [
     {
-      "name": "coasting",
-      "waypointRelativePos": 0,
+      "name": "prep play",
+      "waypointRelativePos": 0.6806212018906165,
       "endWaypointRelativePos": null,
       "command": {
         "type": "named",
         "data": {
-          "name": "CoastMode"
+          "name": "AutoL4"
         }
       }
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 2.0,
+    "maxVelocity": 4.48,
     "maxAcceleration": 5.0,
     "maxAngularVelocity": 540.0,
-    "maxAngularAcceleration": 720.0,
+    "maxAngularAcceleration": 1000.0,
     "nominalVoltage": 12.0,
     "unlimited": false
   },
   "goalEndState": {
-    "velocity": 2.0,
-    "rotation": 44.0928737935077
+    "velocity": 0,
+    "rotation": 0.0
   },
   "reversed": false,
-  "folder": "Processor Side",
+  "folder": "Centre",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 54.0
+    "rotation": -54.0
   },
-  "useDefaultConstraints": false
+  "useDefaultConstraints": true
 }

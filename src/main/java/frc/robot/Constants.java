@@ -109,7 +109,7 @@ public final class Constants {
     //public static final double AlgaeOffGetReadyHigh = (L3Position+L2Position)/2;
 
     public static final double DealgifyPositionLow = -19.8; //-25.8 28.8 22.00
-    public static final double DealgifyPositionHigh = -51.6; //-48.6
+    public static final double DealgifyPositionHigh = -45; //-51.6
     public static final double ALGAE_OFF_LOW_END = DealgifyPositionLow + 5;
     public static final double ALGAE_OFF_HIGH_END = DealgifyPositionHigh + 5;
 

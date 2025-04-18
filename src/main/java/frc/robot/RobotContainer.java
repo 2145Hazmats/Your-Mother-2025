@@ -126,7 +126,10 @@ public class RobotContainer {
 
           //NamedCommands.registerCommand("AutoL4", new ScoreCoralAuton( m_ElevatorSubsystem, m_ShooterBoxx, 4)); //.withTimeout(2).finallyDo(() -> m_ElevatorSubsystem.elevatorToHome()));
           NamedCommands.registerCommand("AutoL4", new PutElevatorUp(m_ElevatorSubsystem, m_ShooterBoxx, 4));
+          NamedCommands.registerCommand("AutoL3", new PutElevatorUp(m_ElevatorSubsystem, m_ShooterBoxx, 3));
+
           NamedCommands.registerCommand("FireL4", new FireCoralAuton(m_ElevatorSubsystem, m_ShooterBoxx, 4));
+          NamedCommands.registerCommand("FireL3", new FireCoralAuton(m_ElevatorSubsystem, m_ShooterBoxx, 3));
 
           
           NamedCommands.registerCommand("ScrapeScoreHigh", new removeAlgaeAuton(m_ElevatorSubsystem, m_ShooterBoxx, m_AlgaeSubsystem, 4, true));
@@ -183,6 +186,9 @@ public class RobotContainer {
         m_indexing.firstTeleopPieceChoice(firstTeleopScoreChooser.getSelected());
     }
 
+    public void SetupCamerasForColor() {
+        m_CameraSubsystem.CameraTeamColorSwitcher(m_drivetrain.isAllianceBlue());
+    }
 
     private void configureBindings() {
           // Default Commands :)

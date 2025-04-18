@@ -3,40 +3,40 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.098217904547235,
-        "y": 6.193806536962598
+        "x": 3.8073435205357846,
+        "y": 5.149173596307366
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.765982332252787,
-        "y": 6.208101799559394
+        "x": 3.494492169611095,
+        "y": 5.527296254672171
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "NetS2"
     },
     {
       "anchor": {
-        "x": 4.878283643286761,
-        "y": 5.327042463582443
+        "x": 1.5027456868429732,
+        "y": 7.116763738127109
       },
       "prevControl": {
-        "x": 5.494783064899053,
-        "y": 6.14999322289059
+        "x": 2.4748814332672353,
+        "y": 6.447274338388563
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "NetPreloadRightPole"
+      "linkedName": "NetSource"
     }
   ],
   "rotationTargets": [],
   "constraintZones": [
     {
       "name": "Constraints Zone",
-      "minWaypointRelativePos": 0.8993923024983089,
-      "maxWaypointRelativePos": 1,
+      "minWaypointRelativePos": 0,
+      "maxWaypointRelativePos": 0.1998649561107353,
       "constraints": {
-        "maxVelocity": 0.8,
-        "maxAcceleration": 4.0,
+        "maxVelocity": 4.48,
+        "maxAcceleration": 3.0,
         "maxAngularVelocity": 540.0,
         "maxAngularAcceleration": 720.0,
         "nominalVoltage": 12.0,
@@ -47,30 +47,19 @@
   "pointTowardsZones": [],
   "eventMarkers": [
     {
-      "name": "SuckGaming",
+      "name": "Puts elevator down ",
       "waypointRelativePos": 0.0,
       "endWaypointRelativePos": null,
       "command": {
         "type": "named",
         "data": {
-          "name": "SuckTillSensor"
-        }
-      }
-    },
-    {
-      "name": "Prep Play",
-      "waypointRelativePos": 0.0972316002700876,
-      "endWaypointRelativePos": null,
-      "command": {
-        "type": "named",
-        "data": {
-          "name": "AutoL4"
+          "name": "Elevator2Home"
         }
       }
     },
     {
       "name": "Algae2Home",
-      "waypointRelativePos": 0.2,
+      "waypointRelativePos": 0.49696151249158194,
       "endWaypointRelativePos": null,
       "command": {
         "type": "named",
@@ -80,20 +69,20 @@
       }
     },
     {
-      "name": "start firing",
-      "waypointRelativePos": 0.9453072248480688,
+      "name": "SuckCoral2",
+      "waypointRelativePos": 0.7535449020931759,
       "endWaypointRelativePos": null,
       "command": {
         "type": "named",
         "data": {
-          "name": "FireL4"
+          "name": "SuckTillSensor"
         }
       }
     }
   ],
   "globalConstraints": {
     "maxVelocity": 4.48,
-    "maxAcceleration": 7.5,
+    "maxAcceleration": 5.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,
@@ -101,13 +90,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -119.99999999999999
+    "rotation": -54.0
   },
   "reversed": false,
   "folder": "Net Side",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 178.9705503132362
+    "rotation": -59.99999999999999
   },
-  "useDefaultConstraints": false
+  "useDefaultConstraints": true
 }

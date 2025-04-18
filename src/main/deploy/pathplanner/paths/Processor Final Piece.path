@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.2107581967213117,
-        "y": 1.0160860655737713
+        "x": 1.2765039482343625,
+        "y": 1.0899551294880474
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.9369877049180326,
-        "y": 1.2318647540983603
+        "x": 3.0027334564310832,
+        "y": 1.3057338180126363
       },
       "isLocked": false,
       "linkedName": "ProcessorSource"
     },
     {
       "anchor": {
-        "x": 5.1129022418219625,
-        "y": 2.853824594431635
+        "x": 5.148981690077228,
+        "y": 2.879611613655494
       },
       "prevControl": {
-        "x": 4.694467435890647,
-        "y": 2.1412426694648095
+        "x": 4.730546884145912,
+        "y": 2.1670296886886686
       },
       "nextControl": null,
       "isLocked": false,
@@ -32,7 +32,7 @@
   "constraintZones": [
     {
       "name": "score bud",
-      "minWaypointRelativePos": 0.9020931802835872,
+      "minWaypointRelativePos": 0.902093180283589,
       "maxWaypointRelativePos": 1.0,
       "constraints": {
         "maxVelocity": 0.8,

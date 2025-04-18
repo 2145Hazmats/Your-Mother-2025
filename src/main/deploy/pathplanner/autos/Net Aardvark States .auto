@@ -1,0 +1,124 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Net Preload Right Pole States"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "FireL4"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Preload Net Right To Source Pole States"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "SuckTillElevatorSensor"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Station to S3 States"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "SuckTillSensor"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "FireL4"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "NetS3ToSource States"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "SuckTillElevatorSensor"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "NetSourceToS2 States"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "SuckTillSensor"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ScrapeScoreLow"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "S2 station net States"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "SuckTillElevatorSensor"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Net Phantom Path States"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": false,
+  "folder": "Net Side",
+  "choreoAuto": false
+}

@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.2765039482343625,
-        "y": 1.0899551294880474
+        "x": 3.54,
+        "y": 5.0
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.6601105056114116,
-        "y": 1.6653649655536198
+        "x": 3.213353257053865,
+        "y": 5.0525597303047975
       },
       "isLocked": false,
-      "linkedName": "ProcessorSource"
+      "linkedName": "NetS3"
     },
     {
       "anchor": {
-        "x": 1.6543032786885246,
-        "y": 1.5435450819672132
+        "x": 1.5027456868429732,
+        "y": 7.116763738127109
       },
       "prevControl": {
-        "x": 1.3905737704918029,
-        "y": 1.219877049180327
+        "x": 2.241591312641738,
+        "y": 6.725148015896769
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "NetSource"
     }
   ],
   "rotationTargets": [],
@@ -33,19 +33,19 @@
   "pointTowardsZones": [],
   "eventMarkers": [
     {
-      "name": "coasting",
+      "name": "Put the arm down please",
       "waypointRelativePos": 0,
       "endWaypointRelativePos": null,
       "command": {
         "type": "named",
         "data": {
-          "name": "CoastMode"
+          "name": "Elevator2Home"
         }
       }
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 2.0,
+    "maxVelocity": 4.48,
     "maxAcceleration": 5.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
@@ -53,14 +53,14 @@
     "unlimited": false
   },
   "goalEndState": {
-    "velocity": 2.0,
-    "rotation": 44.0928737935077
+    "velocity": 0,
+    "rotation": -54.0
   },
   "reversed": false,
-  "folder": "Processor Side",
+  "folder": "Net Side",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 54.0
+    "rotation": -59.99999999999999
   },
-  "useDefaultConstraints": false
+  "useDefaultConstraints": true
 }

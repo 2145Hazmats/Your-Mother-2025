@@ -158,6 +158,20 @@ public class CameraSubsystem extends SubsystemBase {
    }
   else if(pose2d.getX() >= xLowerLimitOfTrustBox && pose2d.getX() <= xUpperLimitOfTrustBox && pose2d.getY() >= yLowerLimitOfTrustBox && pose2d.getY() <= yUpperLimitOfTrustBox) {
     charizardsSkateboard.addVisionMeasurement(pose2d, timestampSeconds);}}
+
+    public void CameraTeamColorSwitcher(boolean isBlue) {
+      if (isBlue == true) {
+        centralCamera.setPipelineIndex(0);
+        leftCamera.setPipelineIndex(0);
+      }
+        else {
+          centralCamera.setPipelineIndex(1);
+        leftCamera.setPipelineIndex(1);
+        }
+
+      }
+
+    
   
   // Returns Pose Values
   public Pose2d getPose2d() { return charizardsSkateboard.getState().Pose; }

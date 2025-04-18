@@ -1,0 +1,99 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Better of Rush E Score Preload"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "FireL4"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Better RushEPreload2Station"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "SuckTillElevatorSensor"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "SuckTillSensor"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Better of RushEStation2S2"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ScrapeScoreLow"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "RushEGoatSource"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "SuckTillElevatorSensor"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "SuckTillSensor"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "RushE Finish"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "FireL3"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": false,
+  "folder": "Centre",
+  "choreoAuto": false
+}
