@@ -120,7 +120,7 @@ public final class Constants {
 
     public static final double SAFETY_LEVEL = L2Position;
     //public static final double CANCEL_ALGI = 
-    public static final double NEAR_HOME = HomePosition-0.5;
+    public static final double NEAR_HOME = HomePosition-2; //-0.5 needs testing
     public static final double NEARER_HOME = HomePosition-0.05;
     public static final double NEAR_ALGAE_LOW = DealgifyPositionLow-0.5; // TODO test this
     public static final double NEAR_ALGAE_HIGH = DealgifyPositionHigh-0.5; // TODO test this
