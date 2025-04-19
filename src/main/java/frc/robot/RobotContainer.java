@@ -1174,11 +1174,18 @@ public class RobotContainer {
         ));
 
         // FACE RIGHT CORAL STATION
-        P5commandController.b().whileTrue(m_drivetrain.applyRequest(() ->
-                drive.withVelocityX(-P5controller.getRawAxis(Constants.ControllerConstants.LeftY) * MaxSpeed * m_ElevatorSubsystem.getElevatorSlowSpeed())
-                .withVelocityY(-P5controller.getRawAxis(Constants.ControllerConstants.LeftX) * MaxSpeed * m_ElevatorSubsystem.getElevatorSlowSpeed())
-                .withRotationalRate(-m_drivetrain.angularSpeedToFaceRightCoralStation() * m_ElevatorSubsystem.getElevatorSlowSpeed())
-        ));
+        // P5commandController.b().whileTrue(m_drivetrain.applyRequest(() ->
+        //         drive.withVelocityX(-P5controller.getRawAxis(Constants.ControllerConstants.LeftY) * MaxSpeed * m_ElevatorSubsystem.getElevatorSlowSpeed())
+        //         .withVelocityY(-P5controller.getRawAxis(Constants.ControllerConstants.LeftX) * MaxSpeed * m_ElevatorSubsystem.getElevatorSlowSpeed())
+        //         .withRotationalRate(-m_drivetrain.angularSpeedToFaceRightCoralStation() * m_ElevatorSubsystem.getElevatorSlowSpeed())
+        // ));
+
+        P5commandController.b().whileTrue(
+             m_ShooterBoxx.WorksShootLevel1Command()//.withTimeout(.1)//.andThen(m_ElevatorSubsystem.elevatorToL4())
+        
+       );
+
+        
 
         //CENTRIC MODE
         P5commandController.a().whileTrue(m_drivetrain.applyRequest(() ->

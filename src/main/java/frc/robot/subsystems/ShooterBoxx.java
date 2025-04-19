@@ -85,6 +85,10 @@ public Command WorksShootCommand() {
   return Commands.run(() -> shooterMotor.set(-.5), this);
 };
 
+public Command WorksShootLevel1Command() {
+  return Commands.run(() -> shooterMotor.set(-.3), this);
+};
+
 // public Command worksRegurgitate() {
 //   return Commands.run(() -> shooterMotor.set(.4), this);
 // };
